@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "157520242598",
+    "firebase_url": "https://sokar-230211.firebaseio.com",
+    "project_id": "sokar-230211",
+    "storage_bucket": "sokar-230211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157520242598:android:42f4f40c0ff1a1e8",
+        "android_client_info": {
+          "package_name": "com.alexapps.sokar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157520242598-chrghd51ktmfvs116ajt1st9826bnj7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkWamebc1sg2kJBjymTvl43s8VPc8CjQ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,139 @@
+{
+    "app_title": "سكر"
+    ,"landPage_title":"Welcome to app Sokar"
+    ,"landPage_subtitle":"helps you in managing diabetes and has many features "
+    ,"landPage_notNow":"as Guest (not now)"
+    ,"landPage_newAccount":"new User"
+    ,"landPage_logIn":"Login"
+    ,"loginBy":"Login by"
+    ,"username":"Username"
+    ,"email":"Email"
+    ,"mobilePhone":"Mobile phone"
+    ,"password":"Password"
+    ,"passwordConfirm":"Confirm password"
+    ,"forgetPassword":"Did you forget password?"
+    ,"sendCode":"Send code"
+    ,"verifyThat":"Verify that"
+    ,"enterVerifyCode":"Enter verify code"
+    ,"edit":"Edit"
+    ,"verify":"Verify"
+    ,"retryAgain":"Retry"
+    ,"forgetMyPassword":"Forget password"
+    ,"enterYourMobile":"Enter your phone number"
+    ,"injuryDate":"Injury date"
+    ,"male":"Male"
+    ,"female":"Female"
+    ,"complete":"Complete"
+    ,"myReports":"My reports"
+    ,"cups":"Cups"
+    ,"bloodPressure":"Blood pressure"
+    ,"heartRate":"Heart rate"
+    ,"cals":"Cals"
+    ,"steps":"Steps"
+    ,"distance":"Distance"
+    ,"high":"High"
+    ,"home":"Home"
+    ,"friends":"Friends"
+    ,"articles":"Articles"
+    ,"doctors":"Doctors"
+    ,"more":"More"
+    ,"addMedicine":"Add medicine"
+    ,"eatFood":"Eat food"
+    ,"drinkWater":"Drink water"
+    ,"sleepHours":"Sleeping hours"
+    ,"":""
+    ,"editProfile":"Edit profile"
+    ,"editPassword":"Edit password"
+    ,"notifications":"Notifications"
+    ,"language":"language"
+    ,"signout":"Logout"
+    ,"showOffers":"Show offer"
+    ,"news":"News"
+    ,"startNow":"Start now"
+    ,"time":"Time"
+    ,"enterTodayCals":"Add calories you had today"
+    ,"enterWaterCups":"Add cups of water you drank today"
+    ,"adsAndOffers":"Ads and Offers",
+    "breakfast":"breakfast",
+    "lunch":"lunch",
+    "dinner":"dinner",
+    "light breakfast":"light breakfast",
+    "Add Food":"Add Food",
+    "calories":"calories",
+    "food menu":"food menu",
+    "save":"save",
+    "Add sleep":"Add sleep",
+    "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not":
+    "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not",
+    "add duration":"add duration",
+    "hour":"hour",
+    "minute":"minute",
+    "from":"from",
+    "to":"to",
+    "next":"next",
+    "back":"back",
+    "blood preasure":"blood preasure",
+    "Diastolic":"Diastolic",
+    "normal":"Normal",
+    "danger":"Danger",
+    "Systolic":"Systolic",
+    "Add":"Add",
+    "medicne":"Medicne",
+    "notes...":"notes...",
+    "blood preassure":"blood preassure",
+    "maore than":"maore than",
+    "Search":"Search",
+    "add midecne":"Add medicne",
+    "add Item not in menu":"add Item not in menu",
+    "Search name or id":"Search name or id",
+
+    "measure":"measure",
+    "the normal from 61 to 79":"the normal from 61 to 79",
+    "add heart beat":"add heart beat",
+    "Weight and height":"Weight and height",
+    "sugar":"Diabetes",
+    "measure sugar":"measure Diabetes",
+    "measure sugar bla bla bla bla":"measure Diabetes bla bla bla bla",
+    "السبت":"Saturday",
+    "الأحد":"Sunday",
+    "الإثنين":"Sunday",
+    "الثلاثاء":"Tuesday",
+    "الأربعاء":"Wednesday",
+    "الخميس":"Thursday",
+    "الجمعة":"Friday",
+    "weight and height":"weight and height",
+    "heigh":"heigh",
+    "Weight":"Weight",
+    "cal":"cal",
+    "online":"online",
+    "send":"send",
+    "internal medicine": "internal medicine",
+    "search for doctor":"search for doctor",
+    "heart":"heart",    
+    "blood pres":"blood pres",
+    "heart beats":"heart beats",
+    "eating food":"eating food",
+    "drinking water":"drinking water",
+    "slepping time":"slepping time",
+    "Followers":"Followers",
+    "Following":"Following",
+    "Newest Talks":"Newest Talks",
+    "name":"name",
+    "Search for friends":"Search for friends"
+    ,"add measurement":"add measurement",
+    "Heart rate":"Heart rate",
+    "userName":"userName",
+    "enterTodaySteps":"enter today steps"
+    ,"enterTodayWalk":"enter today distance",
+    "choose main Circles": "choose main Circles",
+    "userName or mobilePhone":"userName or mobilePhone",
+    "userName or email":"userName or email",
+    "add Heart rate":"add Heart rate",
+    "Agree":"Agree",
+    "disagree":"disagree",
+    "Privacy policy":"Privacy policy",
+    "Goal is":"Goal is",
+    "simple Pdf":" Pdf",
+    "Check video":"Video",
+    "Write message ...": "اWrite message ..."
+}
