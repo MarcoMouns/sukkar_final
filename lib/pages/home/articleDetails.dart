@@ -1,4 +1,6 @@
-
+import 'package:health/Models/article_tab/article_details.dart';
+import 'package:health/helpers/loading.dart';
+import 'package:health/scoped_models/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
@@ -6,37 +8,57 @@ import '../../languages/all_translations.dart';
 //import 'package:flutter_youtube/flutter_youtube.dart';
 
 class ArticleDetails extends StatefulWidget {
+  final MainModel model;
+  final title;
+  final id;
+
+  ArticleDetails(this.model, this.title, this.id);
+
   _ArticleDetailsState createState() => _ArticleDetailsState();
 }
 
 class _ArticleDetailsState extends State<ArticleDetails> {
-  // Future<File> createFileOfPdfUrl() async {
-  //   final url = "http://web.iitd.ac.in/~prbijwe/Book_Abstracts/The%20Secret.pdf";
-  //   final filename = url.substring(url.lastIndexOf("/") + 1);
-  //   var request = await HttpClient().getUrl(Uri.parse(url));
-  //   var response = await request.close();
-  //   var bytes = await consolidateHttpClientResponseBytes(response);
-  //   String dir = (await getApplicationDocumentsDirectory()).path;
-  //       File file = new File('$dir/$filename');
-  //       await file.writeAsBytes(bytes);
-  //       return file;
-  //     }
+  var name;
+  var id;
+  var text;
+  var image;
+  var file;
+  var video;
+  var startDate;
+  bool loading;
 
-  // _play() {
-
-  //   FlutterYoutube.playYoutubeVideoByUrl(
-  //     apiKey: TargetPlatform.android == Theme.of(context).platform
-  //         ? "AIzaSyBkWamebc1sg2kJBjymTvl43s8VPc8CjQ8"
-  //         : "AIzaSyBVUJ2zozrmxg8RiTrn7QNhZl_Ac9RYoho",
-  //     videoUrl: "https://www.youtube.com/watch?v=SuwTMeStGRg",
-
-  //     autoPlay: true, //default falase
-  //   );
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('Result id = > ${widget.id}');
+    setState(() {
+      loading = true;
+    });
+    widget.model.fetchSingleArticle(widget.id).then((result) {
+      if (result != null) {
+        setState(() {
+          name = result.article.name;
+          id = result.article.id;
+          text = result.article.text;
+          image = result.article.image;
+          file = result.article.file;
+          video = result.article.video;
+          startDate = result.article.startDate;
+          print('Result Single article = > ${result}');
+          setState(() {
+            loading = false;
+          });
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
+    return  Directionality(
         textDirection: allTranslations.currentLanguage == "ar"
             ? TextDirection.rtl
             : TextDirection.ltr,
@@ -44,22 +66,22 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView(
+            child: loading == true
+                ? Loading()
+                :ListView(
               children: <Widget>[
-               
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(onPressed: (){
-                      
-                    },
+                    IconButton(
+                      onPressed: () {},
                       icon: Icon(
                         Icons.share,
-                        color: Colors.redAccent,
+                        color: Colors.white,
                       ),
                     ),
                     Expanded(
-                      child: Center(child: Text(allTranslations.text("news"))),
+                      child: Center(child: Text(widget.title)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -72,26 +94,15 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                     )
                   ],
                 ),
-
-                Image.asset("assets/imgs/profile.jpg",
-                  height: 250,
-
-                          fit: BoxFit.cover),
-
+                Image.network('http://104.248.168.117/$image',
+                    height: 250, fit: BoxFit.contain),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        intl.DateFormat("dd MMM yyyy", allTranslations.locale.languageCode)
-        .format(DateTime.now())
-                        ,
-                        style: TextStyle(color: Colors.redAccent),
-                      ),
-                      Text(
-                        intl.DateFormat.jm( allTranslations.locale.languageCode)
-        .format(DateTime.now())
-                        ,
+                        startDate,
                         style: TextStyle(color: Colors.redAccent),
                       ),
                     ],
@@ -100,15 +111,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
-                    "هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة",
-                    style: TextStyle(color: Colors.grey, fontSize: 20,fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text(
-                    "هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجةهل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجةهل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجةهل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة",
-                    style: TextStyle(color: Colors.grey),
+                    text,
+                    style: TextStyle(color: Colors.grey, fontSize: 15),
                   ),
                 ),
                 InkWell(
@@ -116,12 +120,20 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: <Widget>[
-                        Image.asset("assets/icons/youtube.png",width: 50,height: 50,),
-                     Text(allTranslations.text("Check video"),style: TextStyle(fontSize: 12,color: Colors.blue),) ],
+                        Image.asset(
+                          "assets/icons/youtube.png",
+                          width: 50,
+                          height: 50,
+                        ),
+                        Text(
+                          allTranslations.text("Check video"),
+                          style: TextStyle(fontSize: 12, color: Colors.blue),
+                        )
+                      ],
                     ),
                   ),
                   onTap: () async {
-                    const url = 'https://www.youtube.com/watch?v=cBVGlBWQzuc';
+                    var url = 'http://104.248.168.117/$video';
                     if (await canLaunch(url)) {
                       await launch(url);
                     } else {
@@ -134,12 +146,12 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: Text(
                       allTranslations.text("simple Pdf"),
-                      style: TextStyle(color: Colors.blue),textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.blue),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   onTap: () async {
-                    const url =
-                        'http://www.africau.edu/images/default/sample.pdf';
+                    var url = 'http://104.248.168.117/$file';
                     if (await canLaunch(url)) {
                       await launch(url);
                     } else {
@@ -152,6 +164,4 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           ),
         ));
   }
-
-  getApplicationDocumentsDirectory() {}
 }

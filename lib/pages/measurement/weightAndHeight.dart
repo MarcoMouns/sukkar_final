@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import "package:after_layout/after_layout.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightAndHeight extends StatefulWidget {
   @override
@@ -19,6 +23,9 @@ class _WeightAndHeightState extends State<WeightAndHeight>
   double drawingHeigth;
 
   int userHeight = 90;
+  String userWidth ;
+  Response response;
+  Dio dio = new Dio();
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -288,6 +295,10 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                           focusNode: _focusNode2,
                                           textDirection: TextDirection.ltr,
                                           keyboardType: TextInputType.number,
+                                          onChanged:  (String v){
+                                            userWidth = v;
+                                            print('weight $v');
+                                          },
                                           style: TextStyle(
                                             color: Colors.blue,
                                             fontSize: 25,
@@ -333,8 +344,33 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                         allTranslations.text("Add"),
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async{
+                        try {
+                          // get user token
+                          SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                          Map<String, dynamic> authUser = jsonDecode(
+                              sharedPreferences.getString("authUser"));
+                          dio.options.headers = {
+                            "Authorization":
+                            "Bearer ${authUser['authToken']}",
+                          };
+
+                          response = await dio.post(
+                              "http://104.248.168.117/api/users/height-weight",data: {
+                            "_method": 'PUT',
+                            "height": userHeight,
+                            "weight": userWidth.toString()
+                          });
+                          print('Response = ${response.data}');
+
+                        } on DioError catch (e) {
+                          print(
+                              "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                          print(e.response.data);
+                          return false;
+                        }
+//                        Navigator.pop(context);
                       },
                     ),
                   )

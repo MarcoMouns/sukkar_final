@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:health/Models/article_tab/article_detail_category.dart';
+import 'package:health/scoped_models/main.dart';
 import './articleDetails.dart';
 
 import '../../languages/all_translations.dart';
 import 'package:intl/intl.dart' as intl;
 class ArticlesPage extends StatefulWidget {
+  final MainModel model;
+  final id;
+  final title;
+  ArticlesPage(this.model,this.id,this.title);
+
   _ArticlesPageState createState() => _ArticlesPageState();
 }
 
-class _ArticlesPageState extends State<ArticlesPage>
-    with SingleTickerProviderStateMixin {
-  @override
+class _ArticlesPageState extends State<ArticlesPage> with SingleTickerProviderStateMixin {
+  List<DataListBean> articleCategories = List<DataListBean>();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.model.fetchArticlesCategoriesDetails(widget.id).then((result) {
+      if (result != null) {
+        setState(() {
+          articleCategories = result.articles.data;
+//          print('Result = > ${articleCategory[0].image}');
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +40,7 @@ class _ArticlesPageState extends State<ArticlesPage>
             ? TextDirection.rtl
             : TextDirection.ltr,
         child:  Scaffold(
-                appBar: AppBar(title: Text("Sports (30)",style: TextStyle(color: Colors.black),),
+                appBar: AppBar(title: Text(widget.title,style: TextStyle(color: Colors.black),),
                   backgroundColor: Colors.white,
                   iconTheme: IconThemeData(color: Colors.black),
                 ),
@@ -27,7 +48,7 @@ class _ArticlesPageState extends State<ArticlesPage>
                   color: Colors.lightBlue[50],
                   child: ListView.builder(
                     padding: EdgeInsets.all(20.0),
-                    itemCount: 30,
+                    itemCount: articleCategories.length,
                     itemBuilder: (BuildContext context, index) {
                       return Card(
                         elevation: 5,
@@ -40,7 +61,7 @@ class _ArticlesPageState extends State<ArticlesPage>
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      ArticleDetails()));
+                                      ArticleDetails(widget.model,articleCategories[index].name,articleCategories[index].id)));
                             },
                             leading: Container(
                               height: 70,
@@ -48,17 +69,15 @@ class _ArticlesPageState extends State<ArticlesPage>
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/imgs/landpage_bk.jpg"))),
+                                      image: NetworkImage('http://104.248.168.117/${ articleCategories[index].image}')
+                            )),
                             ),
                             title: Text(
-                             intl.DateFormat("dd MMM yyyy", allTranslations.locale.languageCode)
-        .format(DateTime.now()),
+                                articleCategories[index].name,
                               style: TextStyle(color: Colors.redAccent),
                             ),
-                            subtitle: Text(
-                                "هل يجب إستخدام الاسبرين للوقاية الاولية من بعد حالة حرجة"),
-                            isThreeLine: true,
+                            subtitle: Text(articleCategories[index].text,overflow: TextOverflow.ellipsis,softWrap: false),
+                            isThreeLine: false,
                           ),
                         ),
                       );

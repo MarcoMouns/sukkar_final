@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:health/pages/Social/doctor.dart';
 import 'package:health/pages/Social/friends.dart';
-import 'package:health/Settings.dart' as settings;
+import 'package:health/pages/Settings.dart' as settings;
 import 'package:health/pages/home/articlesCategory.dart';
 import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:health/pages/measurement/addFood.dart';
@@ -13,8 +13,10 @@ import 'package:health/pages/measurement/itemList.dart';
 import 'package:health/pages/others/map.dart';
 import 'dart:math' as math;
 import './home/home.dart';
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped_models/main.dart';
 
-import '../Settings.dart';
+import 'package:health/pages/Settings.dart';
 import '../languages/all_translations.dart';
 
 /*
@@ -38,12 +40,18 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController animationController;
   AnimationController animationController2;
 
-  _onMenuTap(item) {
+  void _handleSubmitted(BuildContext context, MainModel model, var value,String type) {
+    model.addMeasurements(type, value).then((result) async {
+      print(result);
+    });
+  }
+  _onMenuTap(item, MainModel model) {
     if (item == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => ItemList(
+                  model: model,
                   isfood: false,
                 )),
       );
@@ -51,19 +59,19 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     if (item == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BloodPressure()),
+        MaterialPageRoute(builder: (context ) => BloodPressure(model)),
       );
     }
     if (item == 3) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HeartBeats()),
+        MaterialPageRoute(builder: (context) => HeartBeats(model)),
       );
     }
     if (item == 4) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AddFood()),
+        MaterialPageRoute(builder: (context) => AddFood(model)),
       );
     }
     if (item == 5) {
@@ -75,6 +83,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return settings.BottomSheet(
                 title: "cups",
+                type:'water_cups',
                 subtitle: "enterWaterCups",
                 image: "ic_cup",
                 min: 0.0,
@@ -82,7 +91,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                 addSlider: true,
                 onSave: (String value) {
                   setState(() {
-                    //     cupsNumber = value;
+                    _handleSubmitted(context, model, value,"water_cups");
                   });
                 });
           });
@@ -145,59 +154,65 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
-        child: Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.white,
-          body: PageView(
-            controller: _getPageController(),
-            onPageChanged: (i) {
-              Settings.currentIndex = i - 1;
-              setState(() {});
-            },
-            children: <Widget>[
-              MapPage(
-                pageController: _getPageController(),
-              ),
-              HomePage(
-                pageController: _getPageController(),
-              ),
-              ArticleCategory(),
-              FriendsPage(),
-              Doctor(),
-            ],
-          ),
-          bottomNavigationBar: Settings.currentIndex >= 0
-              ? CustomBottomNavigationBar(
-                  plusColor: _plusColor,
+      textDirection: allTranslations.currentLanguage == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
+          return new Scaffold(
+            key: _scaffoldKey,
+            backgroundColor: Colors.white,
+            body: PageView(
+              controller: _getPageController(),
+              onPageChanged: (i) {
+                Settings.currentIndex = i - 1;
+                setState(() {});
+              },
+              children: <Widget>[
+                MapPage(
                   pageController: _getPageController(),
-                  navigationTapped: (i) async {
-                    if (i == 4) {
-                      _plusColor = Colors.white;
-                      setState(() {});
-                      showOverlay(context);
+                ),
+                HomePage(
+                  pageController: _getPageController(),
+                  model: model,
+                ),
+                ArticleCategory(model),
+                FriendsPage(model),
+                Doctor(model),
+              ],
+            ),
+            bottomNavigationBar: Settings.currentIndex >= 0
+                ? CustomBottomNavigationBar(
+                    plusColor: _plusColor,
+                    pageController: _getPageController(),
+                    navigationTapped: (i) async {
+                      if (i == 4) {
+                        _plusColor = Colors.white;
+                        setState(() {});
+                        showOverlay(context, model);
 
-                      animationController = AnimationController(
-                          vsync: this, duration: Duration(milliseconds: 175));
-                      animationController2 = AnimationController(
-                          vsync: this, duration: Duration(milliseconds: 175));
-                      animationController.forward();
-                      animationController2.forward();
-                    } else if (i < 4)
-                      _getPageController().animateToPage(i + 1,
-                          curve: Curves.bounceIn,
-                          duration: Duration(milliseconds: 10));
+                        animationController = AnimationController(
+                            vsync: this, duration: Duration(milliseconds: 175));
+                        animationController2 = AnimationController(
+                            vsync: this, duration: Duration(milliseconds: 175));
+                        animationController.forward();
+                        animationController2.forward();
+                      } else if (i < 4)
+                        _getPageController().animateToPage(i + 1,
+                            curve: Curves.bounceIn,
+                            duration: Duration(milliseconds: 10));
 
-                    setState(() {
-                      if (i != 4) {
-                        Settings.currentIndex = i;
-                      }
-                    });
-                  })
-              : null,
-        ));
+                      setState(() {
+                        if (i != 4) {
+                          Settings.currentIndex = i;
+                        }
+                      });
+                    })
+                : null,
+          );
+        },
+      ),
+    );
   }
 
   OverlayEntry addMedicine;
@@ -208,7 +223,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   OverlayEntry sleepHours;
   OverlayEntry close;
   OverlayEntry backGround;
-  void showOverlay(BuildContext context) async {
+  void showOverlay(BuildContext context, MainModel model) async {
     OverlayState state = Overlay.of(context);
 
     double startBottom = 65 / 2;
@@ -228,7 +243,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(1);
+                _onMenuTap(1, model);
               },
             ),
           ));
@@ -246,7 +261,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(2);
+                _onMenuTap(2, model);
               },
             ),
           ));
@@ -264,7 +279,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(3);
+                _onMenuTap(3, model);
               },
             ),
           ));
@@ -282,7 +297,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(4);
+                _onMenuTap(4, model);
               },
             ),
           ));
@@ -300,7 +315,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(5);
+                _onMenuTap(5, model);
               },
             ),
           ));
@@ -318,7 +333,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
               animationController2: animationController2,
               onTap: () {
                 _removeOverlay();
-                _onMenuTap(6);
+                _onMenuTap(6, model);
               },
             ),
           ));

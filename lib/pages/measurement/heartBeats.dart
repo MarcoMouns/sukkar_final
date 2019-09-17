@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/heartBeats.dart';
 
 import 'package:health/languages/all_translations.dart';
+import 'package:health/scoped_models/main.dart';
 import 'package:intl/intl.dart' as intl;
 
 class HeartBeats extends StatefulWidget {
+  MainModel model;
+
+  HeartBeats(this.model);
+
   @override
   _HeartBeatsState createState() => _HeartBeatsState();
 }
@@ -12,6 +17,7 @@ class HeartBeats extends StatefulWidget {
 class _HeartBeatsState extends State<HeartBeats> {
   String now;
   List<HeartBeat> heartBeats;
+  var hearts;
   _getTime() async {
     now = intl.DateFormat("yyyy MMM dd", allTranslations.locale.languageCode)
         .format(DateTime.now());
@@ -52,7 +58,30 @@ class _HeartBeatsState extends State<HeartBeats> {
             title: Text(allTranslations.text("add heart beat")),
             centerTitle: true,
           ),
-          body: Padding(
+          body:
+//          new Center(
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.center,
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Container(
+//                  padding: EdgeInsets.all(20),
+//                  margin: EdgeInsets.only(bottom: 20),
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.all(Radius.circular(100)),
+//                      color: Colors.redAccent
+//                  ),
+//                  child: Icon(
+//                    Icons.developer_mode,
+//                    size: 60,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//                Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
+//              ],
+//            ),
+//          )
+          new Padding(
             padding: EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
@@ -62,7 +91,7 @@ class _HeartBeatsState extends State<HeartBeats> {
                       ListTile(
                         title: Text(
                           now,
-                          style: TextStyle(color: Colors.red, fontSize: 25.0),
+                          style: TextStyle(color: Colors.red, fontSize: 20.0),
                         ),
                         subtitle: Text(
                           intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
@@ -105,58 +134,58 @@ class _HeartBeatsState extends State<HeartBeats> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Column(
-                            children: heartBeats.map((heartBeat) {
-                          return Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  heartBeat.count,
-                                  style: TextStyle(
-                                      color: Colors.blue[300], fontSize: 20),
-                                ),
-                                subtitle: Text(
-                                  heartBeat.date,
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.blueGrey),
-                                ),
-                                trailing: InkWell(
-                                  child:
-                                   ImageIcon(AssetImage("assets/icons/ic_trash.png"),color: Colors.red,),
-                                  onTap: () {
-                                    heartBeats.remove(heartBeat);
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                              Divider(
-                                height: 16,
-                                color: Colors.blueGrey,
-                              )
-                            ],
-                          );
-                        }).toList()),
-                      )
+//                      new Padding(
+//                        padding: EdgeInsets.only(top: 20),
+//                        child: Column(
+//                            children: heartBeats.map((heartBeat) {
+//                          return Column(
+//                            children: <Widget>[
+//                              ListTile(
+//                                title: Text(
+//                                  heartBeat.count,
+//                                  style: TextStyle(
+//                                      color: Colors.blue[300], fontSize: 20),
+//                                ),
+//                                subtitle: Text(
+//                                  heartBeat.date,
+//                                  style: TextStyle(
+//                                      fontSize: 13, color: Colors.blueGrey),
+//                                ),
+//                                trailing: InkWell(
+//                                  child:
+//                                   ImageIcon(AssetImage("assets/icons/ic_trash.png"),color: Colors.red,),
+//                                  onTap: () {
+//                                    heartBeats.remove(heartBeat);
+//                                    setState(() {});
+//                                  },
+//                                ),
+//                              ),
+//                              Divider(
+//                                height: 16,
+//                                color: Colors.blueGrey,
+//                              )
+//                            ],
+//                          );
+//                        }).toList()),
+//                      )
                     ],
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  child: FlatButton(
-                    color: Color(0xff009DDC),
-                    child: Text(
-                      allTranslations.text("save"),
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                )
+//                Container(
+//                  width: MediaQuery.of(context).size.width / 1.5,
+//                  child: FlatButton(
+//                    color: Color(0xff009DDC),
+//                    child: Text(
+//                      allTranslations.text("save"),
+//                      style: TextStyle(color: Colors.white, fontSize: 16),
+//                    ),
+//                    shape: RoundedRectangleBorder(
+//                        borderRadius: BorderRadius.circular(30)),
+//                    onPressed: () {
+//                      Navigator.pop(context);
+//                    },
+//                  ),
+//                )
               ],
             ),
           ),
@@ -225,7 +254,12 @@ class _HeartBeatsState extends State<HeartBeats> {
                                     borderRadius: BorderRadius.circular(30)),
                                 onPressed: () {
                                   _save(_controller.text);
-                                  Navigator.pop(context);
+                                  widget.model
+                                      .addMeasurements('Heartbeat', hearts)
+                                      .then((result) async {
+                                    print(result);
+                                    Navigator.pop(context);
+                                  });
                                 },
                               ),
                             )
@@ -243,6 +277,9 @@ class _HeartBeatsState extends State<HeartBeats> {
         date: intl.DateFormat(
           " MMM dd",allTranslations.locale.languageCode
         ).format(DateTime.now())));
-    setState(() {});
+    setState(() {
+      print('Value $value');
+      hearts = value;
+    });
   }
 }

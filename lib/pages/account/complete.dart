@@ -1,15 +1,17 @@
 import 'dart:io';
-
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../helpers/color_transform.dart';
 import '../../scoped_models/main.dart';
-import '../../Settings.dart';
+import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 
 class Complete extends StatefulWidget {
+  final String phone;
+  Complete(this.phone);
   _CompleteState createState() => _CompleteState();
 }
 
@@ -23,17 +25,27 @@ class _CompleteState extends State<Complete> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _passwrodController = TextEditingController();
+  TextEditingController _injuryDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
 
   Map<String, dynamic> _formData = {
     "image": null,
+    "phone": null,
     "userName": null,
     "email": null,
     "injuredDate": null,
     "gender": null,
     "password": null
   };
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _formData['phone'] = widget.phone;
+    });
+  }
 
   void showInSnackBar(String value) {
     _scaffoldKey.currentState
@@ -109,45 +121,54 @@ class _CompleteState extends State<Complete> {
 
   void _handleSubmitted(BuildContext context, MainModel model) {
     Locale myLocale = Localizations.localeOf(context);
-    final FormState form = _formKey.currentState;
+//    final FormState form = _formKey.currentState;
     setState(() {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
     });
-    if (!form.validate() || _formData['image'] == null) {
+    if (!_formKey.currentState.validate()
+        ||
+//        _formData['image'] == null ||
+        _formData['phone'] == null
+    ) {
       _autoValidate = true; // Start validating on every change.
+      print(_formData);
 
       showInSnackBar(myLocale.languageCode.contains("en")
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
-      form.save();
+      _formKey.currentState.save();
       setState(() {
         _isLoading = true;
       });
       print("form data => $_formData");
-      // model.userRegister(_formData).then((result) {
-      //   if (result['success'] == true) {
-      //     setState(() {
-      //       _isLoading = false;
-      //     });
+      model.userRegister(_formData).then((result) async{
+        if (result == true) {
+          setState(() {
+            _isLoading = false;
+          });
 
-      //     // show registration success
-      //     showInSnackBar(myLocale.languageCode.contains("en")
-      //         ? "Registratin Completed successfully"
-      //         : "تم التسجيل بنجاح");
-      //     // go to Home validation page
-
-      //   } else {
-      //     setState(() {
-      //       _isLoading = false;
-      //     });
-      //     // show registration failed
-      //     // and show error message
-      //     showInSnackBar(myLocale.languageCode.contains("en")
-      //         ? "Error ${result['error']}"
-      //         : "خطأ ${result['error']}");
-      //   }
-      // });
+          // show registration success
+          await         Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home',
+                  (Route<dynamic> route) => false);
+//          showInSnackBar(myLocale.languageCode.contains("en")
+//              ? "Registratin Completed successfully"
+//              : "تم التسجيل بنجاح");
+          // go to Home  page
+//          Navigator.of(context)
+//              .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
+        } else {
+          setState(() {
+            _isLoading = false;
+          });
+          // show registration failed
+          // and show error message
+          showInSnackBar(myLocale.languageCode.contains("en")
+              ? "The email has already been taken."
+              : "البريد الالكترونى موجود مسبقا");
+        }
+      });
     }
   }
 
@@ -220,7 +241,8 @@ class _CompleteState extends State<Complete> {
                                   ],
                                 ),
                               ),
-                              LogInInput(
+                              new LogInInput(
+                                enabled: true,
                                 name: "username",
                                 keyboard: TextInputType.text,
                                 autoValidate: _autoValidate,
@@ -228,6 +250,7 @@ class _CompleteState extends State<Complete> {
                                 onSaved: (String val) {
                                   setState(() {
                                     _formData['userName'] = val;
+                                    print(val);
                                   });
                                 },
                                 validator: (String val) {
@@ -238,7 +261,8 @@ class _CompleteState extends State<Complete> {
                                   }
                                 },
                               ),
-                              LogInInput(
+                              new LogInInput(
+                                enabled: true,
                                 name: "email",
                                 autoValidate: _autoValidate,
                                 keyboard: TextInputType.emailAddress,
@@ -260,25 +284,48 @@ class _CompleteState extends State<Complete> {
                                     return null;
                                 },
                               ),
-                              LogInInput(
-                                autoValidate: _autoValidate,
-                                name: "injuryDate",
-                                keyboard: TextInputType.datetime,
-                                focusNode: _focusNode3,
-                                onSaved: (String val) {
-                                  setState(() {
-                                    _formData['injuredDate'] = val;
-                                  });
+                              new InkWell(
+                                onTap: () {
+                                  DatePicker.showDatePicker(context,
+                                      showTitleActions: true,
+                                      minTime: DateTime(1900, 3, 5),
+                                      maxTime: DateTime(2030, 6, 7),
+                                      onChanged: (date) {
+                                    _injuryDateController.text =
+                                        date.toString();
+                                    print('change $date');
+                                  }, onConfirm: (date) {
+                                    _injuryDateController.text =
+                                        date.toString();
+                                    print('confirm $date');
+                                  },
+                                      currentTime: DateTime.now(),
+                                      locale: LocaleType.en);
                                 },
-                                validator: (String val) {
-                                  if (val.isEmpty) {
-                                    return myLocale.languageCode.contains("en")
-                                        ? "injury Date is required."
-                                        : " تاريخ الاصابة مطلوب";
-                                  }
-                                },
+                                child: LogInInput(
+                                  enabled: false,
+                                  controller: _injuryDateController,
+                                  autoValidate: _autoValidate,
+                                  name: "injuryDate",
+                                  keyboard: TextInputType.datetime,
+                                  focusNode: _focusNode3,
+                                  onSaved: (String val) {
+                                    setState(() {
+                                      _formData['injuredDate'] = val;
+                                    });
+                                  },
+                                  validator: (String val) {
+                                    if (val.isEmpty) {
+                                      return myLocale.languageCode
+                                              .contains("en")
+                                          ? "injury Date is required."
+                                          : " تاريخ الاصابة مطلوب";
+                                    }
+                                  },
+                                ),
                               ),
-                              LogInInput(
+                              new LogInInput(
+                                enabled: true,
                                 autoValidate: _autoValidate,
                                 name: "password",
                                 isPassword: true,
@@ -297,7 +344,8 @@ class _CompleteState extends State<Complete> {
                                     return null;
                                 },
                               ),
-                              LogInInput(
+                              new LogInInput(
+                                enabled: true,
                                 name: "passwordConfirm",
                                 autoValidate: _autoValidate,
                                 controller: _passwrodController,
@@ -311,7 +359,7 @@ class _CompleteState extends State<Complete> {
                                   }
                                 },
                               ),
-                              Row(
+                              new Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Expanded(
@@ -355,23 +403,29 @@ class _CompleteState extends State<Complete> {
                           //margin: MediaQuery.of(context).viewInsets,
                           padding: EdgeInsets.symmetric(
                               vertical: 0.0, horizontal: 30.0),
-                          child: RaisedButton(
-                              elevation: 0.0,
-                              color: Settings.mainColor(),
-                              textColor: Colors.white,
-                              onPressed: () async {
-                                _showPrivacyPolicy(model);
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.all(0.0),
-                                  width: double.infinity,
-                                  child: Text(
-                                    allTranslations.text("verify"),
-                                    style: TextStyle(fontSize: 18.0),
-                                    textAlign: TextAlign.center,
-                                  )),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0))),
+                          child: _isLoading
+                              ? CupertinoActivityIndicator(
+                                  animating: true,
+                                  radius: 15,
+                                )
+                              : RaisedButton(
+                                  elevation: 0.0,
+                                  color: Settings.mainColor(),
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    _showPrivacyPolicy(model);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(0.0),
+                                      width: double.infinity,
+                                      child: Text(
+                                        allTranslations.text("verify"),
+                                        style: TextStyle(fontSize: 18.0),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0))),
                         ),
                       ],
                     ),
@@ -400,10 +454,8 @@ class _CompleteState extends State<Complete> {
                   style: TextStyle(color: Colors.blue),
                 ),
                 onTap: () {
+//                  Navigator.of(context).pop();
                   _handleSubmitted(context, model);
-                  Navigator.of(context).pop();
-                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                  //     '/home', ModalRoute.withName('/home'));
                 },
               ),
               InkWell(

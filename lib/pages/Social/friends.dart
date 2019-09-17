@@ -1,66 +1,206 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/Settings.dart';
+import 'package:health/Models/friends_tab/getFollowers.dart';
+import 'package:health/Models/friends_tab/getFollowing.dart';
+import 'package:health/pages/Settings.dart';
 
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/chat.dart';
 import 'package:health/pages/Social/ProfieChart.dart';
+import 'package:health/scoped_models/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../shared-data.dart';
+
+var name;
+var check = true;
+String email;
+String phone;
+String image;
+String tokenId;
+String hight;
+String birthDate;
+String provider;
+String providerId;
+String specialistId;
+String deletedAt;
+String createdAt;
+String updatedAt;
+int id;
+int gender;
+int generatedCode;
+int type;
+int state;
+int searchCode;
+int rating;
 
 class FriendsPage extends StatefulWidget {
+  final MainModel model;
+
+  FriendsPage(this.model);
+
   @override
   _FriendsPageState createState() => _FriendsPageState();
 }
 
 class _FriendsPageState extends State<FriendsPage> {
+  Response response;
+  Dio dio = new Dio();
 
   @override
   Widget build(BuildContext context) {
-    return  Directionality(
-          textDirection: allTranslations.currentLanguage == "ar"
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 44),
-              child: Material(
-                elevation: 4,
-                child: Container(
-                  alignment: Alignment.center,padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  margin: EdgeInsets.fromLTRB(20,0,20,4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 1),
-                          child: Search(
-                              hintText:
-                                 "Search name or id"),
+    return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+        child: new Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size(MediaQuery.of(context).size.width, 44),
+            child: Material(
+              elevation: 4,
+              child: Container(
+                alignment: Alignment.center,
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                margin: EdgeInsets.fromLTRB(20, 0, 20, 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: TextField(
+                          onChanged: (value) async {
+                            try {
+                              setState(() {
+                                check = true;
+                              });
+                              FormData formdata = new FormData();
+                              // get user token
+                              SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              Map<String, dynamic> authUser = jsonDecode(
+                                  sharedPreferences.getString("authUser"));
+                              dio.options.headers = {
+                                "Authorization":
+                                    "Bearer ${authUser['authToken']}",
+                              };
+                              print(
+                                  "SharedData.customerData ====> ${SharedData.customerData['id']}");
+                              formdata.forEach((e, r) {
+                                print('{${e} : ${r}}');
+                              });
+
+                              response = await dio.get(
+                                  "http://104.248.168.117/api/auth/searchCode/$value");
+                              print('Respnsee --- > ${response.data}');
+
+                              if (response.data.isEmpty) {
+                                setState(() {
+                                  check = true;
+                                  print('====== Null ======');
+                                });
+                              } else {
+                                setState(() {
+                                  check = false;
+                                  print('====== check ======');
+                                });
+                              }
+                              setState(() {
+                                name = response.data['name'].toString();
+                                image = response.data['image'].toString();
+                                state = response.data['state'];
+                                id = response.data['id'];
+//                                print(image);
+//                                print(state);
+                              });
+                              if (response.statusCode != 200 &&
+                                  response.statusCode != 201) {
+                                return false;
+                              } else {
+                                return true;
+                              }
+                            } on DioError catch (e) {
+                              print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                              print(e.response.data);
+                              return false;
+                            }
+                          },
+                          enabled: true,
+                          decoration: InputDecoration(
+                              labelText:
+                                  allTranslations.text('Search name or id'),
+                              fillColor: Colors.grey.shade300,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 0, color: Colors.white),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 0, color: Colors.white))),
                         ),
                       ),
-                     Padding(
-                       padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 6),
-                       child: Image.asset("assets/icons/ic_add_friends.png"),
-                     ),
-
-                    ],
-                  ),
+                    ),
+//                     Padding(
+//                       padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 6),
+//                       child: Image.asset("assets/icons/ic_add_friends.png"),
+//                     ),
+                  ],
                 ),
               ),
             ),
-            body: Column(
-              children: <Widget>[
-                _newestTalk(context),
-                Divider(height: 2,),
-                Expanded(child: _FollowingAndFollowers())
-              ],
-            ),
-          )
-    );
+          ),
+          body: Column(
+            children: <Widget>[
+              _resultSearch(context),
+              Divider(
+                height: 2,
+              ),
+              Expanded(child: _FollowingAndFollowers(widget.model))
+            ],
+          ),
+        )
+//          Center(
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.center,
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: <Widget>[
+//                Container(
+//                  padding: EdgeInsets.all(20),
+//                  margin: EdgeInsets.only(bottom: 20),
+//                  decoration: BoxDecoration(
+//                      borderRadius: BorderRadius.all(Radius.circular(100)),
+//                      color: Colors.redAccent
+//                  ),
+//                  child: Icon(
+//                    Icons.developer_mode,
+//                    size: 60,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//                Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
+//              ],
+//            ),
+//          )
+
+        );
   }
 }
 
 class _FollowingAndFollowers extends StatefulWidget {
+  final MainModel model;
+
+  _FollowingAndFollowers(this.model);
+
   @override
   __FollowingAndFollowersState createState() => __FollowingAndFollowersState();
 }
@@ -68,10 +208,46 @@ class _FollowingAndFollowers extends StatefulWidget {
 class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  List<DataListBean> followers = List<DataListBean>();
+  List<DataListBean2> following = List<DataListBean2>();
+
+  Response response;
+  Dio dio = new Dio();
+
   @override
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
     super.initState();
+    getAll();
+  }
+  getAll(){
+    widget.model.getFollowers().then((result) {
+      if (result != null) {
+        setState(() {
+          followers = result.data;
+          print(' Result followers= > ${followers}');
+//          setState(() {
+//            loading = false;
+//          });
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
+    widget.model.getFollowing().then((result) {
+      print(' Result following = > ${result.data[0].name}');
+
+      if (result != null) {
+        setState(() {
+          following = result.data;
+//          setState(() {
+//            loading = false;
+//          });
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   @override
@@ -95,14 +271,15 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                           controller: _tabController,
                           labelColor: Colors.blue,
                           indicatorColor: Colors.blue,
+                          labelPadding: EdgeInsets.all(3),
                           tabs: <Widget>[
                             Text(
-                              allTranslations.text("Followers"),
+                              allTranslations.text('Followers'),
                               style: TextStyle(
                                   color: Color.fromRGBO(106, 106, 106, 1.0)),
                             ),
                             Text(
-                              allTranslations.text("Following"),
+                              allTranslations.text('Following'),
                               style: TextStyle(
                                   color: Color.fromRGBO(106, 106, 106, 1.0)),
                             )
@@ -113,7 +290,9 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                           child: TabBarView(
                         controller: _tabController,
                         physics: AlwaysScrollableScrollPhysics(),
-                        children: <Widget>[_peopleList(), _peopleList()],
+                        children: <Widget>[
+                          getFollowers(),
+                        getFollowing()],
                       ))
                     ],
                   ),
@@ -124,40 +303,39 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
     );
   }
 
-  Widget _peopleList() {
-    return ListView.builder(
-        itemCount: 30,
+  Widget getFollowers() {
+    return followers.isEmpty ? Center(child: Text(allTranslations.text('emptyFollowers'),style: TextStyle(fontWeight: FontWeight.bold),)) :ListView.builder(
+        itemCount: followers.length,
         itemBuilder: (context, index) {
-          return Column(
+          return  new Column(
             children: <Widget>[
               Container(
                 color: index % 2 == 0 ? Colors.white : Colors.grey[100],
                 child: ListTile(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Chat(isDoctor: false)));
+//                    Navigator.of(context).push(MaterialPageRoute(
+//                        builder: (context) => Chat(isDoctor: false)));
                   },
-                  leading: Container(
+                  leading: new Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage("assets/imgs/profile.jpg"))),
+                            image: followers[index].image == 'Null'
+                                ? NetworkImage(
+                                'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                : NetworkImage(
+                                'http://104.248.168.117/${followers[index].image}'),fit: BoxFit.fill),color: Colors.blue),
                   ),
-                  title: Text(
-                    "marvin Nichols",
+                  title: new Text(
+                    followers[index].name,
                     style: TextStyle(color: Color.fromRGBO(112, 113, 113, 1)),
                   ),
-                  subtitle: Text(
-                    "35cal",
-                    style: TextStyle(color: Color.fromRGBO(242, 128, 129, 1)),
-                  ),
-                  trailing: Row(
+                  trailing: new Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      InkWell(
-          
+                      new InkWell(
                           child: Image.asset(
                             "assets/icons/ic_chart.png",
                             width: 60,
@@ -165,17 +343,196 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                           onTap: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return ProfileChart(isMyProfile: false,date: "");
+                              return ProfileChart(
+                                  image: followers[index].image,
+                                  name: followers[index].name,
+                                  userId: followers[index].id,
+                                  isMyProfile: false,
+                                  date: "",
+                                  model: widget.model);
                             }));
                           }),
-                      index % 2 == 0
-                          ? Image.asset(
-                              "assets/icons/ic_remove.png",
-                              width: 60,
+                      followers[index].state == 0
+                          ? new IconButton(
+                        icon:  Image.asset(
+                          "assets/icons/ic_remove.png",
+                          fit: BoxFit.cover,
+                        ),
+                        padding: EdgeInsets.all(0),
+                        onPressed: () async {
+                          try {
+                            // get user token
+                            SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                            Map<String, dynamic> authUser = jsonDecode(
+                                sharedPreferences.getString("authUser"));
+                            dio.options.headers = {
+                              "Authorization":
+                              "Bearer ${authUser['authToken']}",
+                            };
+                            response = await dio.post(
+                                "http://104.248.168.117/api/unfollow/${followers[index].id}");
+                            print('Response = ${response.data}');
+                          } on DioError catch (e) {
+                            print(
+                                "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                            print(e.response.data);
+                            return false;
+                          }
+                        },
+                      )
+                          : new IconButton(
+                        icon: Image.asset(
+                          "assets/icons/ic_remove_friend.png",
+                          fit: BoxFit.cover,
+                        ),
+                        padding: EdgeInsets.all(0),
+                        onPressed: () async {
+                          try {
+                            // get user token
+                            SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                            Map<String, dynamic> authUser = jsonDecode(
+                                sharedPreferences.getString("authUser"));
+                            dio.options.headers = {
+                              "Authorization":
+                              "Bearer ${authUser['authToken']}",
+                            };
+
+                            response = await dio.post(
+                                "http://104.248.168.117/api/follow/${followers[index].id}");
+                            print('Response = ${response.data}');
+
+                          } on DioError catch (e) {
+                            print(
+                                "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                            print(e.response.data);
+                            return false;
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                height: 3,
+                color: Colors.grey,
+              )
+            ],
+          );
+        });
+  }
+
+  Widget getFollowing() {
+    return following.isEmpty ? Center(
+      child: Text(allTranslations.text('emptyFollowing'),style: TextStyle(fontWeight: FontWeight.bold),),
+    ): ListView.builder(
+        itemCount: following.length,
+        itemBuilder: (context, index) {
+          return new Column(
+            children: <Widget>[
+              Container(
+                color: index % 2 == 0 ? Colors.white : Colors.grey[100],
+                child: ListTile(
+                  onTap: () {
+//                    Navigator.of(context).push(MaterialPageRoute(
+//                        builder: (context) => Chat(isDoctor: false)));
+                  },
+                  leading: new Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: following[index].image == 'Null'
+                                ? NetworkImage(
+                                    'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                : NetworkImage(
+                                    'http://104.248.168.117/${following[index].image}'),fit: BoxFit.fill),color: Colors.blue),
+                  ),
+                  title: new Text(
+                    following[index].name,
+                    style: TextStyle(color: Color.fromRGBO(112, 113, 113, 1)),
+                  ),
+                  trailing: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      new InkWell(
+                          child: Image.asset(
+                            "assets/icons/ic_chart.png",
+                            width: 60,
+                          ),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return ProfileChart(
+                                  image: following[index].image,
+                                  name: following[index].name,
+                                  userId: following[index].id,
+                                  isMyProfile: false,
+                                  date: "",
+                                  model: widget.model);
+                            }));
+                          }),
+                      following[index].state == 2
+                          ? new IconButton(
+                        icon:  Image.asset(
+                                "assets/icons/ic_remove.png",
+                                fit: BoxFit.cover,
+                              ),
+                              padding: EdgeInsets.all(0),
+                              onPressed: () async {
+                                try {
+                                  // get user token
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences.getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                        "Bearer ${authUser['authToken']}",
+                                  };
+                                  response = await dio.post(
+                                      "http://104.248.168.117/api/unfollow/${following[index].id}");
+                                  print('Response = ${response.data}');
+                                } on DioError catch (e) {
+                                  print(
+                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                  print(e.response.data);
+                                  return false;
+                                }
+                              },
                             )
-                          : Image.asset(
-                              "assets/icons/ic_remove_friend.png",
-                              width: 60,
+                          : new IconButton(
+                              icon: Image.asset(
+                                "assets/icons/ic_remove_friend.png",
+                                fit: BoxFit.cover,
+                              ),
+                              padding: EdgeInsets.all(0),
+                              onPressed: () async {
+                                try {
+                                  // get user token
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences.getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                        "Bearer ${authUser['authToken']}",
+                                  };
+
+                                  response = await dio.post(
+                                      "http://104.248.168.117/api/follow/${following[index].id}");
+                                  print('Response = ${response.data}');
+
+                                } on DioError catch (e) {
+                                  print(
+                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                  print(e.response.data);
+                                  return false;
+                                }
+                              },
                             )
                     ],
                   ),
@@ -191,85 +548,109 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
   }
 }
 
-Widget _newestTalk(context) {
-  return Container(
-    height: 150,
-    width: MediaQuery.of(context).size.width,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            child: Text(
-              allTranslations.text("Newest Talks"),
-              style: TextStyle(
-                  fontSize: 20, color: Color.fromRGBO(137, 137, 139, 1)),
-            ),
-          ),
-        ),
-        
-        Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: EdgeInsets.only(right: 10, left: 10),
-                  child: InkWell(
-                 
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Chat(
-                                  isDoctor: false,
-                                )));
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                height: 60,
-                                width: 60,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: index % 2 == 0
-                                            ? Color.fromRGBO(13, 156, 205, 1)
-                                            : Colors.grey,
-                                        width: 2),
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/imgs/profile.jpg"))),
-                              ),
-                              Positioned(
-                                top: 0,
-                                right: 0,
-                                child: CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: Colors.redAccent,
-                                  child: Text(
-                                    "4",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 4),
-                            child: Text(allTranslations.text("name")),
+Widget _resultSearch(context) {
+  Response response;
+  Dio dio = new Dio();
+
+  return check == true
+      ? Text('')
+      : Column(
+          children: <Widget>[
+            Container(
+//        color: index % 2 == 0 ? Colors.white : Colors.grey[100],
+              child: ListTile(
+                onTap: () {
+//                    Navigator.of(context).push(MaterialPageRoute(
+//                        builder: (context) => Chat(isDoctor: false)));
+                },
+                leading: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: image == 'Null'
+                              ? NetworkImage(
+                                  'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                              : NetworkImage(
+                                  'http://104.248.168.117/${image}'))),
+                ),
+                title: Text(
+                  name,
+                  style: TextStyle(color: Color.fromRGBO(112, 113, 113, 1)),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    state == 2
+                        ? new FlatButton(
+                            child: Image.asset(
+                              "assets/icons/ic_add_friends.png",
+                              fit: BoxFit.cover,
+                              width: 35,
+                            ),
+                            padding: EdgeInsets.all(0),
+                            onPressed: () async {
+                              //add friend search
+                              try {
+                                // get user token
+                                SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                                Map<String, dynamic> authUser = jsonDecode(
+                                    sharedPreferences.getString("authUser"));
+                                dio.options.headers = {
+                                  "Authorization":
+                                  "Bearer ${authUser['authToken']}",
+                                };
+
+                                response = await dio.post(
+                                    "http://104.248.168.117/api/follow/$id");
+                                print('Response = ${response.data}');
+                              } on DioError catch (e) {
+                                print(
+                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                print(e.response.data);
+                                return false;
+                              }
+                            },
                           )
-                        ],
-                      )));
-            },
-          ),
-        )
-      ],
-    ),
-  );
+                        : new IconButton(
+                            icon: Image.asset(
+                              "assets/icons/ic_remove_friend.png",
+                              fit: BoxFit.cover,
+                            ),
+                            padding: EdgeInsets.all(0),
+                            onPressed: () async {
+                              try {
+                                // get user token
+                                SharedPreferences sharedPreferences =
+                                await SharedPreferences.getInstance();
+                                Map<String, dynamic> authUser = jsonDecode(
+                                    sharedPreferences.getString("authUser"));
+                                dio.options.headers = {
+                                  "Authorization":
+                                  "Bearer ${authUser['authToken']}",
+                                };
+
+                                response = await dio.post(
+                                    "http://104.248.168.117/api/unfollow/$id");
+                                print('Response = ${response.data}');
+                              } on DioError catch (e) {
+                                print(
+                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                print(e.response.data);
+                                return false;
+                              }
+                            },
+                          )
+                  ],
+                ),
+              ),
+            ),
+            Divider(
+              height: 3,
+              color: Colors.grey,
+            )
+          ],
+        );
 }

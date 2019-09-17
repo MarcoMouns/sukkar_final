@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:health/Models/article_tab/article_category.dart';
 import 'package:health/pages/home/articles.dart';
+import 'package:health/scoped_models/main.dart';
 
-class ArticleCategory extends StatelessWidget {
+class ArticleCategory extends StatefulWidget {
+  final MainModel model;
+  ArticleCategory(this.model);
+
+  @override
+  _ArticleCategoryState createState() => _ArticleCategoryState();
+}
+
+class _ArticleCategoryState extends State<ArticleCategory> {
+  List<DataListBean> articleCategory = List<DataListBean>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.model.fetchArticlesCategories().then((result) {
+      if (result != null) {
+        setState(() {
+          articleCategory = result.articleCategory.data;
+          print('Result = > ${articleCategory[0].image}');
+          print('Result = > ${articleCategory[0].titleAr}');
+          print('Result = > ${articleCategory[0].titleEn}');
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+        new Container(
       color: Colors.lightBlue[50],
       child: ListView.builder(
         padding: EdgeInsets.all(20.0),
-        itemCount: 30,
+        itemCount: articleCategory.length,
         itemBuilder: (BuildContext context, index) {
           return InkWell(onTap: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>ArticlesPage()) );
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>ArticlesPage(widget.model,articleCategory[index].id,  articleCategory[index].titleAr)) );
           },
             child: Card(
               elevation: 5.0,
@@ -24,7 +54,7 @@ class ArticleCategory extends StatelessWidget {
                     width: double.infinity,
                     color: Colors.black26,
                     child: Text(
-                      "Sports (30)",
+                      articleCategory[index].titleAr,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 30, color: Colors.white),
                     )),
@@ -32,12 +62,13 @@ class ArticleCategory extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage("assets/imgs/landpage_bk.jpg"))),
+                        image: NetworkImage('http://104.248.168.117/${ articleCategory[index].image}'))),
               ),
             ),
           );
         },
       ),
     );
+
   }
 }

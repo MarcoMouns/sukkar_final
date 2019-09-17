@@ -1,21 +1,27 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:health/pages/measurement/addsugar.dart';
+import 'package:health/shared-data.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './languages/all_translations.dart';
 import './languages/translations.dart';
+
 // import './languages/appModel.dart';
 import './scoped_models/main.dart';
-import './landPage.dart';
-import './Settings.dart';
+import 'package:health/pages/landPage.dart';
+import 'package:health/pages/Settings.dart';
 
-import './pages/account/complete.dart';
+// import './pages/account/complete.dart';
 import './pages/account/profile.dart';
-import './pages/account/verify.dart';
+
+// import './pages/account/verify.dart';
 import './pages/account/reset.dart';
 import './pages/account/login.dart';
 import './pages/account/new.dart';
@@ -25,17 +31,39 @@ import './pages/others/offers.dart';
 //import 'package:flutter/foundation.dart';
 
 void main() async {
- // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+  // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await allTranslations.init();
-  
+
   allTranslations.setNewLanguage("ar");
   allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
-
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  print(sharedPreferences.getKeys());
+  getCustomerData();
+  getFirebase();
   runApp(MyApp());
 }
+getFirebase() {
+  FirebaseMessaging fireBaseMessaging = FirebaseMessaging();
+  fireBaseMessaging.getToken().then((token) {
+    print('Token $token');
+    SharedData.tokenCustomer = token;
+  });
+  fireBaseMessaging.configure(
+    onMessage: (Map<String, dynamic> message) async {
+      print("onMessagesss: $message");
+    },
+    onLaunch: (Map<String, dynamic> message) async {
+      print("onLaunch: $message");
+    },
+    onResume: (Map<String, dynamic> message) async {
+      print("onResume: $message");
+    },
+  );
 
-
+  fireBaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true));
+}
 class SpLash extends StatefulWidget {
   @override
   _SpLashState createState() => new _SpLashState();
@@ -44,26 +72,48 @@ class SpLash extends StatefulWidget {
 class _SpLashState extends State<SpLash> {
   @override
   void initState() {
-   
     super.initState();
-    if(mounted){
-Timer(Duration(seconds: 3,milliseconds: 300),(){
-      Navigator.of(context)
-      .pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context)=>LandPage()),ModalRoute.withName("langPage"));
-    
-    });
+    if (mounted) {
+      Timer(Duration(seconds: 3, milliseconds: 300), () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => LandPage()),
+            ModalRoute.withName("langPage"));
+      });
     }
-    
   }
+
   @override
   Widget build(BuildContext context) {
-    return Container(child: new   Image(image: new AssetImage("assets/splash.gif",),fit: BoxFit.fill,),color: Colors.white,);
-    
-      
+    return Container(
+      child: new Image(
+        image: new AssetImage(
+          "assets/splash.gif",
+        ),
+        fit: BoxFit.fill,
+      ),
+      color: Colors.white,
+    );
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    super.initState();
+    getAuthentication();
+  }
+
+  void getAuthentication() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     final MainModel model = MainModel();
@@ -73,8 +123,9 @@ class MyApp extends StatelessWidget {
           //debugShowMaterialGrid: true,
           showSemanticsDebugger: false,
           theme: ThemeData(
-            canvasColor: Colors.white,primaryTextTheme: TextTheme(body1: TextStyle(color: Colors.blue)),
-            backgroundColor: Colors.white, 
+            canvasColor: Colors.white,
+            primaryTextTheme: TextTheme(body1: TextStyle(color: Colors.blue)),
+            backgroundColor: Colors.white,
             accentColor: Colors.white,
             bottomAppBarColor: Colors.white,
             secondaryHeaderColor: Colors.white,
@@ -91,17 +142,21 @@ class MyApp extends StatelessWidget {
             const FallbackCupertinoLocalisationsDelegate(),
           ],
           routes: <String, WidgetBuilder>{
-            '/': (BuildContext context) => LandPage(),
+            '/': (BuildContext context) =>
+            sharedPreferences.get('authUser') == null
+                ? LandPage()
+                : MainHome(),
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),
             '/newUser': (BuildContext context) => NewUser(),
-            '/verify': (BuildContext context) => Verify(),
+            // '/verify': (BuildContext context) => Verify(),
             '/reset': (BuildContext context) => Reset(),
-            '/complete': (BuildContext context) => Complete(),
+            // '/complete': (BuildContext context) => Complete(),
             '/home': (BuildContext context) => MainHome(),
             '/editProfile': (BuildContext context) => EditProfile(),
             '/map': (BuildContext context) => MapPage(),
             '/offers': (BuildContext context) => OffersPage(),
+            '/addSugar': (BuildContext context) => AddSugar(),
           },
           initialRoute: '/',
         ));

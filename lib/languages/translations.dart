@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show  rootBundle;
+import 'package:health/languages/arabic.dart';
+import 'package:health/languages/english.dart';
 import 'application.dart';
 
 class Translations {
@@ -23,8 +25,13 @@ class Translations {
 
   static Future<Translations> load(Locale locale) async {
     Translations translations = new Translations(locale);
-    String jsonContent = await rootBundle.loadString("assets/lang/${locale.languageCode}.json");
-    _localizedValues = json.decode(jsonContent);
+    // String jsonContent = await rootBundle.loadString("assets/lang/${locale.languageCode}.json");
+    // _localizedValues = json.decode(jsonContent);
+    if (locale.languageCode.contains("ar")) {
+      _localizedValues = arabicLang;
+    } else {
+      _localizedValues = englishLang;
+    }
     return translations;
   }
 

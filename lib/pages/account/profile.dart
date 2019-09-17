@@ -4,15 +4,25 @@ import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:health/pages/others/chooseHomeWidgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/cupertino.dart';
-import '../../Settings.dart';
+import 'package:health/pages/Settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../languages/all_translations.dart';
+import 'dart:convert';
+
+import '../../shared-data.dart';
+import 'edit_profile.dart';
 
 class EditProfile extends StatefulWidget {
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -28,44 +38,78 @@ class _EditProfileState extends State<EditProfile> {
                 decoration: BoxDecoration(color: Settings.mainColor()),
                 child: Column(
                   children: <Widget>[
-                    Row(
+                    new Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        InkWell(
-                     
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            allTranslations.text("edit"),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 45.0,
-                                  backgroundImage:
-                                      AssetImage("assets/imgs/profile.jpg"),
+                        SharedData.customerData == null
+                            ? Container(width: 30)
+                            : Container(width: 30),
+//                        new InkWell(
+//                                onTap: () {
+////                            Navigator.of(context).pop();
+////                            Navigator.push(
+////                                context,
+////                                MaterialPageRoute(
+////                                    builder: (context) => NewUser()));
+//                                },
+//                                child: Text(
+//                                  allTranslations.text("edit"),
+//                                  style: TextStyle(color: Colors.white),
+//                                ),
+//                              ),
+                        SharedData.customerData == null
+                            ? new Expanded(
+                                child: Center(
+                                  child: Column(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                          radius: 45.0,
+                                          backgroundImage: NetworkImage(
+                                              'https://www.allsolutionslocksmiths.com.au/wp-content/uploads/2011/07/user.png')),
+                                      Divider(color: Colors.white,),
+                                      Text(
+                                        allTranslations.text("not logged"),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "Yahia agwa",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20.0),
+                              )
+                            : new Expanded(
+                                child: Center(
+                                  child: Column(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                          radius: 45.0,
+                                          backgroundImage: NetworkImage(SharedData
+                                                              .customerData[
+                                                          'image'] ==
+                                                      'Null' ||
+                                                  SharedData.customerData[
+                                                          'image'] ==
+                                                      null
+                                              ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                                              : SharedData.customerData['image']
+                                                  .toString())),
+                                      Text(
+                                        SharedData.customerData['userName'],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0),
+                                      ),
+                                      Text(
+                                        "id:${SharedData.customerData['id']}",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14.0),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "id:19890625",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14.0),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
                         InkWell(
-                   
                           onTap: () {
                             Navigator.of(context).pop();
                           },
@@ -76,39 +120,70 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ),
-              Expanded(
+              new Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(0.0),
                   child: ListView(
                     children: <Widget>[
-                      Center(
-                        child: InkWell(
-                 
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/offers');
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                "assets/icons/ic_giftbox.png",
-                                width: 50,
-                                height: 50,
-                              ),
-                              Text(
-                                allTranslations.text("adsAndOffers"),
-                                style: TextStyle(color: Settings.mainColor()),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+//                      new Center(
+//                        child: InkWell(
+//                          onTap: () {
+//                            Navigator.of(context).pushNamed('/offers');
+//                          },
+//                          child: Column(
+//                            children: <Widget>[
+//                              Image.asset(
+//                                "assets/icons/ic_giftbox.png",
+//                                width: 50,
+//                                height: 50,
+//                              ),
+//                              Text(
+//                                allTranslations.text("adsAndOffers"),
+//                                style: TextStyle(color: Settings.mainColor()),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                      ListTile(
+//                        title: Text(
+//                          allTranslations.text("choose main Circles"),
+//                          style: TextStyle(color: Colors.grey),
+//                        ),
+//                        trailing: Icon(
+//                          Icons.arrow_forward_ios,
+//                          color: Colors.redAccent,
+//                        ),
+//                        onTap: () {
+//                          Navigator.of(context)
+//                              .push(MaterialPageRoute(builder: (context) {
+//                            return ChooseMainWidgets();
+//                          }));
+//                        },
+//                      ),
+//                      Divider(
+//                        height: 0,
+//                      ),
+//                      new ListTile(
+//                        onTap: () {
+//                          Navigator.push(
+//                              context,
+//                              MaterialPageRoute(
+//                                  builder: (context) => NewUser()));
+//                        },
+//                        title: Text(
+//                          allTranslations.text("editProfile"),
+//                          style: TextStyle(color: Colors.grey),
+//                        ),
+//                        trailing: Icon(
+//                          Icons.arrow_forward_ios,
+//                          color: Colors.redAccent,
+//                        ),
+//                      ),
+//                      Divider(
+//                        height: 0,
+//                      ),
                       ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NewUser()));
-                        },
                         title: Text(
                           allTranslations.text("editProfile"),
                           style: TextStyle(color: Colors.grey),
@@ -117,19 +192,12 @@ class _EditProfileState extends State<EditProfile> {
                           Icons.arrow_forward_ios,
                           color: Colors.redAccent,
                         ),
-                      ),
-                      Divider(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Text(
-                          allTranslations.text("editPassword"),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.redAccent,
-                        ),
+                        onTap: (){
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return EditProfileUser();
+                          }));
+                        },
                       ),
                       Divider(
                         height: 0,
@@ -205,28 +273,14 @@ class _EditProfileState extends State<EditProfile> {
                           allTranslations.text("signout"),
                           style: TextStyle(color: Colors.grey),
                         ),
-                      ),
-                      Divider(
-                        height: 0,
-                      ),
-                      ListTile(
-                        title: Text(
-                          allTranslations.text("choose main Circles"),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.redAccent,
-                        ),
-                        onTap: () {
+                        onTap: () async {
                           Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return ChooseMainWidgets();
-                          }));
+                              .pushNamedAndRemoveUntil('/landPage',
+                                  (Route<dynamic> route) => false);
+                          SharedPreferences sharedPreferences =
+                              await SharedPreferences.getInstance();
+                          sharedPreferences.remove('authUser');
                         },
-                      ),
-                      Divider(
-                        height: 0,
                       ),
                     ],
                   ),
