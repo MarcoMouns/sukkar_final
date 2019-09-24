@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:558252190222:android:42f4f40c0ff1a1e8",
         "android_client_info": {
-          "package_name": "com.alexapps.sokar"
+          "package_name": "com.alexapps.sukar"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "558252190222-sgbmussiclugv9rcdrjb3j30vnb50rft.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.alexapps.sokar"
+                "bundle_id": "com.alexapps.sukar"
               }
             }
           ]

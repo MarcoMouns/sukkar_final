@@ -1,4 +1,4 @@
-package com.alexapps.sokar;
+package com.alexapps.sukar;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
