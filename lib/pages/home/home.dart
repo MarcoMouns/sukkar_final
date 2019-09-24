@@ -28,6 +28,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 
+
 class HomePage extends StatefulWidget {
   final PageController pageController;
   final MainModel model;
@@ -54,7 +55,10 @@ class _HomePageState extends State<HomePage> {
   ScrollController _scrollController;
 
   Response response;
-  Dio dio = new Dio();
+
+ 
+
+
 
 //  Map dataHome;
   MeasurementsBean dataHome;
@@ -63,33 +67,7 @@ class _HomePageState extends State<HomePage> {
 
   ///hight and colors for the bar charts 3 colors and hieght for each bar per day
   ///in order to change them with containerAnimation
-  Color saGColor = Colors.green[300];
-  Color saRColor = Colors.red;
-  Color saYColor = Colors.yellow;
 
-  Color suGColor = Colors.green[300];
-  Color suRColor = Colors.red;
-  Color suYColor = Colors.yellow;
-
-  Color moGColor = Colors.green[300];
-  Color moRColor = Colors.red;
-  Color moYColor = Colors.yellow;
-
-  Color tuGColor = Colors.green[300];
-  Color tuRColor = Colors.red;
-  Color tuYColor = Colors.yellow;
-
-  Color weGColor = Colors.green[300];
-  Color weRColor = Colors.red;
-  Color weYColor = Colors.yellow;
-
-  Color thGColor = Colors.green[300];
-  Color thRColor = Colors.red;
-  Color thYColor = Colors.yellow;
-
-  Color frGColor = Colors.green[300];
-  Color frRColor = Colors.red;
-  Color frYColor = Colors.yellow;
 
   double stGHieght = 0;
   double stRHieght = 0;
@@ -124,33 +102,33 @@ class _HomePageState extends State<HomePage> {
   ///
   /// the same thing for the value of the suger pressure
 
-  int stGText = 100;
-  int stRText = 176;
-  int stYText = 140;
+  // int stGText = 100;
+  // int stRText = 176;
+  // int stYText = 140;
 
-  int suGText = 100;
-  int suRText = 176;
-  int suYText = 140;
+  // int suGText = 100;
+  // int suRText = 176;
+  // int suYText = 140;
 
-  int moGText = 100;
-  int moRText = 176;
-  int moYText = 140;
+  // int moGText = 100;
+  // int moRText = 176;
+  // int moYText = 140;
 
-  int tuGText = 100;
-  int tuRText = 176;
-  int tuYText = 140;
+  // int tuGText = 100;
+  // int tuRText = 176;
+  // int tuYText = 140;
 
-  int weGText = 100;
-  int weRText = 176;
-  int weYText = 140;
+  // int weGText = 100;
+  // int weRText = 176;
+  // int weYText = 140;
 
-  int thGText = 100;
-  int thRText = 176;
-  int thYText = 140;
+  // int thGText = 100;
+  // int thRText = 176;
+  // int thYText = 140;
 
-  int frGText = 100;
-  int frRText = 176;
-  int frYText = 140;
+  // int frGText = 100;
+  // int frRText = 176;
+  // int frYText = 140;
 
   ///this variables GET sugar per day but not using them
   ///note: thats not my code
@@ -183,61 +161,85 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getCustomerData();
     ChangeHieghtAnimation();
+    var b = getMeasurements();
   }
 
-  static Random rnd = new Random();
-  static int gmin = 50;
-  static int gmax = 100;
-  static int rmin = 100;
-  static int rmax = 120;
-  static int ymin = 40;
-  static int ymax = 80;
+Dio dio = new Dio();
+final String baseUrl = 'http://104.248.168.117/api';
+
+  Future<bool> getMeasurements() async {
+   
+      FormData formdata = new FormData();
+      // get user token
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      dio.options.headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      
+
+      response = await dio.get("$baseUrl/measurements/sugarReads");
+      print('Response = ${response.data}');
+
+
+  }
+
+
+  // static Random rnd = new Random();
+  // static int gmin = 50;
+  // static int gmax = 100;
+  // static int rmin = 100;
+  // static int rmax = 120;
+  // static int ymin = 40;
+  // static int ymax = 80;
   bool istrue = false;
 
-  bool ta8ier1;
-  bool ta8ier2;
-  bool ta8ier3;
-  bool ta8ier4;
-  bool ta8ier5;
-  bool ta8ier6;
-  bool ta8ier7;
-  bool ta8ier8;
-  bool ta8ier9;
-  bool ta8ier10;
-  bool ta8ier11;
-  bool ta8ier12;
-  bool ta8ier13;
-  bool ta8ier14;
-  bool ta8ier15;
-  bool ta8ier16;
+  // bool ta8ier1;
+  // bool ta8ier2;
+  // bool ta8ier3;
+  // bool ta8ier4;
+  // bool ta8ier5;
+  // bool ta8ier6;
+  // bool ta8ier7;
+  // bool ta8ier8;
+  // bool ta8ier9;
+  // bool ta8ier10;
+  // bool ta8ier11;
+  // bool ta8ier12;
+  // bool ta8ier13;
+  // bool ta8ier14;
+  // bool ta8ier15;
+  // bool ta8ier16;
 
   void ChangeHieghtAnimation() {
     istrue = true;
-    int r1 = gmin + rnd.nextInt(gmax - gmin);
-    int r2 = gmin + rnd.nextInt(gmax - gmin);
-    int r3 = gmin + rnd.nextInt(gmax - gmin);
-    int r4 = rmin + rnd.nextInt(rmax - rmin);
-    int r5 = rmin + rnd.nextInt(rmax - rmin);
-    int r6 = rmin + rnd.nextInt(rmax - rmin);
-    int r7 = ymin + rnd.nextInt(ymax - ymin);
-    int r8 = ymin + rnd.nextInt(ymax - ymin);
-    int r9 = ymin + rnd.nextInt(ymax - ymin);
-    ta8ier1 = rnd.nextBool();
-    ta8ier2 = rnd.nextBool();
-    ta8ier3 = rnd.nextBool();
-    ta8ier4 = rnd.nextBool();
-    ta8ier5 = rnd.nextBool();
-    ta8ier6 = rnd.nextBool();
-    ta8ier7 = rnd.nextBool();
-    ta8ier8 = rnd.nextBool();
-    ta8ier9 = rnd.nextBool();
-    ta8ier10 = rnd.nextBool();
-    ta8ier11 = rnd.nextBool();
-    ta8ier12 = rnd.nextBool();
-    ta8ier13 = rnd.nextBool();
-    ta8ier14 = rnd.nextBool();
-    ta8ier15 = rnd.nextBool();
-    ta8ier16 = rnd.nextBool();
+    // int r1 = gmin + rnd.nextInt(gmax - gmin);
+    // int r2 = gmin + rnd.nextInt(gmax - gmin);
+    // int r3 = gmin + rnd.nextInt(gmax - gmin);
+    // int r4 = rmin + rnd.nextInt(rmax - rmin);
+    // int r5 = rmin + rnd.nextInt(rmax - rmin);
+    // int r6 = rmin + rnd.nextInt(rmax - rmin);
+    // int r7 = ymin + rnd.nextInt(ymax - ymin);
+    // int r8 = ymin + rnd.nextInt(ymax - ymin);
+    // int r9 = ymin + rnd.nextInt(ymax - ymin);
+    // ta8ier1 = rnd.nextBool();
+    // ta8ier2 = rnd.nextBool();
+    // ta8ier3 = rnd.nextBool();
+    // ta8ier4 = rnd.nextBool();
+    // ta8ier5 = rnd.nextBool();
+    // ta8ier6 = rnd.nextBool();
+    // ta8ier7 = rnd.nextBool();
+    // ta8ier8 = rnd.nextBool();
+    // ta8ier9 = rnd.nextBool();
+    // ta8ier10 = rnd.nextBool();
+    // ta8ier11 = rnd.nextBool();
+    // ta8ier12 = rnd.nextBool();
+    // ta8ier13 = rnd.nextBool();
+    // ta8ier14 = rnd.nextBool();
+    // ta8ier15 = rnd.nextBool();
+    // ta8ier16 = rnd.nextBool();
 
     stGHieght = 0;
     stRHieght = 0;
@@ -272,33 +274,33 @@ class _HomePageState extends State<HomePage> {
     Future.delayed(Duration(milliseconds: initOpen ? 450 : 100), () {
       initOpen = false;
       istrue = false;
-      stGHieght = r1.toDouble();
-      stRHieght = r4.toDouble();
-      stYHieght = r7.toDouble();
+      // stGHieght = r1.toDouble();
+      // stRHieght = r4.toDouble();
+      // stYHieght = r7.toDouble();
 
-      suGHieght = r2.toDouble();
-      suRHieght = r5.toDouble();
-      suYHieght = r8.toDouble();
+      // suGHieght = r2.toDouble();
+      // suRHieght = r5.toDouble();
+      // suYHieght = r8.toDouble();
 
-      moGHieght = r3.toDouble();
-      moRHieght = r6.toDouble();
-      moYHieght = r9.toDouble();
+      // moGHieght = r3.toDouble();
+      // moRHieght = r6.toDouble();
+      // moYHieght = r9.toDouble();
 
-      tuGHieght = r2.toDouble();
-      tuRHieght = r6.toDouble();
-      tuYHieght = r9.toDouble();
+      // tuGHieght = r2.toDouble();
+      // tuRHieght = r6.toDouble();
+      // tuYHieght = r9.toDouble();
 
-      weGHieght = r2.toDouble();
-      weRHieght = r4.toDouble();
-      weYHieght = r7.toDouble();
+      // weGHieght = r2.toDouble();
+      // weRHieght = r4.toDouble();
+      // weYHieght = r7.toDouble();
 
-      thGHieght = r3.toDouble();
-      thRHieght = r5.toDouble();
-      thYHieght = r9.toDouble();
+      // thGHieght = r3.toDouble();
+      // thRHieght = r5.toDouble();
+      // thYHieght = r9.toDouble();
 
-      frGHieght = r1.toDouble();
-      frRHieght = r6.toDouble();
-      frYHieght = r8.toDouble();
+      // frGHieght = r1.toDouble();
+      // frRHieght = r6.toDouble();
+      // frYHieght = r8.toDouble();
 
       setState(() {
         // Here you can write your code for open new view
@@ -838,7 +840,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier1?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -860,11 +862,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
-                                                            ),
-                                                            ta8ier2?
+                                                            )
+                                                            ,
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -887,12 +886,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier3?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -914,10 +909,7 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
-                                                            ),
+                                                            )
                                                           ],
                                                         ),
                                                         Container(
@@ -929,7 +921,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier4?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -951,11 +943,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier5?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -977,11 +966,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier6?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1003,9 +989,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
@@ -1018,7 +1001,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier7?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1040,11 +1023,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier8?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1067,11 +1047,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier9?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1093,9 +1070,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
@@ -1108,7 +1082,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier10?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1130,11 +1104,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier11?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1156,11 +1127,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier12?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1182,9 +1150,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
@@ -1197,7 +1162,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier13?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1220,11 +1185,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier14?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1247,11 +1209,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier15?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1273,9 +1232,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
@@ -1288,7 +1244,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier16?Column(
+                                                            Column(
                                                               children: <Widget>[
                                                                 Text(
                                                                   "${(suRHieght).toInt()}",
@@ -1309,12 +1265,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier7?Column(
+                                                            Column(
                                                               children: <Widget>[
                                                                 Text(
                                                                   '${(suGHieght).toInt()}',
@@ -1336,12 +1288,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier3?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1363,10 +1311,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
@@ -1379,7 +1323,7 @@ class _HomePageState extends State<HomePage> {
                                                         Row(
                                                           crossAxisAlignment: CrossAxisAlignment.end,
                                                           children: <Widget>[
-                                                            ta8ier9?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1401,12 +1345,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier13?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1429,12 +1369,8 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
-                                                            ta8ier5?
+                                                            
                                                             Column(
                                                               children: <Widget>[
                                                                 Text(
@@ -1456,10 +1392,6 @@ class _HomePageState extends State<HomePage> {
                                                                       )),
                                                                 ),
                                                               ],
-                                                            ):
-                                                            Container(
-                                                              width: 10,
-                                                              height: 1,
                                                             ),
                                                           ],
                                                         ),
