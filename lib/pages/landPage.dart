@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:health/Welcome%20screen.dart';
 import 'package:health/pages/Settings.dart';
 import '../languages/all_translations.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -10,6 +11,10 @@ class LandPage extends StatefulWidget {
 }
 
 class _LandPageState extends State<LandPage> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -18,7 +23,7 @@ class _LandPageState extends State<LandPage> {
             : TextDirection.ltr,
         child: WillPopScope(
           onWillPop: () {
-            exit(0);
+            Navigator.of(context).pop();
           },
           child: Scaffold(
             body: Column(
@@ -79,21 +84,20 @@ class _LandPageState extends State<LandPage> {
                           ),
                         ),
                       ),
-//                      Expanded(
-//                        child: Center(
-//                          child: FlatButton(
-//                            onPressed: () async {
-//                              await Navigator.of(context)
-//                                  .pushNamedAndRemoveUntil(
-//                                      '/home', ModalRoute.withName('/home'));
-//                            },
-//                            child: Text(
-//                              allTranslations.text("landPage_notNow"),
-//                              style: TextStyle(color: Settings.mainColor()),
-//                            ),
-//                          ),
-//                        ),
-//                      ),
+                      Expanded(
+                        child: Center(
+                          child: FlatButton(
+                            onPressed: () async {
+                              await Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                            },
+                            child: Text(
+                              allTranslations.text("landPage_notNow"),
+                              style: TextStyle(color: Settings.mainColor()),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

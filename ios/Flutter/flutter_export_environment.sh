@@ -1,10 +1,10 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\SDK\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\sokar"
+export "FLUTTER_ROOT=C:\SDKs\Flutter"
+export "FLUTTER_APPLICATION_PATH=C:\Users\midom\Desktop\sokar"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build\ios"
-export "FLUTTER_FRAMEWORK_DIR=C:\SDK\flutter\bin\cache\artifacts\engine\ios"
+export "FLUTTER_FRAMEWORK_DIR=C:\SDKs\Flutter\bin\cache\artifacts\engine\ios"
 export "FLUTTER_BUILD_NAME=0.0.1"
 export "FLUTTER_BUILD_NUMBER=1"

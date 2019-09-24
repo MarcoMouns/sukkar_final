@@ -94,7 +94,7 @@ class BannersListBean {
 class WeekListBean {
   String date;
   String day;
-  int sugar;
+  var sugar;
 
   WeekListBean({this.date, this.day, this.sugar});
 

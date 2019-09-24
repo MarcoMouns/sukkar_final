@@ -87,12 +87,17 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
+                            widget.status == null
+                                ? Wrap()
+                                :Padding(padding: EdgeInsets.only(top: 20)),
                              Image.asset(
-                                "assets/icons/${widget.image}.png",fit: BoxFit.fill,scale: 4,
+                                "assets/icons/${widget.image}.png",fit: BoxFit.fill,scale:  widget.status == null
+                                 ? 4
+                                 : 4.5,
                               ),
-                            
+
                             Flexible(
                               child: FittedBox(
                                 child: Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
@@ -101,25 +106,44 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                         fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
                               ),
                             ),
+
+                            Padding(padding: EdgeInsets.only(
+                              top: 5
+                            )),
+
+                            ///this is hard coded until we work on the backend
+                            //TODO:: @me and @zizo
+
+
                             widget.status == null
                                 ? Wrap()
                                 : FittedBox(
                               child: Text(
-                                "${widget.status ?? ''}",
-                                style: TextStyle(color: Colors.redAccent),
+                                "سليم",
+                                style: TextStyle(color: Colors.redAccent,height: 1),
                               ),
                             ),
-//                            widget.time != "" && 100 < widget.radius
-//                                ?  Text(
-//                              widget.time,
-//                              style: TextStyle(
-//                                  color: Colors.grey,fontSize: 12
-//                              ),
-//                            )
-//                                : SizedBox(
-//                              width: 0,
-//                              height: 0,
-//                            )
+
+
+                            widget.status == null
+                                ? Wrap()
+                                : FittedBox(
+                              child: Text(
+
+                                //TODO:: @me @zizo
+                                ///this commeted until we work on the back end
+                                //"${widget.status ?? ''}"
+                                "١:٣٣",
+                                style: TextStyle(color: Colors.grey,height: 1),
+                              ),
+                            ),
+
+                            widget.status == null
+                                ? Wrap()
+                                :Padding(
+                              padding: EdgeInsets.only(bottom: 15),
+                            ),
+
                           ],
                         ),
                       ),

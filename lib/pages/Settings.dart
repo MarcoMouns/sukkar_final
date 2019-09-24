@@ -43,6 +43,7 @@ class Settings {
                     },
                     icon: ImageIcon(AssetImage("assets/icons/ic_bell.png")),
                   ),
+
 //                  Positioned(
 //                    top: 5,
 //                    right: 5,
@@ -68,11 +69,7 @@ class Settings {
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(
-                      SharedData.customerData == null
-                      ? 'https://www.allsolutionslocksmiths.com.au/wp-content/uploads/2011/07/user.png'
-                      : SharedData.customerData['image'] == 'Null'
-                          ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                          : SharedData.customerData['image'].toString()),
+                      'http://104.248.168.117${SharedData.customerData['image'].toString()}'),
                 ),
               )
             ],

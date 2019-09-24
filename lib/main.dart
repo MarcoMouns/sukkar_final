@@ -28,6 +28,7 @@ import './pages/account/new.dart';
 import './pages/others/map.dart';
 import './pages/home.dart';
 import './pages/others/offers.dart';
+import 'Welcome screen.dart';
 //import 'package:flutter/foundation.dart';
 
 void main() async {
@@ -144,7 +145,7 @@ class _MyAppState extends State<MyApp> {
           routes: <String, WidgetBuilder>{
             '/': (BuildContext context) =>
             sharedPreferences.get('authUser') == null
-                ? LandPage()
+                ? WelcomeScreen()
                 : MainHome(),
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),

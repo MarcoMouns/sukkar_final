@@ -9,7 +9,7 @@ abstract class MainCircles {
   static double fontSize = 12;
 
   static Widget bloodPreassure(
-      {BuildContext context, double raduis, String text, String footerText}) {
+      {BuildContext context, double raduis, String text, String footerText,double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -34,12 +34,12 @@ abstract class MainCircles {
         image: "ic_blood_pressure",
         footer: column,
         time: "",
-        percent: 0.3,
+        percent: percent,
         color: Color.fromRGBO(254, 252, 232, 1));
   }
 
   static Widget heartRate(
-      {BuildContext context, double raduis, String text, String footerText}) {
+      {BuildContext context, double raduis, String text, String footerText, double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -63,14 +63,14 @@ abstract class MainCircles {
         image: "ic_heart_rate",
         footer: column,
         title: text,
-        percent: 0.6,
+        percent: percent,
         time: "",
         color: Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
   static Widget cups(
-      {BuildContext context, String text, double raduis, String footerText}) {
+      {BuildContext context, String text, double raduis, String footerText, double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -95,7 +95,7 @@ abstract class MainCircles {
         image: "ic_cup",
         footer: column,
         time: "",
-        percent: 3200 / 7000,
+        percent: percent,
         color: Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
@@ -105,7 +105,8 @@ abstract class MainCircles {
       double raduis,
       String footerText,
       String distance,
-      Function onTap}) {
+      Function onTap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -129,7 +130,7 @@ abstract class MainCircles {
         title: distance,
         image: "ic_location",
         footer: column,
-        percent: 0.6,
+        percent: percent,
         onTap: () {
           onTap();
         },
@@ -143,7 +144,8 @@ abstract class MainCircles {
       double raduis,
       int steps,
       String footerText,
-      Function onTap}) {
+      Function onTap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -173,7 +175,7 @@ abstract class MainCircles {
           }
         },
         time: "",
-        percent: 0.3,
+        percent: percent,
         color: Color.fromRGBO(254, 252, 232, 1));
   }
 
@@ -182,7 +184,8 @@ abstract class MainCircles {
       double raduis,
       var day_Calories,
       String footerText,
-      Function ontap}) {
+      Function ontap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -212,7 +215,7 @@ abstract class MainCircles {
             ontap();
           }
         },
-        percent: 3200 / 7000,
+        percent: percent,
         color: Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
@@ -223,7 +226,8 @@ abstract class MainCircles {
       String status,
       double raduis,
       Widget footer,
-      Function ontap}) {
+      Function ontap,
+      double percent}) {
     return SizedBox(
       height: raduis + 25,
       child: ChartWidget(
@@ -241,7 +245,7 @@ abstract class MainCircles {
             : footer,
         time: intl.DateFormat("Hm", allTranslations.locale.languageCode)
             .format(DateTime.now()),
-        percent: 0.6,
+        percent: percent,
         color: Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.center,
         onTap: () {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
@@ -25,6 +26,7 @@ import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:screenshot_share_image/screenshot_share_image.dart';
 
 class HomePage extends StatefulWidget {
   final PageController pageController;
@@ -89,33 +91,33 @@ class _HomePageState extends State<HomePage> {
   Color frRColor = Colors.red;
   Color frYColor = Colors.yellow;
 
-  double stGHieght = 20;
-  double stRHieght = 20;
-  double stYHieght = 20;
+  double stGHieght = 0;
+  double stRHieght = 0;
+  double stYHieght = 0;
 
-  double suGHieght = 20;
-  double suRHieght = 20;
-  double suYHieght = 20;
+  double suGHieght = 0;
+  double suRHieght = 0;
+  double suYHieght = 0;
 
-  double moGHieght = 20;
-  double moRHieght = 20;
-  double moYHieght = 20;
+  double moGHieght = 0;
+  double moRHieght = 0;
+  double moYHieght = 0;
 
-  double tuGHieght = 20;
-  double tuRHieght = 20;
-  double tuYHieght = 20;
+  double tuGHieght = 0;
+  double tuRHieght = 0;
+  double tuYHieght = 0;
 
-  double weGHieght = 20;
-  double weRHieght = 20;
-  double weYHieght = 20;
+  double weGHieght = 0;
+  double weRHieght = 0;
+  double weYHieght = 0;
 
-  double thGHieght = 20;
-  double thRHieght = 20;
-  double thYHieght = 20;
+  double thGHieght = 0;
+  double thRHieght = 0;
+  double thYHieght = 0;
 
-  double frGHieght = 20;
-  double frRHieght = 20;
-  double frYHieght = 20;
+  double frGHieght = 0;
+  double frRHieght = 0;
+  double frYHieght = 0;
 
   ///you wonder why i did this cuz simply the code is shitty
   ///so i will not go further than that
@@ -150,7 +152,6 @@ class _HomePageState extends State<HomePage> {
   int frRText = 176;
   int frYText = 140;
 
-
   ///this variables GET sugar per day but not using them
   ///note: thats not my code
   double dataCharts0 = 0.0;
@@ -163,9 +164,11 @@ class _HomePageState extends State<HomePage> {
   bool loading;
   bool loading1;
   bool loading2;
+  bool initOpen = true;
 
 //  List list;
   List newList = [];
+  List<int> _calories = [];
   DateTime selectedDate = DateTime.now();
   var date =
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
@@ -183,25 +186,92 @@ class _HomePageState extends State<HomePage> {
   }
 
   static Random rnd = new Random();
-  static int gmin = 20;
-  static int gmax = 50;
-  static int rmin = 60;
-  static int rmax = 70;
-  static int ymin = 50;
-  static int ymax = 60;
-  void ChangeHieghtAnimation(){
-     int r1 = gmin + rnd.nextInt(gmax - gmin);
-     int r2 = gmin + rnd.nextInt(gmax - gmin);
-     int r3 = gmin + rnd.nextInt(gmax - gmin);
-     int r4 = rmin + rnd.nextInt(rmax - rmin);
-     int r5 = rmin + rnd.nextInt(rmax - rmin);
-     int r6 = rmin + rnd.nextInt(rmax - rmin);
-     int r7 = ymin + rnd.nextInt(ymax - ymin);
-     int r8 = ymin + rnd.nextInt(ymax - ymin);
-     int r9 = ymin + rnd.nextInt(ymax - ymin);
+  static int gmin = 50;
+  static int gmax = 100;
+  static int rmin = 100;
+  static int rmax = 120;
+  static int ymin = 40;
+  static int ymax = 80;
+  bool istrue = false;
 
-    Future.delayed(const Duration(seconds: 1), () {
+  bool ta8ier1;
+  bool ta8ier2;
+  bool ta8ier3;
+  bool ta8ier4;
+  bool ta8ier5;
+  bool ta8ier6;
+  bool ta8ier7;
+  bool ta8ier8;
+  bool ta8ier9;
+  bool ta8ier10;
+  bool ta8ier11;
+  bool ta8ier12;
+  bool ta8ier13;
+  bool ta8ier14;
+  bool ta8ier15;
+  bool ta8ier16;
 
+  void ChangeHieghtAnimation() {
+    istrue = true;
+    int r1 = gmin + rnd.nextInt(gmax - gmin);
+    int r2 = gmin + rnd.nextInt(gmax - gmin);
+    int r3 = gmin + rnd.nextInt(gmax - gmin);
+    int r4 = rmin + rnd.nextInt(rmax - rmin);
+    int r5 = rmin + rnd.nextInt(rmax - rmin);
+    int r6 = rmin + rnd.nextInt(rmax - rmin);
+    int r7 = ymin + rnd.nextInt(ymax - ymin);
+    int r8 = ymin + rnd.nextInt(ymax - ymin);
+    int r9 = ymin + rnd.nextInt(ymax - ymin);
+    ta8ier1 = rnd.nextBool();
+    ta8ier2 = rnd.nextBool();
+    ta8ier3 = rnd.nextBool();
+    ta8ier4 = rnd.nextBool();
+    ta8ier5 = rnd.nextBool();
+    ta8ier6 = rnd.nextBool();
+    ta8ier7 = rnd.nextBool();
+    ta8ier8 = rnd.nextBool();
+    ta8ier9 = rnd.nextBool();
+    ta8ier10 = rnd.nextBool();
+    ta8ier11 = rnd.nextBool();
+    ta8ier12 = rnd.nextBool();
+    ta8ier13 = rnd.nextBool();
+    ta8ier14 = rnd.nextBool();
+    ta8ier15 = rnd.nextBool();
+    ta8ier16 = rnd.nextBool();
+
+    stGHieght = 0;
+    stRHieght = 0;
+    stYHieght = 0;
+
+    suGHieght = 0;
+    suRHieght = 0;
+    suYHieght = 0;
+
+    moGHieght = 0;
+    moRHieght = 0;
+    moYHieght = 0;
+
+    tuGHieght = 0;
+    tuRHieght = 0;
+    tuYHieght = 0;
+
+    weGHieght = 0;
+    weRHieght = 0;
+    weYHieght = 0;
+
+    thGHieght = 0;
+    thRHieght = 0;
+    thYHieght = 0;
+
+    frGHieght = 0;
+    frRHieght = 0;
+    frYHieght = 0;
+
+    setState(() {});
+
+    Future.delayed(Duration(milliseconds: initOpen ? 450 : 100), () {
+      initOpen = false;
+      istrue = false;
       stGHieght = r1.toDouble();
       stRHieght = r4.toDouble();
       stYHieght = r7.toDouble();
@@ -230,13 +300,10 @@ class _HomePageState extends State<HomePage> {
       frRHieght = r6.toDouble();
       frYHieght = r8.toDouble();
 
-
       setState(() {
         // Here you can write your code for open new view
       });
-
     });
-
   }
 
   getHomeFetch() {
@@ -256,21 +323,6 @@ class _HomePageState extends State<HomePage> {
           dataHome = result.measurements;
           // Sugar Charts
           setState(() {
-            if (result.week[0].day == 'saturday') {
-              dataCharts0 = result.week[0].sugar.toDouble();
-            } else if (result.week[1].day == 'sunday') {
-              dataCharts1 = result.week[1].sugar.toDouble();
-            } else if (result.week[2].day == 'monday') {
-              dataCharts2 = result.week[2].sugar.toDouble();
-            } else if (result.week[3].day == 'tuesday') {
-              dataCharts3 = result.week[3].sugar.toDouble();
-            } else if (result.week[4].day == 'wednesday') {
-              dataCharts4 = result.week[4].sugar.toDouble();
-            } else if (result.week[5].day == 'thursday') {
-              dataCharts5 = result.week[5].sugar.toDouble();
-            } else if (result.week[6].day == 'friday') {
-              dataCharts6 = result.week[6].sugar.toDouble();
-            }
             // Articles banner
             banners = result.banners;
             loading1 = false;
@@ -312,99 +364,106 @@ class _HomePageState extends State<HomePage> {
             delegate: CirclesDelegate(_chartRadius),
             children: <Widget>[
               new LayoutId(
-                  id: 1,
-                  child: MainCircles.diabetes(
-                      context: context,
+                id: 1,
+                child: MainCircles.diabetes(
+                  percent: 0.2,
+                  context: context,
 //                sugar: dataHome['sugar'].toString(),
-                      sugar: dataHome == null
+                  sugar: dataHome == null
+                      ? '0'
+                      : dataHome.sugar == null
                           ? '0'
-                          : dataHome.sugar == null
-                              ? '0'
-                              : dataHome.sugar.toString(),
-                      raduis: _chartRadius,
-                      status: dataHome == null
+                          : dataHome.sugar.toString(),
+                  raduis: _chartRadius,
+                  status: dataHome == null
+                      ? '0'
+                      : dataHome.sugar == null
                           ? '0'
-                          : dataHome.sugar == null
-                              ? '0'
-                              : (dataHome.sugar <= 100
-                                  ? allTranslations.text("good")
-                                  : dataHome.sugar <= 125
-                                      ? allTranslations.text("normal")
-                                      : dataHome.sugar > 126
-                                          ? allTranslations.text("high")
-                                          : ''),
-                      ontap: () {
-                        _showBottomSheet(
-                            context: context,
-                            model: model,
-                            type: 'sugar',
-                            title: "measure sugar",
-                            subTitle: "enterTodaySugar",
-                            imageName: "ic_blood_pressure",
-                            min: 0.0,
-                            max: 600.0);
-                      },
-                      footer: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          SizedBox(
-                            width: _chartRadius / 5,
-                          ),
-                          Expanded(
-                            child: ImageIcon(
-                              AssetImage("assets/icons/ic_camera.png"),
-                              color: Colors.grey[300],
-                              size: 15,
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                widget.pageController.animateToPage(3,
-                                    duration: Duration(
-                                      milliseconds: 10,
-                                    ),
-                                    curve: Curves.bounceIn);
-                              },
-                              child: Stack(
-                                alignment: Alignment.centerLeft,
-                                overflow: Overflow.visible,
-                                children: <Widget>[
-                                  Positioned(
-                                    child: CircleAvatar(
-                                      radius: 7.5,
-                                      backgroundImage:
-                                          AssetImage("assets/imgs/profile.jpg"),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 8.5,
-                                    child: CircleAvatar(
-                                      radius: 7.5,
-                                      backgroundImage:
-                                          AssetImage("assets/imgs/profile.jpg"),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 17,
-                                    child: Icon(
-                                      Icons.add,
-                                      size: 15,
-                                    ),
-                                  )
-                                ],
+                          : (dataHome.sugar <= 100
+                              ? allTranslations.text("good")
+                              : dataHome.sugar <= 125
+                                  ? allTranslations.text("normal")
+                                  : dataHome.sugar > 126
+                                      ? allTranslations.text("high")
+                                      : ''),
+                  ontap: () {
+                    _showBottomSheet(
+                        context: context,
+                        model: model,
+                        type: 'sugar',
+                        title: "measure sugar",
+                        subTitle: "enterTodaySugar",
+                        imageName: "ic_blood_pressure",
+                        min: 0.0,
+                        max: 600.0);
+                  },
+                  footer: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      SizedBox(
+                        width: _chartRadius / 5,
+                      ),
+                      Expanded(
+                          child: InkWell(
+                        child: ImageIcon(
+                          AssetImage("assets/icons/ic_camera.png"),
+                          color: Colors.grey[300],
+                          size: 15,
+                        ),
+                        onTap: () =>
+                            ScreenshotShareImage.takeScreenshotShareImage(),
+                      )),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            widget.pageController.animateToPage(3,
+                                duration: Duration(
+                                  milliseconds: 10,
+                                ),
+                                curve: Curves.bounceIn);
+                          },
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            overflow: Overflow.visible,
+                            children: <Widget>[
+                              Positioned(
+                                child: CircleAvatar(
+                                  radius: 7.5,
+                                  backgroundImage:
+                                      AssetImage("assets/imgs/profile.jpg"),
+                                ),
                               ),
-                            ),
+                              Positioned(
+                                left: 8.5,
+                                child: CircleAvatar(
+                                  radius: 7.5,
+                                  backgroundImage:
+                                      AssetImage("assets/imgs/profile.jpg"),
+                                ),
+                              ),
+                              Positioned(
+                                left: 17,
+                                child: Icon(
+                                  Icons.add,
+                                  size: 15,
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            width: _chartRadius / 5,
-                          ),
-                        ],
-                      ))),
+                        ),
+                      ),
+                      SizedBox(
+                        width: _chartRadius / 5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               new LayoutId(
                   id: 2,
                   child: MainCircles.cal(
+                      percent: 0.5,
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
                       day_Calories: dataHome == null
@@ -412,44 +471,28 @@ class _HomePageState extends State<HomePage> {
                           : dataHome.calories == null
                               ? '0'
                               : dataHome.calories.toString(),
-                      ontap: () {
-                        _showBottomSheet(
-                            context: context,
-                            model: model,
-                            type: 'day_Calories',
-                            title: "cals",
-                            subTitle: "enterTodayCals",
-                            imageName: "ic_cal",
-                            min: 0.0,
-                            max: 7000.0);
-                      },
+                      ontap: () => null,
                       raduis: _chartRadius,
-                      footerText: "Cal "+ " 100 :"  +   allTranslations.text("Goal is")   )),
+                      footerText:
+                          "Cal " + " 100 :" + allTranslations.text("Goal is"))),
               new LayoutId(
                 id: 3,
                 child: MainCircles.steps(
+                    percent: 0.9,
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
                     steps: dataHome == null
                         ? 0
                         : dataHome.steps == null ? 0 : dataHome.steps,
                     raduis: _chartRadius,
-                    onTap: () {
-                      _showBottomSheet(
-                          context: context,
-                          model: model,
-                          type: 'NumberOfSteps',
-                          title: "steps",
-                          subTitle: "enterTodaySteps",
-                          imageName: "ic_steps",
-                          min: 0.0,
-                          max: 7000.0);
-                    },
-                    footerText:  " Step " + "100 :"+ allTranslations.text("Goal is")),
+                    onTap: () => null,
+                    footerText:
+                        " Step " + "100 :" + allTranslations.text("Goal is")),
               ),
               new LayoutId(
                 id: 4,
                 child: MainCircles.distance(
+                    percent: 0.3,
                     context: context,
                     raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
@@ -458,24 +501,13 @@ class _HomePageState extends State<HomePage> {
                         : dataHome.distance == null
                             ? '0'
                             : dataHome.distance.toString(),
-                    onTap: () {
-                      _showBottomSheet(
-                        context: context,
-                        model: model,
-                        title: "distance",
-                        subTitle: "enterTodayWalk",
-                        imageName: "ic_location",
-                        type: "distance",
-                        min: 0.0,
-                        max: 7000.0,
-                      );
-                    },
-                    footerText: " meter " +"200 :"+ allTranslations.text("Goal is")),
+                    onTap: () => null,
+                    footerText:
+                        " meter " + "200 :" + allTranslations.text("Goal is")),
               )
             ],
           );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -507,8 +539,7 @@ class _HomePageState extends State<HomePage> {
               DatePicker.showDatePicker(context,
                   showTitleActions: true,
                   minTime: DateTime(DateTime.now().year - 1),
-                  maxTime: DateTime(DateTime.now().year + 1),
-                  onConfirm: (e) {
+                  maxTime: DateTime(DateTime.now().year + 1), onConfirm: (e) {
                 print('confirm $e');
                 setState(() {
                   date = '${e.year}-${e.month}-${e.day}';
@@ -551,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                       new Column(
                     children: <Widget>[
                       Container(
-                        height: _screenHeight * 3 / 5,
+                        height: MediaQuery.of(context).size.height * 0.455,
                         child: Row(
                           children: <Widget>[
                             RotatedBox(
@@ -575,7 +606,6 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: upperCircles(context, _chartRadius, model),
                             ),
-
                             InkWell(
                               onTap: () {
                                 widget.pageController.animateToPage(2,
@@ -593,7 +623,9 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+ 5)),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                      ),
                       new Expanded(
                         flex: 2,
                         child: loading2 == true
@@ -605,7 +637,7 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   new SizedBox(
                                     height:
-                                        MediaQuery.of(context).size.height / 9,
+                                        MediaQuery.of(context).size.height / 11,
                                     child: Directionality(
                                       textDirection: TextDirection.rtl,
                                       child: ListView.builder(
@@ -613,240 +645,142 @@ class _HomePageState extends State<HomePage> {
                                         itemCount: banners.length,
                                         controller: _scrollController,
                                         itemBuilder: (context, index) {
-//                                  if(index % 2 == 0) {
-//                                    return AspectRatio(
-//                                      aspectRatio: 1,
-//                                      child: Container(
-//                                        decoration: ShapeDecoration(
-//                                            color: Colors.grey[200],
-//                                            shape: RoundedRectangleBorder(
-//                                                borderRadius:
-//                                                    BorderRadius.circular(10))),
-//                                        child: IconButton(
-//                                          icon: Icon(
-//                                            Icons.add,
-//                                          ),
-//                                          onPressed: () {},
-//                                        ),
-//                                      ),
-//                                    );
-//                                  }
                                           return banners[index].type ==
-                                              'advertise'
+                                                  'advertise'
                                               ? new Container(
-                                            decoration: ShapeDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage('http://104.248.168.117/${banners[index].image}'),
-                                                    fit: BoxFit.cover
-                                                ),
-                                                color: Colors.grey[200],
-                                                shape:
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        10))),
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 5),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width -
-                                                100,
-                                          )
+                                                  decoration: ShapeDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              'http://104.248.168.117/${banners[index].image}'),
+                                                          fit: BoxFit.cover),
+                                                      color: Colors.grey[200],
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10))),
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      100,
+                                                )
                                               : new InkWell(
-                                            onTap:
+                                                  onTap:
 //                                    newList[index]['name'] == null
 //                                        ? null:
-                                                () async {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ArticleDetails(
-                                                          model,
-                                                          banners[index]
-                                                              .name,
-                                                          banners[index]
-                                                              .id),
-                                                ),
-                                              );
-                                            },
-                                            child: new Container(
-                                              decoration: ShapeDecoration(
-                                                  color: Colors.grey[200],
-                                                  shape:
-                                                  RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          10))),
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                                  100,
-                                              child:
+                                                      () async {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ArticleDetails(
+                                                                model,
+                                                                banners[index]
+                                                                    .name,
+                                                                banners[index]
+                                                                    .id),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: new Container(
+                                                    decoration: ShapeDecoration(
+                                                        color: Colors.grey[200],
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10))),
+                                                    margin:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            100,
+                                                    child:
 //                                      newList[index]['name'] == null
 //                                          ? Image.network(
 //                                              "http://104.248.168.117/${newList[index]['image']}",
 //                                              fit: BoxFit.cover,
 //                                            )
 //                                          :
-                                              new Row(
-                                                children: <Widget>[
-                                                  new Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
+                                                        new Row(
                                                       children: <Widget>[
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                              top: 10),
-                                                          child: Text(
-                                                            banners[index]
-                                                                .name,
-                                                            style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                    41,
-                                                                    172,
-                                                                    216,
-                                                                    1),
-                                                                fontSize:
-                                                                20),
+                                                        new Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: <Widget>[
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  top: 10,
+                                                                ),
+                                                                child: Text(
+                                                                  banners[index]
+                                                                      .name,
+                                                                  style: TextStyle(
+                                                                      color: Color.fromRGBO(
+                                                                          41,
+                                                                          172,
+                                                                          216,
+                                                                          1),
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: Text(
+                                                                  banners[index]
+                                                                      .created,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontSize:
+                                                                        10,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                              top: 10),
-                                                          child: Text(
-                                                            banners[index]
-                                                                .created,
-                                                            style: TextStyle(
-                                                              color: Colors
-                                                                  .grey,
-                                                              fontSize:
-                                                              10,
+                                                        SizedBox(
+                                                          width: 130,
+                                                          height: 100,
+                                                          child: ClipRRect(
+                                                            child:
+                                                                Image.network(
+                                                              "http://104.248.168.117/${banners[index].image}",
+                                                              fit: BoxFit.fill,
                                                             ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
                                                           ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                  ClipRRect(
-                                                    child: Image.network(
-                                                      "http://104.248.168.117/${banners[index].image}",
-                                                      fit: BoxFit.contain,
-                                                    ),
-//                                            Image.asset(
-//                                              "assets/imgs/landpage_bk.jpg",
-//                                              fit: BoxFit.contain,
-//                                            ),
-                                                    borderRadius:
-                                                    BorderRadius
-                                                        .circular(10),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
+                                                );
                                         },
                                       ),
                                     ),
                                   ),
-//                        new Expanded(
-//                            child: Row(
-//                          children: <Widget>[
-////                            InkWell(
-////                              child: Column(
-////                                mainAxisAlignment: MainAxisAlignment.center,
-////                                children: <Widget>[
-////                                  ImageIcon(
-////                                    AssetImage(
-////                                        "assets/icons/ic_arrow_small_r.png"),
-////                                    size: MediaQuery.of(context).size.width *
-////                                        25 /
-////                                        720,
-////                                    color: Colors.grey[400],
-////                                  )
-////                                ],
-////                              ),
-////                              onTap: () {
-////                                _bottomChartsPageViewController.previousPage(
-////                                    duration: Duration(milliseconds: 20),
-////                                    curve: Curves.bounceIn);
-////                              },
-////                            ),
-//                            SizedBox(
-//                              width:
-//                                  MediaQuery.of(context).size.width * 5 / 720,
-//                            ),
-//                            new Expanded(
-//                              child: PageView.builder(
-//                                  itemCount: 10,
-//                                  controller: _bottomChartsPageViewController,
-//                                  itemBuilder: (context, index) {
-//                                    return Column(
-//                                      mainAxisAlignment: MainAxisAlignment.end,
-//                                      children: <Widget>[
-//                                        BarCharts(
-//                                          height: (100),
-//                                        ),
-//                                        Container(
-//                                          color: Colors.grey,
-//                                          height: 1,
-//                                        ),
-//                                        SizedBox(
-//                                          height: MediaQuery.of(context)
-//                                                      .size
-//                                                      .width *
-//                                                  15 /
-//                                                  720 *
-//                                                  2 +
-//                                              6,
-//                                          child: _daysWidget(context),
-//                                        ),
-//                                      ],
-//                                    );
-//                                  }),
-//                            ),
-//                            SizedBox(
-//                              width:
-//                                  MediaQuery.of(context).size.width * 5 / 720,
-//                            ),
-//                            InkWell(
-//                              onTap: () {
-//                                _bottomChartsPageViewController.nextPage(
-//                                    duration: Duration(milliseconds: 20),
-//                                    curve: Curves.bounceIn);
-//                              },
-//                              child: Column(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                children: <Widget>[
-//                                  RotatedBox(
-//                                    quarterTurns: 2,
-//                                    child: ImageIcon(
-//                                      AssetImage(
-//                                          "assets/icons/ic_arrow_small_r.png"),
-//                                      color: Colors.grey[400],
-//                                      size: MediaQuery.of(context).size.width *
-//                                          25 /
-//                                          720,
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            )
-//                          ],
-//                        ))
-
-                                Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                  ),
                                   //new chart
                                   loading1 == true
                                       ? Padding(
@@ -854,477 +788,820 @@ class _HomePageState extends State<HomePage> {
                                           child: Loading(),
                                         )
                                       : new Container(
-                                    width: MediaQuery.of(context).size.width*0.98,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      color: Colors.grey.shade50,
-                                    ),
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          InkWell(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom+45),
-                                              child: Image.asset('assets/icons/ic_arrow_small_l.png',scale: 2,),
-                                            ),
-                                            onTap: () => ChangeHieghtAnimation(),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width
+                                              ,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.24,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            color: Colors.grey.shade50,
                                           ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("${(frRHieght+50).toInt()}",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 10),
-                                                        height: frRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
+                                              InkWell(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: MediaQuery.of(
+                                                          context)
+                                                          .padding
+                                                          .bottom +
+                                                          60),
+                                                  child: Image.asset(
+                                                    'assets/icons/ic_arrow_small_l.png',
+                                                    scale: 2,
                                                   ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(frGHieght+50).toInt()}',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 10),
-                                                        height:frGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(frYHieght+50).toInt()}',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 2),
-                                                        height: frYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                ),
+                                                onTap: () =>
+                                                    ChangeHieghtAnimation(),
                                               ),
-                                              Text("الجمعة"),
-                                              Text('20/9',style: TextStyle(fontSize: 10),),
+                                              Container(
+                                                width: MediaQuery.of(context).size.width * 0.9,
+                                                height: MediaQuery.of(context).size.height * 0.24,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: <Widget>[
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier1?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(frRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: frRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier2?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(frGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                    color: Colors.green[300],
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      seconds: istrue ? 0 : 1),
+                                                                  height: frGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier3?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(frYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: frYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier4?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(thRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: thRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier5?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(thGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.green[300],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: thGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier6?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(thYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: thYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier7?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(weRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: weRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier8?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(weGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                    color: Colors.green[300],
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: weGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier9?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(weYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: weYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier10?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(tuRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: tuRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier11?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(tuGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.green[300],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: tuGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier12?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(tuYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: tuYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier13?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(moRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                    color: Colors.red,
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: moRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier14?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(moGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                    color: Colors.green[300],
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: moGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier15?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(moYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: moYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier16?Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(suRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: suRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier7?Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(suGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                    color: Colors.green[300],
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      seconds: istrue ? 0 : 1),
+                                                                  height: suGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier3?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(suYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: suYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Container(
+                                                          width: 1.2,
+                                                          height: MediaQuery.of(context).size.height *
+                                                              0.17,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                                          children: <Widget>[
+                                                            ta8ier9?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  "${(stRHieght).toInt()}",
+                                                                  style: TextStyle(
+                                                                      color: Colors.red,
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: stRHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFd17356),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier13?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(stGHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                    color: Colors.green[300],
+                                                                    fontSize: 10,
+                                                                  ),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      seconds: istrue ? 0 : 1),
+                                                                  height: stGHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors.green[300],
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                            ta8ier5?
+                                                            Column(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  '${(stYHieght).toInt()}',
+                                                                  style: TextStyle(
+                                                                      color: Colors.yellow[800],
+                                                                      fontSize: 10),
+                                                                ),
+                                                                AnimatedContainer(
+                                                                  duration: Duration(
+                                                                      milliseconds: istrue ? 0 : 300),
+                                                                  height: stYHieght,
+                                                                  width: 10,
+                                                                  decoration: BoxDecoration(
+                                                                      color: Color(0xFFed982f),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        topLeft: Radius.circular(5),
+                                                                        topRight: Radius.circular(5),
+                                                                      )),
+                                                                ),
+                                                              ],
+                                                            ):
+                                                            Container(
+                                                              width: 10,
+                                                              height: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                        width:
+                                                        MediaQuery.of(context).size.width * 0.9,
+                                                        height: 1,
+                                                        color: Colors.grey[500]),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.spaceAround,
+                                                      children: <Widget>[
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الجمعة",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '21/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الخميس",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text('20/9',
+                                                                style: TextStyle(
+                                                                    fontSize: 10, color: Colors.grey),
+                                                                textScaleFactor: 1.0),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الاربعاء",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '19/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الثلاثاء",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '18/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الإثنين",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '17/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "الاحد",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '15/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Text(
+                                                              "السبت",
+                                                              style: TextStyle(
+                                                                  fontSize: 12, color: Colors.grey),
+                                                              textScaleFactor: 1.0,
+                                                            ),
+                                                            Text(
+                                                              '14/9',
+                                                              style: TextStyle(
+                                                                  fontSize: 10, color: Colors.grey),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              InkWell(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: MediaQuery.of(
+                                                          context)
+                                                          .padding
+                                                          .bottom +
+                                                          60),
+                                                  child: Image.asset(
+                                                    'assets/icons/ic_arrow_small_r.png',
+                                                    scale: 2,
+                                                  ),
+                                                ),
+                                                onTap: () =>
+                                                    ChangeHieghtAnimation(),
+                                              ),
                                             ],
                                           ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("${(thRHieght+50).toInt()}",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: thRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(thGHieght+50).toInt()}',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: thGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(thYHieght+50).toInt()}',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: thYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("الخميس"),
-                                              Text('20/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("${(weRHieght+50).toInt()}",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: weRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(weGHieght+50).toInt()}',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: weGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(weYHieght+50).toInt()}',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: weYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("الاربعاء"),
-                                              Text('19/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("${(tuRHieght+50).toInt()}",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: tuRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(tuGHieght+50).toInt()}',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: tuGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(tuYHieght+50).toInt()}',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: tuYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("الثلاثاء"),
-                                              Text('18/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("${(moRHieght+50).toInt()}",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: moRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(moGHieght+50).toInt()}',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: moGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('${(moYHieght+50).toInt()}',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: moYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("الاثنان"),
-                                              Text('17/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("$suRText",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: suRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('$suGText',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: suGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('$suYText',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: suYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("الاحد"),
-                                              Text('15/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: <Widget>[
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text("$stRText",style: TextStyle(color: Colors.red,fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: stRHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.red,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('$stGText',style: TextStyle(color: Colors.green[300],fontSize: 10,fontWeight: FontWeight.bold),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: stGHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.green[300],
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Text('$stYText',style: TextStyle(color: Colors.yellow[800],fontWeight: FontWeight.bold,fontSize: 10),),
-                                                      AnimatedContainer(
-                                                        duration: Duration(seconds: 1),
-                                                        height: stYHieght,
-                                                        width: 10,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.yellow,
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(5),
-                                                              topRight: Radius.circular(5),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Text("السبت"),
-                                              Text('14/9',style: TextStyle(fontSize: 10),),
-                                            ],
-                                          ),
-                                          InkWell(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom+45),
-                                              child: Image.asset('assets/icons/ic_arrow_small_r.png',scale: 2,),
-                                            ),
-                                            onTap: () => ChangeHieghtAnimation(),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                                        )
                                 ],
                               ),
                       )
@@ -1437,7 +1714,6 @@ class _HomePageState extends State<HomePage> {
                         day.date,
                         style: TextStyle(
                             color: Colors.grey[400],
-                            fontWeight: FontWeight.bold,
                             fontSize:
                                 MediaQuery.of(context).size.width * 14 / 720),
                       ),
