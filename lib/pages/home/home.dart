@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   //width of the screen to init the siwiper postion
   int _stepCountValue;
   StreamSubscription _subscription;
+  var dateSplit;
 
   //to know where it's first time or not user to idnitfy swiper postion
   bool _firstPageLoad = true;
@@ -164,6 +165,8 @@ class _HomePageState extends State<HomePage> {
     getCustomerData();
     ChangeHieghtAnimation();
     getMeasurements(date);
+    dateSplit = date.split('-');                       // split the text into an array
+              
   }
 
 Dio dio = new Dio();
@@ -553,6 +556,7 @@ Dio dio = new Dio();
                   print(date);
                   getHomeFetch();
                   getMeasurements(date);
+                  selectedDate = e;
                 });
               }, currentTime: DateTime.now(), locale: LocaleType.ar);
             },
@@ -1419,7 +1423,7 @@ Dio dio = new Dio();
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '21/9',
+                                                          '21/${selectedDate.month}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
