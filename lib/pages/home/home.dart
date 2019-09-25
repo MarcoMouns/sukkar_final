@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/pages/home/measurementsPage.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -161,16 +163,14 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getCustomerData();
     ChangeHieghtAnimation();
-    var b = getMeasurements();
   }
 
 Dio dio = new Dio();
-final String baseUrl = 'http://104.248.168.117/api';
 
-  Future<bool> getMeasurements() async {
-   
-      FormData formdata = new FormData();
-      // get user token
+
+final String baseUrl = 'http://104.248.168.117/api';
+  Future<void> getMeasurements() async {
+    String currentDate = DateTime.now() as String ;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
@@ -179,12 +179,17 @@ final String baseUrl = 'http://104.248.168.117/api';
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       
-
-      response = await dio.get("$baseUrl/measurements/sugarReads");
-      print('Response = ${response.data}');
-
-
+      //print("http://104.248.168.117/api/measurements/sugarReads?date=2019-09-01");
+      print("==================================================================");
+      response = await dio.get("$baseUrl/measurements/sugarReads?date=2019-09-01");
+      // var data = response.data['week'];
+      // //var data = jsonDecode(response.data);
+      print("response=$response");
+      print(currentDate);
+      //print(data);
+  
   }
+  
 
 
   // static Random rnd = new Random();
@@ -389,16 +394,11 @@ final String baseUrl = 'http://104.248.168.117/api';
                                       ? allTranslations.text("high")
                                       : ''),
                   ontap: () {
-                    _showBottomSheet(
-                        context: context,
-                        model: model,
-                        type: 'sugar',
-                        title: "measure sugar",
-                        subTitle: "enterTodaySugar",
-                        imageName: "ic_blood_pressure",
-                        min: 0.0,
-                        max: 600.0);
-                  },
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => MeasurementsPage()),
+  );
+},
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
