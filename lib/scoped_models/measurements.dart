@@ -45,7 +45,7 @@ mixin MeasurementsScopedModel on Model {
     }
   }
 
-
+  
   
 
 

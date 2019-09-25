@@ -163,30 +163,35 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getCustomerData();
     ChangeHieghtAnimation();
+    getMeasurements(date);
   }
 
 Dio dio = new Dio();
 
 
-final String baseUrl = 'http://104.248.168.117/api';
-  Future<void> getMeasurements() async {
-    String currentDate = DateTime.now() as String ;
+  final String baseUrl = 'http://104.248.168.117/api';
+  Future<Response> getMeasurements(String date) async {
+    Response response;
+    
+     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-      dio.options.headers = {
+    var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      
-      //print("http://104.248.168.117/api/measurements/sugarReads?date=2019-09-01");
+     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date",options:  Options(headers: headers));
+      print("response=$response.data.toString()");
       print("==================================================================");
-      response = await dio.get("$baseUrl/measurements/sugarReads?date=2019-09-01");
-      // var data = response.data['week'];
-      // //var data = jsonDecode(response.data);
-      print("response=$response");
-      print(currentDate);
-      //print(data);
+      print("response=$response.data.toString()");
+      
+      }
+      catch(e){
+        print("error =====================");
+      }
+      
+      return response;
   
   }
   
@@ -396,7 +401,7 @@ final String baseUrl = 'http://104.248.168.117/api';
                   ontap: () {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => MeasurementsPage()),
+    MaterialPageRoute(builder: (context) =>AddSugar()),
   );
 },
                   footer: Row(
@@ -582,6 +587,7 @@ final String baseUrl = 'http://104.248.168.117/api';
 //                    )
 
                       new Column(
+                        
                     children: <Widget>[
                       Container(
                         height: MediaQuery.of(context).size.height * 0.455,

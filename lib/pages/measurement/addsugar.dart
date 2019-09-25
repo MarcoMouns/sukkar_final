@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/sugar.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddSugar extends StatefulWidget {
   @override
@@ -17,11 +23,41 @@ class _AddSugarState extends State<AddSugar> {
 
   List<Sugar> _sugar = List();
   String now = "";
+  MeasurementsScopedModel model;
   _getTime() async {
     now = intl.DateFormat("yyyy MMM dd", allTranslations.locale.languageCode)
         .format(DateTime.now());
     setState(() {});
   }
+
+  Response response;
+  Dio dio = new Dio();
+  Future<Response> getMeasurements(String date) async {
+    Response response;
+    
+     try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date",options:  Options(headers: headers));
+      print("response=$response.data.toString()");
+      print("==================================================================");
+      print("response=$response.data.toString()");
+      
+      }
+      catch(e){
+        print("error =====================");
+      }
+      
+      return response;
+  
+  }
+
+  
 
   _getDummySleepingTime() {
     _sugar.add(Sugar(count: 80, date: "7aba w shoia"));
@@ -95,6 +131,8 @@ class _AddSugarState extends State<AddSugar> {
                           ),
                         ),
                         onTap: () {
+                          getMeasurements("2019-09-11");
+
                        
                         },
                       ),
@@ -159,4 +197,8 @@ class _AddSugarState extends State<AddSugar> {
       ),
     ));
   }
+
+
+
+
 }
