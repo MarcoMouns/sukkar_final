@@ -167,6 +167,7 @@ mixin UserScopedModel on Model {
         "image": response.data['user']['image'],
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
+        "weight": response.data['user']['weight'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -225,6 +226,7 @@ mixin UserScopedModel on Model {
         "image": response.data['user']['image'],
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
+        "weight": response.data['user']['weight'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -363,6 +365,7 @@ mixin UserScopedModel on Model {
         "image": response.data['user']['image'],
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
+        "weight": response.data['user']['weight'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -438,6 +441,7 @@ mixin UserScopedModel on Model {
         "image": response.data['user']['image'],
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
+        "weight": response.data['user']['weight'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });

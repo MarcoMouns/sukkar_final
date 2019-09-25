@@ -34,6 +34,7 @@ class User {
   String tokenId;
   int gender;
   int hight;
+  int weight;
   int generatedCode;
   String birthDate;
   int type;
@@ -51,6 +52,7 @@ class User {
       this.tokenId,
       this.gender,
       this.hight,
+        this.weight,
       this.generatedCode,
       this.birthDate,
       this.type,
@@ -68,6 +70,7 @@ class User {
     tokenId = json['token_id'];
     gender = json['gender'];
     hight = json['hight'];
+    weight= json['weight'];
     generatedCode = json['generated_code'];
     birthDate = json['birth_date'];
     type = json['type'];

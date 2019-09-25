@@ -370,6 +370,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                           print(e.response.data);
                           return false;
                         }
+                        return true;
 //                        Navigator.pop(context);
                       },
                     ),

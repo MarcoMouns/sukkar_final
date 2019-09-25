@@ -570,7 +570,7 @@ class _MapPageState extends State<MapPage> {
                                 isNotFloat: true),
                             MapItem(
                                 title: "cals",
-                                value: "0",
+                                value: "${(_polylineIdCounter*0.0512).ceil()}",
                                 image: "ic_cal",
                                 isLeft: false)
                           ],
@@ -645,6 +645,7 @@ class _MapPageState extends State<MapPage> {
                                     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                     formdata.add("distance", meter);
                                     formdata.add("steps", _polylineIdCounter);
+                                    formdata.add("calories", _polylineIdCounter*0.0512);
                                     print(
                                         '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                     print(formdata);
