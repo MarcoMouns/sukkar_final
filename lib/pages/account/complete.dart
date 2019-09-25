@@ -8,6 +8,9 @@ import '../../helpers/color_transform.dart';
 import '../../scoped_models/main.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Complete extends StatefulWidget {
   final String phone;
@@ -119,7 +122,59 @@ class _CompleteState extends State<Complete> {
         });
   }
 
-  void _handleSubmitted(BuildContext context, MainModel model) {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  SharedPreferences prefs;
+  String uidx;
+
+  Future<String> signIn() async {
+    final FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
+      email: "test1@yahoo.com",
+      password: "12345678",
+    ))
+        .user;
+    return user.uid;
+  }
+
+  Future<Null> CreateCFSaccount(String uid) async{
+
+    if (!_formKey.currentState.validate()
+        ||
+//        _formData['image'] == null ||
+        _formData['phone'] == null
+    ) {
+      _autoValidate = true; // Start validating on every change.
+      print(_formData);
+
+      showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
+    }else{
+      _formKey.currentState.save();
+      setState(() {
+        _isLoading = true;
+      });
+      print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
+      print(_formData['userName']);
+      print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
+      Firestore.instance.collection('users').document(uid).setData({
+        'nickname': _formData['userName'],
+        'photoUrl': _formData['image'],
+        'id': uid,
+        'isDoctor': false,
+        'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
+        'chattingWith': null
+      });
+
+      prefs = await SharedPreferences.getInstance();
+
+      // Write data to local
+      await prefs.setString('Rid', uid);
+      await prefs.setString('Rnickname', _formData['userName']);
+      await prefs.setString('RphotoUrl', _formData['image']);
+    }
+  }
+
+  void _handleSubmitted(BuildContext context, MainModel model,){
+
+
     Locale myLocale = Localizations.localeOf(context);
 //    final FormState form = _formKey.currentState;
     setState(() {
@@ -412,7 +467,7 @@ class _CompleteState extends State<Complete> {
                                   elevation: 0.0,
                                   color: Settings.mainColor(),
                                   textColor: Colors.white,
-                                  onPressed: () async {
+                                  onPressed: () {
                                     _showPrivacyPolicy(model);
                                   },
                                   child: Container(
@@ -453,9 +508,12 @@ class _CompleteState extends State<Complete> {
                   allTranslations.text("Agree"),
                   style: TextStyle(color: Colors.blue),
                 ),
-                onTap: () {
+                onTap: () async{
 //                  Navigator.of(context).pop();
-                  _handleSubmitted(context, model);
+                  uidx = await signIn();
+                  CreateCFSaccount(uidx);
+                  _handleSubmitted(context, model,);
+
                 },
               ),
               InkWell(
