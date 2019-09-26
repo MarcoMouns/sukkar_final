@@ -432,7 +432,7 @@ Future<Response> getMeasurements(String date1) async {
                   ontap: () {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) =>AddSugar()),
+    MaterialPageRoute(builder: (context) =>AddSugar(selectedDate)),
   );
 },
                   footer: Row(
@@ -880,15 +880,15 @@ Future<Response> getMeasurements(String date1) async {
                                                         Column(
                                                           children: <Widget>[
                                                             Text(
-                                                              "${(frRHieght).toInt()}",
+                                                              "${measuresData[0][0]}",
                                                               style: TextStyle(
-                                                                  color: Colors.red,
+                                                                  color: (measuresData[0][0]) < 120 ? Colors.green[300] : (measuresData[0][0]) < 150? Colors.yellow[800]:Color(0xFFd17356),
                                                                   fontSize: 10),
                                                             ),
                                                             AnimatedContainer(
                                                               duration: Duration(
                                                                   milliseconds: istrue ? 0 : 300),
-                                                              height: frRHieght,
+                                                              height: (measuresData[0][0]).toDouble() > 100.0 ? 100 : (measuresData[0][0]).toDouble(),
                                                               width: 10,
                                                               decoration: BoxDecoration(
                                                                   color: Color(0xFFd17356),
@@ -903,19 +903,19 @@ Future<Response> getMeasurements(String date1) async {
                                                         Column(
                                                           children: <Widget>[
                                                             Text(
-                                                              '${(frGHieght).toInt()}',
+                                                              '${(measuresData[0][1])}',
                                                               style: TextStyle(
-                                                                color: Colors.green[300],
+                                                                color: (measuresData[0][1]) < 120 ? Colors.green[300] : (measuresData[0][1]) < 150? Colors.yellow[800]:Color(0xFFd17356),
                                                                 fontSize: 10,
                                                               ),
                                                             ),
                                                             AnimatedContainer(
                                                               duration: Duration(
                                                                   seconds: istrue ? 0 : 1),
-                                                              height: frGHieght,
+                                                              height: (measuresData[0][1]).toDouble() > 100.0 ? 100 : (measuresData[0][0]).toDouble(),
                                                               width: 10,
                                                               decoration: BoxDecoration(
-                                                                  color: Colors.green[300],
+                                                                  color:(measuresData[0][1]) < 120 ? Colors.green[300] : (measuresData[0][1]) < 150? Colors.yellow[800]:Color(0xFFd17356),
                                                                   borderRadius: BorderRadius.only(
                                                                     topLeft: Radius.circular(5),
                                                                     topRight: Radius.circular(5),
@@ -927,18 +927,20 @@ Future<Response> getMeasurements(String date1) async {
                                                         Column(
                                                           children: <Widget>[
                                                             Text(
-                                                              '${(frYHieght).toInt()}',
+                                                              '${measuresData[0][2]}',
                                                               style: TextStyle(
-                                                                  color: Colors.yellow[800],
+                                                                  color: (measuresData[0][2]) < 120 ? Colors.green[300] : 
+                                                                                       (measuresData[0][2]) < 150? Colors.yellow[800]:Color(0xFFd17356),
                                                                   fontSize: 10),
                                                             ),
                                                             AnimatedContainer(
                                                               duration: Duration(
                                                                   milliseconds: istrue ? 0 : 300),
-                                                              height: frYHieght,
+                                                              height: (measuresData[0][2]).toDouble() > 100.0 ? 100 : (measuresData[0][2]).toDouble(),
                                                               width: 10,
                                                               decoration: BoxDecoration(
-                                                                  color: Color(0xFFed982f),
+                                                                  color: (measuresData[0][2]) < 120 ? Colors.green[300] : (measuresData[0][2]) < 150? Colors.yellow[800]:Color(0xFFd17356),
+                                                                  //Colors.yellow[800]
                                                                   borderRadius: BorderRadius.only(
                                                                     topLeft: Radius.circular(5),
                                                                     topRight: Radius.circular(5),
@@ -961,7 +963,7 @@ Future<Response> getMeasurements(String date1) async {
                                                         Column(
                                                           children: <Widget>[
                                                             Text(
-                                                              "${(thRHieght).toInt()}",
+                                                              "${measuresData[1][0]}",
                                                               style: TextStyle(
                                                                   color: Colors.red,
                                                                   fontSize: 10),
@@ -969,7 +971,7 @@ Future<Response> getMeasurements(String date1) async {
                                                             AnimatedContainer(
                                                               duration: Duration(
                                                                   milliseconds: istrue ? 0 : 300),
-                                                              height: thRHieght,
+                                                              height: (measuresData[1][0]).toDouble() > 100.0 ? 100 : (measuresData[1][0]).toDouble(),
                                                               width: 10,
                                                               decoration: BoxDecoration(
                                                                   color: Color(0xFFd17356),

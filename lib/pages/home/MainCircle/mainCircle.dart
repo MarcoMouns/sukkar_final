@@ -119,7 +119,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                 ? Wrap()
                                 : FittedBox(
                               child: Text(
-                                "سليم",
+                                widget.status,
                                 style: TextStyle(color: Colors.redAccent,height: 1),
                               ),
                             ),

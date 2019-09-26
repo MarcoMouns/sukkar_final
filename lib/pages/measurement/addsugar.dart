@@ -5,16 +5,30 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/sugar.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:health/pages/Settings.dart' as settings;
+
 
 class AddSugar extends StatefulWidget {
+  static DateTime date;
+
+  AddSugar([DateTime d ]){
+    date = d;
+  }
+
+
   @override
   _AddSugarState createState() => _AddSugarState();
 }
 
 class _AddSugarState extends State<AddSugar> {
+  
+  DateTime date = AddSugar.date;
+  _AddSugarState();
+
   void initState() {
     _getDummySleepingTime();
     _getTime();
@@ -26,7 +40,7 @@ class _AddSugarState extends State<AddSugar> {
   MeasurementsScopedModel model;
   _getTime() async {
     now = intl.DateFormat("yyyy MMM dd", allTranslations.locale.languageCode)
-        .format(DateTime.now());
+        .format(date);
     setState(() {});
   }
 
@@ -96,10 +110,10 @@ class _AddSugarState extends State<AddSugar> {
                       now,
                       style: TextStyle(color: Colors.red, fontSize: 25.0),
                     ),
-                    subtitle: Text(
-                      intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
-                      style: TextStyle(color: Colors.red),
-                    ),
+                    // subtitle: Text(
+                    //   intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
+                    //   style: TextStyle(color: Colors.red),
+                    // ),
                     trailing: Image.asset(
                       "assets/icons/ic_logo_3.png",
                       color: Colors.blue,width: 50,height: 50,
@@ -131,9 +145,39 @@ class _AddSugarState extends State<AddSugar> {
                           ),
                         ),
                         onTap: () {
-                          getMeasurements("2019-09-11");
+                          _showBottomSheet(
+                             context: context,
+                             model: model,
+                             type: 'sugar',
+                             title: "measure sugar",
+                             subTitle: "enterTodaySugar",
+                             imageName: "ic_blood_pressure",
+                             min: 0.0,
+                             max: 600.0
+                          );
 
-                       
+                        },
+                      ),
+                     
+                     Container(
+                       width: 10,
+                     ),
+                     InkWell(
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                          child: Text(
+                            allTranslations.text("measure"),
+                            textAlign: TextAlign.center,
+                          ),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Colors.grey[300], width: 1.5),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
                         },
                       ),
                     ],
@@ -199,6 +243,37 @@ class _AddSugarState extends State<AddSugar> {
   }
 
 
+  _showBottomSheet(
+      {BuildContext context,
+      MainModel model,
+      String title,
+      String type,
+      String subTitle,
+      String imageName,
+      double min,
+      double max}) async {
+    await showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return settings.BottomSheet(
+              title: title,
+              subtitle: subTitle,
+              image: imageName,
+              min: min,
+              max: max,
+              addSlider: true,
+              onSave: (String value) {
+                _handleSubmitted(context, model, value, type);
+              });
+        });
+  }
 
+    void _handleSubmitted(
+      BuildContext context, MainModel model, var value, String type) {
+    model.addMeasurements(type, value).then((result) async {
+//      print(result);
+    });
+  }
 
 }
