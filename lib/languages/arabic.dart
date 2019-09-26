@@ -148,4 +148,12 @@ Map<String, String> arabicLang = {
   "editProfile": "تعديل الصفحة الشخصية",
   "emptyFollowers": "لا يوجد متابعون",
   "emptyFollowing":  "لا يوجد متابعين",
+  "saturday":"السبت",
+  "sunday":"الاحد",
+  "monday":"الاثنين",
+  "tuesday":"الثلاثاء",
+  "wednesday":"الاربعاء",
+  "thursday":"الخميس",
+  "friday":"الجمعة"
+
 };

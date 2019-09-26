@@ -146,4 +146,12 @@ Map<String, String> englishLang = {
   "editProfile": "Edit profile",
   "emptyFollowers": "Empty Followers",
   "emptyFollowing":  "Empty Following",
+  "saturday":"Sat",
+  "sunday":"Sun",
+  "monday":"Mon",
+  "tuesday":"Tue",
+  "wednesday":"Wed",
+  "thursday":"Thu",
+  "friday":"Fri"
+ 
 };

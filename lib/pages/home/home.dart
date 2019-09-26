@@ -146,6 +146,8 @@ class _HomePageState extends State<HomePage> {
   bool loading1;
   bool loading2;
   bool initOpen = true;
+  var measuresData;
+  var datesOfMeasures;
 
 //  List list;
   List newList = [];
@@ -173,7 +175,7 @@ Dio dio = new Dio();
 
 
   final String baseUrl = 'http://104.248.168.117/api';
-  Future<Response> getMeasurements(String date) async {
+Future<Response> getMeasurements(String date1) async {
     Response response;
     
      try {
@@ -184,10 +186,35 @@ Dio dio = new Dio();
     var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date",options:  Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================================================");
-      print("response=$response.data.toString()");
+    
+     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",options:  Options(headers: headers));
+    
+     
+     print("*******************************");
+     print(response.data);
+   
+     List<String> date = new List();
+     List<dynamic> suger = new List();
+     for (int i =0 ; i<= 6;i++){
+
+       date.add(response.data['week'][i]['date']);
+       suger.add(response.data['week'][i]['sugar']);
+       print(response.data['week'][i]['date']);
+       print(response.data['week'][i]['sugar']);
+
+     }
+     datesOfMeasures = date;
+     measuresData = suger;
+     print("#####################################################");
+     print(date);
+     print("#####################################################");
+
+     print("*******************************");
+     print("*******************************");
+     print("*******************************");
+     print("response=$response.data.toString()");
+     print("==================================================================");
+     print("response=$response.data.toString()");
       
       }
       catch(e){
@@ -197,6 +224,7 @@ Dio dio = new Dio();
       return response;
   
   }
+  
   
 
 
@@ -1417,13 +1445,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الجمعة",
+                                                           allTranslations.text("saturday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '21/${selectedDate.month}',
+                                                          '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
@@ -1432,12 +1460,12 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الخميس",
+                                                          allTranslations.text("sunday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
-                                                        Text('20/9',
+                                                        Text('${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
                                                             style: TextStyle(
                                                                 fontSize: 10, color: Colors.grey),
                                                             textScaleFactor: 1.0),
@@ -1446,13 +1474,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الاربعاء",
+                                                          allTranslations.text("monday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '19/9',
+                                                          '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
@@ -1461,13 +1489,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الثلاثاء",
+                                                          allTranslations.text("tuesday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '18/9',
+                                                          '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
@@ -1476,13 +1504,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الإثنين",
+                                                          allTranslations.text("wednesday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '17/9',
+                                                          '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
@@ -1491,13 +1519,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "الاحد",
+                                                          allTranslations.text("thursday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '15/9',
+                                                          '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
@@ -1506,13 +1534,13 @@ Dio dio = new Dio();
                                                     Column(
                                                       children: <Widget>[
                                                         Text(
-                                                          "السبت",
+                                                          allTranslations.text("friday"),
                                                           style: TextStyle(
                                                               fontSize: 12, color: Colors.grey),
                                                           textScaleFactor: 1.0,
                                                         ),
                                                         Text(
-                                                          '14/9',
+                                                          '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: 10, color: Colors.grey),
                                                         ),
