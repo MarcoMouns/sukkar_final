@@ -19,9 +19,6 @@ import 'package:intl/intl.dart' as intl;
 import 'dart:math';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
-
-// import 'package:health/pages/measurement/addsugar.dart';
-//import 'package:pedometer/pedometer.dart';
 import 'package:health/pages/others/barCharts.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
@@ -29,7 +26,6 @@ import 'package:health/pages/Settings.dart' as settings;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
-
 
 class HomePage extends StatefulWidget {
   final PageController pageController;
@@ -59,10 +55,6 @@ class _HomePageState extends State<HomePage> {
 
   Response response;
 
- 
-
-
-
 //  Map dataHome;
   MeasurementsBean dataHome;
 
@@ -70,7 +62,6 @@ class _HomePageState extends State<HomePage> {
 
   ///hight and colors for the bar charts 3 colors and hieght for each bar per day
   ///in order to change them with containerAnimation
-
 
   double stGHieght = 0;
   double stRHieght = 0;
@@ -167,66 +158,40 @@ class _HomePageState extends State<HomePage> {
     getCustomerData();
     ChangeHieghtAnimation();
     getMeasurements(date);
-    dateSplit = date.split('-');                       // split the text into an array
-              
+    dateSplit = date.split('-'); // split the text into an array
   }
 
-Dio dio = new Dio();
-
+  Dio dio = new Dio();
 
   final String baseUrl = 'http://104.248.168.117/api';
-Future<Response> getMeasurements(String date1) async {
+  Future<Response> getMeasurements(String date1) async {
     Response response;
-    
-     try {
+
+    try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-    var headers = {
+      var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-    
-     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",options:  Options(headers: headers));
-    
-     
-     print("*******************************");
-     print(response.data);
-   
-     List<String> date = new List();
-     List<dynamic> suger = new List();
-     for (int i =0 ; i<= 6;i++){
 
-       date.add(response.data['week'][i]['date']);
-       suger.add(response.data['week'][i]['sugar']);
-       print(response.data['week'][i]['date']);
-       print(response.data['week'][i]['sugar']);
+      response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",
+          options: Options(headers: headers));
 
-     }
-     datesOfMeasures = date;
-     measuresData = suger;
-     print("#####################################################");
-     print(date);
-     print("#####################################################");
-
-     print("*******************************");
-     print("*******************************");
-     print("*******************************");
-     print("response=$response.data.toString()");
-     print("==================================================================");
-     print("response=$response.data.toString()");
-      
+      List<String> date = new List();
+      List<dynamic> suger = new List();
+      for (int i = 0; i <= 6; i++) {
+        date.add(response.data['week'][i]['date']);
       }
-      catch(e){
-        print("error =====================");
-      }
-      
-      return response;
-  
+      datesOfMeasures = date;
+      measuresData = suger;
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
   }
-  
-  
-
 
   // static Random rnd = new Random();
   // static int gmin = 50;
@@ -430,11 +395,12 @@ Future<Response> getMeasurements(String date1) async {
                                       ? allTranslations.text("high")
                                       : ''),
                   ontap: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) =>AddSugar(selectedDate)),
-  );
-},
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddSugar(selectedDate)),
+                    );
+                  },
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
@@ -608,428 +574,431 @@ Future<Response> getMeasurements(String date1) async {
         body: ScopedModelDescendant<MainModel>(
             builder: (BuildContext context, Widget child, MainModel model) {
           return Directionality(
-              textDirection: TextDirection.ltr,
-              child:
+            textDirection: TextDirection.ltr,
+            child:
 //                    ListView(
 //                      children: <Widget>[
 //                        Text('${newList}')
 //                      ],
 //                    )
 
-                  new Column(
-                    
-                children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.455,
-                    child: Row(
-                      children: <Widget>[
-                        RotatedBox(
-                          quarterTurns: 2,
-                          child: InkWell(
-                            child: Image.asset(
-                              "assets/icons/ic_arrow_r.png",
-                              matchTextDirection: true,
-                              width: 15,
-                              height: MediaQuery.of(context).size.height *
-                                  3 /
-                                  5,
-                            ),
-                            onTap: () {
-                              widget.pageController.animateToPage(0,
-                                  duration: Duration(milliseconds: 10),
-                                  curve: Curves.bounceIn);
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: upperCircles(context, _chartRadius, model),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            widget.pageController.animateToPage(2,
-                                curve: Curves.bounceIn,
-                                duration: Duration(milliseconds: 10));
-                          },
+                new Column(
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.455,
+                  child: Row(
+                    children: <Widget>[
+                      RotatedBox(
+                        quarterTurns: 2,
+                        child: InkWell(
                           child: Image.asset(
                             "assets/icons/ic_arrow_r.png",
-                            width: 15,
-                            height:
-                                MediaQuery.of(context).size.height * 3 / 5,
                             matchTextDirection: true,
+                            width: 15,
+                            height: MediaQuery.of(context).size.height * 3 / 5,
                           ),
+                          onTap: () {
+                            widget.pageController.animateToPage(0,
+                                duration: Duration(milliseconds: 10),
+                                curve: Curves.bounceIn);
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: upperCircles(context, _chartRadius, model),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          widget.pageController.animateToPage(2,
+                              curve: Curves.bounceIn,
+                              duration: Duration(milliseconds: 10));
+                        },
+                        child: Image.asset(
+                          "assets/icons/ic_arrow_r.png",
+                          width: 15,
+                          height: MediaQuery.of(context).size.height * 3 / 5,
+                          matchTextDirection: true,
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5),
-                  ),
-                  new Expanded(
-                    flex: 2,
-                    child: loading2 == true
-                        ? Padding(
-                            padding: EdgeInsets.all(20),
-                            child: Loading(),
-                          )
-                        : Column(
-                            children: <Widget>[
-                              new SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 11,
-                                child: Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: banners.length,
-                                    controller: _scrollController,
-                                    itemBuilder: (context, index) {
-                                      return banners[index].type ==
-                                              'advertise'
-                                          ? new Container(
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5),
+                ),
+                new Expanded(
+                  flex: 2,
+                  child: loading2 == true
+                      ? Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Loading(),
+                        )
+                      : Column(
+                          children: <Widget>[
+                            new SizedBox(
+                              height: MediaQuery.of(context).size.height / 11,
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: banners.length,
+                                  controller: _scrollController,
+                                  itemBuilder: (context, index) {
+                                    return banners[index].type == 'advertise'
+                                        ? new Container(
+                                            decoration: ShapeDecoration(
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        'http://104.248.168.117/${banners[index].image}'),
+                                                    fit: BoxFit.cover),
+                                                color: Colors.grey[200],
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10))),
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                100,
+                                          )
+                                        : new InkWell(
+                                            onTap:
+//                                    newList[index]['name'] == null
+//                                        ? null:
+                                                () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ArticleDetails(
+                                                          model,
+                                                          banners[index].name,
+                                                          banners[index].id),
+                                                ),
+                                              );
+                                            },
+                                            child: new Container(
                                               decoration: ShapeDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          'http://104.248.168.117/${banners[index].image}'),
-                                                      fit: BoxFit.cover),
                                                   color: Colors.grey[200],
-                                                  shape:
-                                                      RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10))),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10))),
                                               margin: EdgeInsets.symmetric(
                                                   horizontal: 5),
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width -
                                                   100,
-                                            )
-                                          : new InkWell(
-                                              onTap:
-//                                    newList[index]['name'] == null
-//                                        ? null:
-                                                  () async {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ArticleDetails(
-                                                            model,
-                                                            banners[index]
-                                                                .name,
-                                                            banners[index]
-                                                                .id),
-                                                  ),
-                                                );
-                                              },
-                                              child: new Container(
-                                                decoration: ShapeDecoration(
-                                                    color: Colors.grey[200],
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    10))),
-                                                margin:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                width:
-                                                    MediaQuery.of(context)
-                                                            .size
-                                                            .width -
-                                                        100,
-                                                child:
+                                              child:
 //                                      newList[index]['name'] == null
 //                                          ? Image.network(
 //                                              "http://104.248.168.117/${newList[index]['image']}",
 //                                              fit: BoxFit.cover,
 //                                            )
 //                                          :
-                                                    new Row(
-                                                  children: <Widget>[
-                                                    new Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets
-                                                                    .only(
-                                                              top: 10,
-                                                            ),
-                                                            child: Text(
-                                                              banners[index]
-                                                                  .name,
-                                                              style: TextStyle(
-                                                                  color: Color.fromRGBO(
-                                                                      41,
-                                                                      172,
-                                                                      216,
-                                                                      1),
-                                                                  fontSize:
-                                                                      20),
-                                                            ),
+                                                  new Row(
+                                                children: <Widget>[
+                                                  new Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            top: 10,
                                                           ),
-                                                          Padding(
-                                                            padding: EdgeInsets
-                                                                .only(
-                                                                    top:
-                                                                        10),
-                                                            child: Text(
-                                                              banners[index]
-                                                                  .created,
-                                                              style:
-                                                                  TextStyle(
-                                                                color: Colors
-                                                                    .grey,
-                                                                fontSize:
-                                                                    10,
-                                                              ),
-                                                            ),
+                                                          child: Text(
+                                                            banners[index].name,
+                                                            style: TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        41,
+                                                                        172,
+                                                                        216,
+                                                                        1),
+                                                                fontSize: 20),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 130,
-                                                      height: 100,
-                                                      child: ClipRRect(
-                                                        child:
-                                                            Image.network(
-                                                          "http://104.248.168.117/${banners[index].image}",
-                                                          fit: BoxFit.fill,
                                                         ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    10),
-                                                      ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 10),
+                                                          child: Text(
+                                                            banners[index]
+                                                                .created,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 10,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 130,
+                                                    height: 100,
+                                                    child: ClipRRect(
+                                                      child: Image.network(
+                                                        "http://104.248.168.117/${banners[index].image}",
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                    },
-                                  ),
+                                            ),
+                                          );
+                                  },
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 10),
-                              ),
-                              //new chart
-                              loading1 == true
-                                  ? Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: Loading(),
-                                    )
-                                  : new Container(
-                                      width: MediaQuery.of(context)
-                                              .size
-                                              .width
-                                          ,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                          0.24,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        color: Colors.grey.shade50,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: <Widget>[
-                                          InkWell(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(
-                                                      context)
-                                                      .padding
-                                                      .bottom +
-                                                      60),
-                                              child: Image.asset(
-                                                'assets/icons/ic_arrow_small_l.png',
-                                                scale: 2,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                            ),
+                            //new chart
+                            loading1 == true
+                                ? Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Loading(),
+                                  )
+                                : new Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.24,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.grey.shade50,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        InkWell(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .padding
+                                                        .bottom +
+                                                    60),
+                                            child: Image.asset(
+                                              'assets/icons/ic_arrow_small_l.png',
+                                              scale: 2,
+                                            ),
+                                          ),
+                                          onTap: () => ChangeHieghtAnimation(),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.9,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.24,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              /////////////////////////////
+                                              ///
+                                              ///
+                                              ///
+                                              ///
+                                              ///
+                                              ///
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: charts(),
                                               ),
-                                            ),
-                                            onTap: () =>
-                                                ChangeHieghtAnimation(),
+
+                                              //////////////////////////
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.9,
+                                                  height: 1,
+                                                  color: Colors.grey[500]),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: <Widget>[
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("saturday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("sunday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                          '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
+                                                          style: TextStyle(
+                                                              fontSize: 10,
+                                                              color:
+                                                                  Colors.grey),
+                                                          textScaleFactor: 1.0),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("monday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("tuesday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("wednesday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("thursday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("friday"),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: 10,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                          Container(
-                                            width: MediaQuery.of(context).size.width * 0.9,
-                                            height: MediaQuery.of(context).size.height * 0.24,
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                /////////////////////////////
-                                                ///
-                                                ///
-                                                ///
-                                                ///
-                                                ///
-                                                ///
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: charts(),
-                                                ),
-
-
-
-
-
-                                                //////////////////////////
-                                                Container(
-                                                    width:
-                                                    MediaQuery.of(context).size.width * 0.9,
-                                                    height: 1,
-                                                    color: Colors.grey[500]),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                                  children: <Widget>[
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                           allTranslations.text("saturday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("sunday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text('${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
-                                                            style: TextStyle(
-                                                                fontSize: 10, color: Colors.grey),
-                                                            textScaleFactor: 1.0),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("monday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("tuesday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("wednesday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("thursday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          allTranslations.text("friday"),
-                                                          style: TextStyle(
-                                                              fontSize: 12, color: Colors.grey),
-                                                          textScaleFactor: 1.0,
-                                                        ),
-                                                        Text(
-                                                          '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
-                                                          style: TextStyle(
-                                                              fontSize: 10, color: Colors.grey),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
+                                        ),
+                                        InkWell(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .padding
+                                                        .bottom +
+                                                    60),
+                                            child: Image.asset(
+                                              'assets/icons/ic_arrow_small_r.png',
+                                              scale: 2,
                                             ),
                                           ),
-                                          InkWell(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(
-                                                      context)
-                                                      .padding
-                                                      .bottom +
-                                                      60),
-                                              child: Image.asset(
-                                                'assets/icons/ic_arrow_small_r.png',
-                                                scale: 2,
-                                              ),
-                                            ),
-                                            onTap: () =>
-                                                ChangeHieghtAnimation(),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                            ],
-                          ),
-                  )
-                ],
-              ),
-            );
+                                          onTap: () => ChangeHieghtAnimation(),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                          ],
+                        ),
+                )
+              ],
+            ),
+          );
         }));
   }
 
@@ -1111,10 +1080,7 @@ Future<Response> getMeasurements(String date1) async {
     ..add(Day(day: allTranslations.text("الخميس"), date: "1/5"))
     ..add(Day(day: allTranslations.text("الجمعة"), date: "1/6"));
 
-
-
-
-List<Widget> charts() {
+  List<Widget> charts() {
     List<Widget> list = new List();
     for (int i = 0; i < 6; i++) {
       list.add(Row(
@@ -1132,51 +1098,43 @@ List<Widget> charts() {
     return list;
   }
 
-
-  List <Widget> inChart(int i){
-    List <Widget> list2 = new List();
-    for (int j = 0; j < 3; j++){
-              list2.add(
-                Column(
-                children: <Widget>[
-                  Text(
-                    "${measuresData[i][j]}",
-                    style: TextStyle(
-                        color: (measuresData[i][j]) < 120
-                            ? Colors.green[300]
-                            : (measuresData[i][j]) < 150
-                                ? Colors.yellow[800]
-                                : Color(0xFFd17356),
-                        fontSize: 10),
-                  ),
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: istrue ? 0 : 300),
-                    height: (measuresData[i][j]).toDouble() > 100.0
-                        ? 100
-                        : (measuresData[i][j]).toDouble(),
-                    width: 10,
-                    decoration: BoxDecoration(
-                        color: (measuresData[i][j]) < 120
-                            ? Colors.green[300]
-                            : (measuresData[i][j]) < 150
-                                ? Colors.yellow[800]
-                                : Color(0xFFd17356),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                        )),
-                  ),
-                ],
-              )
-              );
-            }
+  List<Widget> inChart(int i) {
+    List<Widget> list2 = new List();
+    for (int j = 0; j < 3; j++) {
+      list2.add(Column(
+        children: <Widget>[
+          Text(
+            "${measuresData[i][j]}",
+            style: TextStyle(
+                color: (measuresData[i][j]) < 120
+                    ? Colors.green[300]
+                    : (measuresData[i][j]) < 150
+                        ? Colors.yellow[800]
+                        : Color(0xFFd17356),
+                fontSize: 10),
+          ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: istrue ? 0 : 300),
+            height: (measuresData[i][j]).toDouble() > 100.0
+                ? 100
+                : (measuresData[i][j]).toDouble(),
+            width: 10,
+            decoration: BoxDecoration(
+                color: (measuresData[i][j]) < 120
+                    ? Colors.green[300]
+                    : (measuresData[i][j]) < 150
+                        ? Colors.yellow[800]
+                        : Color(0xFFd17356),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                )),
+          ),
+        ],
+      ));
+    }
     return list2;
   }
-
-
-
-
-
 
   Widget _daysWidget(BuildContext context) {
     return Row(
