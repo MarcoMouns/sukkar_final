@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     getHomeFetch();
     getCustomerData();
-    ChangeHieghtAnimation();
     getMeasurements(date);
     dateSplit = date.split('-'); // split the text into an array
   }
@@ -135,25 +134,57 @@ class _HomePageState extends State<HomePage> {
   bool istrue = false;
 
 
-
-  void ChangeHieghtAnimation() {
+  void incrementWeek (){
+    
     istrue = true;
-
-
-
-
-    setState(() {});
-
-    Future.delayed(Duration(milliseconds: initOpen ? 450 : 100), () {
+    selectedDate = selectedDate.add(new Duration(days: 7));
+    getMeasurements(date);
+print("waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
       initOpen = false;
       istrue = false;
-
+print("waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
 
       setState(() {
-        // Here you can write your code for open new view
+                  date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                  print(date);
+                  //getHomeFetch();
+                  getMeasurements(date);
+                  selectedDate = selectedDate;
       });
     });
+
+    
   }
+
+ void decrementWeek (){
+    istrue = true;
+    selectedDate = selectedDate.subtract(new Duration(days: 7));
+
+    setState(() {
+      //measuresData.clear();
+      
+    });
+    
+
+print("waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
+      initOpen = false;
+      istrue = false;
+print("waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
+      setState(() {
+                  date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+                  print(date);
+                  //getHomeFetch();
+                  getMeasurements(date);
+                  selectedDate = selectedDate;
+      });
+    });
+
+    
+  }
+
+
 
   getHomeFetch() {
     setState(() {
@@ -639,7 +670,7 @@ class _HomePageState extends State<HomePage> {
                                               scale: 2,
                                             ),
                                           ),
-                                          onTap: () => ChangeHieghtAnimation(),
+                                          onTap: () => decrementWeek (),
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)
@@ -691,14 +722,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("saturday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize:  MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -709,14 +740,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("sunday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                           '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
                                                           style: TextStyle(
-                                                              fontSize: 10,
+                                                              fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                               color:
                                                                   Colors.grey),
                                                           textScaleFactor: 1.0),
@@ -728,14 +759,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("monday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -746,14 +777,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("tuesday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize:MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -764,14 +795,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("wednesday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -782,14 +813,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("thursday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -800,14 +831,14 @@ class _HomePageState extends State<HomePage> {
                                                         allTranslations
                                                             .text("friday"),
                                                         style: TextStyle(
-                                                            fontSize: 12,
+                                                            fontSize: MediaQuery.of(context).size.width * 21 / 720,
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
                                                       Text(
                                                         '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: 10,
+                                                            fontSize: MediaQuery.of(context).size.width * 16 / 720,
                                                             color: Colors.grey),
                                                       ),
                                                     ],
@@ -829,7 +860,7 @@ class _HomePageState extends State<HomePage> {
                                               scale: 2,
                                             ),
                                           ),
-                                          onTap: () => ChangeHieghtAnimation(),
+                                          onTap: () => incrementWeek (),
                                         ),
                                       ],
                                     ),
@@ -912,18 +943,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<Day> days = List()
-    ..add(Day(day: allTranslations.text("السبت"), date: "12/30"))
-    ..add(Day(day: allTranslations.text("الأحد"), date: "1/1"))
-    ..add(Day(day: allTranslations.text("الإثنين"), date: "1/2"))
-    ..add(Day(day: allTranslations.text("الثلاثاء"), date: "1/3"))
-    ..add(Day(day: allTranslations.text("الأربعاء"), date: "1/4"))
-    ..add(Day(day: allTranslations.text("الخميس"), date: "1/5"))
-    ..add(Day(day: allTranslations.text("الجمعة"), date: "1/6"));
 
   List<Widget> charts() {
     List<Widget> list = new List();
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i <= 6; i++) {
       list.add(Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: inChart(i),
@@ -942,35 +965,39 @@ class _HomePageState extends State<HomePage> {
   List<Widget> inChart(int i) {
     List<Widget> list2 = new List();
     for (int j = 0; j < 3; j++) {
-      var data = measuresData[i][j];
-      if(measuresData[i][j]== 0 || measuresData[i][j] == null){
+      int val = measuresData[i][j];
+      Color barColor;
 
+
+      if(val <= 120 && val >= 70){
+        barColor = Colors.green[300];
+      }
+      else if (val < 60 || val > 200){
+        barColor = Color(0xFFd17356);
 
       }
+      else{
+        barColor = Colors.yellow[800];
+      }
+      
+
+ 
       list2.add(Column(
+        
         children: <Widget>[
           Text(
-            "${measuresData[i][j]}",
+            measuresData[i][j] == 0?"":"${measuresData[i][j]}",
             style: TextStyle(
-                color: (measuresData[i][j]) < 120
-                    ? Colors.green[300]
-                    : (measuresData[i][j]) < 150
-                        ? Colors.yellow[800]
-                        : Color(0xFFd17356),
-                fontSize: 10),
+                color: barColor,
+                fontSize: MediaQuery.of(context).size.width * 15 / 720),
           ),
           AnimatedContainer(
             duration: Duration(milliseconds: istrue ? 0 : 300),
-            height: (measuresData[i][j]).toDouble() > 100.0
-                ? 100
-                : (measuresData[i][j]).toDouble(),
-            width: 10,
+            height: (measuresData[i][j]).toDouble() > 300 ? 100 :
+                            ((measuresData[i][j]).toDouble() / 600)*200,
+            width: MediaQuery.of(context).size.width * 16 / 720,
             decoration: BoxDecoration(
-                color: (measuresData[i][j]) < 120
-                    ? Colors.green[300]
-                    : (measuresData[i][j]) < 150
-                        ? Colors.yellow[800]
-                        : Color(0xFFd17356),
+                color: barColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(5),
                   topRight: Radius.circular(5),
@@ -982,44 +1009,7 @@ class _HomePageState extends State<HomePage> {
     return list2;
   }
 
-  Widget _daysWidget(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: days.map((day) {
-          return Expanded(
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 100,
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        day.day,
-                        style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize:
-                                MediaQuery.of(context).size.width * 14 / 720),
-                      ),
-                      Text(
-                        day.date,
-                        style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize:
-                                MediaQuery.of(context).size.width * 14 / 720),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 100,
-                ),
-              ],
-            ),
-          );
-        }).toList());
-  }
+  
 
   _showBottomSheet(
       {BuildContext context,
