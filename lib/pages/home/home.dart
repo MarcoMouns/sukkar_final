@@ -95,6 +95,16 @@ class _HomePageState extends State<HomePage> {
     getCustomerData();
     getMeasurements(date);
     dateSplit = date.split('-'); // split the text into an array
+    getcal();
+  }
+
+  int ncal;
+  void getcal() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     ncal = prefs.getInt('calTarget');
+    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
+    print(ncal);
+    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
   }
 
   Dio dio = new Dio();
@@ -339,7 +349,11 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
               new LayoutId(
                   id: 2,
                   child: MainCircles.cal(
-                      percent: 0.5,
+                      percent: dataHome == null
+                          ? '0'
+                          : dataHome.calories == null
+                          ? '0'
+                          : dataHome.calories/ncal,
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
                       day_Calories: dataHome == null
@@ -350,11 +364,13 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                       ontap: () => null,
                       raduis: _chartRadius,
                       footerText:
-                          "Cal " + " 100 :" + allTranslations.text("Goal is"))),
+                          "Cal " + " $ncal :" + allTranslations.text("Goal is"))),
               new LayoutId(
                 id: 3,
                 child: MainCircles.steps(
-                    percent: 0.4,
+                    percent: dataHome == null
+                        ? 0
+                        : dataHome.steps == null ? 0 : dataHome.steps/(ncal/0.0912).toInt(),
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
                     steps: dataHome == null
@@ -363,12 +379,16 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                     raduis: _chartRadius,
                     onTap: () => null,
                     footerText:
-                        " Step " + "100 :" + allTranslations.text("Goal is")),
+                        " Step " + "${(ncal/0.0912).toInt()} :" + allTranslations.text("Goal is")),
               ),
               new LayoutId(
                 id: 4,
                 child: MainCircles.distance(
-                    percent: 0.3,
+                    percent: dataHome == null
+                        ? '0'
+                        : dataHome.distance == null
+                        ? '0'
+                        : dataHome.distance/((((ncal/0.0912)*0.762)/2).toInt()),
                     context: context,
                     raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
@@ -379,7 +399,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                             : dataHome.distance.toString(),
                     onTap: () => null,
                     footerText:
-                        " meter " + "200 :" + allTranslations.text("Goal is")),
+                        " meter " + "${(((ncal/0.0912)*0.762)/2).toInt()} :" + allTranslations.text("Goal is")),
               )
             ],
           );
