@@ -120,6 +120,7 @@ class _HomePageState extends State<HomePage> {
       List<dynamic> suger = new List();
       for (int i = 0; i <= 6; i++) {
         date.add(response.data['week'][i]['date']);
+        suger.add(response.data['week'][i]['sugar']);
       }
       datesOfMeasures = date;
       measuresData = suger;
@@ -941,6 +942,11 @@ class _HomePageState extends State<HomePage> {
   List<Widget> inChart(int i) {
     List<Widget> list2 = new List();
     for (int j = 0; j < 3; j++) {
+      var data = measuresData[i][j];
+      if(measuresData[i][j]== 0 || measuresData[i][j] == null){
+
+
+      }
       list2.add(Column(
         children: <Widget>[
           Text(
