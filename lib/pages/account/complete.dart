@@ -31,8 +31,6 @@ class _CompleteState extends State<Complete> {
   TextEditingController _injuryDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
-  bool hasPhoto=true;
-  bool picdone=false;
 
   Map<String, dynamic> _formData = {
     "image": null,
@@ -62,13 +60,11 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _formData['image'] = image;
       });
-      picdone=true;
       Navigator.pop(context);
     });
   }
 
   void _imagePicker(BuildContext context) {
-    hasPhoto=true;
     Locale myLocale = Localizations.localeOf(context);
     showCupertinoModalPopup(
         context: context,
@@ -132,7 +128,7 @@ class _CompleteState extends State<Complete> {
 
   Future<String> signIn() async {
     final FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-      email: "test3@yahoo.com",
+      email: "test2@yahoo.com",
       password: "12345678",
     ))
         .user;
@@ -299,13 +295,6 @@ class _CompleteState extends State<Complete> {
                                     )
                                   ],
                                 ),
-                              ),
-                              hasPhoto?
-                                  Container():
-                              Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width,
-                                child: Text("please add a picture",style: TextStyle(color: Colors.red),),
                               ),
                               new LogInInput(
                                 enabled: true,
@@ -479,14 +468,7 @@ class _CompleteState extends State<Complete> {
                                   color: Settings.mainColor(),
                                   textColor: Colors.white,
                                   onPressed: () {
-                                    if(hasPhoto&&picdone){
-                                      _showPrivacyPolicy(model);
-                                    }
-                                    else{
-                                      hasPhoto=false;
-                                      setState(() {
-                                      });
-                                    }
+                                    _showPrivacyPolicy(model);
                                   },
                                   child: Container(
                                       padding: EdgeInsets.all(0.0),
@@ -563,36 +545,11 @@ class UserImage extends StatelessWidget {
     //   userImage = NetworkImage(imageUrl);
     // }
     return Center(
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          CircleAvatar(
-            backgroundColor: Colors.white,
-            backgroundImage: userImage,
-            radius: 30,
-          ),
-          Container(
-            width: 80,
-            height: 80 ,
-          ),
-          imageFile==null?
-          Positioned(
-            right: 1,
-            bottom: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.blue,
-                  width: 2
-                ),
-              ),
-              child: Icon(Icons.add,color: Colors.black,),
-            ),
-          ):
-              Container(),
-        ],
-      )
+      child: CircleAvatar(
+        backgroundColor: Colors.white,
+        backgroundImage: userImage,
+        radius: 30,
+      ),
     );
   }
 }
