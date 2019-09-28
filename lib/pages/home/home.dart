@@ -972,7 +972,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
       if(val <= 120 && val >= 70){
         barColor = Colors.green[300];
       }
-      else if (val < 60 || val > 200){
+      else if (val > 200){
         barColor = Color(0xFFd17356);
 
       }
