@@ -60,72 +60,9 @@ class _HomePageState extends State<HomePage> {
 
   List<BannersListBean> banners = List<BannersListBean>();
 
-  ///hight and colors for the bar charts 3 colors and hieght for each bar per day
-  ///in order to change them with containerAnimation
+  
 
-  double stGHieght = 0;
-  double stRHieght = 0;
-  double stYHieght = 0;
-
-  double suGHieght = 0;
-  double suRHieght = 0;
-  double suYHieght = 0;
-
-  double moGHieght = 0;
-  double moRHieght = 0;
-  double moYHieght = 0;
-
-  double tuGHieght = 0;
-  double tuRHieght = 0;
-  double tuYHieght = 0;
-
-  double weGHieght = 0;
-  double weRHieght = 0;
-  double weYHieght = 0;
-
-  double thGHieght = 0;
-  double thRHieght = 0;
-  double thYHieght = 0;
-
-  double frGHieght = 0;
-  double frRHieght = 0;
-  double frYHieght = 0;
-
-  ///you wonder why i did this cuz simply the code is shitty
-  ///so i will not go further than that
-  ///
-  /// the same thing for the value of the suger pressure
-
-  // int stGText = 100;
-  // int stRText = 176;
-  // int stYText = 140;
-
-  // int suGText = 100;
-  // int suRText = 176;
-  // int suYText = 140;
-
-  // int moGText = 100;
-  // int moRText = 176;
-  // int moYText = 140;
-
-  // int tuGText = 100;
-  // int tuRText = 176;
-  // int tuYText = 140;
-
-  // int weGText = 100;
-  // int weRText = 176;
-  // int weYText = 140;
-
-  // int thGText = 100;
-  // int thRText = 176;
-  // int thYText = 140;
-
-  // int frGText = 100;
-  // int frRText = 176;
-  // int frYText = 140;
-
-  ///this variables GET sugar per day but not using them
-  ///note: thats not my code
+ 
   double dataCharts0 = 0.0;
   double dataCharts1 = 0.0;
   double dataCharts2 = 0.0;
@@ -193,120 +130,23 @@ class _HomePageState extends State<HomePage> {
     return response;
   }
 
-  // static Random rnd = new Random();
-  // static int gmin = 50;
-  // static int gmax = 100;
-  // static int rmin = 100;
-  // static int rmax = 120;
-  // static int ymin = 40;
-  // static int ymax = 80;
+
   bool istrue = false;
 
-  // bool ta8ier1;
-  // bool ta8ier2;
-  // bool ta8ier3;
-  // bool ta8ier4;
-  // bool ta8ier5;
-  // bool ta8ier6;
-  // bool ta8ier7;
-  // bool ta8ier8;
-  // bool ta8ier9;
-  // bool ta8ier10;
-  // bool ta8ier11;
-  // bool ta8ier12;
-  // bool ta8ier13;
-  // bool ta8ier14;
-  // bool ta8ier15;
-  // bool ta8ier16;
+
 
   void ChangeHieghtAnimation() {
     istrue = true;
-    // int r1 = gmin + rnd.nextInt(gmax - gmin);
-    // int r2 = gmin + rnd.nextInt(gmax - gmin);
-    // int r3 = gmin + rnd.nextInt(gmax - gmin);
-    // int r4 = rmin + rnd.nextInt(rmax - rmin);
-    // int r5 = rmin + rnd.nextInt(rmax - rmin);
-    // int r6 = rmin + rnd.nextInt(rmax - rmin);
-    // int r7 = ymin + rnd.nextInt(ymax - ymin);
-    // int r8 = ymin + rnd.nextInt(ymax - ymin);
-    // int r9 = ymin + rnd.nextInt(ymax - ymin);
-    // ta8ier1 = rnd.nextBool();
-    // ta8ier2 = rnd.nextBool();
-    // ta8ier3 = rnd.nextBool();
-    // ta8ier4 = rnd.nextBool();
-    // ta8ier5 = rnd.nextBool();
-    // ta8ier6 = rnd.nextBool();
-    // ta8ier7 = rnd.nextBool();
-    // ta8ier8 = rnd.nextBool();
-    // ta8ier9 = rnd.nextBool();
-    // ta8ier10 = rnd.nextBool();
-    // ta8ier11 = rnd.nextBool();
-    // ta8ier12 = rnd.nextBool();
-    // ta8ier13 = rnd.nextBool();
-    // ta8ier14 = rnd.nextBool();
-    // ta8ier15 = rnd.nextBool();
-    // ta8ier16 = rnd.nextBool();
 
-    stGHieght = 0;
-    stRHieght = 0;
-    stYHieght = 0;
 
-    suGHieght = 0;
-    suRHieght = 0;
-    suYHieght = 0;
 
-    moGHieght = 0;
-    moRHieght = 0;
-    moYHieght = 0;
-
-    tuGHieght = 0;
-    tuRHieght = 0;
-    tuYHieght = 0;
-
-    weGHieght = 0;
-    weRHieght = 0;
-    weYHieght = 0;
-
-    thGHieght = 0;
-    thRHieght = 0;
-    thYHieght = 0;
-
-    frGHieght = 0;
-    frRHieght = 0;
-    frYHieght = 0;
 
     setState(() {});
 
     Future.delayed(Duration(milliseconds: initOpen ? 450 : 100), () {
       initOpen = false;
       istrue = false;
-      // stGHieght = r1.toDouble();
-      // stRHieght = r4.toDouble();
-      // stYHieght = r7.toDouble();
 
-      // suGHieght = r2.toDouble();
-      // suRHieght = r5.toDouble();
-      // suYHieght = r8.toDouble();
-
-      // moGHieght = r3.toDouble();
-      // moRHieght = r6.toDouble();
-      // moYHieght = r9.toDouble();
-
-      // tuGHieght = r2.toDouble();
-      // tuRHieght = r6.toDouble();
-      // tuYHieght = r9.toDouble();
-
-      // weGHieght = r2.toDouble();
-      // weRHieght = r4.toDouble();
-      // weYHieght = r7.toDouble();
-
-      // thGHieght = r3.toDouble();
-      // thRHieght = r5.toDouble();
-      // thYHieght = r9.toDouble();
-
-      // frGHieght = r1.toDouble();
-      // frRHieght = r6.toDouble();
-      // frYHieght = r8.toDouble();
 
       setState(() {
         // Here you can write your code for open new view
