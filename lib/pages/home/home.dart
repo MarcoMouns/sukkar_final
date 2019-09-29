@@ -733,7 +733,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -790,7 +790,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -818,7 +818,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -846,7 +846,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -861,7 +861,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Column(
                                                     children: <Widget>[
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         allTranslations
                                                             .text("thursday"),
                                                         style: TextStyle(
@@ -902,7 +902,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -1036,7 +1036,14 @@ class _HomePageState extends State<HomePage> {
   List<Widget> inChart(int i) {
     List<Widget> list2 = new List();
     for (int j = 0; j < 3; j++) {
-      int val = measuresData[i][j];
+       int val;
+      if(measuresData[i][j]== null){
+        val=0;
+
+      }else{
+        val = measuresData[i][j];
+      }
+      
       Color barColor;
 
       if (val <= 120 && val >= 70) {
@@ -1050,16 +1057,16 @@ class _HomePageState extends State<HomePage> {
       list2.add(Column(
         children: <Widget>[
           Text(
-            measuresData[i][j] == 0 ? "" : "${measuresData[i][j]}",
+            val == 0 ? "" : val,
             style: TextStyle(
                 color: barColor,
                 fontSize: MediaQuery.of(context).size.width * 15 / 720),
           ),
           AnimatedContainer(
             duration: Duration(milliseconds: istrue ? 0 : 300),
-            height: (measuresData[i][j]).toDouble() > 300
+            height: val.toDouble() > 300
                 ? 100
-                : ((measuresData[i][j]).toDouble() / 600) * 200,
+                : (val.toDouble() / 600) * 200,
             width: MediaQuery.of(context).size.width * 16 / 720,
             decoration: BoxDecoration(
                 color: barColor,
