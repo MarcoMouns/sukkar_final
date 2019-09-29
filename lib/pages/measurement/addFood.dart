@@ -3,6 +3,7 @@ import 'package:health/Models/meal.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/measurement/itemList.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../Models/meals.dart';
@@ -101,16 +102,52 @@ class _AddFoodState extends State<AddFood> {
         setState(() {
           allMealsFoods = result.userFoods;
           _calories = result.userFoods.map((meal) => meal.calories).toList();
-          print('_calories = > $_calories');
+          print('******************************_calories = > $_calories');
+          addIntToSF();
+          getValuesSF();
           loading = false;
         });
       } else {}
     }).catchError((err) {
       print(err);
     });
-
     _getDummyMeals();
     _getTime();
+  }
+
+  addIntToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(_calories);
+    prefs.setInt('Rcalories', _calories.reduce((a, b) => a + b).toInt());
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+   // print(a);
+  }
+
+  getValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    int ncal = prefs.getInt('ncal');
+
+    print(ncal);
+
+    int rcalories = prefs.getInt('Rcalories');
+
+    print(rcalories);
+
+    int calTarget=0;
+
+    if(rcalories>ncal){
+      calTarget=rcalories-ncal;
+    }
+    prefs.setInt('calTarget', calTarget);
+    int x;
+    x= prefs.getInt('calTarget');
+
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+    print(x);
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+
   }
 
   _getTime() async {
