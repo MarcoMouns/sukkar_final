@@ -104,6 +104,13 @@ class _HomePageState extends State<HomePage> {
   Future<Response> getMeasurements(String date1) async {
     Response response;
 
+    if(measuresData == null){
+          for (int i = 0; i <= 6; i++) {
+        datesOfMeasures.add("");
+        measuresData.add(['0','0','0']);
+      }
+    }
+
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -761,7 +768,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                           '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: MediaQuery.of(
@@ -861,7 +868,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                   Column(
                                                     children: <Widget>[
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(
                                                         allTranslations
                                                             .text("thursday"),
                                                         style: TextStyle(
@@ -874,7 +881,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(
+                                                      Text(datesOfMeasures == null ? "":
                                                         '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -932,7 +939,13 @@ class _HomePageState extends State<HomePage> {
                                               scale: 2,
                                             ),
                                           ),
-                                          onTap: () => incrementWeek(),
+                                          onTap: () {
+                                            if(selectedDate.isAfter(DateTime.now())){
+                                            }
+                                            else{
+                                               incrementWeek();
+                                            }
+                                            },
                                         ),
                                       ],
                                     ),
