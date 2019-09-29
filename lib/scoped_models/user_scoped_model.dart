@@ -1,14 +1,9 @@
-// import 'dart:async';
-// import 'dart:math';
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:handin/src/models/user_model.dart';
-//third_party packages
 import 'package:scoped_model/scoped_model.dart';
-
 import '../shared-data.dart';
 
 

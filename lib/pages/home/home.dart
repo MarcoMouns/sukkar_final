@@ -1,25 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
-import 'package:health/pages/home/measurementsPage.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
-import 'package:health/Models/day.dart';
 import 'package:health/pages/home/articleDetails.dart';
-import 'package:intl/intl.dart' as intl;
-import 'dart:math';
-import 'dart:developer';
 import 'package:flutter/foundation.dart';
-import 'package:health/pages/others/barCharts.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
@@ -42,27 +35,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageController _bottomChartsPageViewController = PageController();
 
-  //width of the screen to init the siwiper postion
+
+//width of the screen to init the siwiper postion
   int _stepCountValue;
   StreamSubscription _subscription;
   var dateSplit;
-
-  //to know where it's first time or not user to idnitfy swiper postion
+//to know where it's first time or not user to idnitfy swiper postion
   bool _firstPageLoad = true;
-
-  //scrollController to init the swiper postion
+//scrollController to init the swiper postion
   ScrollController _scrollController;
-
   Response response;
-
 //  Map dataHome;
   MeasurementsBean dataHome;
-
   List<BannersListBean> banners = List<BannersListBean>();
-
-  
-
- 
   double dataCharts0 = 0.0;
   double dataCharts1 = 0.0;
   double dataCharts2 = 0.0;
@@ -76,13 +61,12 @@ class _HomePageState extends State<HomePage> {
   bool initOpen = true;
   var measuresData;
   var datesOfMeasures;
-
-//  List list;
+  bool istrue = false;
   List newList = [];
   List<int> _calories = [];
   DateTime selectedDate = DateTime.now();
   var date =
-      '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+    '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   init(BuildContext context) {
     _scrollController = ScrollController(
@@ -94,7 +78,6 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getCustomerData();
     getMeasurements(date);
-    dateSplit = date.split('-'); // split the text into an array
     getcal();
   }
 
@@ -145,7 +128,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  bool istrue = false;
+  
 
 
   void incrementWeek (){
@@ -162,7 +145,6 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
       setState(() {
                   date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
                   print(date);
-                  //getHomeFetch();
                   getMeasurements(date);
                   selectedDate = selectedDate;
       });
@@ -175,9 +157,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
     istrue = true;
     selectedDate = selectedDate.subtract(new Duration(days: 7));
 
-    setState(() {
-      //measuresData.clear();
-      
+    setState(() {   
     });
     
 
@@ -189,7 +169,6 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
       setState(() {
                   date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
                   print(date);
-                  //getHomeFetch();
                   getMeasurements(date);
                   selectedDate = selectedDate;
       });
