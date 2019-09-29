@@ -1,25 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
-import 'package:health/pages/home/measurementsPage.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
-import 'package:health/Models/day.dart';
 import 'package:health/pages/home/articleDetails.dart';
-import 'package:intl/intl.dart' as intl;
-import 'dart:math';
-import 'dart:developer';
 import 'package:flutter/foundation.dart';
-import 'package:health/pages/others/barCharts.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
@@ -42,27 +35,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   PageController _bottomChartsPageViewController = PageController();
 
-  //width of the screen to init the siwiper postion
+//width of the screen to init the siwiper postion
   int _stepCountValue;
   StreamSubscription _subscription;
   var dateSplit;
-
-  //to know where it's first time or not user to idnitfy swiper postion
+//to know where it's first time or not user to idnitfy swiper postion
   bool _firstPageLoad = true;
-
-  //scrollController to init the swiper postion
+//scrollController to init the swiper postion
   ScrollController _scrollController;
-
   Response response;
-
 //  Map dataHome;
   MeasurementsBean dataHome;
-
   List<BannersListBean> banners = List<BannersListBean>();
-
-  
-
- 
   double dataCharts0 = 0.0;
   double dataCharts1 = 0.0;
   double dataCharts2 = 0.0;
@@ -74,10 +58,11 @@ class _HomePageState extends State<HomePage> {
   bool loading1;
   bool loading2;
   bool initOpen = true;
-  var measuresData;
-  var datesOfMeasures;
 
-//  List list;
+  List<dynamic>measuresData = new List();
+  List<String>  datesOfMeasures = new List();
+ 
+  bool istrue = false;
   List newList = [];
   List<int> _calories = [];
   DateTime selectedDate = DateTime.now();
@@ -87,25 +72,25 @@ class _HomePageState extends State<HomePage> {
   init(BuildContext context) {
     _scrollController = ScrollController(
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
+        
   }
 
   initState() {
     super.initState();
-    getHomeFetch();
-    getCustomerData();
     getMeasurements(date);
-    dateSplit = date.split('-'); // split the text into an array
+    getCustomerData();
+    getHomeFetch();
     getcal();
+
   }
 
   int ncal;
-  void getcal() async{
+  void getcal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     ncal = prefs.getInt('calTarget');
-     if(ncal==null)
-       {
-         ncal=0;
-       }
+    ncal = prefs.getInt('calTarget');
+    if (ncal == null) {
+      ncal = 0;
+    }
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
@@ -114,6 +99,8 @@ class _HomePageState extends State<HomePage> {
   Dio dio = new Dio();
 
   final String baseUrl = 'http://104.248.168.117/api';
+
+
   Future<Response> getMeasurements(String date1) async {
     Response response;
 
@@ -136,69 +123,61 @@ class _HomePageState extends State<HomePage> {
         suger.add(response.data['week'][i]['sugar']);
       }
       datesOfMeasures = date;
+      print(datesOfMeasures);
       measuresData = suger;
+      setState(() {
+        
+      });
     } catch (e) {
       print("error =====================");
     }
 
+    print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
   }
 
-
-  bool istrue = false;
-
-
-  void incrementWeek (){
-    
+  void incrementWeek() {
     istrue = true;
     selectedDate = selectedDate.add(new Duration(days: 7));
     getMeasurements(date);
-print("waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print(
+        "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
       initOpen = false;
       istrue = false;
-print("waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
+      print(
+          "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
 
       setState(() {
-                  date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-                  print(date);
-                  //getHomeFetch();
-                  getMeasurements(date);
-                  selectedDate = selectedDate;
+        date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+        print(date);
+        getMeasurements(date);
+        selectedDate = selectedDate;
       });
     });
-
-    
   }
 
- void decrementWeek (){
+  void decrementWeek() {
     istrue = true;
     selectedDate = selectedDate.subtract(new Duration(days: 7));
 
-    setState(() {
-      //measuresData.clear();
-      
-    });
-    
+    setState(() {});
 
-print("waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    print(
+        "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
       initOpen = false;
       istrue = false;
-print("waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
+      print(
+          "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
       setState(() {
-                  date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
-                  print(date);
-                  //getHomeFetch();
-                  getMeasurements(date);
-                  selectedDate = selectedDate;
+        date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+        print(date);
+        getMeasurements(date);
+        selectedDate = selectedDate;
       });
     });
-
-    
   }
-
-
 
   getHomeFetch() {
     setState(() {
@@ -235,7 +214,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
 
   void _onError(error) => print("Flutter Pedometer Error: $error");
 
-  void _onCancel() => _subscription.cancel();
+  // void _onCancel() => _subscription.cancel();
 
   //------------------ END STEP COUNTER -------------//
 
@@ -247,7 +226,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
   }
 
   dispose() {
-    _onCancel();
+    // _onCancel();
     super.dispose();
   }
 
@@ -356,8 +335,8 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                       percent: dataHome == null
                           ? 0
                           : dataHome.calories == null
-                          ? 0
-                          : (dataHome.calories/ncal),
+                              ? 0
+                              : (dataHome.calories / ncal),
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
                       day_Calories: dataHome == null
@@ -367,14 +346,17 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                               : dataHome.calories.toString(),
                       ontap: () => null,
                       raduis: _chartRadius,
-                      footerText:
-                          "Cal " + " $ncal :" + allTranslations.text("Goal is"))),
+                      footerText: "Cal " +
+                          " $ncal :" +
+                          allTranslations.text("Goal is"))),
               new LayoutId(
                 id: 3,
                 child: MainCircles.steps(
                     percent: dataHome == null
                         ? 0
-                        : dataHome.steps == null ? 0 : dataHome.steps/(ncal/0.0912).toInt(),
+                        : dataHome.steps == null
+                            ? 0
+                            : dataHome.steps / (ncal / 0.0912).toInt(),
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
                     steps: dataHome == null
@@ -382,8 +364,9 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                         : dataHome.steps == null ? 0 : dataHome.steps,
                     raduis: _chartRadius,
                     onTap: () => null,
-                    footerText:
-                        " Step " + "${(ncal/0.0912).toInt()} :" + allTranslations.text("Goal is")),
+                    footerText: " Step " +
+                        "${(ncal / 0.0912).toInt()} :" +
+                        allTranslations.text("Goal is")),
               ),
               new LayoutId(
                 id: 4,
@@ -391,8 +374,9 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                     percent: dataHome == null
                         ? 0
                         : dataHome.distance == null
-                        ? 0
-                        : dataHome.distance/((((ncal/0.0912)*0.762)/2).toInt()),
+                            ? 0
+                            : dataHome.distance /
+                                ((((ncal / 0.0912) * 0.762) / 2).toInt()),
                     context: context,
                     raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
@@ -402,8 +386,9 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                             ? '0'
                             : dataHome.distance.toString(),
                     onTap: () => null,
-                    footerText:
-                        " meter " + "${(((ncal/0.0912)*0.762)/2).toInt()} :" + allTranslations.text("Goal is")),
+                    footerText: " meter " +
+                        "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
+                        allTranslations.text("Goal is")),
               )
             ],
           );
@@ -446,6 +431,7 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                   print(date);
                   getHomeFetch();
                   getMeasurements(date);
+
                   selectedDate = e;
                 });
               }, currentTime: DateTime.now(), locale: LocaleType.ar);
@@ -662,227 +648,295 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
                               padding: EdgeInsets.only(top: 10),
                             ),
                             //new chart
-                           loading1 == true
-                               ? Padding(
-                                   padding: EdgeInsets.all(20),
-                                   child: Loading(),
-                                 )
-                               : new Container(
-                                   width: MediaQuery.of(context).size.width,
-                                   height: MediaQuery.of(context).size.height *
-                                       0.24,
-                                   decoration: BoxDecoration(
-                                     borderRadius:
-                                         BorderRadius.all(Radius.circular(10)),
-                                     color: Colors.grey.shade50,
-                                   ),
-                                   child: Row(
-                                     mainAxisAlignment:
-                                         MainAxisAlignment.spaceAround,
-                                     crossAxisAlignment:
-                                         CrossAxisAlignment.end,
-                                     children: <Widget>[
-                                       InkWell(
-                                         child: Padding(
-                                           padding: EdgeInsets.only(
-                                               bottom: MediaQuery.of(context)
-                                                       .padding
-                                                       .bottom +
-                                                   60),
-                                           child: Image.asset(
-                                             'assets/icons/ic_arrow_small_l.png',
-                                             scale: 2,
-                                           ),
-                                         ),
-                                         onTap: () => decrementWeek (),
-                                       ),
-                                       Container(
-                                         width: MediaQuery.of(context)
-                                                 .size
-                                                 .width *
-                                             0.9,
-                                         height: MediaQuery.of(context)
-                                                 .size
-                                                 .height *
-                                             0.24,
-                                         child: Column(
-                                           mainAxisAlignment:
-                                               MainAxisAlignment.end,
-                                           crossAxisAlignment:
-                                               CrossAxisAlignment.end,
-                                           children: <Widget>[
-                                    
-                                             Row(
-                                               mainAxisAlignment:
-                                                   MainAxisAlignment
-                                                       .spaceBetween,
-                                               crossAxisAlignment:
-                                                   CrossAxisAlignment.end,
-                                               children: charts(),
-                                             ),
+                            loading1 == true
+                                ? Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Loading(),
+                                  )
+                                : new Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.24,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: Colors.grey.shade50,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        InkWell(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .padding
+                                                        .bottom +
+                                                    60),
+                                            child: Image.asset(
+                                              'assets/icons/ic_arrow_small_l.png',
+                                              scale: 2,
+                                            ),
+                                          ),
+                                          onTap: () => decrementWeek(),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.9,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.24,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: charts(),
 
-                                            
-                                             Container(
-                                                 width: MediaQuery.of(context)
-                                                         .size
-                                                         .width *
-                                                     0.9,
-                                                 height: 1,
-                                                 color: Colors.grey[500]),
-                                             Row(
-                                               mainAxisAlignment:
-                                                   MainAxisAlignment
-                                                       .spaceAround,
-                                               children: <Widget>[
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("saturday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize:  MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("sunday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                         '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
-                                                         style: TextStyle(
-                                                             fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                             color:
-                                                                 Colors.grey),
-                                                         textScaleFactor: 1.0),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("monday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("tuesday"),
-                                                       style: TextStyle(
-                                                           fontSize:MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("wednesday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("thursday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 Column(
-                                                   children: <Widget>[
-                                                     Text(
-                                                       allTranslations
-                                                           .text("friday"),
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 21 / 720,
-                                                           color: Colors.grey),
-                                                       textScaleFactor: 1.0,
-                                                     ),
-                                                     Text(
-                                                       '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
-                                                       style: TextStyle(
-                                                           fontSize: MediaQuery.of(context).size.width * 16 / 720,
-                                                           color: Colors.grey),
-                                                     ),
-                                                   ],
-                                                 ),
-                                               ],
-                                             )
-                                           ],
-                                         ),
-                                       ),
-                                       InkWell(
-                                         child: Padding(
-                                           padding: EdgeInsets.only(
-                                               bottom: MediaQuery.of(context)
-                                                       .padding
-                                                       .bottom +
-                                                   60),
-                                           child: Image.asset(
-                                             'assets/icons/ic_arrow_small_r.png',
-                                             scale: 2,
-                                           ),
-                                         ),
-                                         onTap: () => incrementWeek (),
-                                       ),
-                                     ],
-                                   ),
-                                 )
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.9,
+                                                  height: 1,
+                                                  color: Colors.grey[500]),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: <Widget>[
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("saturday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("sunday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                          '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
+                                                          style: TextStyle(
+                                                              fontSize: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  16 /
+                                                                  720,
+                                                              color:
+                                                                  Colors.grey),
+                                                          textScaleFactor: 1.0),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("monday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("tuesday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("wednesday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("thursday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("friday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(
+                                                        '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        InkWell(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                        .padding
+                                                        .bottom +
+                                                    60),
+                                            child: Image.asset(
+                                              'assets/icons/ic_arrow_small_r.png',
+                                              scale: 2,
+                                            ),
+                                          ),
+                                          onTap: () => incrementWeek(),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                           ],
                         ),
                 )
@@ -961,7 +1015,6 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
     );
   }
 
-
   List<Widget> charts() {
     List<Widget> list = new List();
     for (int i = 0; i <= 6; i++) {
@@ -986,32 +1039,27 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
       int val = measuresData[i][j];
       Color barColor;
 
-
-      if(val <= 120 && val >= 70){
+      if (val <= 120 && val >= 70) {
         barColor = Colors.green[300];
-      }
-      else if (val >=  200){
+      } else if (val >= 200) {
         barColor = Color(0xFFd17356);
-
-      }
-      else{
+      } else {
         barColor = Colors.yellow[800];
       }
 
- 
       list2.add(Column(
-        
         children: <Widget>[
           Text(
-            measuresData[i][j] == 0?"":"${measuresData[i][j]}",
+            measuresData[i][j] == 0 ? "" : "${measuresData[i][j]}",
             style: TextStyle(
                 color: barColor,
                 fontSize: MediaQuery.of(context).size.width * 15 / 720),
           ),
           AnimatedContainer(
             duration: Duration(milliseconds: istrue ? 0 : 300),
-            height: (measuresData[i][j]).toDouble() > 300 ? 100 :
-                            ((measuresData[i][j]).toDouble() / 600)*200,
+            height: (measuresData[i][j]).toDouble() > 300
+                ? 100
+                : ((measuresData[i][j]).toDouble() / 600) * 200,
             width: MediaQuery.of(context).size.width * 16 / 720,
             decoration: BoxDecoration(
                 color: barColor,
@@ -1025,8 +1073,6 @@ print("waaaaaaa++++++++++++++++++++++++++_______________________________________
     }
     return list2;
   }
-
-  
 
   _showBottomSheet(
       {BuildContext context,

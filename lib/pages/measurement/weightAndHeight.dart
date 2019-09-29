@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import "package:after_layout/after_layout.dart";
-import 'package:intl/intl.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightAndHeight extends StatefulWidget {
