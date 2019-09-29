@@ -54,7 +54,7 @@ class DataListBean {
   String phone;
   String image;
   String tokenId;
-  String hight;
+  int hight;
   String birthDate;
   String provider;
   String providerId;
@@ -62,7 +62,7 @@ class DataListBean {
   String deletedAt;
   String createdAt;
   String updatedAt;
-  String searchCode;
+  int searchCode;
   int id;
   int gender;
   int generatedCode;

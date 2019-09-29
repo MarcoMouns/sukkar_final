@@ -61,34 +61,36 @@ class _ArticleDetailsState extends State<ArticleDetails> {
     return  Directionality(
         textDirection: TextDirection.ltr,
         child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            //elevation: 0.0,
+            leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.share,
+                color: Colors.black,
+              ),
+            ),
+            title: Text(widget.title,style: TextStyle(color: Colors.red),),
+            centerTitle: true,
+            actions: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(Icons.close, color: Colors.redAccent),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    right: 10
+                ),
+              ),
+            ],
+          ),
    body: loading == true
        ? Loading()
        :ListView(
      children: <Widget>[
-       Row(
-         crossAxisAlignment: CrossAxisAlignment.center,
-         children: <Widget>[
-           IconButton(
-             onPressed: () {},
-             icon: Icon(
-               Icons.share,
-               color: Colors.black,
-             ),
-           ),
-           Expanded(
-             child: Center(child: Text(widget.title)),
-           ),
-           Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: InkWell(
-               onTap: () {
-                 Navigator.of(context).pop();
-               },
-               child: Icon(Icons.close, color: Colors.redAccent),
-             ),
-           )
-         ],
-       ),
        Image.network('http://104.248.168.117/$image',
            height: 250, fit: BoxFit.contain),
        Padding(
@@ -128,7 +130,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
            ),
          ),
          onTap: () async {
-           var url = 'http://104.248.168.117/$video';
+           var url = '$video';
            if (await canLaunch(url)) {
              await launch(url);
            } else {
@@ -146,7 +148,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
            ),
          ),
          onTap: () async {
-           var url = 'http://104.248.168.117/$file';
+           var url = '$file';
            if (await canLaunch(url)) {
              await launch(url);
            } else {

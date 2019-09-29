@@ -99,9 +99,7 @@ class _ProfileChartState extends State<ProfileChart> {
 //                    measurements == null
 //                        ? new Text('No result')
 //                        :
-                    loading == true
-                        ? Loading()
-                        : new Expanded(
+                   new Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
