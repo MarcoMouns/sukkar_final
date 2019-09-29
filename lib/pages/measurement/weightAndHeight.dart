@@ -24,7 +24,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
   double drawingHeigth;
 
   int userHeight = 90;
-  String userWidth ;
+  String userWidth ='0';
   Response response;
   Dio dio = new Dio();
 
@@ -348,10 +348,9 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                       onPressed: () async{
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         try {
-                          int cal= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
-                          prefs.setInt('ncal', cal);
+                          int average_calorie= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
                           print('***********************************************');
-                          print(cal);
+                          print(average_calorie);
                           print('***********************************************');
                           // get user token
                           SharedPreferences sharedPreferences =
@@ -367,7 +366,8 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                               "http://104.248.168.117/api/users/height-weight",data: {
                             "_method": 'PUT',
                             "height": userHeight,
-                            "weight": userWidth.toString()
+                            "weight": userWidth.toString(),
+                            "average_calorie": average_calorie,
                           });
                           print('Response = ${response.data}');
                           Navigator.of(context).pop();

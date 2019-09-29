@@ -11,6 +11,8 @@ import '../../Models/all_meals_foods.dart';
 
 import 'package:intl/intl.dart' as intl;
 
+import '../../shared-data.dart';
+
 class AddFood extends StatefulWidget {
   final MainModel model;
   AddFood(this.model);
@@ -25,6 +27,7 @@ class _AddFoodState extends State<AddFood> {
   List<UserFoods> allMealsFoods = List<UserFoods>();
   List<int> _calories = [];
   bool loading;
+  int Rcalories;
 
   _getDummyMeals() {
     _meals.add(Meal(type: "lanuch", food: "eggs"));
@@ -118,7 +121,12 @@ class _AddFoodState extends State<AddFood> {
   addIntToSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print(_calories);
-    prefs.setInt('Rcalories', _calories.reduce((a, b) => a + b).toInt());
+    if(_calories.length==0){
+      Rcalories=0;
+    }
+    else{
+      Rcalories = _calories.reduce((a, b) => a + b).toInt();
+    }
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
     // print(a);
@@ -126,19 +134,19 @@ class _AddFoodState extends State<AddFood> {
 
   getValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    int ncal = prefs.getInt('ncal');
+    int ncal = SharedData.customerData['average_calorie'];
+    if(ncal==null){
+      ncal=0;
+    }
 
     print(ncal);
 
-    int rcalories = prefs.getInt('Rcalories');
-
-    print(rcalories);
+    print(Rcalories);
 
     int calTarget=0;
 
-    if(rcalories>ncal){
-      calTarget=rcalories-ncal;
+    if(Rcalories>ncal && ncal!=0){
+      calTarget=Rcalories-ncal;
     }
     prefs.setInt('calTarget', calTarget);
     int x;

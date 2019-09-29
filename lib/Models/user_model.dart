@@ -35,6 +35,7 @@ class User {
   int gender;
   int hight;
   int weight;
+  int average_calorie;
   int generatedCode;
   String birthDate;
   int type;
@@ -53,6 +54,7 @@ class User {
       this.gender,
       this.hight,
         this.weight,
+        this.average_calorie,
       this.generatedCode,
       this.birthDate,
       this.type,
@@ -71,6 +73,7 @@ class User {
     gender = json['gender'];
     hight = json['hight'];
     weight= json['weight'];
+    average_calorie=json['average_calorie'];
     generatedCode = json['generated_code'];
     birthDate = json['birth_date'];
     type = json['type'];
@@ -90,6 +93,8 @@ class User {
     data['token_id'] = this.tokenId;
     data['gender'] = this.gender;
     data['hight'] = this.hight;
+    data['weight']= this.weight;
+    data['average_calorie']=this.average_calorie;
     data['generated_code'] = this.generatedCode;
     data['birth_date'] = this.birthDate;
     data['type'] = this.type;

@@ -172,7 +172,7 @@ class _CompleteState extends State<Complete> {
       // Write data to local
       await prefs.setString('Rid', uid);
       await prefs.setString('Rnickname', _formData['userName']);
-      await prefs.setString('RphotoUrl', _formData['image']);
+      //await prefs.setString('RphotoUrl', _formData['image']);
     }
   }
 

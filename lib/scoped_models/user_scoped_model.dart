@@ -168,6 +168,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -227,6 +228,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -366,6 +368,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
@@ -442,6 +445,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
       });
