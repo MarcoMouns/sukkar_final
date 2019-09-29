@@ -225,14 +225,12 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
       if (result != null) {
         setState(() {
           followers = result.data;
-          print(' Result followers= > ${followers}');
+          print('############################# Result followers= > ${followers}');
 //          setState(() {
 //            loading = false;
 //          });
         });
       } else {}
-    }).catchError((err) {
-      print(err);
     });
     widget.model.getFollowing().then((result) {
       print(' Result following = > ${result.data[0].name}');
@@ -346,7 +344,7 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                               return ProfileChart(
                                   image: followers[index].image,
                                   name: followers[index].name,
-                                  userId: followers[index].id,
+
                                   isMyProfile: false,
                                   date: "",
                                   model: widget.model);
@@ -506,7 +504,7 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                             )
                           : new IconButton(
                               icon: Image.asset(
-                                "assets/icons/ic_remove_friend.png",
+                                "assets/icons/ic_add_friend.png",
                                 fit: BoxFit.cover,
                               ),
                               padding: EdgeInsets.all(0),
@@ -523,7 +521,7 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
                                   };
 
                                   response = await dio.post(
-                                      "http://104.248.168.117/api/follow/${following[index].id}");
+                                      "http://104.248.168.117/api/unfollow/${following[index].id}");
                                   print('Response = ${response.data}');
 
                                 } on DioError catch (e) {
@@ -579,71 +577,39 @@ Widget _resultSearch(context) {
                   name,
                   style: TextStyle(color: Color.fromRGBO(112, 113, 113, 1)),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    state == 2
-                        ? new FlatButton(
-                            child: Image.asset(
-                              "assets/icons/ic_add_friends.png",
-                              fit: BoxFit.cover,
-                              width: 35,
-                            ),
-                            padding: EdgeInsets.all(0),
-                            onPressed: () async {
-                              //add friend search
-                              try {
-                                // get user token
-                                SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                                Map<String, dynamic> authUser = jsonDecode(
-                                    sharedPreferences.getString("authUser"));
-                                dio.options.headers = {
-                                  "Authorization":
-                                  "Bearer ${authUser['authToken']}",
-                                };
+                trailing: Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: FlatButton(
+                    child: Image.asset(
+                      "assets/icons/ic_remove_friend.png",
+                      fit: BoxFit.cover,
+                    ),
+                    padding: EdgeInsets.all(0),
+                    onPressed: () async {
+                      //add friend search
+                      try {
+                        // get user token
+                        SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                        Map<String, dynamic> authUser = jsonDecode(
+                            sharedPreferences.getString("authUser"));
+                        dio.options.headers = {
+                          "Authorization":
+                          "Bearer ${authUser['authToken']}",
+                        };
 
-                                response = await dio.post(
-                                    "http://104.248.168.117/api/follow/$id");
-                                print('Response = ${response.data}');
-                              } on DioError catch (e) {
-                                print(
-                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                print(e.response.data);
-                                return false;
-                              }
-                            },
-                          )
-                        : new IconButton(
-                            icon: Image.asset(
-                              "assets/icons/ic_remove_friend.png",
-                              fit: BoxFit.cover,
-                            ),
-                            padding: EdgeInsets.all(0),
-                            onPressed: () async {
-                              try {
-                                // get user token
-                                SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                                Map<String, dynamic> authUser = jsonDecode(
-                                    sharedPreferences.getString("authUser"));
-                                dio.options.headers = {
-                                  "Authorization":
-                                  "Bearer ${authUser['authToken']}",
-                                };
-
-                                response = await dio.post(
-                                    "http://104.248.168.117/api/unfollow/$id");
-                                print('Response = ${response.data}');
-                              } on DioError catch (e) {
-                                print(
-                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                print(e.response.data);
-                                return false;
-                              }
-                            },
-                          )
-                  ],
+                        response = await dio.post(
+                            "http://104.248.168.117/api/follow/$id");
+                        print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                        print('Response = ${response.data}');
+                      } on DioError catch (e) {
+                        print(
+                            "sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                        print(e.response.data);
+                        return false;
+                      }
+                    },
+                  ),
                 ),
               ),
             ),
