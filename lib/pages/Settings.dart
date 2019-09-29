@@ -431,6 +431,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           ),
                           onPressed: () {
                             widget.onSave(_controller.text);
+                            
                             Navigator.pop(context);
                           },
                         )
