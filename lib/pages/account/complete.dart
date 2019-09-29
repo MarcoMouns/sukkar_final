@@ -31,6 +31,8 @@ class _CompleteState extends State<Complete> {
   TextEditingController _injuryDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
+  bool hasPhoto=true;
+  bool picdone=false;
 
   Map<String, dynamic> _formData = {
     "image": null,
@@ -60,11 +62,13 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _formData['image'] = image;
       });
+      picdone=true;
       Navigator.pop(context);
     });
   }
 
   void _imagePicker(BuildContext context) {
+    hasPhoto=true;
     Locale myLocale = Localizations.localeOf(context);
     showCupertinoModalPopup(
         context: context,
@@ -128,7 +132,7 @@ class _CompleteState extends State<Complete> {
 
   Future<String> signIn() async {
     final FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-      email: "test2@yahoo.com",
+      email: "test3@yahoo.com",
       password: "12345678",
     ))
         .user;
@@ -260,7 +264,7 @@ class _CompleteState extends State<Complete> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     SizedBox(
                                       width: 24,
@@ -295,6 +299,13 @@ class _CompleteState extends State<Complete> {
                                     )
                                   ],
                                 ),
+                              ),
+                              hasPhoto?
+                              Container():
+                              Container(
+                                alignment: Alignment.center,
+                                width: MediaQuery.of(context).size.width,
+                                child: Text("please add a picture",style: TextStyle(color: Colors.red),),
                               ),
                               new LogInInput(
                                 enabled: true,
@@ -346,14 +357,14 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime(2030, 6, 7),
                                       onChanged: (date) {
-                                    _injuryDateController.text =
-                                        date.toString();
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    _injuryDateController.text =
-                                        date.toString();
-                                    print('confirm $date');
-                                  },
+                                        _injuryDateController.text =
+                                            date.toString();
+                                        print('change $date');
+                                      }, onConfirm: (date) {
+                                        _injuryDateController.text =
+                                            date.toString();
+                                        print('confirm $date');
+                                      },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -372,7 +383,7 @@ class _CompleteState extends State<Complete> {
                                   validator: (String val) {
                                     if (val.isEmpty) {
                                       return myLocale.languageCode
-                                              .contains("en")
+                                          .contains("en")
                                           ? "injury Date is required."
                                           : " تاريخ الاصابة مطلوب";
                                     }
@@ -419,36 +430,36 @@ class _CompleteState extends State<Complete> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Row(
-                                    children: <Widget>[
-                                      Radio(
-                                        activeColor: Colors.redAccent,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _gender = val;
-                                          });
-                                        },
-                                        value: 'male',
-                                        groupValue: _gender,
-                                      ),
-                                      Text(allTranslations.text("male"))
-                                    ],
-                                  )),
+                                        children: <Widget>[
+                                          Radio(
+                                            activeColor: Colors.redAccent,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                _gender = val;
+                                              });
+                                            },
+                                            value: 'male',
+                                            groupValue: _gender,
+                                          ),
+                                          Text(allTranslations.text("male"))
+                                        ],
+                                      )),
                                   Expanded(
                                       child: Row(
-                                    children: <Widget>[
-                                      Radio(
-                                        activeColor: Colors.redAccent,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _gender = val;
-                                          });
-                                        },
-                                        value: 'female',
-                                        groupValue: _gender,
-                                      ),
-                                      Text(allTranslations.text("female"))
-                                    ],
-                                  ))
+                                        children: <Widget>[
+                                          Radio(
+                                            activeColor: Colors.redAccent,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                _gender = val;
+                                              });
+                                            },
+                                            value: 'female',
+                                            groupValue: _gender,
+                                          ),
+                                          Text(allTranslations.text("female"))
+                                        ],
+                                      ))
                                 ],
                               ),
                             ],
@@ -460,27 +471,34 @@ class _CompleteState extends State<Complete> {
                               vertical: 0.0, horizontal: 30.0),
                           child: _isLoading
                               ? CupertinoActivityIndicator(
-                                  animating: true,
-                                  radius: 15,
-                                )
+                            animating: true,
+                            radius: 15,
+                          )
                               : RaisedButton(
-                                  elevation: 0.0,
-                                  color: Settings.mainColor(),
-                                  textColor: Colors.white,
-                                  onPressed: () {
-                                    _showPrivacyPolicy(model);
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.all(0.0),
-                                      width: double.infinity,
-                                      child: Text(
-                                        allTranslations.text("verify"),
-                                        style: TextStyle(fontSize: 18.0),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0))),
+                              elevation: 0.0,
+                              color: Settings.mainColor(),
+                              textColor: Colors.white,
+                              onPressed: () {
+                                if(hasPhoto&&picdone){
+                                  _showPrivacyPolicy(model);
+                                }
+                                else{
+                                  hasPhoto=false;
+                                  setState(() {
+                                  });
+                                }
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.all(0.0),
+                                  width: double.infinity,
+                                  child: Text(
+                                    allTranslations.text("verify"),
+                                    style: TextStyle(fontSize: 18.0),
+                                    textAlign: TextAlign.center,
+                                  )),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(20.0))),
                         ),
                       ],
                     ),
@@ -545,11 +563,36 @@ class UserImage extends StatelessWidget {
     //   userImage = NetworkImage(imageUrl);
     // }
     return Center(
-      child: CircleAvatar(
-        backgroundColor: Colors.white,
-        backgroundImage: userImage,
-        radius: 30,
-      ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: userImage,
+              radius: 30,
+            ),
+            Container(
+              width: 80,
+              height: 80 ,
+            ),
+            imageFile==null?
+            Positioned(
+              right: 1,
+              bottom: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: Colors.blue,
+                      width: 2
+                  ),
+                ),
+                child: Icon(Icons.add,color: Colors.black,),
+              ),
+            ):
+            Container(),
+          ],
+        )
     );
   }
 }

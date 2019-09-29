@@ -3,6 +3,7 @@ import 'package:health/Models/meal.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/measurement/itemList.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../Models/meals.dart';
@@ -36,8 +37,8 @@ class _AddFoodState extends State<AddFood> {
 //    print('All Meals = > ${allMeals.length}');
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) => SizedBox(
-            width: 10,
-          ),
+        width: 10,
+      ),
       scrollDirection: Axis.horizontal,
       itemCount: allMeals.length,
       itemBuilder: (BuildContext context, int index) {
@@ -101,16 +102,52 @@ class _AddFoodState extends State<AddFood> {
         setState(() {
           allMealsFoods = result.userFoods;
           _calories = result.userFoods.map((meal) => meal.calories).toList();
-          print('_calories = > $_calories');
+          print('******************************_calories = > $_calories');
+          addIntToSF();
+          getValuesSF();
           loading = false;
         });
       } else {}
     }).catchError((err) {
       print(err);
     });
-
     _getDummyMeals();
     _getTime();
+  }
+
+  addIntToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(_calories);
+    prefs.setInt('Rcalories', _calories.reduce((a, b) => a + b).toInt());
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+    // print(a);
+  }
+
+  getValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    int ncal = prefs.getInt('ncal');
+
+    print(ncal);
+
+    int rcalories = prefs.getInt('Rcalories');
+
+    print(rcalories);
+
+    int calTarget=0;
+
+    if(rcalories>ncal){
+      calTarget=rcalories-ncal;
+    }
+    prefs.setInt('calTarget', calTarget);
+    int x;
+    x= prefs.getInt('calTarget');
+
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+    print(x);
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+
   }
 
   _getTime() async {
@@ -166,11 +203,11 @@ class _AddFoodState extends State<AddFood> {
                             title: Text(
                               now,
                               style:
-                                  TextStyle(color: Colors.red, fontSize: 25.0),
+                              TextStyle(color: Colors.red, fontSize: 25.0),
                             ),
                             subtitle: Text(
                               intl.DateFormat("h:m a",
-                                      allTranslations.locale.languageCode)
+                                  allTranslations.locale.languageCode)
                                   .format(DateTime.now()),
                               style: TextStyle(color: Colors.red),
                             ),
@@ -216,19 +253,19 @@ class _AddFoodState extends State<AddFood> {
                           ),
                           new Column(
                               children: allMealsFoods.map((meal) {
-                            return Column(
-                              children: <Widget>[
-                                ListTile(
-                                  title: Text(
-                                    meal.eatcategories.titleAr,
-                                    style: TextStyle(
-                                        color: Colors.blue[300], fontSize: 20),
-                                  ),
-                                  subtitle: Text(
-                                    meal.titleAr,
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.blueGrey),
-                                  ),
+                                return Column(
+                                  children: <Widget>[
+                                    ListTile(
+                                      title: Text(
+                                        meal.eatcategories.titleAr,
+                                        style: TextStyle(
+                                            color: Colors.blue[300], fontSize: 20),
+                                      ),
+                                      subtitle: Text(
+                                        meal.titleAr,
+                                        style: TextStyle(
+                                            fontSize: 13, color: Colors.blueGrey),
+                                      ),
 //                                  trailing: InkWell(
 //                                    child: ImageIcon(
 //                                      AssetImage("assets/icons/ic_trash.png"),
@@ -240,14 +277,14 @@ class _AddFoodState extends State<AddFood> {
 //                                      setState(() {});
 //                                    },
 //                                  ),
-                                ),
-                                Divider(
-                                  height: 16,
-                                  color: Colors.blueGrey,
-                                )
-                              ],
-                            );
-                          }).toList())
+                                    ),
+                                    Divider(
+                                      height: 16,
+                                      color: Colors.blueGrey,
+                                    )
+                                  ],
+                                );
+                              }).toList())
                         ],
                       ),
                     ),

@@ -12,7 +12,6 @@ final String baseUrl = 'http://104.248.168.117/api';
 
 mixin MealScopedModel on Model {
   Response response;
-  Response response2;
   Dio dio = new Dio();
   // FoodsModel foodsModel = FoodsModel();
 
@@ -45,9 +44,9 @@ mixin MealScopedModel on Model {
   Future<UserFoodsModel> fetchUserFoods() async {
     try {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
@@ -79,9 +78,9 @@ mixin MealScopedModel on Model {
   Future<AllMealsFoodsModel> fetchAllMealsFoods() async {
     try {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
@@ -112,41 +111,33 @@ mixin MealScopedModel on Model {
   Future<bool> addSelectedFoods(List<Foods> foods, int mealId) async {
     try {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
         // "token":"11215"
       };
 
-      FormData formdataOld = new FormData();
-      FormData formdataNew = new FormData();
+      FormData formdata = new FormData();
 
       int foodIndex = 0;
       foods.forEach((food) {
         if (food != null) {
-          formdataNew.add(
-            'calories',
-            food.calories
-          );
-          formdataNew.add("date", DateTime.now());
-
-
-          formdataOld.add(
+          formdata.add(
             "request[$foodIndex][title_ar]",
             food.titleAr,
           );
-          formdataOld.add(
+          formdata.add(
             "request[$foodIndex][title_en]",
             food.titleEn,
           );
-          formdataOld.add(
+          formdata.add(
             "request[$foodIndex][calories]",
             food.calories,
           );
-          formdataOld.add(
+          formdata.add(
             "request[$foodIndex][eat_category_id]",
             mealId,
           );
@@ -155,16 +146,10 @@ mixin MealScopedModel on Model {
         }
       });
 
-      print("+++++++++++++++++++++++++++++ fromdate $formdataOld");
+      print("+++++++++++++++++++++++++++++ fromdate $formdata");
 
-      response = await dio.post("$baseUrl/Userfoodtaken", data: formdataOld);
+      response = await dio.post("$baseUrl/Userfoodtaken", data: formdata);
       print(".................................. ${response.data.toString()}");
-      print('*******************************************');
-      response2 = await dio.post(
-          "http://104.248.168.117/api/mapInformation",
-          data: formdataNew);
-      print(".................................. ${response2.data.toString()}");
-      print('*******************************************');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -186,9 +171,9 @@ mixin MealScopedModel on Model {
     try {
       // get user token
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
 
       FormData formdata = new FormData();
 
