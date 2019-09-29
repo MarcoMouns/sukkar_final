@@ -12,6 +12,7 @@ final String baseUrl = 'http://104.248.168.117/api';
 
 mixin MealScopedModel on Model {
   Response response;
+  Response response2;
   Dio dio = new Dio();
   // FoodsModel foodsModel = FoodsModel();
 
@@ -120,24 +121,32 @@ mixin MealScopedModel on Model {
         // "token":"11215"
       };
 
-      FormData formdata = new FormData();
+      FormData formdataOld = new FormData();
+      FormData formdataNew = new FormData();
 
       int foodIndex = 0;
       foods.forEach((food) {
         if (food != null) {
-          formdata.add(
+          formdataNew.add(
+            'calories',
+            food.calories
+          );
+          formdataNew.add("date", DateTime.now());
+
+
+          formdataOld.add(
             "request[$foodIndex][title_ar]",
             food.titleAr,
           );
-          formdata.add(
+          formdataOld.add(
             "request[$foodIndex][title_en]",
             food.titleEn,
           );
-          formdata.add(
+          formdataOld.add(
             "request[$foodIndex][calories]",
             food.calories,
           );
-          formdata.add(
+          formdataOld.add(
             "request[$foodIndex][eat_category_id]",
             mealId,
           );
@@ -146,10 +155,16 @@ mixin MealScopedModel on Model {
         }
       });
 
-      print("+++++++++++++++++++++++++++++ fromdate $formdata");
+      print("+++++++++++++++++++++++++++++ fromdate $formdataOld");
 
-      response = await dio.post("$baseUrl/Userfoodtaken", data: formdata);
+      response = await dio.post("$baseUrl/Userfoodtaken", data: formdataOld);
       print(".................................. ${response.data.toString()}");
+      print('*******************************************');
+      response2 = await dio.post(
+          "http://104.248.168.117/api/mapInformation",
+          data: formdataNew);
+      print(".................................. ${response2.data.toString()}");
+      print('*******************************************');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;

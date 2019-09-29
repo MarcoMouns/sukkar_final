@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import "package:after_layout/after_layout.dart";
-import 'package:intl/intl.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightAndHeight extends StatefulWidget {
@@ -346,13 +345,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async{
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
                         try {
-                          int cal= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
-                          prefs.setInt('ncal', cal);
-                          print('***********************************************');
-                          print(cal);
-                          print('***********************************************');
                           // get user token
                           SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
@@ -370,7 +363,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             "weight": userWidth.toString()
                           });
                           print('Response = ${response.data}');
-                          Navigator.of(context).pop();
+
                         } on DioError catch (e) {
                           print(
                               "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
@@ -378,6 +371,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                           return false;
                         }
                         return true;
+//                        Navigator.pop(context);
                       },
                     ),
                   )
