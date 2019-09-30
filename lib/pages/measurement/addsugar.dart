@@ -33,6 +33,7 @@ class _AddSugarState extends State<AddSugar> {
     _getDummySleepingTime();
     _getTime();
     super.initState();
+    getMeasurements();
   }
 
   List<Sugar> _sugar = List();
@@ -46,7 +47,7 @@ class _AddSugarState extends State<AddSugar> {
 
   Response response;
   Dio dio = new Dio();
-  Future<Response> getMeasurements(String date) async {
+  Future<Response> getMeasurements() async {
     Response response;
     
      try {
@@ -57,9 +58,9 @@ class _AddSugarState extends State<AddSugar> {
     var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-     response = await dio.get("$baseUrl/measurements/sugarReads?date=$date",options:  Options(headers: headers));
+     response = await dio.get("$baseUrl/measurements/",options:  Options(headers: headers));
       print("response=$response.data.toString()");
-      print("==================================================================");
+      print("==================================");
       print("response=$response.data.toString()");
       
       }
@@ -77,7 +78,7 @@ class _AddSugarState extends State<AddSugar> {
     _sugar.add(Sugar(count: 80, date: "7aba w shoia"));
     // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
     // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    /// _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
+    // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
     //  _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
   }
 

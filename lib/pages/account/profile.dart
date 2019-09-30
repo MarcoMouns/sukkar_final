@@ -255,12 +255,39 @@ class _EditProfileState extends State<EditProfile> {
                             )
                           ],
                         ),
-                        onTap: () {
-                          if (allTranslations.currentLanguage == "en") {
-                            allTranslations.setNewLanguage("ar", true);
-                          } else {
-                            allTranslations.setNewLanguage("en", true);
-                          }
+                        onTap: () {   
+                          showCupertinoModalPopup(
+  context: context,
+  builder: (BuildContext context) => CupertinoActionSheet(
+      title:  Text( allTranslations.text("language")),
+      message:Text(  allTranslations.text("chooseLanguage"),),
+      actions: <Widget>[
+        CupertinoActionSheetAction(
+          child: Text( allTranslations.text("chooseLanguageOption1")),
+          onPressed: () {
+            allTranslations.setNewLanguage("en", true);
+            setState(() {});
+            Navigator.pop(context);
+            
+          },
+        ),
+        CupertinoActionSheetAction(
+          child: Text( allTranslations.text("chooseLanguageOption2")),
+          onPressed: () {
+            allTranslations.setNewLanguage("ar", true);
+            setState(() {});
+            Navigator.pop(context);
+          },
+        )
+      ],
+      ),
+); 
+                           
+                          // if (allTranslations.currentLanguage == "en") {
+                          //   allTranslations.setNewLanguage("ar", true);
+                          // } else {
+                          //   allTranslations.setNewLanguage("en", true);
+                          // }
 
                           setState(() {});
                         },

@@ -155,6 +155,9 @@ Map<String, String> arabicLang = {
   "tuesday":"الثلاثاء",
   "wednesday":"الاربعاء",
   "thursday":"الخميس",
-  "friday":"الجمعة"
+  "friday":"الجمعة",
+  "chooseLanguage":"اختار اللغة",
+  "chooseLanguageOption1":"English",
+  "chooseLanguageOption2":"العربية",
 
 };

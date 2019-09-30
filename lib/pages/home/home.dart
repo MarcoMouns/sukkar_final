@@ -9,6 +9,7 @@ import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swipedetector/swipedetector.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -84,9 +85,6 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     getMeasurements(date);
-
-    
-
   }
 
   int ncal=1;
@@ -97,7 +95,7 @@ class _HomePageState extends State<HomePage> {
 
     ncal = prefs.getInt('calTarget');
     if (ncal == null || ncal == 0) {
-      ncal = 1;
+      ncal = 1200;
     }
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
@@ -112,9 +110,6 @@ class _HomePageState extends State<HomePage> {
   Future<Response> getMeasurements(String date1) async {
     Response response;
    
-
-   
-
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -271,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: 0.2,
+                  percent: (dataHome.sugar/600)*0.7,
                   context: context,
 //                sugar: dataHome['sugar'].toString(),
                   sugar: dataHome == null
@@ -299,10 +294,12 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   footer: Row(
+                    
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       SizedBox(
+                        height: _chartRadius / 9,
                         width: _chartRadius / 5,
                       ),
                       Expanded(
@@ -368,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                           ? 0
                           : dataHome.calories == null
                               ? 0
-                              : (dataHome.calories / ncal),
+                              : ((dataHome.calories / ncal)*0.7),
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
                       day_Calories: dataHome == null
@@ -388,7 +385,7 @@ class _HomePageState extends State<HomePage> {
                         ? 0
                         : dataHome.steps == null
                             ? 0
-                            : dataHome.steps / (ncal / 0.0912).toInt(),
+                            : (dataHome.steps / (ncal / 0.0912))*0.7,
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
                     steps: dataHome == null
@@ -408,7 +405,7 @@ class _HomePageState extends State<HomePage> {
                         : dataHome.distance == null
                             ? 0
                             : dataHome.distance /
-                                ((((ncal / 0.0912) * 0.762) / 2).toInt()),
+                                (((ncal / 0.0912) * 0.762) ~/ 2)*0.7,
                     context: context,
                     raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
@@ -512,7 +509,7 @@ class _HomePageState extends State<HomePage> {
                             height: MediaQuery.of(context).size.height * 3 / 5,
                           ),
                           onTap: () {
-                            widget.pageController.animateToPage(0,
+                            widget.pageController.animateToPage(2,
                                 duration: Duration(milliseconds: 10),
                                 curve: Curves.bounceIn);
                           },
@@ -523,7 +520,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          widget.pageController.animateToPage(2,
+                          widget.pageController.animateToPage(0,
                               curve: Curves.bounceIn,
                               duration: Duration(milliseconds: 10));
                         },
@@ -729,14 +726,22 @@ class _HomePageState extends State<HomePage> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: charts(),
+                                              SwipeDetector(
+                                                onSwipeRight:(){
+                                                   incrementWeek();
+                                                },
+                                                onSwipeLeft: () {
+                                                  decrementWeek();
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: charts(),
 
+                                                ),
                                               ),
                                               Container(
                                                   width: MediaQuery.of(context)

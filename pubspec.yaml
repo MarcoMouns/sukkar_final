@@ -53,6 +53,8 @@ dependencies:
   fl_chart: ^0.0.8
   flutter_background_geolocation: ^1.0.1
   firebase_messaging: ^4.0.0+1
+  swipedetector: ^1.2.0
+
 
 
 

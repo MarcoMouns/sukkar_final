@@ -153,6 +153,9 @@ Map<String, String> englishLang = {
   "tuesday":"Tue",
   "wednesday":"Wed",
   "thursday":"Thu",
-  "friday":"Fri"
+  "friday":"Fri",
+  "chooseLanguage":"Choose your language",
+  "chooseLanguageOption1":"English",
+  "chooseLanguageOption2":"العربية",
  
 };
