@@ -13,7 +13,7 @@ class DoctorChatScreen extends StatefulWidget {
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['isDoctor'] == false) {
+    if (document['id'] == "a") {
       return Container();
     } else {
       return Container(

@@ -90,6 +90,7 @@ class ChatScreenState extends State<ChatScreen> {
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
     print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
     id = prefs.getString('Rid') ?? '';
     print('yayayayayayayayayayayayayayayayayayayayayayay');
     print(id);
@@ -172,7 +173,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget buildItem(int index, DocumentSnapshot document) {
-    if (document['isDoctor'] == false) {
+    if (document['idFrom'] == id) {
       // Right (my message)
       return Row(
         children: <Widget>[
