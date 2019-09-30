@@ -130,10 +130,14 @@ class _CompleteState extends State<Complete> {
   SharedPreferences prefs;
   String uidx;
 
-  Future<String> signIn() async {
+  Future<String> CreateFirebaseAccount() async {
+    _formKey.currentState.save();
+    setState(() {
+      _isLoading = true;
+    });
     final FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-      email: "test3@yahoo.com",
-      password: "12345678",
+      email: _formData['email'],
+      password: _formData['password'],
     ))
         .user;
     return user.uid;
@@ -160,7 +164,7 @@ class _CompleteState extends State<Complete> {
       print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       Firestore.instance.collection('users').document(uid).setData({
         'nickname': _formData['userName'],
-        'photoUrl': _formData['image'],
+        'photoUrl': null,
         'id': uid,
         'isDoctor': false,
         'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
@@ -528,7 +532,7 @@ class _CompleteState extends State<Complete> {
                 ),
                 onTap: () async{
 //                  Navigator.of(context).pop();
-                  uidx = await signIn();
+                  uidx = await CreateFirebaseAccount();
                   CreateCFSaccount(uidx);
                   _handleSubmitted(context, model,);
 
