@@ -128,14 +128,14 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                             widget.status == null
                                 ? Wrap()
                                 : FittedBox(
-                              child: Text(
+                              // child: Text(
 
-                                //TODO:: @me @zizo
-                                ///this commeted until we work on the back end
-                                //"${widget.status ?? ''}"
-                                "١:٣٣",
-                                style: TextStyle(color: Colors.grey,height: 1),
-                              ),
+                              //   //TODO:: @me @zizo
+                              //   ///this commeted until we work on the back end
+                              //   //"${widget.status ?? ''}"
+                              //   "",
+                              //   style: TextStyle(color: Colors.grey,height: 1),
+                              // ),
                             ),
 
                             widget.status == null

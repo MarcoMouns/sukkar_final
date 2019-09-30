@@ -266,7 +266,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: (dataHome.sugar/600)*0.7,
+                  percent: dataHome.sugar == null?0:(dataHome.sugar/600)*0.7,
                   context: context,
 //                sugar: dataHome['sugar'].toString(),
                   sugar: dataHome == null
@@ -327,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                             children: <Widget>[
                               Positioned(
                                 child: CircleAvatar(
-                                  radius: 7.5,
+                                  radius: 6,
                                   backgroundImage:
                                       AssetImage("assets/imgs/profile.jpg"),
                                 ),
@@ -335,16 +335,16 @@ class _HomePageState extends State<HomePage> {
                               Positioned(
                                 left: 8.5,
                                 child: CircleAvatar(
-                                  radius: 7.5,
+                                  radius: 6,
                                   backgroundImage:
                                       AssetImage("assets/imgs/profile.jpg"),
                                 ),
                               ),
                               Positioned(
-                                left: 17,
+                                left: 16,
                                 child: Icon(
                                   Icons.add,
-                                  size: 15,
+                                  size: 13,
                                 ),
                               )
                             ],
