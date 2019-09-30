@@ -59,8 +59,10 @@ class _HomePageState extends State<HomePage> {
   bool loading2;
   bool initOpen = true;
 
-  List<dynamic>measuresData = new List();
-  List<String>  datesOfMeasures = new List();
+  List<dynamic> datesOfMeasures = [" "," "," "," "," "," "," "]; 
+  List<dynamic> measuresData  = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+  
+  
  
   bool istrue = false;
   List newList = [];
@@ -77,19 +79,25 @@ class _HomePageState extends State<HomePage> {
 
   initState() {
     super.initState();
-    getMeasurements(date);
+    emptylists();
     getCustomerData();
     getHomeFetch();
     getcal();
+    getMeasurements(date);
+
+    
 
   }
 
-  int ncal;
+  int ncal=1;
   void getcal() async {
+    print("waaw===========");
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("waaw===========");
+
     ncal = prefs.getInt('calTarget');
-    if (ncal == null) {
-      ncal = 0;
+    if (ncal == null || ncal == 0) {
+      ncal = 1;
     }
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
@@ -103,13 +111,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<Response> getMeasurements(String date1) async {
     Response response;
+   
 
-    if(measuresData == null){
-          for (int i = 0; i <= 6; i++) {
-        datesOfMeasures.add("");
-        measuresData.add(['0','0','0']);
-      }
-    }
+   
 
     try {
       SharedPreferences sharedPreferences =
@@ -122,16 +126,26 @@ class _HomePageState extends State<HomePage> {
 
       response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",
           options: Options(headers: headers));
+      print(response.data);    
 
-      List<String> date = new List();
+      List<dynamic> date = new List();
       List<dynamic> suger = new List();
+      print(datesOfMeasures);
+      print("==================");
       for (int i = 0; i <= 6; i++) {
+              print("==================$i");
+
         date.add(response.data['week'][i]['date']);
+        print("==================0000000");
         suger.add(response.data['week'][i]['sugar']);
+
+        print("==================0000000333333");
+
       }
       datesOfMeasures = date;
       print(datesOfMeasures);
       measuresData = suger;
+      print(measuresData);
       setState(() {
         
       });
@@ -142,6 +156,17 @@ class _HomePageState extends State<HomePage> {
     print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
   }
+  void emptylists(){
+
+    for(var i = 0 ;i<=6;i++){
+      datesOfMeasures[i]=" ";
+      for(var j=0 ; j<3;j++){
+        measuresData[i][j] = 0;
+
+      }
+    }
+  }
+
 
   void incrementWeek() {
     istrue = true;
@@ -149,13 +174,14 @@ class _HomePageState extends State<HomePage> {
     getMeasurements(date);
     print(
         "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
+    Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       initOpen = false;
       istrue = false;
       print(
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
 
       setState(() {
+        emptylists();
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
@@ -164,20 +190,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  
   void decrementWeek() {
     istrue = true;
     selectedDate = selectedDate.subtract(new Duration(days: 7));
-
-    setState(() {});
-
-    print(
+   print(
         "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    Future.delayed(Duration(milliseconds: initOpen ? 50 : 50), () {
+    Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       initOpen = false;
       istrue = false;
       print(
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
       setState(() {
+        emptylists();
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
@@ -221,7 +246,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onError(error) => print("Flutter Pedometer Error: $error");
 
-  // void _onCancel() => _subscription.cancel();
+  void _onCancel() => _subscription.cancel();
 
   //------------------ END STEP COUNTER -------------//
 
@@ -354,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                       ontap: () => null,
                       raduis: _chartRadius,
                       footerText: "Cal " +
-                          " $ncal :" +
+                          " ${ncal} :" +
                           allTranslations.text("Goal is"))),
               new LayoutId(
                 id: 3,
@@ -394,7 +419,7 @@ class _HomePageState extends State<HomePage> {
                             : dataHome.distance.toString(),
                     onTap: () => null,
                     footerText: " meter " +
-                        "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
+                        "${(((ncal/ 0.0912) * 0.762) / 2).toInt()} :" +
                         allTranslations.text("Goal is")),
               )
             ],
@@ -740,7 +765,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                         '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -768,7 +793,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                           '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
                                                           style: TextStyle(
                                                               fontSize: MediaQuery.of(
@@ -797,7 +822,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                         '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -825,7 +850,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                         '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -853,7 +878,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                         '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -881,7 +906,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
                                                         '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -909,7 +934,7 @@ class _HomePageState extends State<HomePage> {
                                                             color: Colors.grey),
                                                         textScaleFactor: 1.0,
                                                       ),
-                                                      Text(datesOfMeasures == null ? "":
+                                                      Text(datesOfMeasures[0][0] == " "? " ":
                                                         '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
@@ -1049,19 +1074,14 @@ class _HomePageState extends State<HomePage> {
   List<Widget> inChart(int i) {
     List<Widget> list2 = new List();
     for (int j = 0; j < 3; j++) {
-       int val;
-      if(measuresData[i][j]== null){
-        val=0;
-
-      }else{
-        val = measuresData[i][j];
-      }
+       int val=0;
+       val = measuresData[i][j];
       
       Color barColor;
 
       if (val <= 120 && val >= 70) {
         barColor = Colors.green[300];
-      } else if (val >= 200) {
+      } else if (val >= 200||val < 50) {
         barColor = Color(0xFFd17356);
       } else {
         barColor = Colors.yellow[800];
@@ -1070,15 +1090,14 @@ class _HomePageState extends State<HomePage> {
       list2.add(Column(
         children: <Widget>[
           Text(
-            val == 0 ? "" : val,
+            val == 0 ? "" : "${val}",
             style: TextStyle(
                 color: barColor,
                 fontSize: MediaQuery.of(context).size.width * 15 / 720),
           ),
           AnimatedContainer(
-            duration: Duration(milliseconds: istrue ? 0 : 300),
-            height: val.toDouble() > 300
-                ? 100
+            duration: Duration(milliseconds: istrue ? 500 : 500),
+            height: val <= 0? 0.1 :val.toDouble() > 300 ? 100
                 : (val.toDouble() / 600) * 200,
             width: MediaQuery.of(context).size.width * 16 / 720,
             decoration: BoxDecoration(
