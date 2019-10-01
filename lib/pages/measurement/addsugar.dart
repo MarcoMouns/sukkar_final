@@ -55,7 +55,7 @@ class _AddSugarState extends State<AddSugar> {
 
 
 
-  Future<Response> addNewMeasurement(String date,var data) async {
+  Future<Response> addNewMeasurement(String date,var suger) async {
     Response response;
 
     try {
@@ -67,7 +67,7 @@ class _AddSugarState extends State<AddSugar> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       
-    var response = await dio.post("$baseUrl/measurements/sugar?sugar=100",
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger?date=$date",
          options: Options(headers: headers));
           print(response.data);
 
