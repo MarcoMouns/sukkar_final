@@ -31,7 +31,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == SharedData.customerData['fuid'] && document['isDoctor'] != isDoctor ) {
+    if (document['id'] == SharedData.customerData['fuid'] || document['isDoctor'] == isDoctor ) {
       return Container();
     } else {
       return Container(
