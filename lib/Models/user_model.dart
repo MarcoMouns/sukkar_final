@@ -32,6 +32,7 @@ class User {
   String phone;
   String image;
   String tokenId;
+  String fuid;
   int gender;
   int hight;
   int weight;
@@ -51,6 +52,7 @@ class User {
       this.phone,
       this.image,
       this.tokenId,
+        this.fuid,
       this.gender,
       this.hight,
         this.weight,
@@ -70,6 +72,7 @@ class User {
     phone = json['phone'];
     image = json['image'];
     tokenId = json['token_id'];
+    fuid = json['fuid'];
     gender = json['gender'];
     hight = json['hight'];
     weight= json['weight'];
@@ -89,11 +92,13 @@ class User {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
+    data['fuid'] = this.fuid;
     data['image'] = this.image;
     data['token_id'] = this.tokenId;
     data['gender'] = this.gender;
     data['hight'] = this.hight;
     data['weight']= this.weight;
+    data['fuid']= this.fuid;
     data['average_calorie']=this.average_calorie;
     data['generated_code'] = this.generatedCode;
     data['birth_date'] = this.birthDate;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'chat.dart';
 import 'const.dart';
+import 'shared-data.dart';
 
 class DoctorChatScreen extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class DoctorChatScreen extends StatefulWidget {
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == "a") {
+    if (document['id'] == SharedData.customerData['fuid']) {
       return Container();
     } else {
       return Container(

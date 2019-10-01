@@ -130,6 +130,7 @@ mixin UserScopedModel on Model {
       formdata.add("gender", userData['gender']);
       formdata.add("phone", userData['phone']);
       formdata.add("password", userData['password']);
+      formdata.add("fuid", userData['fuid']);
 
       if (userData['image'] != null) {
         formdata.add(
@@ -163,6 +164,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "fuid": response.data['user']['fuid'],
         "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
@@ -223,6 +225,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "fuid": response.data['user']['fuid'],
         "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
@@ -363,6 +366,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "fuid": response.data['user']['fuid'],
         "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
@@ -440,6 +444,7 @@ mixin UserScopedModel on Model {
         "gender": response.data['user']['gender'],
         "height": response.data['user']['hight'],
         "weight": response.data['user']['weight'],
+        "fuid": response.data['user']['fuid'],
         "average_calorie": response.data['user']['average_calorie'],
         "verified": response.data['user']['type'],
         "fcmToken": response.data['user']['token_id'],
