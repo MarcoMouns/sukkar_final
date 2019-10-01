@@ -159,6 +159,7 @@ class _HomePageState extends State<HomePage> {
         measuresData[i][j] = 0;
 
       }
+      
     }
   }
 
@@ -166,17 +167,20 @@ class _HomePageState extends State<HomePage> {
   void incrementWeek() {
     istrue = true;
     selectedDate = selectedDate.add(new Duration(days: 7));
-    getMeasurements(date);
+     emptylists();
+     setState(() {
+      
+    });
     print(
         "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
+    Future.delayed(Duration(milliseconds: initOpen ? 300 : 300), () {
       initOpen = false;
       istrue = false;
       print(
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
 
       setState(() {
-        emptylists();
+        
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
@@ -189,6 +193,10 @@ class _HomePageState extends State<HomePage> {
   void decrementWeek() {
     istrue = true;
     selectedDate = selectedDate.subtract(new Duration(days: 7));
+    emptylists();
+    setState(() {
+      
+    });
    print(
         "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
@@ -197,7 +205,7 @@ class _HomePageState extends State<HomePage> {
       print(
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
       setState(() {
-        emptylists();
+        
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
@@ -712,6 +720,7 @@ class _HomePageState extends State<HomePage> {
                                           onTap: () => decrementWeek(),
                                         ),
                                         Container(
+                                          
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
@@ -1101,7 +1110,7 @@ class _HomePageState extends State<HomePage> {
                 fontSize: MediaQuery.of(context).size.width * 15 / 720),
           ),
           AnimatedContainer(
-            duration: Duration(milliseconds: istrue ? 500 : 500),
+            duration: Duration(milliseconds: istrue ? 300 : 300),
             height: val <= 0? 0.1 :val.toDouble() > 300 ? 100
                 : (val.toDouble() / 600) * 200,
             width: MediaQuery.of(context).size.width * 16 / 720,

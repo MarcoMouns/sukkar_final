@@ -55,7 +55,7 @@ class _AddSugarState extends State<AddSugar> {
 
 
 
-  Future<Response> addNewMeasurement(String date,var formData) async {
+  Future<Response> addNewMeasurement(String date,var data) async {
     Response response;
 
     try {
@@ -67,8 +67,8 @@ class _AddSugarState extends State<AddSugar> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       
-    var response = await dio.post("$baseUrl//measurements/sugar",
-          data: formData, options: Options(headers: headers));
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=100",
+         options: Options(headers: headers));
           print(response.data);
 
 
@@ -99,10 +99,14 @@ class _AddSugarState extends State<AddSugar> {
       print("==================================");
       print("response=$response.data.toString()");
       //measuresOfDay = response.data["Measurements"]["sugar"];
+      if(measuresOfDay.isNotEmpty){
+        measuresOfDay.clear();
+      }
       for (var i = 0; i < 3; i++) {
         measuresOfDay.add(response.data["Measurements"]["sugar"][i]);
         print(measuresOfDay);
       }
+
 
       print(measuresOfDay);
       setState(() {});
@@ -189,23 +193,32 @@ class _AddSugarState extends State<AddSugar> {
                               TextStyle(color: Colors.blueGrey, fontSize: 17),
                         ),
                       ),
-                      Row(
+                     Center(
+                       child:  Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           InkWell(
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                              child: Text(
-                                allTranslations.text("measure"),
-                                textAlign: TextAlign.center,
-                              ),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.grey[300], width: 1.5),
-                                  borderRadius: BorderRadius.circular(30),
+                            
+                            child: Center(
+                              child: Container(
+                                  width: MediaQuery.of(context).size.width/3,
+                                  height: 60,
+                                  //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                                  child: Center(
+                                    child: Text(
+                                    allTranslations.text("measure"),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.grey[300], width: 1.5),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              
                             ),
                             onTap: () {
                               _showBottomSheet(
@@ -220,14 +233,19 @@ class _AddSugarState extends State<AddSugar> {
                             },
                           ),
                           Container(
-                            width: 10,
+                            width: 20,
                           ),
                           InkWell(
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                              child: Text(
-                                allTranslations.text("measure"),
+                              width: MediaQuery.of(context).size.width/3,
+                              height: 60,
+
+                              //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                              child: Center(
+                                child: Text(
+                                allTranslations.text("measure2"),
                                 textAlign: TextAlign.center,
+                              ),
                               ),
                               decoration: ShapeDecoration(
                                 shape: RoundedRectangleBorder(
@@ -241,6 +259,7 @@ class _AddSugarState extends State<AddSugar> {
                           ),
                         ],
                       ),
+                     ),
                       Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: Column(
@@ -262,6 +281,7 @@ class _AddSugarState extends State<AddSugar> {
                         borderRadius: BorderRadius.circular(30)),
                     onPressed: () {
                       Navigator.pop(context);
+                     
                     },
                   ),
                 )
@@ -293,6 +313,10 @@ class _AddSugarState extends State<AddSugar> {
               addSlider: true,
               onSave: (String value) {
                 _handleSubmitted(context, model, value, type);
+                
+                setState(() {
+                  getMeasurementsForDay(dateString);
+                });
               });
         });
   }
@@ -338,7 +362,7 @@ class _AddSugarState extends State<AddSugar> {
   void _handleSubmitted(
       BuildContext context, MainModel model, var value, String type) {
     
-      addNewMeasurement(dateString,value);
+      addNewMeasurement(dateString,"$value");
       setState(() {
         
       });
