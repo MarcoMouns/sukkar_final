@@ -645,7 +645,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
     _getDate();
     return Container(
-      height: bottomNavigationHeight,
+      height: MediaQuery.of(context).size.height/9,
       child: Theme(
         data: ThemeData(
             canvasColor: Colors.white,

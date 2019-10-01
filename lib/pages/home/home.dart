@@ -558,7 +558,7 @@ class _HomePageState extends State<HomePage> {
                                 : Column(
                               children: <Widget>[
                                 new SizedBox(
-                                  height: MediaQuery.of(context).size.height / 11,
+                                  height: MediaQuery.of(context).size.height / 10,
                                   child: Directionality(
                                     textDirection: TextDirection.rtl,
                                     child: ListView.builder(
