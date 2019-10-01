@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'const.dart';
 import 'fullPhoto.dart';
+import 'shared-data.dart';
 
 class Chat extends StatelessWidget {
   final String peerId;
@@ -90,8 +91,7 @@ class ChatScreenState extends State<ChatScreen> {
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
     print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
-    id = prefs.getString('Rid') ?? '';
+    id = SharedData.customerData['userName'] ?? '';
     print('yayayayayayayayayayayayayayayayayayayayayayay');
     print(id);
     if (id.hashCode <= peerId.hashCode) {

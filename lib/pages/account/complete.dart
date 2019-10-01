@@ -41,7 +41,8 @@ class _CompleteState extends State<Complete> {
     "email": null,
     "injuredDate": null,
     "gender": null,
-    "password": null
+    "password": null,
+    "fuid": null,
   };
 
   @override
@@ -204,6 +205,8 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = true;
       });
+      print(_formData['fuid']);
+      print("booooooooooooooos fo2");
       print("form data => $_formData");
       model.userRegister(_formData).then((result) async{
         if (result == true) {
@@ -533,6 +536,7 @@ class _CompleteState extends State<Complete> {
                 onTap: () async{
 //                  Navigator.of(context).pop();
                   uidx = await CreateFirebaseAccount();
+                  _formData['fuid']=uidx;
                   CreateCFSaccount(uidx);
                   _handleSubmitted(context, model,);
 
