@@ -66,14 +66,13 @@ class _AddSugarState extends State<AddSugar> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      
-    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger?date=$date",
+      print(suger);
+      print(date);
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&?date=$date",
          options: Options(headers: headers));
           print(response.data);
-
-
- 
-      setState(() {});
+          getMeasurementsForDay(date);
+          
     } catch (e) {
       print("error =====================");
     }
@@ -269,22 +268,6 @@ class _AddSugarState extends State<AddSugar> {
                     ],
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  child: FlatButton(
-                    color: Color(0xff009DDC),
-                    child: Text(
-                      allTranslations.text("save"),
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                     
-                    },
-                  ),
-                )
               ],
             ),
           ),
@@ -326,8 +309,9 @@ class _AddSugarState extends State<AddSugar> {
     List<Widget> list = new List();
      print("0000000000000");
     for (var i = 0; i < measuresOfDay.length; i++) {
-      print(0000000000000);
+     
       if (measuresOfDay[i] == 0) {
+         print("0000000000000${measuresOfDay[i]}");
         list.add(Container());
       } else {
         list.add(
@@ -346,8 +330,9 @@ class _AddSugarState extends State<AddSugar> {
                   color: Colors.red,
                 ),
                 onTap: () {
-                  measuresOfDay.remove(measuresOfDay[i]);
+                  
                   deleteMeasurements(dateString, measuresOfDay[i]);
+                  measuresOfDay.remove(measuresOfDay[i]);
 
                   setState(() {});
                 },
