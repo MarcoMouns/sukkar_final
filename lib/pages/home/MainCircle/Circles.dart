@@ -65,6 +65,7 @@ abstract class MainCircles {
         title: text,
         percent: percent,
         time: "",
+        //TODO: @Omar here is the value of chart color
         color: Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
