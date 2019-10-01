@@ -91,7 +91,7 @@ class ChatScreenState extends State<ChatScreen> {
   readLocal() async {
     prefs = await SharedPreferences.getInstance();
     print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-    id = SharedData.customerData['userName'] ?? '';
+    id = SharedData.customerData['fuid'] ?? '';
     print('yayayayayayayayayayayayayayayayayayayayayayay');
     print(id);
     if (id.hashCode <= peerId.hashCode) {
