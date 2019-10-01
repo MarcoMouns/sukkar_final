@@ -307,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       SizedBox(
-                        height: _chartRadius / 9,
+                        height: _chartRadius / 11,
                         width: _chartRadius / 5,
                       ),
                       Expanded(

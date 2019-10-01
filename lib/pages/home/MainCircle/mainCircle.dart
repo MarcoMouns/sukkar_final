@@ -75,7 +75,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                     : MainAxisAlignment.start,
 
                 children: [
-                  SizedBox(width: widget.radius/2,height: widget.radius/2,
+                  SizedBox(width: widget.radius/2.2,height: widget.radius/2.2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
                           completeColor: Color.fromRGBO(12, 156, 205, 1),

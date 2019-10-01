@@ -68,10 +68,12 @@ class _AddSugarState extends State<AddSugar> {
       };
       print(suger);
       print(date);
-    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&?date=$date",
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&date=$date",
+        
          options: Options(headers: headers));
-          print(response.data);
-          getMeasurementsForDay(date);
+         print("$baseUrl/measurements/sugar?sugar=$suger&date=$date");
+          //print(response.data);
+          getMeasurementsForDay(dateString);
           
     } catch (e) {
       print("error =====================");
