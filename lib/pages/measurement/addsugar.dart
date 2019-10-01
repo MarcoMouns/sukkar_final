@@ -244,11 +244,8 @@ class _AddSugarState extends State<AddSugar> {
                       Padding(
                         padding: EdgeInsets.only(top: 20),
                         child: Column(
-                            children: _sugar.map((sugar) {
-                          return Column(
                             children: listOfSuger(),
-                          );
-                        }).toList()),
+                            ),
                       )
                     ],
                   ),
