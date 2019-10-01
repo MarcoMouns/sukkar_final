@@ -13,8 +13,25 @@ class DoctorChatScreen extends StatefulWidget {
 
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
+  bool isDoctor=false;
+  Future getData() async {
+    var document = await Firestore.instance.document('users/${SharedData.customerData['fuid']}');
+    document.get().then((document) {
+    isDoctor=document['isDoctor'];
+    setState(() {
+    });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == SharedData.customerData['fuid']) {
+    if (document['id'] == SharedData.customerData['fuid'] && document['isDoctor'] != isDoctor ) {
       return Container();
     } else {
       return Container(
