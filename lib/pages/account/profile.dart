@@ -87,16 +87,21 @@ class _EditProfileState extends State<EditProfile> {
                                     children: <Widget>[
                                       CircleAvatar(
                                           radius: 45.0,
-                                          backgroundImage: NetworkImage(SharedData
-                                                              .customerData[
-                                                          'image'] ==
-                                                      'Null' ||
-                                                  SharedData.customerData[
-                                                          'image'] ==
-                                                      null
-                                              ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                                              : SharedData.customerData['image']
-                                                  .toString())),
+                                          backgroundColor: Settings.mainColor(),
+                                          backgroundImage:
+                                          SharedData
+                                              .customerData[
+                                          'image'] ==
+                                              'Null' ||
+                                              SharedData.customerData[
+                                              'image'] ==
+                                                  null
+                                              ?
+                                          NetworkImage( 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                                          ):
+                                        NetworkImage('http://104.248.168.117${SharedData.customerData['image']}')
+                                        ,
+                                      ),
                                       Text(
                                         SharedData.customerData['userName'],
                                         style: TextStyle(

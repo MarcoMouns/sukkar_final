@@ -76,8 +76,7 @@ class Settings {
                       'image'] ==
                           null
                       ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                      : SharedData.customerData['image']
-                      .toString()),
+                      : 'http://104.248.168.117${SharedData.customerData['image']}'),
                 ),
               )
             ],

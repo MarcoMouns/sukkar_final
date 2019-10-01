@@ -58,10 +58,15 @@ class _CompleteState extends State<Complete> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
+  String img;
   void _getImage(BuildContext context, ImageSource source) {
     ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
       setState(() {
         _formData['image'] = image;
+        img=image.path;
+        print('********************************');
+        print(img);
+        print('********************************');
       });
       picdone=true;
       Navigator.pop(context);
@@ -162,10 +167,11 @@ class _CompleteState extends State<Complete> {
       });
       print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       print(_formData['userName']);
+      print(img);
       print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       Firestore.instance.collection('users').document(uid).setData({
         'nickname': _formData['userName'],
-        'photoUrl': null,
+        'photoUrl': img,
         'id': uid,
         'isDoctor': false,
         'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
@@ -205,7 +211,11 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = true;
       });
+      _formData['image'];
+      print(img);
+      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111');
       print(_formData['fuid']);
+      print(_formData['image']);
       print("booooooooooooooos fo2");
       print("form data => $_formData");
       model.userRegister(_formData).then((result) async{
