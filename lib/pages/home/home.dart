@@ -997,7 +997,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height*0.83,
                     )
                   ],
                 ),
