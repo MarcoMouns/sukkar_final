@@ -28,6 +28,7 @@ dependencies:
   scoped_model: ^1.0.1
   latlong: ^0.6.1
   image_picker: ^0.6.0+7
+  flutter_image_compress: ^0.6.3
   dio: ^2.1.5
 #  flutter_svg: ^0.13.0+1
 #  pedometer: ^0.0.5
