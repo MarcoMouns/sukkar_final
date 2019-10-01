@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/sugar.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/home/home.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
@@ -99,7 +100,7 @@ class _AddSugarState extends State<AddSugar> {
       print("response=$response.data.toString()");
       print("==================================");
       print("response=$response.data.toString()");
-      //measuresOfDay = response.data["Measurements"]["sugar"];
+
       if(measuresOfDay.isNotEmpty){
         measuresOfDay.clear();
       }

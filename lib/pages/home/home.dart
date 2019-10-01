@@ -622,6 +622,7 @@ class _HomePageState extends State<HomePage> {
 //                                            )
 //                                          :
                                             new Row(
+                                              
                                               children: <Widget>[
                                                 new Expanded(
                                                   child: Column(

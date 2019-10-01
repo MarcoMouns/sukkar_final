@@ -636,12 +636,12 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     double bottomNavigationHeight = kBottomNavigationBarHeight;
-    // try {
-    //   bottomNavigationHeight =
-    //       widget.pageController.page > 1 ? 65 : widget.pageController.page * 65;
-    // } catch (e) {
-    //   bottomNavigationHeight = 65.0;
-    // }
+    try {
+      bottomNavigationHeight =
+          widget.pageController.page > 1 ? 65 : widget.pageController.page * 65;
+    } catch (e) {
+      bottomNavigationHeight = 65.0;
+    }
 
     _getDate();
     return Container(

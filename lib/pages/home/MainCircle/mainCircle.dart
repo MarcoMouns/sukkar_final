@@ -78,8 +78,8 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                   SizedBox(width: widget.radius/2.2,height: widget.radius/2.2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
-                          completeColor: Color.fromRGBO(12, 156, 205, 1),
-                          completePercent: _animation.value*1.0,
+                          completeColor: Color.fromRGBO(12, 156, 205, 19),
+                          completePercent: _animation.value*0.7,
                           width: 3.0),
                       child: CircleAvatar(
                         radius: (widget.radius - 6) / 2,
