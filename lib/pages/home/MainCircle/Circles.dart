@@ -59,6 +59,7 @@ abstract class MainCircles {
     return ChartWidget(
         isOnSide: true,
         isUpper: true,
+        /// @omar dah rakam wa7ed double
         radius: raduis,
         image: "ic_heart_rate",
         footer: column,
