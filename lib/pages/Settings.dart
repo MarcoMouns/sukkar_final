@@ -586,7 +586,8 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             style: TextStyle(
                 color:
                     Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
-    _listItems.add(BottomNavigationBarItem(
+    _listItems.add(
+      BottomNavigationBarItem(
         icon: Settings.currentIndex == 3
             ? Stack(
                 children: <Widget>[
@@ -618,7 +619,10 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         title: Text(allTranslations.text("doctors"),
             style: TextStyle(
                 color:
-                    Settings.currentIndex == 3 ? Colors.blue : Colors.black))));
+                    Settings.currentIndex == 3 ? Colors.blue : Colors.black),
+        ),
+    ),
+    );
     _listItems.add(BottomNavigationBarItem(
         icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
             size: 25, color: widget.plusColor),

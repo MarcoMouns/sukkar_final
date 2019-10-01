@@ -12,6 +12,7 @@ import 'package:health/pages/measurement/heartBeats.dart';
 import 'package:health/pages/measurement/itemList.dart';
 import 'package:health/pages/others/map.dart';
 import 'dart:math' as math;
+import '../doctor_chat_screen.dart';
 import './home/home.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../scoped_models/main.dart';
@@ -178,7 +179,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                 ),
                 ArticleCategory(model),
                 FriendsPage(model),
-                Doctor(model),
+                DoctorChatScreen(),
               ],
             ),
             bottomNavigationBar: Settings.currentIndex >= 0
