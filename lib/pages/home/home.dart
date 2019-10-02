@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,17 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     getMeasurements(date);
+    setFirebaseImage();
+  }
+
+  Future setFirebaseImage() async{
+    print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
+    print(SharedData.customerData['fuid']);
+    print(SharedData.customerData['image']);
+    Firestore.instance.collection('users').document(SharedData.customerData['fuid']).updateData({
+      'photoUrl': SharedData.customerData['image'],
+    });
+    print('EEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNND');
   }
 
   int ncal=1;

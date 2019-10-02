@@ -171,7 +171,6 @@ class _CompleteState extends State<Complete> {
       print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       Firestore.instance.collection('users').document(uid).setData({
         'nickname': _formData['userName'],
-        'photoUrl': img,
         'id': uid,
         'isDoctor': false,
         'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
