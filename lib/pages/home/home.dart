@@ -97,13 +97,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
   }
 
-  List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
 
-  _initData() async {
-    _specoalists = await ApiProvider().getSpecialists();
-    if (mounted) setState(() {});
-    print('1111111111111111111==========>${_specoalists[1].titleEn}');
-  }
 
   Future setFirebaseImage() async{
     print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
