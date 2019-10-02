@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   Response response;
 //  Map dataHome;
   MeasurementsBean dataHome;
+  int sugerToday;
   List<BannersListBean> banners = List<BannersListBean>();
   double dataCharts0 = 0.0;
   double dataCharts1 = 0.0;
@@ -85,6 +86,9 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     getMeasurements(date);
+    getMeasurementsForDay(date);
+    print(sugerToday);
+    
   }
 
   int ncal=1;
@@ -105,6 +109,33 @@ class _HomePageState extends State<HomePage> {
   Dio dio = new Dio();
 
   final String baseUrl = 'http://104.248.168.117/api';
+
+
+  Future<Response> getMeasurementsForDay(String date) async {
+    Response response;
+
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      response = await dio.get("$baseUrl/measurements?date=$date",
+          options: Options(headers: headers));
+      print("response=$response.data.toString()");
+      print("==================================");
+      print("response=$response.data.toString()");
+      sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
+
+      setState(() {});
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
+  }
 
 
   Future<Response> getMeasurements(String date1) async {
@@ -129,14 +160,25 @@ class _HomePageState extends State<HomePage> {
       print("==================");
       for (int i = 0; i <= 6; i++) {
               print("==================$i");
-
+       
         date.add(response.data['week'][i]['date']);
         print("==================0000000");
-        suger.add(response.data['week'][i]['sugar']);
-
+        
+        var holder=[0,0,0];
+        for(var j=0 ; j<3 ;j++){
+          print(j);
+          
+          print(response.data['week'][i]['sugar'][j]['sugar']);
+          holder[j] = response.data['week'][i]['sugar'][j]['sugar']; 
+          print(holder);
+          
+        }
+        suger.add(holder);
+        
         print("==================0000000333333");
 
       }
+      
       datesOfMeasures = date;
       print(datesOfMeasures);
       measuresData = suger;
@@ -210,6 +252,7 @@ class _HomePageState extends State<HomePage> {
         print(date);
         getMeasurements(date);
         selectedDate = selectedDate;
+        
       });
     });
   }
@@ -274,25 +317,25 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: dataHome.sugar == null?0:(dataHome.sugar/600)*0.7,
+                  percent: sugerToday == null?0:(sugerToday/600),
                   context: context,
 //                sugar: dataHome['sugar'].toString(),
-                  sugar: dataHome == null
+                  sugar: sugerToday == null
                       ? '0'
-                      : dataHome.sugar == null
+                      : sugerToday == null
                           ? '0'
-                          : dataHome.sugar.toString(),
+                          : sugerToday.toString(),
                   raduis: _chartRadius,
                   status: dataHome == null
                       ? '0'
-                      : dataHome.sugar == null
-                          ? '0': (dataHome.sugar < 40)?
+                      : sugerToday == null
+                          ? '0': (sugerToday < 40)?
                           allTranslations.text("danger")
-                          : (dataHome.sugar <= 100
+                          : (sugerToday <= 100
                               ? allTranslations.text("good")
-                              : dataHome.sugar <= 125
+                              : sugerToday <= 125
                                   ? allTranslations.text("normal")
-                                  : dataHome.sugar > 140 && dataHome.sugar < 200
+                                  : sugerToday > 140 && sugerToday < 200
                                       ? allTranslations.text("high")
                                       : allTranslations.text("danger")),
                   ontap: () {

@@ -14,7 +14,7 @@ class HomeModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.measurements != null) {
-      data['measurements'] = this.measurements.toJson();
+      data['sugar'] = this.measurements.toJson();
     }
     data['banners'] = this.banners != null?this.banners.map((i) => i.toJson()).toList():null;
     data['week'] = this.week != null?this.week.map((i) => i.toJson()).toList():null;

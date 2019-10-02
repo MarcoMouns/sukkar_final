@@ -37,11 +37,12 @@ class _AddSugarState extends State<AddSugar> {
     getMeasurementsForDay(dateString);
   }
 
-  List<Sugar> _sugar = List();
+  
   String now = "";
 
   List<Widget> measuresOfDayList = new List();
-  List<int> measuresOfDay = new List();
+  List<dynamic> measuresOfDay = new List();
+  List<dynamic> timeOfMeasures = new List();
 
   MeasurementsScopedModel model;
   _getTime() async {
@@ -69,7 +70,7 @@ class _AddSugarState extends State<AddSugar> {
       };
       print(suger);
       print(date);
-    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&date=$date",
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=${DateTime.now().hour}:${DateTime.now().minute}",
         
          options: Options(headers: headers));
          print("$baseUrl/measurements/sugar?sugar=$suger&date=$date");
@@ -103,9 +104,11 @@ class _AddSugarState extends State<AddSugar> {
 
       if(measuresOfDay.isNotEmpty){
         measuresOfDay.clear();
+        timeOfMeasures.clear();
       }
       for (var i = 0; i < 3; i++) {
-        measuresOfDay.add(response.data["Measurements"]["sugar"][i]);
+        measuresOfDay.add(response.data["Measurements"]["sugar"][i]["sugar"]);
+        timeOfMeasures.add(response.data["Measurements"]["sugar"][i]["time"]);
         print(measuresOfDay);
       }
 
@@ -324,7 +327,7 @@ class _AddSugarState extends State<AddSugar> {
                 style: TextStyle(color: Colors.blue[300], fontSize: 20),
               ),
               subtitle: Text(
-                "ghhh",
+                 timeOfMeasures[i].toString(),
                 style: TextStyle(fontSize: 13, color: Colors.blueGrey),
               ),
               trailing: InkWell(
@@ -336,6 +339,7 @@ class _AddSugarState extends State<AddSugar> {
                   
                   deleteMeasurements(dateString, measuresOfDay[i]);
                   measuresOfDay.remove(measuresOfDay[i]);
+                  timeOfMeasures.remove(timeOfMeasures[i]);
 
                   setState(() {});
                 },
