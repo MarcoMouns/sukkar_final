@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+//import 'package:health/api_provider.dart';
 
+import 'api_provider.dart';
 import 'chat.dart';
 import 'const.dart';
 import 'shared-data.dart';
@@ -27,6 +29,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   void initState() {
     super.initState();
     getData();
+    ApiProvider().getSpecialists();
   }
 
 

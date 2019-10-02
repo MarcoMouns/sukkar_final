@@ -11,6 +11,8 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../api_provider.dart';
+import '../../doctor_chat_model.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -93,6 +95,14 @@ class _HomePageState extends State<HomePage> {
     print(sugerToday);
     
     setFirebaseImage();
+  }
+
+  List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
+
+  _initData() async {
+    _specoalists = await ApiProvider().getSpecialists();
+    if (mounted) setState(() {});
+    print('1111111111111111111==========>${_specoalists[1].titleEn}');
   }
 
   Future setFirebaseImage() async{
