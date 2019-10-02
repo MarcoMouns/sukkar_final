@@ -286,14 +286,15 @@ class _HomePageState extends State<HomePage> {
                   status: dataHome == null
                       ? '0'
                       : dataHome.sugar == null
-                          ? '0'
+                          ? '0': (dataHome.sugar < 40)?
+                          allTranslations.text("danger")
                           : (dataHome.sugar <= 100
                               ? allTranslations.text("good")
                               : dataHome.sugar <= 125
                                   ? allTranslations.text("normal")
-                                  : dataHome.sugar > 126
+                                  : dataHome.sugar > 140 && dataHome.sugar < 200
                                       ? allTranslations.text("high")
-                                      : ''),
+                                      : allTranslations.text("danger")),
                   ontap: () {
                     Navigator.push(
                       context,

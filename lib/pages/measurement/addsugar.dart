@@ -324,7 +324,7 @@ class _AddSugarState extends State<AddSugar> {
                 style: TextStyle(color: Colors.blue[300], fontSize: 20),
               ),
               subtitle: Text(
-                "",
+                "ghhh",
                 style: TextStyle(fontSize: 13, color: Colors.blueGrey),
               ),
               trailing: InkWell(

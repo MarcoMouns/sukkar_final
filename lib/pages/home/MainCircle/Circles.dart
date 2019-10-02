@@ -137,7 +137,9 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: Color.fromRGBO(229, 246, 211, 1),
+        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
+                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
+                                  :Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
@@ -178,7 +180,9 @@ abstract class MainCircles {
         },
         time: "",
         percent: percent,
-        color: Color.fromRGBO(254, 252, 232, 1));
+        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
+                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
+                                  :Color.fromRGBO(229, 246, 211, 1));
   }
 
   static Widget cal(
@@ -218,7 +222,10 @@ abstract class MainCircles {
           }
         },
         percent: percent,
-        color: Color.fromRGBO(253, 238, 238, 1),
+        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
+                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
+                                  :Color.fromRGBO(229, 246, 211, 1),
+                                   
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
@@ -248,7 +255,9 @@ abstract class MainCircles {
         time: intl.DateFormat("Hm", allTranslations.locale.languageCode)
             .format(DateTime.now()),
         percent: percent,
-        color: Color.fromRGBO(253, 238, 238, 1),
+        color: percent<40 ? Color.fromRGBO(254, 252, 232, 1) 
+                             :percent > 65 && percent < 150 ? Color.fromRGBO(229, 246, 211, 1)
+                                  :Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.center,
         onTap: () {
           if (ontap != null) {
