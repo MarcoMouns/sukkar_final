@@ -122,7 +122,7 @@ class _AddSugarState extends State<AddSugar> {
     return response;
   }
 
-  Future<Response> deleteMeasurements(String date, int val) async {
+  Future<Response> deleteMeasurements(String date, int val, String time) async {
     Response response;
 
     try {
@@ -134,7 +134,7 @@ class _AddSugarState extends State<AddSugar> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       response = await dio.delete(
-          "$baseUrl/measurements/sugar?date=$date&sugar=$val",
+          "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
       print("response=$response.data.toString()");
       print("==================================");
@@ -158,12 +158,6 @@ class _AddSugarState extends State<AddSugar> {
             : TextDirection.ltr,
         child: Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-               Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainHome()));
-              },
-            ),
             title: Text(allTranslations.text("sugar")),
             centerTitle: true,
           ),
@@ -337,7 +331,7 @@ class _AddSugarState extends State<AddSugar> {
                 ),
                 onTap: () {
                   
-                  deleteMeasurements(dateString, measuresOfDay[i]);
+                  deleteMeasurements(dateString, measuresOfDay[i],timeOfMeasures[i]);
                   measuresOfDay.remove(measuresOfDay[i]);
                   timeOfMeasures.remove(timeOfMeasures[i]);
 

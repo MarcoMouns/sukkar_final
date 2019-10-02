@@ -157,5 +157,7 @@ Map<String, String> englishLang = {
   "chooseLanguage":"Choose your language",
   "chooseLanguageOption1":"English",
   "chooseLanguageOption2":"العربية",
+  "sugarNull":"no measures",
+
  
 };

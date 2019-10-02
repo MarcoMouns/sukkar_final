@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage> {
   Response response;
 //  Map dataHome;
   MeasurementsBean dataHome;
-  int sugerToday;
+  int sugerToday = 1;
+  String timeOfLastMeasure="";
   List<BannersListBean> banners = List<BannersListBean>();
   double dataCharts0 = 0.0;
   double dataCharts1 = 0.0;
@@ -82,12 +83,13 @@ class _HomePageState extends State<HomePage> {
 
   initState() {
     super.initState();
+    sugerToday = 0;
     emptylists();
     getCustomerData();
     getHomeFetch();
     getcal();
-    getMeasurements(date);
     getMeasurementsForDay(date);
+    getMeasurements(date);
     print(sugerToday);
     
     setFirebaseImage();
@@ -136,14 +138,19 @@ class _HomePageState extends State<HomePage> {
       };
       response = await dio.get("$baseUrl/measurements?date=$date",
           options: Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================");
-      print("response=$response.data.toString()");
       sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
+      timeOfLastMeasure =  response.data["Measurements"]["sugar"][0]["time"];
+      print(response.data["Measurements"]["sugar"][0]["sugar"]);
+      
+      // if(sugerToday == 0){
+      //   sugerToday = 0;
+      // }
 
       setState(() {});
     } catch (e) {
-      print("error =====================");
+      sugerToday = 0;
+      
+      print("error ==============Today=======");
     }
 
     return response;
@@ -164,30 +171,30 @@ class _HomePageState extends State<HomePage> {
 
       response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",
           options: Options(headers: headers));
-      print(response.data);    
+          
 
       List<dynamic> date = new List();
       List<dynamic> suger = new List();
-      print(datesOfMeasures);
-      print("==================");
+      
+    
       for (int i = 0; i <= 6; i++) {
-              print("==================$i");
+            
        
         date.add(response.data['week'][i]['date']);
-        print("==================0000000");
+
         
         var holder=[0,0,0];
         for(var j=0 ; j<3 ;j++){
-          print(j);
+         
           
-          print(response.data['week'][i]['sugar'][j]['sugar']);
+       
           holder[j] = response.data['week'][i]['sugar'][j]['sugar']; 
-          print(holder);
+          
           
         }
         suger.add(holder);
         
-        print("==================0000000333333");
+     
 
       }
       
@@ -195,6 +202,8 @@ class _HomePageState extends State<HomePage> {
       print(datesOfMeasures);
       measuresData = suger;
       print(measuresData);
+      getMeasurementsForDay(date1);
+      print(sugerToday);
       setState(() {
         
       });
@@ -263,6 +272,7 @@ class _HomePageState extends State<HomePage> {
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
+
         selectedDate = selectedDate;
         
       });
@@ -331,15 +341,16 @@ class _HomePageState extends State<HomePage> {
                 child: MainCircles.diabetes(
                   percent: sugerToday == null?0:(sugerToday/600),
                   context: context,
-//                sugar: dataHome['sugar'].toString(),
-                  sugar: sugerToday == null
-                      ? '0'
+                  
+//                sugar: dataHome['sugar'].toString(),z
+                  sugar: sugerToday == 0
+                      ?'0'
                       : sugerToday == null
                           ? '0'
                           : sugerToday.toString(),
                   raduis: _chartRadius,
-                  status: dataHome == null
-                      ? '0'
+                  status: sugerToday == 0
+                      ? allTranslations.text("sugarNull")
                       : sugerToday == null
                           ? '0': (sugerToday < 40)?
                           allTranslations.text("danger")
@@ -522,7 +533,9 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   date = '${e.year}-${e.month}-${e.day}';
                   print(date);
+                  getMeasurementsForDay(date);
                   getHomeFetch();
+                  
                   getMeasurements(date);
 
                   selectedDate = e;
