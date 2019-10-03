@@ -11,6 +11,8 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../api_provider.dart';
+import '../../doctor_chat_model.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -94,6 +96,8 @@ class _HomePageState extends State<HomePage> {
     
     setFirebaseImage();
   }
+
+
 
   Future setFirebaseImage() async{
     print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
