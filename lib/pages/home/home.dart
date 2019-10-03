@@ -85,15 +85,13 @@ class _HomePageState extends State<HomePage> {
 
   initState() {
     super.initState();
-    sugerToday = 0;
     emptylists();
     getCustomerData();
+    getMeasurements(date);
+    getMeasurementsForDay(date);
     getHomeFetch();
     getcal();
-    getMeasurementsForDay(date);
-    getMeasurements(date);
     print(sugerToday);
-    
     setFirebaseImage();
   }
 
@@ -129,8 +127,14 @@ class _HomePageState extends State<HomePage> {
   final String baseUrl = 'http://104.248.168.117/api';
 
 
-  Future<Response> getMeasurementsForDay(String date) async {
+  Future<Response> getMeasurementsForDay([String date1]) async {
     Response response;
+    date = date1;
+    if(date == null){
+      date = 
+        '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+
+    }
 
     try {
       SharedPreferences sharedPreferences =
@@ -250,6 +254,8 @@ class _HomePageState extends State<HomePage> {
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
+        getMeasurementsForDay(date);
+        
         selectedDate = selectedDate;
       });
     });
@@ -275,12 +281,14 @@ class _HomePageState extends State<HomePage> {
         date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
         print(date);
         getMeasurements(date);
+        getMeasurementsForDay(date);
 
         selectedDate = selectedDate;
         
       });
     });
   }
+  
 
   getHomeFetch() {
     setState(() {
@@ -296,10 +304,13 @@ class _HomePageState extends State<HomePage> {
 
         setState(() {
           // Measurements
+          getMeasurementsForDay();
           dataHome = result.measurements;
+          
           // Sugar Charts
           setState(() {
             // Articles banner
+            getMeasurementsForDay();
             banners = result.banners;
             loading1 = false;
             loading = false;
@@ -311,6 +322,7 @@ class _HomePageState extends State<HomePage> {
 
   void _onData(int stepCountValue) async {
     setState(() => _stepCountValue = stepCountValue);
+    
   }
 
   void _onDone() => print("Finished pedometer tracking");
@@ -329,8 +341,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   dispose() {
-    // _onCancel();
+    
     super.dispose();
+    _onCancel();
+    getMeasurementsForDay();
   }
 
   Widget upperCircles(context, _chartRadius, model) {
@@ -342,7 +356,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: sugerToday == 0?0.001:((sugerToday/600)*100)*0.7,
+                  percent: sugerToday == null?0:(sugerToday/600),
                   context: context,
                   
 //                sugar: dataHome['sugar'].toString(),z
@@ -538,7 +552,6 @@ class _HomePageState extends State<HomePage> {
                   print(date);
                   getMeasurementsForDay(date);
                   getHomeFetch();
-                  
                   getMeasurements(date);
 
                   selectedDate = e;

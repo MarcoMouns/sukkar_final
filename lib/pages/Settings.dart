@@ -89,6 +89,8 @@ class Settings {
   static onLocaleChanged() async {
     print('Language has been changed to: ${allTranslations.currentLanguage}');
   }
+
+
 }
 
 class LogInInput extends StatefulWidget {
@@ -552,6 +554,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   _getDate() {
     _listItems.clear();
+    
     _listItems.add(BottomNavigationBarItem(
         icon: Image.asset(
           "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
