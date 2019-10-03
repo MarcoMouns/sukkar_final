@@ -159,14 +159,17 @@ class _FriendsPageState extends State<FriendsPage> {
               ),
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              _resultSearch(context),
-              Divider(
-                height: 2,
-              ),
-              Expanded(child: _FollowingAndFollowers(widget.model))
-            ],
+          body: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+            child: Column(
+              children: <Widget>[
+                _resultSearch(context),
+                Divider(
+                  height: 2,
+                ),
+                Expanded(child: _FollowingAndFollowers(widget.model))
+              ],
+            ),
           ),
         )
 //          Center(
@@ -225,6 +228,7 @@ class __FollowingAndFollowersState extends State<_FollowingAndFollowers>
       if (result != null) {
         setState(() {
           followers = result.data;
+          print('******@@@@@@@@@@@!!!!!!!!!!!!! hi');
           print('############################# Result followers= > ${followers}');
 //          setState(() {
 //            loading = false;
@@ -600,6 +604,8 @@ Widget _resultSearch(context) {
 
                         response = await dio.post(
                             "http://104.248.168.117/api/follow/$id");
+                        __FollowingAndFollowersState().getAll();
+
                         print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                         print('Response = ${response.data}');
                       } on DioError catch (e) {
@@ -608,6 +614,7 @@ Widget _resultSearch(context) {
                         print(e.response.data);
                         return false;
                       }
+                      return true;
                     },
                   ),
                 ),

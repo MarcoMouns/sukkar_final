@@ -16,8 +16,13 @@ class DoctorChatScreen extends StatefulWidget {
 }
 
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
+
+  bool arrowFlip=false;
+  int specialityId=0;
+  String specialityName="عيون";
   List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
   bool isDoctor = false;
+
   Future getData() async {
     var document = await Firestore.instance
         .document('users/${SharedData.customerData['fuid']}');
@@ -42,7 +47,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document['id'] == SharedData.customerData['fuid'] ||
-        document['isDoctor'] == isDoctor) {
+        document['isDoctor'] == isDoctor || document['specialistId'] != specialityId
+    ) {
       return Container();
     } else {
       return Container(
@@ -122,63 +128,110 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     }
   }
 
+  void DropDownMenu(){
+      arrowFlip=true;
+      setState(() {
+
+      });
+      PickerController pickerController =
+      PickerController(count: 1);
+      PickerViewPopup.showMode(
+          PickerShowMode.BottomSheet, // AlertDialog or BottomSheet
+          controller: pickerController,
+          context: context,
+          title: Text(
+            'التخصص',
+            style: TextStyle(fontSize: 14),
+          ),
+          cancel: Text(
+            'cancel',
+            style: TextStyle(color: Colors.grey),
+          ),
+          onCancel: () {
+            Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text('AlertDialogPicker.cancel')));
+          },
+          confirm: Text(
+            'confirm',
+            style: TextStyle(color: Colors.blue),
+          ),
+          onConfirm: (controller) {
+            List<int> selectedItems = [];
+            selectedItems.add(controller.selectedRowAt(section: 0));
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content:
+                Text('AlertDialogPicker.selected:$selectedItems'),
+              ),
+            );
+            specialityId=selectedItems.first;
+            specialityName=_specoalists[selectedItems.first].titleAr;
+            print('**********************=>speciality-Id=$specialityId');
+            arrowFlip=false;
+            setState(() {
+            });
+          },
+          builder: (context, popup) {
+            return Container(
+              height: 200,
+              child: popup,
+            );
+          },
+          itemExtent: 40,
+          numberofRowsAtSection: (section) {
+            return _specoalists.length;
+          },
+          itemBuilder: (section, row) {
+            return Text(
+              '${_specoalists[row].titleAr}',
+              style: TextStyle(fontSize: 12),
+            );
+          });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
         children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-              PickerController pickerController =
-                  PickerController(count: 1);
-              PickerViewPopup.showMode(
-                  PickerShowMode.BottomSheet, // AlertDialog or BottomSheet
-                  controller: pickerController,
-                  context: context,
-                  title: Text(
-                    'AlertDialogPicker',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  cancel: Text(
-                    'cancel',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  onCancel: () {
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('AlertDialogPicker.cancel')));
-                  },
-                  confirm: Text(
-                    'confirm',
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  onConfirm: (controller) {
-                    List<int> selectedItems = [];
-                    selectedItems.add(controller.selectedRowAt(section: 0));
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text('AlertDialogPicker.selected:$selectedItems')));
-                  },
-                  builder: (context, popup) {
-                    return Container(
-                      height: 150,
-                      child: popup,
-                    );
-                  },
-                  itemExtent: 40,
-                  numberofRowsAtSection: (section) {
-                    return _specoalists.length;
-                  },
-                  itemBuilder: (section, row) {
-                    return Text(
-                      '${_specoalists[row].titleEn}',
-                      style: TextStyle(fontSize: 12),
-                    );
-                  });
-            },
+          isDoctor==true?Container():
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                width: MediaQuery.of(context).size.width*0.8,
+                padding: EdgeInsets.symmetric(
+                    vertical: 5
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    border: Border.all(
+                      color: Colors.grey[300],
+                    )
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: RotatedBox(
+                        quarterTurns: arrowFlip?90:0,
+                        child: Icon(Icons.arrow_drop_down,size: 30,color: Colors.blueAccent,),
+                      ),
+                    ),
+                    Text("$specialityName"),
+                    Container()
+                  ],
+                ),
+              ),
+              onTap: () => DropDownMenu(),
+            ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.69,
             child: StreamBuilder(
               stream: Firestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {

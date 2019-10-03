@@ -155,6 +155,7 @@ mixin UserScopedModel on Model {
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
+        "search_code": response.data['user']['search_code'],
         "userName": response.data['user']['name'],
         "phone": response.data['user']['phone'],
         "email": response.data['user']['email'],
@@ -216,6 +217,7 @@ mixin UserScopedModel on Model {
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
+        "search_code": response.data['user']['search_code'],
         "userName": response.data['user']['name'],
         "phone": response.data['user']['phone'],
         "email": response.data['user']['email'],
@@ -357,6 +359,7 @@ mixin UserScopedModel on Model {
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
+        "search_code": response.data['user']['search_code'],
         "userName": response.data['user']['name'],
         "phone": response.data['user']['phone'],
         "email": response.data['user']['email'],
@@ -435,6 +438,7 @@ mixin UserScopedModel on Model {
       String authUser = jsonEncode({
         "authToken": currentUser['authToken'],
         "id": response.data['user']['id'],
+        "search_code": response.data['user']['search_code'],
         "userName": response.data['user']['name'],
         "phone": response.data['user']['phone'],
         "email": response.data['user']['email'],

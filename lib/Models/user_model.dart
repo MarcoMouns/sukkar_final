@@ -27,6 +27,7 @@ class UserModel {
 
 class User {
   int id;
+  int search_code;
   String name;
   String email;
   String phone;
@@ -47,6 +48,7 @@ class User {
 
   User(
       {this.id,
+        this.search_code,
       this.name,
       this.email,
       this.phone,
@@ -67,6 +69,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    search_code = json['search_code'];
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
@@ -89,6 +92,7 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['search_code']= this.search_code;
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
