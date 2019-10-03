@@ -255,10 +255,11 @@ abstract class MainCircles {
         time: intl.DateFormat("Hm", allTranslations.locale.languageCode)
             .format(DateTime.now()),
         percent: percent,
-        color: percent<40 ? Color.fromRGBO(254, 252, 232, 1) 
-                             :percent > 65 && percent < 150 ? Color.fromRGBO(229, 246, 211, 1)
-                                  :Color.fromRGBO(253, 238, 238, 1),
-        mainAxisAlignment: MainAxisAlignment.center,
+        color: (int.parse(sugar)< 80) ?Color.fromRGBO(254, 252, 232, 1)
+                       : (int.parse(sugar) >= 80 && int.parse(sugar) <= 200) 
+                               ? Color.fromRGBO(229, 246, 211, 1) :
+                               Color.fromRGBO(253, 238, 238, 1)
+        , mainAxisAlignment: MainAxisAlignment.center,
         onTap: () {
           if (ontap != null) {
             ontap();

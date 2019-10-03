@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +39,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _bottomChartsPageViewController = PageController();
+  
 
 //width of the screen to init the siwiper postion
   int _stepCountValue;
@@ -50,7 +52,7 @@ class _HomePageState extends State<HomePage> {
   Response response;
 //  Map dataHome;
   MeasurementsBean dataHome;
-  int sugerToday = 1;
+  int sugerToday;
   String timeOfLastMeasure="";
   List<BannersListBean> banners = List<BannersListBean>();
   double dataCharts0 = 0.0;
@@ -82,20 +84,32 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
         
   }
+  
 
   initState() {
+    getMeasurementsForDay(date);
     super.initState();
     emptylists();
+    
+    print(sugerToday);
+
+    
     getCustomerData();
     getMeasurements(date);
-    getMeasurementsForDay(date);
     getHomeFetch();
+    if(sugerToday==null){
+      loading = true;
+    }
     getcal();
-    print(sugerToday);
+    
+    //print("$sugerToday ===========================");
+    
     setFirebaseImage();
   }
 
 
+
+ 
 
   Future setFirebaseImage() async{
     print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
@@ -127,16 +141,10 @@ class _HomePageState extends State<HomePage> {
   final String baseUrl = 'http://104.248.168.117/api';
 
 
-  Future<Response> getMeasurementsForDay([String date1]) async {
+  Future<Void> getMeasurementsForDay(String date) async {
     Response response;
-    date = date1;
-    if(date == null){
-      date = 
-        '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
-    }
-
-    try {
+    // try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
@@ -147,21 +155,23 @@ class _HomePageState extends State<HomePage> {
       response = await dio.get("$baseUrl/measurements?date=$date",
           options: Options(headers: headers));
       sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
+      print("=================================================fffffffffff");
       timeOfLastMeasure =  response.data["Measurements"]["sugar"][0]["time"];
-      print(response.data["Measurements"]["sugar"][0]["sugar"]);
+      print(dataHome.sugar);
       
-      // if(sugerToday == 0){
-      //   sugerToday = 0;
+      // if(dataHome.sugar == 0){
+      //   dataHome.sugar = 0;
       // }
 
       setState(() {});
-    } catch (e) {
-      sugerToday = 0;
+    // } catch (e) {
+    //   //sugerToday = sugerToday;
       
-      print("error ==============Today=======");
-    }
+      
+    //   print("error ==============Today=======");
+    // }
 
-    return response;
+    return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
 
@@ -210,7 +220,6 @@ class _HomePageState extends State<HomePage> {
       print(datesOfMeasures);
       measuresData = suger;
       print(measuresData);
-      print(sugerToday);
       setState(() {
         
       });
@@ -304,17 +313,24 @@ class _HomePageState extends State<HomePage> {
 
         setState(() {
           // Measurements
-          getMeasurementsForDay();
-          dataHome = result.measurements;
           
+          dataHome = result.measurements;
+          print(sugerToday);
+          
+          print(dataHome.sugar);
+          getMeasurementsForDay(date);
+          print(dataHome.sugar);
           // Sugar Charts
+Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
           setState(() {
             // Articles banner
-            getMeasurementsForDay();
+           
             banners = result.banners;
             loading1 = false;
             loading = false;
+            getMeasurementsForDay(date);
           });
+});
         });
       }
     });
@@ -340,11 +356,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
   dispose() {
-    
-    super.dispose();
-    _onCancel();
-    getMeasurementsForDay();
+    _onCancel(); 
   }
 
   Widget upperCircles(context, _chartRadius, model) {
@@ -356,7 +370,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: sugerToday == null?0:(sugerToday/600),
+                  percent: sugerToday == 0 ?dataHome.sugar/600 : sugerToday/600,
                   context: context,
                   
 //                sugar: dataHome['sugar'].toString(),z
@@ -366,18 +380,14 @@ class _HomePageState extends State<HomePage> {
                           ? '0'
                           : sugerToday.toString(),
                   raduis: _chartRadius,
-                  status: sugerToday == 0
+                  status: sugerToday == 0 || sugerToday== null
                       ? allTranslations.text("sugarNull")
-                      : sugerToday == null
-                          ? '0': (sugerToday < 40)?
-                          allTranslations.text("danger")
-                          : (sugerToday <= 100
-                              ? allTranslations.text("good")
-                              : sugerToday <= 125
-                                  ? allTranslations.text("normal")
-                                  : sugerToday > 140 && sugerToday < 200
-                                      ? allTranslations.text("high")
-                                      : allTranslations.text("danger")),
+                       : (sugerToday< 80)?
+                          allTranslations.text("low")
+                          : (sugerToday >= 80 && sugerToday <= 200
+                              ? allTranslations.text("normal")
+                              :  allTranslations.text("high")
+                                      ),
                   ontap: () {
                     Navigator.push(
                       context,
@@ -521,7 +531,8 @@ class _HomePageState extends State<HomePage> {
       init(context);
       _firstPageLoad = false;
     }
-    // get free pixels free to render widgets on it
+
+        // get free pixels free to render widgets on it
     // 40 appbar heigth
     //56 bottom navigation bar heigth
     //   MediaQuery.of(context).padding.top is the height of status bar
@@ -550,11 +561,13 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   date = '${e.year}-${e.month}-${e.day}';
                   print(date);
-                  getMeasurementsForDay(date);
+       
                   getHomeFetch();
+                  getMeasurementsForDay(date);
                   getMeasurements(date);
 
                   selectedDate = e;
+
                 });
               }, currentTime: DateTime.now(), locale: LocaleType.ar);
             },

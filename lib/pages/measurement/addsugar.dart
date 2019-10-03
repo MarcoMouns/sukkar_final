@@ -12,6 +12,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:health/pages/Settings.dart' as settings;
 
+import '../Settings.dart';
 import '../home.dart';
 
 class AddSugar extends StatefulWidget {
@@ -163,7 +164,7 @@ class _AddSugarState extends State<AddSugar> {
               icon: Icon(Icons.close),
               onPressed: () {
                 
-                Navigator.of(context).pushReplacementNamed('/');
+                Navigator.of(context).pop();
               },
             ),
             centerTitle: true,

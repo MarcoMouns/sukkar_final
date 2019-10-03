@@ -76,6 +76,7 @@ Map<String, String> englishLang = {
   "back": "back",
   "blood preasure": "blood preasure",
   "Diastolic": "Diastolic",
+   "low":"Low",
   "normal": "Normal",
   "danger": "Danger",
   "Systolic": "Systolic",

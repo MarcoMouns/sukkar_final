@@ -64,7 +64,7 @@ class ChatScreenState extends State<ChatScreen> {
   String imageUrl;
 
   final TextEditingController textEditingController = new TextEditingController();
-  final ScrollController listScrollController = new ScrollController();
+  ScrollController listScrollController = new ScrollController();
   final FocusNode focusNode = new FocusNode();
 
   @override

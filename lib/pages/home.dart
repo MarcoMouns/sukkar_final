@@ -130,6 +130,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    _pageController= _getPageController();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 175),
