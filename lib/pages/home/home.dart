@@ -202,7 +202,6 @@ class _HomePageState extends State<HomePage> {
       print(datesOfMeasures);
       measuresData = suger;
       print(measuresData);
-      getMeasurementsForDay(date1);
       print(sugerToday);
       setState(() {
         
@@ -339,7 +338,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: sugerToday == null?0:(sugerToday/600),
+                  percent: sugerToday == 0?0.001:((sugerToday/600)*100)*0.7,
                   context: context,
                   
 //                sugar: dataHome['sugar'].toString(),z
