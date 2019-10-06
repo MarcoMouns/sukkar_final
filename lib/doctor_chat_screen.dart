@@ -118,8 +118,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             itemSize: 20,
                             itemBuilder: (context, _) => Icon(
                               Icons.star,
-                              color: Colors.amber,
-                              //size: 30000,
+                              color: Colors.blue,
                             ),
                             onRatingUpdate: (rating) {
                               print(rating);
