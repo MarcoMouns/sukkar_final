@@ -406,7 +406,8 @@ class _BottomSheetState extends State<BottomSheet> {
                               keyboard: widget.addSlider
                                   ? TextInputType.numberWithOptions()
                                   : null,
-                            )),
+                            ),
+                        ),
                         widget.addSlider
                             ? Slider(
                                 inactiveColor: Colors.grey,

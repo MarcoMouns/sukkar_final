@@ -282,6 +282,60 @@ class _AddSugarState extends State<AddSugar> {
         ));
   }
 
+  Future<void> _ackAlert(BuildContext context) async{
+    return await showDialog<void> (
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('نصائح انتبة لها'),
+          content: measuresOfDay.first>=80 && measuresOfDay.first<=180 ?
+            Text("مستوى السكر لدٌك بالمعدل الطبٌعً واصل اهتمامك بصحتك",style: TextStyle(color: Colors.red),textAlign: TextAlign.center,):
+          measuresOfDay.first>=180 ?
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.37,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("انتبه تشٌر القراءة إلى دخولك فً مرحلة ماقبل السكر",style: TextStyle(color: Colors.red,),textAlign: TextAlign.center,),
+                Padding(padding: EdgeInsets.only(top: 10)),
+                Text("علٌك إتباع النصائح التالٌة:"),
+                Text("1-"+" المحافظة على نظام صحً غذائً."),
+                Text("2-"+" ممارسة الرٌاضة بانتظام."),
+                Text("3-"+" الالتزام بتناول أدوٌة السكر."),
+                Text("4-"+" مراجعة عٌادة السكري بشكل دوري."),
+                Text("5-"+" قٌاس السكر باستمرار."),
+              ],
+            ),
+          ):
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.46,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("انتبه تشٌر القراءة إلى دخولك فً مرحلة ماقبل السكر",style: TextStyle(color: Colors.red,),textAlign: TextAlign.center,),
+                Padding(padding: EdgeInsets.only(top: 10)),
+                Text("علٌك إتباع النصائح التالٌة:"),
+                Text("1-"+" تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
+                Text("2-"+" لاتقم بممارسة أي مجهود رٌاضً إلا بعد تناول وجبة خفٌفة."),
+                Text("3-"+" احمل معك قطعة من الحلوى ، تناولها فً حال الاحساس بأعراض الهبوط ."),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok',style: TextStyle(color: Colors.blue),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   _showBottomSheet(
       {BuildContext context,
       MainModel model,
@@ -309,7 +363,12 @@ class _AddSugarState extends State<AddSugar> {
                   getMeasurementsForDay(dateString);
                 });
               });
-        });
+        }
+        ).then((v){
+      Timer(Duration(seconds: 1), () {
+        _ackAlert(context);
+      });
+    });
   }
 
   List<Widget> listOfSuger() {
