@@ -77,19 +77,21 @@ class _AddFoodState extends State<AddFood> {
   }
 
   _pressOnMeals(MainModel model, int mealId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              ItemList(model: model, mealId: mealId, isfood: true)),
-    );
+    Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new ItemList(model: model, mealId: mealId, isfood: true)),)
+        .then((val)=>val?fetchMeals():null);
   }
 
   @override
   void initState() {
     super.initState();
     loading = true;
-    widget.model.fetchMeals().then((result) {
+    fetchMeals();
+    _getDummyMeals();
+    _getTime();
+  }
+
+  Future<void> fetchMeals() async{
+    await widget.model.fetchMeals().then((result) {
       if (result != null) {
         setState(() {
           allMeals = result.eatcategories;
@@ -99,7 +101,7 @@ class _AddFoodState extends State<AddFood> {
     }).catchError((err) {
       print(err);
     });
-    widget.model.fetchAllMealsFoods().then((result) {
+    await widget.model.fetchAllMealsFoods().then((result) {
       print('Result fetch => $result');
       if (result != null) {
         setState(() {
@@ -114,12 +116,9 @@ class _AddFoodState extends State<AddFood> {
     }).catchError((err) {
       print(err);
     });
-    _getDummyMeals();
-    _getTime();
   }
 
   addIntToSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     print(_calories);
     if(_calories.length==0){
       Rcalories=0;

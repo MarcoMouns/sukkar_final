@@ -271,7 +271,10 @@ class MenuListRow extends StatelessWidget {
                         child: Image.asset(
                           "assets/icons/$image.png",
                           width: 35,
-                        )))),
+                        ),
+                    ),
+                ),
+            ),
             Padding(
               padding: EdgeInsets.all(10.0),
             ),

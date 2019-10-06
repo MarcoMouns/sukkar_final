@@ -51,7 +51,7 @@ class _ItemListState extends State<ItemList> {
     bool ok =
         await widget.model.addSelectedFoods(_selectedFoods, widget.mealId);
     if (ok) {
-      Navigator.of(context).pop();
+      Navigator.pop(context,true);
       print("Selected foods added successfully");
     } else {
       // Show Error
@@ -283,11 +283,11 @@ class _ItemListState extends State<ItemList> {
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
-                        Icons.close,
+                        Icons.arrow_forward_ios,
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context,true);
                       },
                     )
                   ],
