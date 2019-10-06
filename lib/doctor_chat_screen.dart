@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 //import 'package:health/api_provider.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'api_provider.dart';
 import 'chat.dart';
@@ -18,6 +19,7 @@ class DoctorChatScreen extends StatefulWidget {
 
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
   bool arrowFlip = false;
+  bool isLoading=true;
   int specialityId = 0;
   double starRating=3;
   String specialityName = "عيون";
@@ -37,6 +39,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     _specoalists = await ApiProvider().getSpecialists();
     if (mounted) setState(() {});
     print('1111111111111111111==========>${_specoalists[1].titleEn}');
+    isLoading=false;
+    setState(() {
+    });
   }
 
   @override
@@ -218,51 +223,64 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
+      body: isLoading?
+      Center(
+        child: SpinKitWave(
+          size: 30,
+          itemBuilder: (_, int index) {
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                color: index.isEven ? Colors.blue : Colors.white,
+              ),
+            );
+          },
+        ),
+      ):
+      Column(
         children: <Widget>[
           isDoctor == true
               ? Container()
               : Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: RotatedBox(
-                              quarterTurns: arrowFlip ? 90 : 0,
-                              child: Icon(
-                                Icons.arrow_drop_down,
-                                size: 30,
-                                color: Colors.blueAccent,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: 20),
-                            child: Row(
-                              children: <Widget>[
-                                Text("$specialityName"),
-                                Padding(padding: EdgeInsets.only(right: 8)),
-                                Image.asset('assets/icons/ic_doctor.png',scale: 4,),
-                              ],
-                            ),
-                          )
-                        ],
+            textDirection: TextDirection.ltr,
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                width: MediaQuery.of(context).size.width * 0.8,
+                padding: EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RotatedBox(
+                        quarterTurns: arrowFlip ? 90 : 0,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 30,
+                          color: Colors.blueAccent,
+                        ),
                       ),
                     ),
-                    onTap: () => DropDownMenu(),
-                  ),
+                    Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Text("$specialityName"),
+                          Padding(padding: EdgeInsets.only(right: 8)),
+                          Image.asset('assets/icons/ic_doctor.png',scale: 4,),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
+              ),
+              onTap: () => DropDownMenu(),
+            ),
+          ),
           Container(
             height: MediaQuery.of(context).size.height * 0.69,
             child: StreamBuilder(

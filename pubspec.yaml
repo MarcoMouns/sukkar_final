@@ -61,6 +61,7 @@ dependencies:
   fluttertoast: ^3.1.0
   flutter_picker_view: ^1.0.0
   flutter_rating_bar: ^3.0.0
+  flutter_spinkit: "^4.0.0"
 
 
 
