@@ -627,7 +627,24 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                         
 
                         onTap: (){
-                          getHomeFetch();
+                          // getMeasurements(date);
+                          // //getMeasurementsForDay(date);
+                          // getHomeFetch();
+
+                            getMeasurementsForDay(date);
+    
+                            emptylists();
+                            
+                            print(sugerToday);
+
+                            
+                            getCustomerData();
+                            getMeasurements(date);
+                            getHomeFetch();
+                            getcal();
+                            
+                            
+                           
                         },
                       ),
                     ),
@@ -1116,7 +1133,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                               bottom: MediaQuery.of(context)
                                                   .padding
                                                   .bottom +
-                                                  60,
+                                                  50,
                                           top: MediaQuery.of(context)
                                               .padding
                                               .top +
@@ -1124,7 +1141,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                           left: MediaQuery.of(context)
                                               .padding
                                               .left +
-                                              10
+                                              5
                                           ),
                                           child: Image.asset(
                                             'assets/icons/ic_arrow_small_r.png',
