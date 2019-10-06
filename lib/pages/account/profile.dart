@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/pages/account/new.dart';
@@ -21,10 +22,40 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  int hight;
+  int weight;
+  Response response;
+  Dio dio = new Dio();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUser();
+  }
+
+  void getUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    print(authUser['authToken']);
+
+    dio.options.headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+
+    response = await dio.get(
+      "http://104.248.168.117/api/auth/me",
+    );
+
+    weight = response.data['user']['weight'];
+    hight = response.data['user']['hight'];
+    print(weight);
+    print(hight);
+    setState(() {
+
+    });
   }
 
   @override
@@ -70,7 +101,9 @@ class _EditProfileState extends State<EditProfile> {
                                           radius: 45.0,
                                           backgroundImage: NetworkImage(
                                               'https://www.allsolutionslocksmiths.com.au/wp-content/uploads/2011/07/user.png')),
-                                      Divider(color: Colors.white,),
+                                      Divider(
+                                        color: Colors.white,
+                                      ),
                                       Text(
                                         allTranslations.text("not logged"),
                                         style: TextStyle(
@@ -86,21 +119,19 @@ class _EditProfileState extends State<EditProfile> {
                                   child: Column(
                                     children: <Widget>[
                                       CircleAvatar(
-                                          radius: 45.0,
-                                          backgroundColor: Settings.mainColor(),
-                                          backgroundImage:
-                                          SharedData
-                                              .customerData[
-                                          'image'] ==
-                                              'Null' ||
-                                              SharedData.customerData[
-                                              'image'] ==
-                                                  null
-                                              ?
-                                          NetworkImage( 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                                          ):
-                                        NetworkImage('http://104.248.168.117${SharedData.customerData['image']}')
-                                        ,
+                                        radius: 45.0,
+                                        backgroundColor: Settings.mainColor(),
+                                        backgroundImage: SharedData
+                                                            .customerData[
+                                                        'image'] ==
+                                                    'Null' ||
+                                                SharedData.customerData[
+                                                        'image'] ==
+                                                    null
+                                            ? NetworkImage(
+                                                'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                            : NetworkImage(
+                                                'http://104.248.168.117${SharedData.customerData['image']}'),
                                       ),
                                       Text(
                                         SharedData.customerData['userName'],
@@ -201,7 +232,7 @@ class _EditProfileState extends State<EditProfile> {
                           Icons.arrow_forward_ios,
                           color: Colors.redAccent,
                         ),
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return EditProfileUser();
@@ -226,19 +257,31 @@ class _EditProfileState extends State<EditProfile> {
                         height: 0,
                       ),
                       ListTile(
-                        title: Text(
-                          allTranslations.text("Weight and height"),
-                          style: TextStyle(color: Colors.grey),
+                        title: Row(
+                          children: <Widget>[
+                            Text(
+                              allTranslations.text("Weight and height"),
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 20  ),
+                            ),
+                            Text("Kg: ",style: TextStyle(color: Colors.grey),),
+                            Text("$weight",style: TextStyle(color: Colors.grey)),
+                            Padding(
+                              padding: EdgeInsets.only(right: 20  ),
+                            ),
+                            Text("CM: ",style: TextStyle(color: Colors.grey)),
+                            Text("$hight",style: TextStyle(color: Colors.grey)),
+                          ],
                         ),
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.redAccent,
                         ),
                         onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return WeightAndHeight();
-                          }));
+                          Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new WeightAndHeight()),)
+                              .then((val)=>val?getUser():null);
                         },
                       ),
                       Divider(
@@ -260,34 +303,38 @@ class _EditProfileState extends State<EditProfile> {
                             )
                           ],
                         ),
-                        onTap: () {   
+                        onTap: () {
                           showCupertinoModalPopup(
-  context: context,
-  builder: (BuildContext context) => CupertinoActionSheet(
-      title:  Text( allTranslations.text("language")),
-      message:Text(  allTranslations.text("chooseLanguage"),),
-      actions: <Widget>[
-        CupertinoActionSheetAction(
-          child: Text( allTranslations.text("chooseLanguageOption1")),
-          onPressed: () {
-            allTranslations.setNewLanguage("en", true);
-            setState(() {});
-            Navigator.pop(context);
-            
-          },
-        ),
-        CupertinoActionSheetAction(
-          child: Text( allTranslations.text("chooseLanguageOption2")),
-          onPressed: () {
-            allTranslations.setNewLanguage("ar", true);
-            setState(() {});
-            Navigator.pop(context);
-          },
-        )
-      ],
-      ),
-); 
-                           
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoActionSheet(
+                              title: Text(allTranslations.text("language")),
+                              message: Text(
+                                allTranslations.text("chooseLanguage"),
+                              ),
+                              actions: <Widget>[
+                                CupertinoActionSheetAction(
+                                  child: Text(allTranslations
+                                      .text("chooseLanguageOption1")),
+                                  onPressed: () {
+                                    allTranslations.setNewLanguage("en", true);
+                                    setState(() {});
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: Text(allTranslations
+                                      .text("chooseLanguageOption2")),
+                                  onPressed: () {
+                                    allTranslations.setNewLanguage("ar", true);
+                                    setState(() {});
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+
                           // if (allTranslations.currentLanguage == "en") {
                           //   allTranslations.setNewLanguage("ar", true);
                           // } else {
@@ -310,9 +357,8 @@ class _EditProfileState extends State<EditProfile> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         onTap: () async {
-                          Navigator.of(context)
-                              .pushNamedAndRemoveUntil('/landPage',
-                                  (Route<dynamic> route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/landPage', (Route<dynamic> route) => false);
                           SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');

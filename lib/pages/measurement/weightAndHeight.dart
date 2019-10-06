@@ -185,6 +185,24 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     );
   }
 
+  void _showDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text("تنبية"),
+          content: Text("يرجى ادخال الوزن و الطول"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("تم",style: TextStyle(color: Colors.blue),),
+              onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     screenHeiget = MediaQuery.of(context).size.height;
@@ -345,36 +363,40 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async{
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        try {
-                          int average_calorie= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
-                          print('***********************************************');
-                          print(average_calorie);
-                          print('***********************************************');
-                          // get user token
-                          SharedPreferences sharedPreferences =
-                          await SharedPreferences.getInstance();
-                          Map<String, dynamic> authUser = jsonDecode(
-                              sharedPreferences.getString("authUser"));
-                          dio.options.headers = {
-                            "Authorization":
-                            "Bearer ${authUser['authToken']}",
-                          };
+                        if(userWidth.isEmpty || userHeight==90) {
+                        _showDialog();
+                      }
+                        else{
+                          try {
+                            int average_calorie= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
+                            print('***********************************************');
+                            print(average_calorie);
+                            print('***********************************************');
+                            // get user token
+                            SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                            Map<String, dynamic> authUser = jsonDecode(
+                                sharedPreferences.getString("authUser"));
+                            dio.options.headers = {
+                              "Authorization":
+                              "Bearer ${authUser['authToken']}",
+                            };
 
-                          response = await dio.post(
-                              "http://104.248.168.117/api/users/height-weight",data: {
-                            "_method": 'PUT',
-                            "height": userHeight,
-                            "weight": userWidth.toString(),
-                            "average_calorie": average_calorie,
-                          });
-                          print('Response = ${response.data}');
-                          Navigator.of(context).pop();
-                        } on DioError catch (e) {
-                          print(
-                              "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                          print(e.response.data);
-                          return false;
+                            response = await dio.post(
+                                "http://0104.248.168.117/api/users/height-weight",data: {
+                              "_method": 'PUT',
+                              "height": userHeight,
+                              "weight": userWidth.toString(),
+                              "average_calorie": average_calorie,
+                            });
+                            print('Response = ${response.data}');
+                            Navigator.pop(context,true);
+                          } on DioError catch (e) {
+                            print(
+                                "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                            print(e.response.data);
+                            return false;
+                          }
                         }
                         return true;
                       },
