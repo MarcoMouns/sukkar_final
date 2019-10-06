@@ -159,6 +159,9 @@ Map<String, String> englishLang = {
   "chooseLanguageOption1":"English",
   "chooseLanguageOption2":"العربية",
   "sugarNull":"no measures",
+  "refresh":"Refresh",
+  "measurementsDetails":"See all Reports"
+
 
  
 };

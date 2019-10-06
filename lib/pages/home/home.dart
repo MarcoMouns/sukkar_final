@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
       sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
       print("=================================================fffffffffff");
       timeOfLastMeasure =  response.data["Measurements"]["sugar"][0]["time"];
-      print(dataHome.sugar);
+     
       
       // if(dataHome.sugar == 0){
       //   dataHome.sugar = 0;
@@ -370,7 +370,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
               new LayoutId(
                 id: 1,
                 child: MainCircles.diabetes(
-                  percent: sugerToday == 0 ?dataHome.sugar/600 : sugerToday/600,
+                  percent: sugerToday == 0 || sugerToday == null?1/600 : sugerToday/600,
                   context: context,
                   
 //                sugar: dataHome['sugar'].toString(),z
@@ -380,6 +380,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                           ? '0'
                           : sugerToday.toString(),
                   raduis: _chartRadius,
+                  
                   status: sugerToday == 0 || sugerToday== null
                       ? allTranslations.text("sugarNull")
                        : (sugerToday< 80)?
@@ -521,8 +522,12 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                         "${(((ncal/ 0.0912) * 0.762) / 2).toInt()} :" +
                         allTranslations.text("Goal is")),
               )
+              
             ],
           );
+  
+  
+  
   }
 
   @override
@@ -601,6 +606,31 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
 
                 new ListView(
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        highlightColor: Colors.white,
+                        splashColor: Colors.white,
+                        focusColor: Colors.white,
+                        hoverColor: Colors.white,
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,  
+                        children: <Widget>[
+                        Icon(Icons.refresh ,color: Colors.grey, size: 16,),   
+                        Text(allTranslations.text("refresh") , 
+                        style:TextStyle(color: 
+                                Colors.grey , 
+                                 fontSize: 13 , 
+                                 fontWeight: FontWeight.normal)),
+                               
+                                                       ],),
+                        
+
+                        onTap: (){
+                          getHomeFetch();
+                        },
+                      ),
+                    ),
                     SizedBox(
                       child: Column(
                         children: <Widget>[
@@ -627,6 +657,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                 Expanded(
                                   child: upperCircles(context, _chartRadius, model),
                                 ),
+                                
                                 InkWell(
                                   onTap: () {
                                     widget.pageController.animateToPage(0,
@@ -643,18 +674,22 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                               ],
                             ),
                           ),
+                          
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                           ),
+                          
                           new Expanded(
                             flex: 2,
                             child: loading2 == true
                                 ? Padding(
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.all(10),
                               child: Loading(),
                             )
                                 : Column(
                               children: <Widget>[
+
+                    
                                 new SizedBox(
                                   height: MediaQuery.of(context).size.height / 10,
                                   child: Directionality(
@@ -719,6 +754,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
 //                                              fit: BoxFit.cover,
 //                                            )
 //                                          :
+
                                             new Row(
                                               
                                               children: <Widget>[
@@ -786,6 +822,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                 Padding(
                                   padding: EdgeInsets.only(top: 10),
                                 ),
+                                
                                 //new chart
                                 loading1 == true
                                     ? Padding(
@@ -1098,6 +1135,32 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                       ),
                       height: MediaQuery.of(context).size.height*0.83,
                     )
+                  
+                     ,Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        highlightColor: Colors.white,
+                        splashColor: Colors.white,
+                        focusColor: Colors.white,
+                        hoverColor: Colors.white,
+                        child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,  
+                        children: <Widget>[
+                        Icon(Icons.more_horiz ,color: Colors.grey, size: 16,),   
+                        Text(allTranslations.text("measurementsDetails") , 
+                        style:TextStyle(color: 
+                                Colors.grey , 
+                                 fontSize: 13 , 
+                                 fontWeight: FontWeight.normal)),
+                               
+                                                       ],),
+                        
+
+                        onTap: (){
+                          getHomeFetch();
+                        },
+                      ),
+                    ),
                   ],
                 ),
           );
@@ -1199,9 +1262,9 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       
       Color barColor;
 
-      if (val <= 120 && val >= 70) {
+      if (val <= 200 && val >= 80) {
         barColor = Colors.green[300];
-      } else if (val >= 200||val < 50) {
+      } else if (val > 200) {
         barColor = Color(0xFFd17356);
       } else {
         barColor = Colors.yellow[800];

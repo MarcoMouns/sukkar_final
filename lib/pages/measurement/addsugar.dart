@@ -324,10 +324,21 @@ class _AddSugarState extends State<AddSugar> {
       } else {
         list.add(
           ListTile(
-              title: Text(
-                measuresOfDay[i].toString(),
-                style: TextStyle(color: Colors.blue[300], fontSize: 20),
-              ),
+              title: RichText(
+  text: new TextSpan(
+    // Note: Styles for TextSpans must be explicitly defined.
+    // Child text spans will inherit styles from parent
+    style: new TextStyle(
+      color: Colors.blue[300], 
+      fontSize: 20
+    ),
+    children: <TextSpan>[
+      new TextSpan(text: measuresOfDay[i].toString(),
+      style: new TextStyle(fontWeight: FontWeight.bold)),
+      new TextSpan(text: ' mg/dl', style: new TextStyle(fontSize: 12)),
+    ],
+  ),
+ ),
               subtitle: Text(
                  timeOfMeasures[i].toString(),
                 style: TextStyle(fontSize: 13, color: Colors.blueGrey),

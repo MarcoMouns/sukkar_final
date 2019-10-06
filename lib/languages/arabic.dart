@@ -160,6 +160,8 @@ Map<String, String> arabicLang = {
   "chooseLanguage":"اختار اللغة",
   "chooseLanguageOption1":"English",
   "chooseLanguageOption2":"العربية",
-  "sugarNull":"لا يوجد "
+  "sugarNull":"لا يوجد ",
+  "refresh":"تحديث",
+  "measurementsDetails":"عرض كل التقارير"
 
 };
