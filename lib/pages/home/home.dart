@@ -12,8 +12,6 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
-import '../../api_provider.dart';
-import '../../doctor_chat_model.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -24,6 +22,8 @@ import 'package:health/pages/Settings.dart' as settings;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
+
+import 'measurementsDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
   final PageController pageController;
@@ -1157,7 +1157,12 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                         
 
                         onTap: (){
-                          getHomeFetch();
+                          
+                          Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MeasurementDetails(selectedDate)),
+                    );
                         },
                       ),
                     ),
