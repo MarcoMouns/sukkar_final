@@ -860,96 +860,70 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                         ),
                                         onTap: () => decrementWeek(),
                                       ),
-                                      Container(
+                                      Directionality(
+                                        textDirection: TextDirection.rtl,
+                                        child: Container(
 
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width *
-                                            0.88,
-                                        height: MediaQuery.of(context)
-                                            .size
-                                            .height *
-                                            0.24,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          children: <Widget>[
-                                            SwipeDetector(
-                                              onSwipeRight:(){
-                                                incrementWeek();
-                                              },
-                                              onSwipeLeft: () {
-                                                decrementWeek();
-                                              },
-                                              child: Row(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                              0.88,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                              0.24,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              SwipeDetector(
+                                                onSwipeRight:(){
+                                                  incrementWeek();
+                                                },
+                                                onSwipeLeft: () {
+                                                  decrementWeek();
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                                  children: charts(),
+
+                                                ),
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.9,
+                                                  height: 1,
+                                                  color: Colors.grey[500]),
+                                              Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment
-                                                    .spaceBetween,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                                children: charts(),
-
-                                              ),
-                                            ),
-                                            Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.9,
-                                                height: 1,
-                                                color: Colors.grey[500]),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceAround,
-                                              children: <Widget>[
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("saturday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("sunday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
+                                                    .spaceAround,
+                                                children: <Widget>[
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("saturday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                         style: TextStyle(
                                                             fontSize: MediaQuery.of(
                                                                 context)
@@ -957,154 +931,183 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                                                 .width *
                                                                 16 /
                                                                 720,
-                                                            color:
-                                                            Colors.grey),
-                                                        textScaleFactor: 1.0),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("monday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("tuesday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("wednesday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("thursday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " " ? " ":
-                                                    '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      allTranslations
-                                                          .text("friday"),
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              21 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                      textScaleFactor: 1.0,
-                                                    ),
-                                                    Text(datesOfMeasures[0][0] == " "? " ":
-                                                    '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                              context)
-                                                              .size
-                                                              .width *
-                                                              16 /
-                                                              720,
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("sunday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
+                                                          style: TextStyle(
+                                                              fontSize: MediaQuery.of(
+                                                                  context)
+                                                                  .size
+                                                                  .width *
+                                                                  16 /
+                                                                  720,
+                                                              color:
+                                                              Colors.grey),
+                                                          textScaleFactor: 1.0),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("monday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("tuesday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("wednesday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("thursday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " " ? " ":
+                                                      '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        allTranslations
+                                                            .text("friday"),
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                21 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                      Text(datesOfMeasures[0][0] == " "? " ":
+                                                      '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
+                                                        style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                context)
+                                                                .size
+                                                                .width *
+                                                                16 /
+                                                                720,
+                                                            color: Colors.grey),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       InkWell(
