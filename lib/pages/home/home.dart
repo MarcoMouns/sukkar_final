@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
   final String baseUrl = 'http://104.248.168.117/api';
 
 
-  Future<Void> getMeasurementsForDay(String date) async {
+  Future<int> getMeasurementsForDay(String date) async {
     Response response;
 
     // try {
@@ -850,7 +850,9 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                               bottom: MediaQuery.of(context)
                                                   .padding
                                                   .bottom +
-                                                  60),
+                                                  60,
+                                          top: MediaQuery.of(context).padding.top+60,
+                                          right: MediaQuery.of(context).padding.right+10),
                                           child: Image.asset(
                                             'assets/icons/ic_arrow_small_l.png',
                                             scale: 2,
@@ -863,7 +865,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                         width: MediaQuery.of(context)
                                             .size
                                             .width *
-                                            0.9,
+                                            0.88,
                                         height: MediaQuery.of(context)
                                             .size
                                             .height *
@@ -1111,7 +1113,16 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                                               bottom: MediaQuery.of(context)
                                                   .padding
                                                   .bottom +
-                                                  60),
+                                                  60,
+                                          top: MediaQuery.of(context)
+                                              .padding
+                                              .top +
+                                              60,
+                                          left: MediaQuery.of(context)
+                                              .padding
+                                              .left +
+                                              10
+                                          ),
                                           child: Image.asset(
                                             'assets/icons/ic_arrow_small_r.png',
                                             scale: 2,
@@ -1243,13 +1254,15 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: inChart(i),
       ));
-      list.add(
-        Container(
-          width: 1.2,
-          height: MediaQuery.of(context).size.height * 0.17,
-          color: Colors.grey,
-        ),
-      );
+      if(i<6){
+        list.add(
+          Container(
+            width: 1.2,
+            height: MediaQuery.of(context).size.height * 0.17,
+            color: Colors.grey,
+          ),
+        );
+      }
     }
     return list;
   }
