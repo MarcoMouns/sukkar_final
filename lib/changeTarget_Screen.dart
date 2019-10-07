@@ -7,7 +7,6 @@ class changeTargetScreen extends StatefulWidget {
 
 class _changeTargetScreenState extends State<changeTargetScreen> {
 
-  void
 
   @override
   Widget build(BuildContext context) {
