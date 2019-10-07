@@ -220,7 +220,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                 title: Text(allTranslations.text("weight and height")),
               ),
               body: ListView(
-                physics: NeverScrollableScrollPhysics(),
+                //physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
