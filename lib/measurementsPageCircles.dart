@@ -40,11 +40,11 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         isOnSide: false,
         isUpper: true,
         radius: raduis,
-        title: widget.cirTitle,
+        title: widget.cirTitle == null ? 0 :widget.cirTitle,
         image: widget.iconName,
         footer: Text(widget.cirFooter),
         time: "",
-        percent: widget.cirPercent,
+        percent: widget.cirPercent == null ? 0 :widget.cirPercent ,
         color: widget.cirColor,
       );
     }

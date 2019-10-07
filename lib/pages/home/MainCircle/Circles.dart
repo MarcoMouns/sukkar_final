@@ -255,7 +255,7 @@ abstract class MainCircles {
             : footer,
         time: time,
         percent: percent,
-        color: (int.parse(sugar)< 80) ?Color.fromRGBO(254, 252, 232, 1)
+        color: (int.parse(sugar)< 80 || sugar == null) ?Color.fromRGBO(254, 252, 232, 1)
                        : (int.parse(sugar) >= 80 && int.parse(sugar) <= 200) 
                                ? Color.fromRGBO(229, 246, 211, 1) :
                                Color.fromRGBO(253, 238, 238, 1)
