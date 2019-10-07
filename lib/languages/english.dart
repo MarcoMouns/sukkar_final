@@ -27,6 +27,7 @@ Map<String, String> englishLang = {
   "complete": "Complete",
   "myReports": "My reports",
   "cups": "Cups",
+  "sugarDetails":"Sugar",
   "bloodPressure": "Blood pressure",
   "heartRate": "Heart rate",
   "cals": "Cals",
@@ -160,7 +161,8 @@ Map<String, String> englishLang = {
   "chooseLanguageOption2":"العربية",
   "sugarNull":"no measures",
   "refresh":"Refresh",
-  "measurementsDetails":"See all Reports"
+  "measurementsDetails":"See all Reports",
+  "reportsPage":"Measurement report"
 
 
  

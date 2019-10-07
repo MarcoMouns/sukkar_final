@@ -28,6 +28,7 @@ Map<String, String> arabicLang = {
   "complete": "كمل",
   "myReports": "التقارير الخاصة بي",
   "cups": "الأكواب",
+  "sugarDetails":"السكر",
   "bloodPressure": "ضغط الدم",
   "heartRate": "ضربات القلب",
   "cals": "السعرات",
@@ -162,6 +163,8 @@ Map<String, String> arabicLang = {
   "chooseLanguageOption2":"العربية",
   "sugarNull":"لا يوجد ",
   "refresh":"تحديث",
-  "measurementsDetails":"عرض كل التقارير"
+  "measurementsDetails":"عرض كل التقارير",
+  "reportsPage":"التقارير"
+
 
 };

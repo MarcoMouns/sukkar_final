@@ -1,6 +1,7 @@
 import 'package:health/Models/article_tab/article_details.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/scoped_models/main.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter/material.dart';
@@ -65,7 +66,9 @@ class _ArticleDetailsState extends State<ArticleDetails> {
             backgroundColor: Colors.white,
             //elevation: 0.0,
             leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Share.share('check out my website https://example.com');
+              },
               icon: Icon(
                 Icons.share,
                 color: Colors.black,
