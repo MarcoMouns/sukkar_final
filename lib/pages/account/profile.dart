@@ -11,6 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../changeTarget_Screen.dart';
 import '../../languages/all_translations.dart';
 import 'dart:convert';
 
@@ -353,6 +354,24 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       ListTile(
                         title: Text(
+                          "تغير الهدف",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                        onTap: () async {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => changeTargetScreen())
+                          );
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      ListTile(
+                        title: Text(
                           allTranslations.text("signout"),
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -363,6 +382,7 @@ class _EditProfileState extends State<EditProfile> {
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');
                         },
+
                       ),
                     ],
                   ),

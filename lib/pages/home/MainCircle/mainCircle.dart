@@ -73,9 +73,10 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                     widget.isOnSide && widget.isUpper
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.start,
-
                 children: [
-                  SizedBox(width: widget.radius/2.2,height: widget.radius/2.2,
+                  SizedBox(
+                    width: widget.radius/2.2,
+                    height: widget.radius/2.2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
                           completeColor: Color.fromRGBO(12, 156, 205, 19),
@@ -99,15 +100,29 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                    ? 4
                                    : 4.5,
                                 ),
-                                
 
-                              Flexible(
+
+                              widget.status == null
+                                  ? Flexible(
                                 child: FittedBox(
-                                  child: Text(widget.title==null?"--":
-                                      (int.parse(widget.title)*_animationController.value).toInt().toString(),
+                                  child: Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
                                       style: TextStyle(
                                           color: Colors.grey,
-                                          fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?9: widget.radius/12)),
+                                          fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
+                                ),
+                              )
+                                  : Flexible(
+                                child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
+                                        Text("mg/dl",style: TextStyle(fontSize: 10,color: Colors.grey),)
+                                      ],
+                                    )
                                 ),
                               ),
 
