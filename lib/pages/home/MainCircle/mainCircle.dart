@@ -84,68 +84,81 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                       child: CircleAvatar(
                         radius: (widget.radius - 6) / 2,
                         backgroundColor: widget.color,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            widget.status == null
-                                ? Wrap()
-                                :Padding(padding: EdgeInsets.only(top: 20)),
-                             Image.asset(
-                                "assets/icons/${widget.image}.png",fit: BoxFit.fill,scale:  widget.status == null
-                                 ? 4
-                                 : 4.5,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              widget.status == null
+                                  ? Wrap()
+                                  :Padding(padding: EdgeInsets.only(top: 20)),
+                               Image.asset(
+                                  "assets/icons/${widget.image}.png",fit: BoxFit.fill,scale:  widget.status == null
+                                   ? 4
+                                   : 4.5,
+                                ),
+                                
+
+                              Flexible(
+                                child: FittedBox(
+                                  child: Text(widget.title==null?"--":
+                                      (int.parse(widget.title)*_animationController.value).toInt().toString(),
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?9: widget.radius/12)),
+                                ),
                               ),
 
-                            Flexible(
-                              child: FittedBox(
-                                child: Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
+                              Padding(padding: EdgeInsets.only(
+                                top: 5
+                              )),
+
+       
+
+
+                              widget.status == null
+                                  ? Wrap()
+                                  : FittedBox(
+                                child: Text(
+                                  widget.status,
+                                  style: TextStyle(color: Colors.redAccent,height: 1),
+                                ),
                               ),
-                            ),
 
-                            Padding(padding: EdgeInsets.only(
-                              top: 5
-                            )),
-
-                            ///this is hard coded until we work on the backend
-                            //TODO:: @me and @zizo
-
-
-                            widget.status == null
-                                ? Wrap()
-                                : FittedBox(
-                              child: Text(
-                                widget.status,
-                                style: TextStyle(color: Colors.redAccent,height: 1),
+                              widget.status == null
+                                  ? Wrap()
+                                  : FittedBox(
+                                child: Text(
+                                  widget.time,
+                                  style: TextStyle(color: Colors.grey,height: 1),
+                                ),
                               ),
-                            ),
-                            
+                              
 
 
-                            widget.status == null
-                                ? Wrap()
-                                : FittedBox(
-                              // child: Text(
+                              widget.status == null
+                                  ? Wrap()
+                                  : FittedBox(
+                                // child: Text(
 
-                              //   //TODO:: @me @zizo
-                              //   ///this commeted until we work on the back end
-                              //   //"${widget.status ?? ''}"
-                              //   "",
-                              //   style: TextStyle(color: Colors.grey,height: 1),
-                              // ),
-                            ),
+                                //   //TODO:: @me @zizo
+                                //   ///this commeted until we work on the back end
+                                //   //"${widget.status ?? ''}"
+                                //   "",
+                                //   style: TextStyle(color: Colors.grey,height: 1),
+                                // ),
+                              ),
 
-                            widget.status == null
-                                ? Wrap()
-                                :Padding(
-                              padding: EdgeInsets.only(bottom: 15),
-                            ),
+                              widget.status == null
+                                  ? Wrap()
+                                  :Padding(
+                                padding: EdgeInsets.only(bottom: 15),
+                              ),
 
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

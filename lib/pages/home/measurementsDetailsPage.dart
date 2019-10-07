@@ -88,7 +88,8 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
           SizedBox(
             height: 40,
           ),
-          Row(
+          FittedBox(
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
              SizedBox(
@@ -139,11 +140,16 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
              
             ],
           ),
-          Row(
+          ),
+
+          FittedBox(
+            
+            fit: BoxFit.scaleDown,
+            child:  Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(
-                height: 150,
+                height: 160,
                 child: SizedBox(
                width: 150,
                height: 160,
@@ -160,8 +166,13 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
               )
             ],
           ),
-             Row(
-            mainAxisAlignment: MainAxisAlignment.center,   
+          ),
+         
+           FittedBox(
+             
+             child:   Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+               
             children: <Widget>[
              SizedBox(
                width: 120,
@@ -178,7 +189,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
              ),
               SizedBox(
                width: 120,
-               height: 110,
+               height: 120,
                child: measurementsCircles("ic_steps",
                  steps.toString(),
                  allTranslations.text("steps"),
@@ -205,6 +216,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
              
             ],
           ),
+           )
         ],
       ), 
         

@@ -235,7 +235,9 @@ abstract class MainCircles {
       double raduis,
       Widget footer,
       Function ontap,
-      double percent}) {
+      double percent,
+      String time,
+      }) {
     return SizedBox(
       height: raduis + 25,
       child: ChartWidget(
@@ -251,8 +253,7 @@ abstract class MainCircles {
                 width: 0,
               )
             : footer,
-        time: intl.DateFormat("Hm", allTranslations.locale.languageCode)
-            .format(DateTime.now()),
+        time: time,
         percent: percent,
         color: (int.parse(sugar)< 80) ?Color.fromRGBO(254, 252, 232, 1)
                        : (int.parse(sugar) >= 80 && int.parse(sugar) <= 200) 

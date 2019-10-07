@@ -372,8 +372,7 @@ Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
                 child: MainCircles.diabetes(
                   percent: sugerToday == 0 || sugerToday == null?1/600 : sugerToday/600,
                   context: context,
-                  
-//                sugar: dataHome['sugar'].toString(),z
+                  time:timeOfLastMeasure,
                   sugar: sugerToday == 0
                       ?'0'
                       : sugerToday == null
