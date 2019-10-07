@@ -338,165 +338,6 @@ class _FriendsPageState extends State<FriendsPage>
                                         controller: _tabController,
                                         physics: AlwaysScrollableScrollPhysics(),
                                         children: <Widget>[
-                                          followers.isEmpty
-                                              ? Center(
-                                              child: Text(
-                                                allTranslations.text('emptyFollowers'),
-                                                style: TextStyle(fontWeight: FontWeight.bold),
-                                              ))
-                                              : ListView.builder(
-                                              itemCount: followers.length,
-                                              itemBuilder: (context, index) {
-                                                return new Column(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      color: index % 2 == 0
-                                                          ? Colors.white
-                                                          : Colors.grey[100],
-                                                      child: ListTile(
-                                                        onTap: () {
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => Chat(isDoctor: false)));
-                                                        },
-                                                        leading: new Container(
-                                                          width: 40,
-                                                          height: 40,
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              image: DecorationImage(
-                                                                  image: followers[index]
-                                                                      .image ==
-                                                                      'Null'
-                                                                      ? NetworkImage(
-                                                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
-                                                                      : NetworkImage(
-                                                                      'http://104.248.168.117/${followers[index].image}'),
-                                                                  fit: BoxFit.fill),
-                                                              color: Colors.blue),
-                                                        ),
-                                                        title: new Text(
-                                                          followers[index].name,
-                                                          style: TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  112, 113, 113, 1)),
-                                                        ),
-                                                        trailing: new Row(
-                                                          mainAxisSize: MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            new InkWell(
-                                                                child: Image.asset(
-                                                                  "assets/icons/ic_chart.png",
-                                                                  width: 60,
-                                                                ),
-                                                                onTap: () {
-                                                                  Navigator.of(context).push(
-                                                                      MaterialPageRoute(
-                                                                          builder:
-                                                                              (context) {
-                                                                            return ProfileChart(
-                                                                                image:
-                                                                                followers[index]
-                                                                                    .image,
-                                                                                name:
-                                                                                followers[index]
-                                                                                    .name,
-                                                                                isMyProfile: false,
-                                                                                date: "",
-                                                                                model:
-                                                                                widget.model);
-                                                                          }));
-                                                                }),
-                                                            followers[index].state == 0
-                                                                ? new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_remove.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                try {
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio2.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
-                                                                  response2 =
-                                                                  await dio2.post(
-                                                                      "http://104.248.168.117/api/unfollow/${followers[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
-                                                                : new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_remove_friend.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                try {
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio2.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
-
-                                                                  response2 =
-                                                                  await dio2.post(
-                                                                      "http://104.248.168.117/api/follow/${followers[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Divider(
-                                                      height: 3,
-                                                      color: Colors.grey,
-                                                    )
-                                                  ],
-                                                );
-                                              }),
                                           following.isEmpty
                                               ? Center(
                                             child: Text(
@@ -682,7 +523,166 @@ class _FriendsPageState extends State<FriendsPage>
                                                     )
                                                   ],
                                                 );
-                                              })
+                                              }),
+                                          followers.isEmpty
+                                              ? Center(
+                                              child: Text(
+                                                allTranslations.text('emptyFollowers'),
+                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                              ))
+                                              : ListView.builder(
+                                              itemCount: followers.length,
+                                              itemBuilder: (context, index) {
+                                                return new Column(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      color: index % 2 == 0
+                                                          ? Colors.white
+                                                          : Colors.grey[100],
+                                                      child: ListTile(
+                                                        onTap: () {
+//                    Navigator.of(context).push(MaterialPageRoute(
+//                        builder: (context) => Chat(isDoctor: false)));
+                                                        },
+                                                        leading: new Container(
+                                                          width: 40,
+                                                          height: 40,
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              image: DecorationImage(
+                                                                  image: followers[index]
+                                                                      .image ==
+                                                                      'Null'
+                                                                      ? NetworkImage(
+                                                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                                                      : NetworkImage(
+                                                                      'http://104.248.168.117/${followers[index].image}'),
+                                                                  fit: BoxFit.fill),
+                                                              color: Colors.blue),
+                                                        ),
+                                                        title: new Text(
+                                                          followers[index].name,
+                                                          style: TextStyle(
+                                                              color: Color.fromRGBO(
+                                                                  112, 113, 113, 1)),
+                                                        ),
+                                                        trailing: new Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            new InkWell(
+                                                                child: Image.asset(
+                                                                  "assets/icons/ic_chart.png",
+                                                                  width: 60,
+                                                                ),
+                                                                onTap: () {
+                                                                  Navigator.of(context).push(
+                                                                      MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                            return ProfileChart(
+                                                                                image:
+                                                                                followers[index]
+                                                                                    .image,
+                                                                                name:
+                                                                                followers[index]
+                                                                                    .name,
+                                                                                isMyProfile: false,
+                                                                                date: "",
+                                                                                model:
+                                                                                widget.model);
+                                                                          }));
+                                                                }),
+                                                            followers[index].state == 0
+                                                                ? new IconButton(
+                                                              icon: Image.asset(
+                                                                "assets/icons/ic_remove.png",
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              padding:
+                                                              EdgeInsets.all(0),
+                                                              onPressed: () async {
+                                                                try {
+                                                                  // get user token
+                                                                  SharedPreferences
+                                                                  sharedPreferences =
+                                                                  await SharedPreferences
+                                                                      .getInstance();
+                                                                  Map<String, dynamic>
+                                                                  authUser =
+                                                                  jsonDecode(sharedPreferences
+                                                                      .getString(
+                                                                      "authUser"));
+                                                                  dio2.options
+                                                                      .headers = {
+                                                                    "Authorization":
+                                                                    "Bearer ${authUser['authToken']}",
+                                                                  };
+                                                                  response2 =
+                                                                  await dio2.post(
+                                                                      "http://104.248.168.117/api/unfollow/${followers[index].id}");
+                                                                  print(
+                                                                      'Response = ${response.data}');
+                                                                } on DioError catch (e) {
+                                                                  print(
+                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                  print(e
+                                                                      .response.data);
+                                                                  return false;
+                                                                }
+                                                                return true;
+                                                              },
+                                                            )
+                                                                : new IconButton(
+                                                              icon: Image.asset(
+                                                                "assets/icons/ic_remove_friend.png",
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                              padding:
+                                                              EdgeInsets.all(0),
+                                                              onPressed: () async {
+                                                                try {
+                                                                  // get user token
+                                                                  SharedPreferences
+                                                                  sharedPreferences =
+                                                                  await SharedPreferences
+                                                                      .getInstance();
+                                                                  Map<String, dynamic>
+                                                                  authUser =
+                                                                  jsonDecode(sharedPreferences
+                                                                      .getString(
+                                                                      "authUser"));
+                                                                  dio2.options
+                                                                      .headers = {
+                                                                    "Authorization":
+                                                                    "Bearer ${authUser['authToken']}",
+                                                                  };
+
+                                                                  response2 =
+                                                                  await dio2.post(
+                                                                      "http://104.248.168.117/api/follow/${followers[index].id}");
+                                                                  print(
+                                                                      'Response = ${response.data}');
+                                                                } on DioError catch (e) {
+                                                                  print(
+                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                  print(e
+                                                                      .response.data);
+                                                                  return false;
+                                                                }
+                                                                return true;
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Divider(
+                                                      height: 3,
+                                                      color: Colors.grey,
+                                                    )
+                                                  ],
+                                                );
+                                              }),
                                         ],
                                       ))
                                 ],
