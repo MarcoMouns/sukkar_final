@@ -305,7 +305,9 @@ class _AddFoodState extends State<AddFood> {
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context,true);
+                        },
                       ),
                     )
                   ],
