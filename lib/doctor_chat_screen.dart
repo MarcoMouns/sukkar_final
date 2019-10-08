@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'DocInfo_screen.dart';
 import 'api_provider.dart';
 import 'chat.dart';
 import 'const.dart';
@@ -63,70 +64,74 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
-                      child:  Material(
-                        child: document['photoUrl'] != null
-                            ? CachedNetworkImage(
-                          placeholder: (context, url) => Container(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 1.0,
-                              valueColor:
-                              AlwaysStoppedAnimation<Color>(themeColor),
-                            ),
-                            width: 50.0,
-                            height: 50.0,
-                            padding: EdgeInsets.all(15.0),
-                          ),
-                          imageUrl:
-                          'http://104.248.168.117${document['photoUrl']}',
-                          width: 50.0,
-                          height: 50.0,
-                          fit: BoxFit.cover,
-                        )
-                            : Icon(
-                          Icons.account_circle,
-                          size: 50.0,
-                          color: greyColor,
+                InkWell(
+                child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
+                  child:  Material(
+                    child: document['photoUrl'] != null
+                        ? CachedNetworkImage(
+                      placeholder: (context, url) => Container(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.0,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(themeColor),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        clipBehavior: Clip.hardEdge,
+                        width: 50.0,
+                        height: 50.0,
+                        padding: EdgeInsets.all(15.0),
                       ),
+                      imageUrl:
+                      'http://104.248.168.117${document['photoUrl']}',
+                      width: 50.0,
+                      height: 50.0,
+                      fit: BoxFit.cover,
+                    )
+                        : Icon(
+                      Icons.account_circle,
+                      size: 50.0,
+                      color: greyColor,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Container(
-                        child: Text(
-                          '${document['nickname']}',
-                          style: TextStyle(color: primaryColor, height: 0),
-                        ),
-                        alignment: Alignment.centerLeft,
-                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                      ),
-                    ),
-                  ],
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    clipBehavior: Clip.hardEdge,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Image.asset(
-                    'assets/icons/ic_message.png',
-                    scale: 2.5,
+                  padding: EdgeInsets.only(right: 15),
+                  child: Container(
+                    child: Text(
+                      '${document['nickname']}',
+                      style: TextStyle(color: primaryColor, height: 0),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                   ),
                 ),
               ],
             ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
+            ),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Image.asset(
+                      'assets/icons/ic_message.png',
+                      scale: 2.5,
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => Chat(
                         peerId: document.documentID,
                         peerAvatar: document['photoUrl'],
-                      )));
-            },
+                      ),
+                    ),
+                  ),
+                )
+              ],
+              ),
             color: greyColor2,
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
             shape:
@@ -148,96 +153,108 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
-                      child:  Material(
-                        child: document['photoUrl'] != null
-                            ? CachedNetworkImage(
-                          placeholder: (context, url) => Container(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 1.0,
-                              valueColor:
-                              AlwaysStoppedAnimation<Color>(themeColor),
+                InkWell(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
+                        child:  Material(
+                          child: document['photoUrl'] != null
+                              ? CachedNetworkImage(
+                            placeholder: (context, url) => Container(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 1.0,
+                                valueColor:
+                                AlwaysStoppedAnimation<Color>(themeColor),
+                              ),
+                              width: 50.0,
+                              height: 50.0,
+                              padding: EdgeInsets.all(15.0),
                             ),
+                            imageUrl:
+                            'http://104.248.168.117${document['photoUrl']}',
                             width: 50.0,
                             height: 50.0,
-                            padding: EdgeInsets.all(15.0),
+                            fit: BoxFit.cover,
+                          )
+                              : Icon(
+                            Icons.account_circle,
+                            size: 50.0,
+                            color: greyColor,
                           ),
-                          imageUrl:
-                          'http://104.248.168.117${document['photoUrl']}',
-                          width: 50.0,
-                          height: 50.0,
-                          fit: BoxFit.cover,
-                        )
-                            : Icon(
-                          Icons.account_circle,
-                          size: 50.0,
-                          color: greyColor,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        clipBehavior: Clip.hardEdge,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                '${document['nickname']}',
-                                style: TextStyle(color: primaryColor, height: 0),
-                              ),
-                              alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
-                            ),
-                            Padding(padding: EdgeInsets.only(top: 5)),
-                            Text(
-                              "${_specoalists[specialityId].titleAr}",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            RatingBar(
-                              initialRating: starRating,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 20,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.blue,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                            ),
-                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          clipBehavior: Clip.hardEdge,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Image.asset(
-                    'assets/icons/ic_message.png',
-                    scale: 2.5,
+                      Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  '${document['nickname']}',
+                                  style: TextStyle(color: primaryColor, height: 0),
+                                ),
+                                alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 5)),
+                              Text(
+                                "${_specoalists[specialityId].titleAr}",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              RatingBar(
+                                initialRating: starRating,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 20,
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.blue,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  print(rating);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocInfo(
+                peerId: document.documentID,
+                peerAvatar: document['photoUrl'],
+                dId: document['dId'],
                 ),
-              ],
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                ));
+                },
+                ),
+                InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Image.asset(
+                      'assets/icons/ic_message.png',
+                      scale: 2.5,
+                    ),
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => Chat(
                         peerId: document.documentID,
                         peerAvatar: document['photoUrl'],
-                      )));
-            },
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
             color: greyColor2,
             padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
             shape:
