@@ -80,19 +80,6 @@ class _EditProfileState extends State<EditProfile> {
                         SharedData.customerData == null
                             ? Container(width: 30)
                             : Container(width: 30),
-//                        new InkWell(
-//                                onTap: () {
-////                            Navigator.of(context).pop();
-////                            Navigator.push(
-////                                context,
-////                                MaterialPageRoute(
-////                                    builder: (context) => NewUser()));
-//                                },
-//                                child: Text(
-//                                  allTranslations.text("edit"),
-//                                  style: TextStyle(color: Colors.white),
-//                                ),
-//                              ),
                         SharedData.customerData == null
                             ? new Expanded(
                                 child: Center(
@@ -166,64 +153,6 @@ class _EditProfileState extends State<EditProfile> {
                   padding: const EdgeInsets.all(0.0),
                   child: ListView(
                     children: <Widget>[
-//                      new Center(
-//                        child: InkWell(
-//                          onTap: () {
-//                            Navigator.of(context).pushNamed('/offers');
-//                          },
-//                          child: Column(
-//                            children: <Widget>[
-//                              Image.asset(
-//                                "assets/icons/ic_giftbox.png",
-//                                width: 50,
-//                                height: 50,
-//                              ),
-//                              Text(
-//                                allTranslations.text("adsAndOffers"),
-//                                style: TextStyle(color: Settings.mainColor()),
-//                              ),
-//                            ],
-//                          ),
-//                        ),
-//                      ),
-//                      ListTile(
-//                        title: Text(
-//                          allTranslations.text("choose main Circles"),
-//                          style: TextStyle(color: Colors.grey),
-//                        ),
-//                        trailing: Icon(
-//                          Icons.arrow_forward_ios,
-//                          color: Colors.redAccent,
-//                        ),
-//                        onTap: () {
-//                          Navigator.of(context)
-//                              .push(MaterialPageRoute(builder: (context) {
-//                            return ChooseMainWidgets();
-//                          }));
-//                        },
-//                      ),
-//                      Divider(
-//                        height: 0,
-//                      ),
-//                      new ListTile(
-//                        onTap: () {
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => NewUser()));
-//                        },
-//                        title: Text(
-//                          allTranslations.text("editProfile"),
-//                          style: TextStyle(color: Colors.grey),
-//                        ),
-//                        trailing: Icon(
-//                          Icons.arrow_forward_ios,
-//                          color: Colors.redAccent,
-//                        ),
-//                      ),
-//                      Divider(
-//                        height: 0,
-//                      ),
                       ListTile(
                         title: Text(
                           allTranslations.text("editProfile"),
@@ -265,15 +194,15 @@ class _EditProfileState extends State<EditProfile> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 20  ),
+                              padding: EdgeInsets.only(right: 10  ),
                             ),
-                            Text("Kg: ",style: TextStyle(color: Colors.grey),),
-                            Text("$weight",style: TextStyle(color: Colors.grey)),
+                            FittedBox(child: Text("Kg: ",style: TextStyle(color: Colors.grey),)),
+                            FittedBox(child:Text("$weight",style: TextStyle(color: Colors.grey),)),
                             Padding(
-                              padding: EdgeInsets.only(right: 20  ),
+                              padding: EdgeInsets.only(right: 5  ),
                             ),
-                            Text("CM: ",style: TextStyle(color: Colors.grey)),
-                            Text("$hight",style: TextStyle(color: Colors.grey)),
+                            FittedBox(child: Text("CM: ",style: TextStyle(color: Colors.grey)),),
+                            FittedBox(child: Text("$hight",style: TextStyle(color: Colors.grey)),),
                           ],
                         ),
                         trailing: Icon(

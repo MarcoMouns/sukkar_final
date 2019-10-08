@@ -164,7 +164,9 @@ Map<String, String> arabicLang = {
   "sugarNull":"لا يوجد ",
   "refresh":"تحديث",
   "measurementsDetails":"عرض كل التقارير",
-  "reportsPage":"التقارير"
+  "reportsPage":"التقارير",
+  "birthDate":"تاريخ الميلاد",
+  "Add glucose meter":"اضف جهاز قياس",
 
 
 };

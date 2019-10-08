@@ -38,8 +38,8 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.alexapps.sukar"
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion 19
+        targetSdkVersion 28
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

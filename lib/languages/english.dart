@@ -162,7 +162,11 @@ Map<String, String> englishLang = {
   "sugarNull":"no measures",
   "refresh":"Refresh",
   "measurementsDetails":"See all Reports",
-  "reportsPage":"Measurement report"
+  "reportsPage":"Measurement report",
+  "birthDate":"Birthdate",
+  "Add glucose meter":"Add glucose meter",
+
+
 
 
  

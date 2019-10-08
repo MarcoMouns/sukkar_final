@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/sugar.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/bluetooth/bluetoothDevice.dart';
 import 'package:health/pages/home/home.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
@@ -262,7 +263,16 @@ class _AddSugarState extends State<AddSugar> {
                                 ),
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => BlueToothDevice (model)),
+      );
+
+                              
+                            
+                            },
                           ),
                         ],
                       ),
