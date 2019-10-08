@@ -132,8 +132,11 @@ class _HomePageState extends State<HomePage> {
     print("waaw===========");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print("waaw===========");
-
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
     ncal = prefs.getInt('calTarget');
+    print(ncal);
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+
     if (ncal == null || ncal == 0) {
       ncal = 1200;
     }

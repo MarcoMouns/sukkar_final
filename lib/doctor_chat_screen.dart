@@ -52,114 +52,200 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == SharedData.customerData['fuid'] ||
-        document['isDoctor'] == isDoctor ||
-        document['specialistId'] != specialityId) {
-      return Container();
-    } else {
-      return Container(
-        child: FlatButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                 Container(
-                   margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
-                   child:  Material(
-                     child: document['photoUrl'] != null
-                         ? CachedNetworkImage(
-                       placeholder: (context, url) => Container(
-                         child: CircularProgressIndicator(
-                           strokeWidth: 1.0,
-                           valueColor:
-                           AlwaysStoppedAnimation<Color>(themeColor),
-                         ),
-                         width: 50.0,
-                         height: 50.0,
-                         padding: EdgeInsets.all(15.0),
-                       ),
-                       imageUrl:
-                       'http://104.248.168.117${document['photoUrl']}',
-                       width: 50.0,
-                       height: 50.0,
-                       fit: BoxFit.cover,
-                     )
-                         : Icon(
-                       Icons.account_circle,
-                       size: 50.0,
-                       color: greyColor,
-                     ),
-                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                     clipBehavior: Clip.hardEdge,
-                   ),
-                 ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              '${document['nickname']}',
-                              style: TextStyle(color: primaryColor, height: 0),
+    if(isDoctor){
+      if (document['id'] == SharedData.customerData['fuid'] ||
+          document['isDoctor'] == isDoctor) {
+        return Container();
+      } else {
+        return Container(
+          child: FlatButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
+                      child:  Material(
+                        child: document['photoUrl'] != null
+                            ? CachedNetworkImage(
+                          placeholder: (context, url) => Container(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.0,
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(themeColor),
                             ),
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                            width: 50.0,
+                            height: 50.0,
+                            padding: EdgeInsets.all(15.0),
                           ),
-                          Padding(padding: EdgeInsets.only(top: 5)),
-                          Text(
-                            "${_specoalists[specialityId].titleAr}",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          RatingBar(
-                            initialRating: starRating,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 20,
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.blue,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                        ],
+                          imageUrl:
+                          'http://104.248.168.117${document['photoUrl']}',
+                          width: 50.0,
+                          height: 50.0,
+                          fit: BoxFit.cover,
+                        )
+                            : Icon(
+                          Icons.account_circle,
+                          size: 50.0,
+                          color: greyColor,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        clipBehavior: Clip.hardEdge,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Image.asset(
-                  'assets/icons/ic_message.png',
-                  scale: 2.5,
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Container(
+                        child: Text(
+                          '${document['nickname']}',
+                          style: TextStyle(color: primaryColor, height: 0),
+                        ),
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Image.asset(
+                    'assets/icons/ic_message.png',
+                    scale: 2.5,
+                  ),
+                ),
+              ],
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                        peerId: document.documentID,
+                        peerAvatar: document['photoUrl'],
+                      )));
+            },
+            color: greyColor2,
+            padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           ),
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Chat(
-                          peerId: document.documentID,
-                          peerAvatar: document['photoUrl'],
-                        )));
-          },
-          color: greyColor2,
-          padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        ),
-        margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
-      );
+          margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+        );
+      }
+    }
+    else{
+      if (document['id'] == SharedData.customerData['fuid'] ||
+          document['isDoctor'] == isDoctor ||
+          document['specialistId'] != specialityId) {
+        return Container();
+      } else {
+        return Container(
+          child: FlatButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
+                      child:  Material(
+                        child: document['photoUrl'] != null
+                            ? CachedNetworkImage(
+                          placeholder: (context, url) => Container(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.0,
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(themeColor),
+                            ),
+                            width: 50.0,
+                            height: 50.0,
+                            padding: EdgeInsets.all(15.0),
+                          ),
+                          imageUrl:
+                          'http://104.248.168.117${document['photoUrl']}',
+                          width: 50.0,
+                          height: 50.0,
+                          fit: BoxFit.cover,
+                        )
+                            : Icon(
+                          Icons.account_circle,
+                          size: 50.0,
+                          color: greyColor,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        clipBehavior: Clip.hardEdge,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                '${document['nickname']}',
+                                style: TextStyle(color: primaryColor, height: 0),
+                              ),
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                            ),
+                            Padding(padding: EdgeInsets.only(top: 5)),
+                            Text(
+                              "${_specoalists[specialityId].titleAr}",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            RatingBar(
+                              initialRating: starRating,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 20,
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.blue,
+                              ),
+                              onRatingUpdate: (rating) {
+                                print(rating);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Image.asset(
+                    'assets/icons/ic_message.png',
+                    scale: 2.5,
+                  ),
+                ),
+              ],
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Chat(
+                        peerId: document.documentID,
+                        peerAvatar: document['photoUrl'],
+                      )));
+            },
+            color: greyColor2,
+            padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          ),
+          margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+        );
+      }
     }
   }
 
