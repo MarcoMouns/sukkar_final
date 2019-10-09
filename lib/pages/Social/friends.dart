@@ -9,6 +9,7 @@ import 'package:health/pages/Settings.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/chat.dart';
 import 'package:health/pages/Social/ProfieChart.dart';
+import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -407,7 +408,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                       .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                    return ProfileChart(following[index].id);
+                                                                    return ProfileMeasurementDetails(following[index].id);
                                                                   }));
                                                                 }),
                                                             following[index]
@@ -607,7 +608,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                       .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                    return ProfileChart(followers[index].id);
+                                                                    return ProfileMeasurementDetails(followers[index].id);
                                                                   }));
                                                                 }),
                                                             followers[index]

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/pages/Social/friends.dart';
+import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarCharts extends StatefulWidget {
@@ -97,7 +98,7 @@ class _BarChartsState extends State<BarCharts>
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProfileChart( id
+                    builder: (context) => ProfileMeasurementDetails( id
                       
                     )));
           },
