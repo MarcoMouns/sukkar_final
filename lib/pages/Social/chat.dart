@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health/Models/doctor_tab/doctor_chat.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/ProfieChart.dart';
@@ -143,7 +144,7 @@ class _ChatState extends State<Chat> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ProfileChart(widget.userId)));
+                                      builder: (context) => ProfileMeasurementDetails(widget.userId)));
                                 },
                               ),
                       ],

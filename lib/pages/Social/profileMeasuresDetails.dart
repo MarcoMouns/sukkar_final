@@ -2,44 +2,36 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../measurementsPageCircles.dart';
 
-class MeasurementDetails extends StatefulWidget {
-  static DateTime date;
-  static int sugerToday;
-  static int calories;
-  static int steps;
-  static int distance;
-  static int cupOfWater;
+class ProfileMeasurementDetails extends StatefulWidget {
+ static int friendId;
+
+  
 
   FormData formData = new FormData();
-  MeasurementDetails(DateTime d, int suger, cal, stps, dist, water) {
-    date = d;
-    sugerToday = suger;
-    calories = cal;
-    steps = stps;
-    distance = dist;
-    cupOfWater = water;
+  ProfileMeasurementDetails(int id) {
+  friendId = id;
   }
 
   @override
-  _MeasurementDetailsState createState() => _MeasurementDetailsState();
+  _ProfileMeasurementState createState() => _ProfileMeasurementState();
 }
 
-class _MeasurementDetailsState extends State<MeasurementDetails> {
-  var dateString =
-      '${MeasurementDetails.date.year}-${MeasurementDetails.date.month}-${MeasurementDetails.date.day}';
-
-  int sugerToday = MeasurementDetails.sugerToday;
-  int calories = MeasurementDetails.calories;
-  int steps = MeasurementDetails.steps;
-  int distance = MeasurementDetails.distance;
+class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
+ 
+  bool isLoading = true;
+  int sugerToday =0;
+  int calories = 0;
+  int steps = 0;
+  int distance =0;
   int ncal = 0;
-  int cupOfWater = MeasurementDetails.cupOfWater;
-  int heartRate = 40;
-  int bloodPresure = 130;
+  int cupOfWater = 0;
+  int heartRate = 0;
+  int bloodPresure = 0;
 
   int goalCalories = 1300;
   int goalSteps = 700;
@@ -54,19 +46,32 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   Dio dio = new Dio();
   final String baseUrl = 'http://104.248.168.117/api';
 
-  Future<int> getMeasurementsForDay(String date) async {
+  int id = ProfileMeasurementDetails.friendId;
+
+  Future<int> getMeasurementsForDay(int id) async {
     Response response;
 
-    // try {
+   
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/measurements?date=$date",
+    response = await dio.get("$baseUrl/friends/$id",
         options: Options(headers: headers));
-    sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
+    if(response.data["Measurements"]== null){
+      sugerToday = 0;
+      distance = 0;
+      steps = 0;
+      calories = 0 ;
+      cupOfWater = 0 ;
+      heartRate = 0;
+      bloodPresure =0;
+
+
+    } else   
+   { sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
     distance = response.data["Measurements"]["distance"] == null
@@ -81,8 +86,12 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
+    heartRate =  response.data["Measurements"]["Heartbeat"] == null
+        ? 0
+        : response.data["Measurements"]["Heartbeat"];   
+        }
     print("=================================================fffffffffff");
-
+    isLoading = false;
     setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
@@ -104,13 +113,18 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   //_MeasurementDetailsState();
 
   initState() {
-    getMeasurementsForDay(dateString);
+    getMeasurementsForDay(id);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget page;
+    
+    page = isLoading == true ? Scaffold( 
+      appBar: AppBar(),
+      body: Loading(),) : 
+    Scaffold(
       appBar: AppBar(
         title: Text(allTranslations.text("reportsPage")),
       ),
@@ -248,5 +262,6 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
       ),
     
     );
+  return page;
   }
 }

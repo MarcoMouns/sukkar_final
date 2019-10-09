@@ -9,7 +9,7 @@ import 'package:health/pages/Settings.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/chat.dart';
 import 'package:health/pages/Social/ProfieChart.dart';
-import 'package:health/pages/home/measurementsDetailsPage.dart';
+import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,17 +57,6 @@ class _FriendsPageState extends State<FriendsPage>
   TabController _tabController;
   List<DataListBean> followers = List<DataListBean>();
   List<DataListBean2> following = List<DataListBean2>();
-
-  DateTime selectedDate = DateTime.now();
-  int sugerToday;
-  int distance;
-  int steps;
-  int calories;
-  int cupOfWater;
-
-  void UserData(int Id) async{
-
-  }
 
   @override
   void initState() {
@@ -414,19 +403,14 @@ class _FriendsPageState extends State<FriendsPage>
                                                                   width: 60,
                                                                 ),
                                                                 onTap: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                        builder: (context) => MeasurementDetails(
-                                                                            selectedDate,
-                                                                            sugerToday,
-                                                                            calories,
-                                                                            steps,
-                                                                            distance,
-                                                                            cupOfWater)),
-                                                                  );
-                                                                }
-                                                                ),
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder:
+                                                                              (context) {
+                                                                    return ProfileMeasurementDetails(following[index].id);
+                                                                  }));
+                                                                }),
                                                             following[index]
                                                                         .state ==
                                                                     2
@@ -624,7 +608,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                       .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                    return ProfileChart(followers[index].id);
+                                                                    return ProfileMeasurementDetails(followers[index].id);
                                                                   }));
                                                                 }),
                                                             followers[index]
