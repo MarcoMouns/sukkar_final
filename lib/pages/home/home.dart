@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 
     if (ncal == null || ncal == 0) {
-      ncal = 1200;
+      ncal = 0;
     }
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
@@ -449,6 +449,8 @@ class _HomePageState extends State<HomePage> {
                           ? 0
                           : dataHome.calories == null
                               ? 0
+                      :ncal==0?
+                          0
                               : ((dataHome.calories / ncal) * 0.7),
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
@@ -469,6 +471,8 @@ class _HomePageState extends State<HomePage> {
                         ? 0
                         : dataHome.steps == null
                             ? 0
+                        :ncal==0?
+                    0
                             : (dataHome.steps / (ncal / 0.0912)) * 0.7,
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
@@ -488,6 +492,8 @@ class _HomePageState extends State<HomePage> {
                         ? 0
                         : dataHome.distance == null
                             ? 0
+                        :ncal==0?
+                    0
                             : dataHome.distance /
                                 (((ncal / 0.0912) * 0.762) ~/ 2) *
                                 0.7,

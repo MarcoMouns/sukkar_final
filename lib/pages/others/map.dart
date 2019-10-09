@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix1;
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../languages/all_translations.dart';
@@ -55,6 +53,8 @@ class TimerTextState extends State<TimerText> {
   final Dependencies dependencies;
   Timer timer;
   int milliseconds;
+  double updatelat;
+  double updatelong;
 
   @override
   void initState() {
@@ -338,6 +338,9 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
+  double updatelat;
+  double updatelong;
+
   getLocation() {
     setState(() {
       checkRun = true;
@@ -368,6 +371,11 @@ class _MapPageState extends State<MapPage> {
     bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
       print('[motionchange] - $location');
       print('<--------- Locaiton onMotionChange -----------> ');
+      updatelat=location.coords.latitude;
+      updatelong=location.coords.longitude;
+      setState(() {
+
+      });
       print(location.coords.latitude);
       print(location.coords.longitude);
       print('<--------- / Locaiton onMotionChange -----------> ');
@@ -476,6 +484,17 @@ class _MapPageState extends State<MapPage> {
                     //   height: double.infinity,
                     //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                     // ),
+
+                    Positioned(
+                      top: 1,
+                      right: 1,
+                      child: Column(
+                        children: <Widget>[
+                          Text("$updatelat",style: TextStyle(fontSize: 25),),
+                          Text("$updatelong",style: TextStyle(fontSize: 25)),
+                        ],
+                      ),
+                    ),
                     new Positioned(
                       top: 50,
                       left: allTranslations.currentLanguage == "ar" ? 20 : null,
