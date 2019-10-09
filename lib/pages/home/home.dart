@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
   bool istrue = false;
   List newList = [];
   List<int> _calories = [];
+  int Rcalories;
   DateTime selectedDate = DateTime.now();
   var date =
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
     getMeasurementsForDay(date);
     super.initState();
     emptylists();
-
+    fetchMeals();
     print(sugerToday);
     setFirebaseImage();
     getCustomerData();
@@ -112,6 +113,63 @@ class _HomePageState extends State<HomePage> {
     //print("$sugerToday ===========================");
 
     
+  }
+
+  Future<void> fetchMeals() async{
+    await widget.model.fetchAllMealsFoods().then((result) {
+      print('Result fetch => $result');
+      if (result != null) {
+        setState(() {
+          _calories = result.userFoods.map((meal) => meal.calories).toList();
+          print('******************************_calories = > $_calories');
+          addIntToSF();
+          getValuesSF();
+          loading = false;
+        });
+      } else {}
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  addIntToSF() async {
+    print(_calories);
+    if(_calories.length==0){
+      Rcalories=0;
+    }
+    else{
+      Rcalories = _calories.reduce((a, b) => a + b).toInt();
+    }
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+    // print(a);
+  }
+
+  getValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int ncal = SharedData.customerData['average_calorie'];
+    ncal = SharedData.customerData['average_calorie'];
+    if(ncal==null){
+      ncal=0;
+    }
+
+    print(ncal);
+
+    print(Rcalories);
+
+    int calTarget=0;
+
+    if(Rcalories>ncal && ncal!=0){
+      calTarget=Rcalories-ncal;
+    }
+    prefs.setInt('calTarget', calTarget);
+    int x;
+    x= prefs.getInt('calTarget');
+
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+    print(x);
+    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+
   }
 
   Future setFirebaseImage() async {
