@@ -72,7 +72,7 @@ class _AddSugarState extends State<AddSugar> {
       };
       print(suger);
       print(date);
-    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=${DateTime.now().hour}:${DateTime.now().minute}",
+    var response = await dio.post("$baseUrl/measurements/sugar?sugar=$suger&date=$date&hour=${DateTime.now().hour}&min=${DateTime.now().minute}",
         
          options: Options(headers: headers));
          print("$baseUrl/measurements/sugar?sugar=$suger&date=$date");
@@ -109,6 +109,7 @@ class _AddSugarState extends State<AddSugar> {
         timeOfMeasures.clear();
       }
       for (var i = 0; i < 3; i++) {
+        
         measuresOfDay.add(response.data["Measurements"]["sugar"][i]["sugar"]);
         timeOfMeasures.add(response.data["Measurements"]["sugar"][i]["time"]);
         print(measuresOfDay);

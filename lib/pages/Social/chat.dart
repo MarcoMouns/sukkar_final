@@ -143,7 +143,7 @@ class _ChatState extends State<Chat> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ProfileChart()));
+                                      builder: (context) => ProfileChart(widget.userId)));
                                 },
                               ),
                       ],

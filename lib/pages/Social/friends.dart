@@ -46,7 +46,7 @@ class FriendsPage extends StatefulWidget {
 }
 
 class _FriendsPageState extends State<FriendsPage>
-    with SingleTickerProviderStateMixin  {
+    with SingleTickerProviderStateMixin {
   Response response;
   Dio dio = new Dio();
   Response response2;
@@ -79,16 +79,12 @@ class _FriendsPageState extends State<FriendsPage>
         });
       } else {}
     });
-    setState(() {
-
-    });
+    setState(() {});
     print('************************************');
     widget.model.getFollowing().then((result) {
       print('#########################################');
       print(' Result following = > ${result.data[0].name}');
-      setState(() {
-
-      });
+      setState(() {});
       if (result != null) {
         setState(() {
           following = result.data;
@@ -97,17 +93,13 @@ class _FriendsPageState extends State<FriendsPage>
 //          });
         });
         following = result.data;
-        setState(() {
-
-        });
+        setState(() {});
         print('FROM THE FOLLOWING SETSTAT');
       } else {}
     }).catchError((err) {
       print(err);
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -227,79 +219,85 @@ class _FriendsPageState extends State<FriendsPage>
                 check == true
                     ? Text('')
                     : Column(
-                  children: <Widget>[
-                    Container(
+                        children: <Widget>[
+                          Container(
 //        color: index % 2 == 0 ? Colors.white : Colors.grey[100],
-                      child: ListTile(
-                        onTap: () {
+                            child: ListTile(
+                              onTap: () {
 //                    Navigator.of(context).push(MaterialPageRoute(
 //                        builder: (context) => Chat(isDoctor: false)));
-                       FocusScope.of(context).requestFocus(new FocusNode());
-                        },
-                        leading: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: image == 'Null'
-                                      ? NetworkImage(
-                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
-                                      : NetworkImage(
-                                      'http://104.248.168.117/${image}'))),
-                        ),
-                        title: Text(
-                          name,
-                          style: TextStyle(color: Color.fromRGBO(112, 113, 113, 1)),
-                        ),
-                        trailing: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: FlatButton(
-                            child: Image.asset(
-                              "assets/icons/ic_remove_friend.png",
-                              fit: BoxFit.cover,
-                            ),
-                            padding: EdgeInsets.all(0),
-                            onPressed: () async {
-                              //add friend search
-                              try {
-                                // get user token
-                                SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                                Map<String, dynamic> authUser =
-                                jsonDecode(sharedPreferences.getString("authUser"));
-                                dio3.options.headers = {
-                                  "Authorization": "Bearer ${authUser['authToken']}",
-                                };
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                              },
+                              leading: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: image == 'Null'
+                                            ? NetworkImage(
+                                                'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                            : NetworkImage(
+                                                'http://104.248.168.117/${image}'))),
+                              ),
+                              title: Text(
+                                name,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(112, 113, 113, 1)),
+                              ),
+                              trailing: Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: FlatButton(
+                                  child: Image.asset(
+                                    "assets/icons/ic_remove_friend.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () async {
+                                    //add friend search
+                                    try {
+                                      // get user token
+                                      SharedPreferences sharedPreferences =
+                                          await SharedPreferences.getInstance();
+                                      Map<String, dynamic> authUser =
+                                          jsonDecode(sharedPreferences
+                                              .getString("authUser"));
+                                      dio3.options.headers = {
+                                        "Authorization":
+                                            "Bearer ${authUser['authToken']}",
+                                      };
 
-                                response3 = await dio3
-                                    .post("http://104.248.168.117/api/follow/$id");
-                                getAll();
-                                FocusScope.of(context).requestFocus(new FocusNode());
-                                print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                                print('Response = ${response3.data}');
-                              } on DioError catch (e) {
-                                print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                print(e.response.data);
-                                return false;
-                              }
-                              return true;
-                            },
+                                      response3 = await dio3.post(
+                                          "http://104.248.168.117/api/follow/$id");
+                                      getAll();
+                                      FocusScope.of(context)
+                                          .requestFocus(new FocusNode());
+                                      print(
+                                          'nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                                      print('Response = ${response3.data}');
+                                    } on DioError catch (e) {
+                                      print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                      print(e.response.data);
+                                      return false;
+                                    }
+                                    return true;
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          Divider(
+                            height: 3,
+                            color: Colors.grey,
+                          )
+                        ],
                       ),
-                    ),
-                    Divider(
-                      height: 3,
-                      color: Colors.grey,
-                    )
-                  ],
-                ),
                 Divider(
                   height: 2,
                 ),
-                Expanded(child:
-                Container(
+                Expanded(
+                    child: Container(
                   margin: EdgeInsets.only(bottom: 10),
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -323,30 +321,34 @@ class _FriendsPageState extends State<FriendsPage>
                                         Text(
                                           allTranslations.text('Followers'),
                                           style: TextStyle(
-                                              color: Color.fromRGBO(106, 106, 106, 1.0)),
+                                              color: Color.fromRGBO(
+                                                  106, 106, 106, 1.0)),
                                         ),
                                         Text(
                                           allTranslations.text('Following'),
                                           style: TextStyle(
-                                              color: Color.fromRGBO(106, 106, 106, 1.0)),
+                                              color: Color.fromRGBO(
+                                                  106, 106, 106, 1.0)),
                                         )
                                       ],
                                     ),
                                   ),
                                   Expanded(
                                       child: TabBarView(
-                                        controller: _tabController,
-                                        physics: AlwaysScrollableScrollPhysics(),
-                                        children: <Widget>[
-                                          following.isEmpty
-                                              ? Center(
-                                            child: Text(
-                                              allTranslations.text('emptyFollowing'),
-                                              style:
-                                              TextStyle(fontWeight: FontWeight.bold),
-                                            ),
-                                          )
-                                              : ListView.builder(
+                                    controller: _tabController,
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    children: <Widget>[
+                                      following.isEmpty
+                                          ? Center(
+                                              child: Text(
+                                                allTranslations
+                                                    .text('emptyFollowing'),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            )
+                                          : ListView.builder(
                                               itemCount: following.length,
                                               itemBuilder: (context, index) {
                                                 return new Column(
@@ -364,155 +366,169 @@ class _FriendsPageState extends State<FriendsPage>
                                                           width: 40,
                                                           height: 40,
                                                           decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
+                                                              shape: BoxShape
+                                                                  .circle,
                                                               image: DecorationImage(
                                                                   image: following[index]
-                                                                      .image ==
-                                                                      'Null'
+                                                                              .image ==
+                                                                          'Null'
                                                                       ? NetworkImage(
-                                                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                                                          'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                                                       : NetworkImage(
-                                                                      'http://104.248.168.117/${following[index].image}'),
-                                                                  fit: BoxFit.fill),
-                                                              color: Colors.blue),
+                                                                          'http://104.248.168.117/${following[index].image}'),
+                                                                  fit: BoxFit
+                                                                      .fill),
+                                                              color:
+                                                                  Colors.blue),
                                                         ),
                                                         title: new Text(
                                                           following[index].name,
                                                           style: TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  112, 113, 113, 1)),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      112,
+                                                                      113,
+                                                                      113,
+                                                                      1)),
                                                         ),
                                                         trailing: new Row(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: <Widget>[
                                                             new InkWell(
-                                                                child: Image.asset(
+                                                                child:
+                                                                    Image.asset(
                                                                   "assets/icons/ic_chart.png",
                                                                   width: 60,
                                                                 ),
                                                                 onTap: () {
-                                                                  Navigator.of(context).push(
-                                                                      MaterialPageRoute(
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                            return ProfileChart(
-                                                                                image:
-                                                                                following[index]
-                                                                                    .image,
-                                                                                name:
-                                                                                following[index]
-                                                                                    .name,
-                                                                                userId:
-                                                                                following[index]
-                                                                                    .id,
-                                                                                isMyProfile: false,
-                                                                                date: "",
-                                                                                model:
-                                                                                widget.model);
-                                                                          }));
+                                                                    return ProfileChart(following[index].id);
+                                                                  }));
                                                                 }),
-                                                            following[index].state == 2
+                                                            following[index]
+                                                                        .state ==
+                                                                    2
                                                                 ? new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_remove.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                try {
-                                                                  print('AAAAAAAAAAAAAAAA&&&&&&&&&&AAAAAAAAAAAA');
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
-                                                                  print('KABL AL POST');
-                                                                  response =
-                                                                  await dio.post(
-                                                                      "http://104.248.168.117/api/unfollow/${following[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                  print('BEFORE THE GET ALL');
-                                                                  setState(() {
+                                                                    icon: Image
+                                                                        .asset(
+                                                                      "assets/icons/ic_remove.png",
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(0),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      try {
+                                                                        print(
+                                                                            'AAAAAAAAAAAAAAAA&&&&&&&&&&AAAAAAAAAAAA');
+                                                                        // get user token
+                                                                        SharedPreferences
+                                                                            sharedPreferences =
+                                                                            await SharedPreferences.getInstance();
+                                                                        Map<String,
+                                                                                dynamic>
+                                                                            authUser =
+                                                                            jsonDecode(sharedPreferences.getString("authUser"));
+                                                                        dio.options
+                                                                            .headers = {
+                                                                          "Authorization":
+                                                                              "Bearer ${authUser['authToken']}",
+                                                                        };
+                                                                        print(
+                                                                            'KABL AL POST');
+                                                                        response =
+                                                                            await dio.post("http://104.248.168.117/api/unfollow/${following[index].id}");
+                                                                        print(
+                                                                            'Response = ${response.data}');
+                                                                        print(
+                                                                            'BEFORE THE GET ALL');
+                                                                        setState(
+                                                                            () {});
+                                                                        print(
+                                                                            'abl al GETALL');
+                                                                        //getAll();
+                                                                        print(
+                                                                            'ba3d al GETALL');
 
-                                                                  });
-                                                                  print('abl al GETALL');
-                                                                  //getAll();
-                                                                  print('ba3d al GETALL');
-
-                                                                  print('after THE GET ALL');
-                                                                  following.removeAt(index);
-                                                                  following.isEmpty?print('a7ba tete'):print('somaksommak');
-                                                                  setState(() {
-
-                                                                  });
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
+                                                                        print(
+                                                                            'after THE GET ALL');
+                                                                        following
+                                                                            .removeAt(index);
+                                                                        following.isEmpty
+                                                                            ? print('a7ba tete')
+                                                                            : print('somaksommak');
+                                                                        setState(
+                                                                            () {});
+                                                                      } on DioError catch (e) {
+                                                                        print(
+                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                        print(e
+                                                                            .response
+                                                                            .data);
+                                                                        return false;
+                                                                      }
+                                                                      return true;
+                                                                    },
+                                                                  )
                                                                 : new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_add_friend.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                print('here ea 3l2');
-                                                                try {
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
+                                                                    icon: Image
+                                                                        .asset(
+                                                                      "assets/icons/ic_add_friend.png",
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(0),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      print(
+                                                                          'here ea 3l2');
+                                                                      try {
+                                                                        // get user token
+                                                                        SharedPreferences
+                                                                            sharedPreferences =
+                                                                            await SharedPreferences.getInstance();
+                                                                        Map<String,
+                                                                                dynamic>
+                                                                            authUser =
+                                                                            jsonDecode(sharedPreferences.getString("authUser"));
+                                                                        dio.options
+                                                                            .headers = {
+                                                                          "Authorization":
+                                                                              "Bearer ${authUser['authToken']}",
+                                                                        };
 
-                                                                  response =
-                                                                  await dio.post(
-                                                                      "http://104.248.168.117/api/unfollow/${following[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                  getAll();
-                                                                  following.removeAt(index);
-                                                                  following.isEmpty?print('FAAAAAAAAADDDDDDDEEEEEEEe'):print(following);
-                                                                  setState(() {
-                                                                  });
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
+                                                                        response =
+                                                                            await dio.post("http://104.248.168.117/api/unfollow/${following[index].id}");
+                                                                        print(
+                                                                            'Response = ${response.data}');
+                                                                        getAll();
+                                                                        following
+                                                                            .removeAt(index);
+                                                                        following.isEmpty
+                                                                            ? print('FAAAAAAAAADDDDDDDEEEEEEEe')
+                                                                            : print(following);
+                                                                        setState(
+                                                                            () {});
+                                                                      } on DioError catch (e) {
+                                                                        print(
+                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                        print(e
+                                                                            .response
+                                                                            .data);
+                                                                        return false;
+                                                                      }
+                                                                      return true;
+                                                                    },
+                                                                  )
                                                           ],
                                                         ),
                                                       ),
@@ -524,13 +540,15 @@ class _FriendsPageState extends State<FriendsPage>
                                                   ],
                                                 );
                                               }),
-                                          followers.isEmpty
-                                              ? Center(
+                                      followers.isEmpty
+                                          ? Center(
                                               child: Text(
-                                                allTranslations.text('emptyFollowers'),
-                                                style: TextStyle(fontWeight: FontWeight.bold),
-                                              ))
-                                              : ListView.builder(
+                                              allTranslations
+                                                  .text('emptyFollowers'),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ))
+                                          : ListView.builder(
                                               itemCount: followers.length,
                                               itemBuilder: (context, index) {
                                                 return new Column(
@@ -548,130 +566,136 @@ class _FriendsPageState extends State<FriendsPage>
                                                           width: 40,
                                                           height: 40,
                                                           decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
+                                                              shape: BoxShape
+                                                                  .circle,
                                                               image: DecorationImage(
                                                                   image: followers[index]
-                                                                      .image ==
-                                                                      'Null'
+                                                                              .image ==
+                                                                          'Null'
                                                                       ? NetworkImage(
-                                                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                                                          'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                                                       : NetworkImage(
-                                                                      'http://104.248.168.117/${followers[index].image}'),
-                                                                  fit: BoxFit.fill),
-                                                              color: Colors.blue),
+                                                                          'http://104.248.168.117/${followers[index].image}'),
+                                                                  fit: BoxFit
+                                                                      .fill),
+                                                              color:
+                                                                  Colors.blue),
                                                         ),
                                                         title: new Text(
                                                           followers[index].name,
                                                           style: TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  112, 113, 113, 1)),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      112,
+                                                                      113,
+                                                                      113,
+                                                                      1)),
                                                         ),
                                                         trailing: new Row(
-                                                          mainAxisSize: MainAxisSize.min,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: <Widget>[
                                                             new InkWell(
-                                                                child: Image.asset(
+                                                                child:
+                                                                    Image.asset(
                                                                   "assets/icons/ic_chart.png",
                                                                   width: 60,
                                                                 ),
                                                                 onTap: () {
-                                                                  Navigator.of(context).push(
-                                                                      MaterialPageRoute(
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                            return ProfileChart(
-                                                                                image:
-                                                                                followers[index]
-                                                                                    .image,
-                                                                                name:
-                                                                                followers[index]
-                                                                                    .name,
-                                                                                isMyProfile: false,
-                                                                                date: "",
-                                                                                model:
-                                                                                widget.model);
-                                                                          }));
+                                                                    return ProfileChart(followers[index].id);
+                                                                  }));
                                                                 }),
-                                                            followers[index].state == 0
+                                                            followers[index]
+                                                                        .state ==
+                                                                    0
                                                                 ? new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_remove.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                try {
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio2.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
-                                                                  response2 =
-                                                                  await dio2.post(
-                                                                      "http://104.248.168.117/api/unfollow/${followers[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
+                                                                    icon: Image
+                                                                        .asset(
+                                                                      "assets/icons/ic_remove.png",
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(0),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      try {
+                                                                        // get user token
+                                                                        SharedPreferences
+                                                                            sharedPreferences =
+                                                                            await SharedPreferences.getInstance();
+                                                                        Map<String,
+                                                                                dynamic>
+                                                                            authUser =
+                                                                            jsonDecode(sharedPreferences.getString("authUser"));
+                                                                        dio2.options
+                                                                            .headers = {
+                                                                          "Authorization":
+                                                                              "Bearer ${authUser['authToken']}",
+                                                                        };
+                                                                        response2 =
+                                                                            await dio2.post("http://104.248.168.117/api/unfollow/${followers[index].id}");
+                                                                        print(
+                                                                            'Response = ${response.data}');
+                                                                      } on DioError catch (e) {
+                                                                        print(
+                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                        print(e
+                                                                            .response
+                                                                            .data);
+                                                                        return false;
+                                                                      }
+                                                                      return true;
+                                                                    },
+                                                                  )
                                                                 : new IconButton(
-                                                              icon: Image.asset(
-                                                                "assets/icons/ic_remove_friend.png",
-                                                                fit: BoxFit.cover,
-                                                              ),
-                                                              padding:
-                                                              EdgeInsets.all(0),
-                                                              onPressed: () async {
-                                                                try {
-                                                                  // get user token
-                                                                  SharedPreferences
-                                                                  sharedPreferences =
-                                                                  await SharedPreferences
-                                                                      .getInstance();
-                                                                  Map<String, dynamic>
-                                                                  authUser =
-                                                                  jsonDecode(sharedPreferences
-                                                                      .getString(
-                                                                      "authUser"));
-                                                                  dio2.options
-                                                                      .headers = {
-                                                                    "Authorization":
-                                                                    "Bearer ${authUser['authToken']}",
-                                                                  };
+                                                                    icon: Image
+                                                                        .asset(
+                                                                      "assets/icons/ic_remove_friend.png",
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .all(0),
+                                                                    onPressed:
+                                                                        () async {
+                                                                      try {
+                                                                        // get user token
+                                                                        SharedPreferences
+                                                                            sharedPreferences =
+                                                                            await SharedPreferences.getInstance();
+                                                                        Map<String,
+                                                                                dynamic>
+                                                                            authUser =
+                                                                            jsonDecode(sharedPreferences.getString("authUser"));
+                                                                        dio2.options
+                                                                            .headers = {
+                                                                          "Authorization":
+                                                                              "Bearer ${authUser['authToken']}",
+                                                                        };
 
-                                                                  response2 =
-                                                                  await dio2.post(
-                                                                      "http://104.248.168.117/api/follow/${followers[index].id}");
-                                                                  print(
-                                                                      'Response = ${response.data}');
-                                                                } on DioError catch (e) {
-                                                                  print(
-                                                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                  print(e
-                                                                      .response.data);
-                                                                  return false;
-                                                                }
-                                                                return true;
-                                                              },
-                                                            )
+                                                                        response2 =
+                                                                            await dio2.post("http://104.248.168.117/api/follow/${followers[index].id}");
+                                                                        print(
+                                                                            'Response = ${response.data}');
+                                                                      } on DioError catch (e) {
+                                                                        print(
+                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                                                        print(e
+                                                                            .response
+                                                                            .data);
+                                                                        return false;
+                                                                      }
+                                                                      return true;
+                                                                    },
+                                                                  )
                                                           ],
                                                         ),
                                                       ),
@@ -683,16 +707,15 @@ class _FriendsPageState extends State<FriendsPage>
                                                   ],
                                                 );
                                               }),
-                                        ],
-                                      ))
+                                    ],
+                                  ))
                                 ],
                               ),
                             )),
                       )
                     ],
                   ),
-                )
-                )
+                ))
               ],
             ),
           ),

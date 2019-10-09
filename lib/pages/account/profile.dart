@@ -49,7 +49,7 @@ class _EditProfileState extends State<EditProfile> {
     response = await dio.get(
       "http://104.248.168.117/api/auth/me",
     );
-
+    
     weight = response.data['user']['weight'];
     hight = response.data['user']['hight'];
     print(weight);

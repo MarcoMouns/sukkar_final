@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health/pages/Social/friends.dart' as prefix0;
 import 'package:health/scoped_models/main.dart';
 
 //import 'package:flutter_svg/flutter_svg.dart';
@@ -104,6 +105,7 @@ class LogInInput extends StatefulWidget {
   final FocusNode focusNode;
   final bool enabled;
   final bool autoValidate;
+  var initVal;
 
   LogInInput(
       {Key key,
@@ -116,6 +118,7 @@ class LogInInput extends StatefulWidget {
       this.enabled,
       this.autoValidate,
       this.onFieldSubmitted,
+      this.initVal,
       this.isPassword = false})
       : super(key: key);
 
@@ -123,11 +126,14 @@ class LogInInput extends StatefulWidget {
 }
 
 class _LogInInputState extends State<LogInInput> {
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
+      
       padding: const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 20.0),
       child: TextFormField(
+        initialValue: widget.initVal,
         focusNode: widget.focusNode,
         autovalidate: widget.autoValidate,
         enabled: widget.enabled,

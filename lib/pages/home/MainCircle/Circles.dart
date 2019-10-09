@@ -253,7 +253,7 @@ abstract class MainCircles {
                 width: 0,
               )
             : footer,
-        time: time,
+        time: (time.toString()),
         percent: percent,
         color: (int.parse(sugar)< 80 || sugar == null) ?Color.fromRGBO(254, 252, 232, 1)
                        : (int.parse(sugar) >= 80 && int.parse(sugar) <= 200) 

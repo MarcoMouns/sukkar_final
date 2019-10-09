@@ -100,18 +100,18 @@ class _HomePageState extends State<HomePage> {
     emptylists();
 
     print(sugerToday);
-
+    setFirebaseImage();
     getCustomerData();
     getMeasurements(date);
     getHomeFetch();
-    if (sugerToday == null) {
-      loading = true;
-    }
+    // if (sugerToday == null) {
+    //   loading = true;
+    // }
     getcal();
 
     //print("$sugerToday ===========================");
 
-    setFirebaseImage();
+    
   }
 
   Future setFirebaseImage() async {

@@ -3,6 +3,7 @@ import 'package:health/pages/Social/ProfieChart.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarCharts extends StatefulWidget {
@@ -96,9 +97,8 @@ class _BarChartsState extends State<BarCharts>
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProfileChart(
-                      isMyProfile: true,
-                      date: "1/1 Sunday",
+                    builder: (context) => ProfileChart( id
+                      
                     )));
           },
           child: _dayCharts(100, context, [
