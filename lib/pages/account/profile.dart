@@ -310,6 +310,7 @@ class _EditProfileState extends State<EditProfile> {
                           SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');
+                          sharedPreferences.clear();
                         },
 
                       ),

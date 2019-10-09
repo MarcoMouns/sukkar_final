@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -41,30 +39,9 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print(sharedPreferences.getKeys());
   getCustomerData();
-  getFirebase();
   runApp(MyApp());
 }
-getFirebase() {
-  FirebaseMessaging fireBaseMessaging = FirebaseMessaging();
-  fireBaseMessaging.getToken().then((token) {
-    print('Token $token');
-    SharedData.tokenCustomer = token;
-  });
-  fireBaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      print("onMessagesss: $message");
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      print("onLaunch: $message");
-    },
-    onResume: (Map<String, dynamic> message) async {
-      print("onResume: $message");
-    },
-  );
 
-  fireBaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(sound: true, badge: true, alert: true));
-}
 class SpLash extends StatefulWidget {
   @override
   _SpLashState createState() => new _SpLashState();
