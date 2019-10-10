@@ -8,6 +8,7 @@ class measurementsCircles extends StatefulWidget {
    double cirPercent;
    double cirSize;
    Color  cirColor;
+   String time;
    
   measurementsCircles(String icon , String title , String footer , double percent , double size , Color color){
     iconName = icon;
@@ -37,7 +38,9 @@ class _measurementsCirclesState extends State<measurementsCircles> {
 
     Widget cir(){
       return ChartWidget(
+        
         isOnSide: false,
+        
         isUpper: true,
         radius: raduis,
         title: widget.cirTitle == null ? 0 :widget.cirTitle,
@@ -46,6 +49,7 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         time: "",
         percent: widget.cirPercent == null ? 0 :widget.cirPercent ,
         color: widget.cirColor,
+        
       );
     }
 

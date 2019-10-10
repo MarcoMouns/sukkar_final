@@ -13,7 +13,9 @@ import '../../shared-data.dart';
 import '../Settings.dart';
 import 'complete.dart';
 import 'package:path/path.dart';
+
 final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
+
 class EditProfileUser extends StatefulWidget {
   @override
   EditProfileUserState createState() => EditProfileUserState();
@@ -32,12 +34,12 @@ class EditProfileUserState extends State<EditProfileUser> {
 
   String email;
   String name;
+  String password;
   TextEditingController nameCtrl = TextEditingController();
 
   String img;
   final String baseUrl = 'http://104.248.168.117/api';
 
-  String password;
   initState() {
     getUserInfo();
     super.initState();
@@ -96,7 +98,7 @@ class EditProfileUserState extends State<EditProfileUser> {
       // };
       formdata.add('name', name);
       formdata.add('email', email);
-      formdata.add('password', "11111111");
+      formdata.add('password', password);
       formdata.add('_method', "PUT");
 
       if (profilePicture != null) {
@@ -285,7 +287,9 @@ class EditProfileUserState extends State<EditProfileUser> {
                   ///      Email
 
                   TextFormField(
-                    onChanged: (val){email=val;},
+                    onChanged: (val) {
+                      email = val;
+                    },
                     initialValue: email,
                     decoration: InputDecoration(
                         labelText: myLocale.languageCode.contains("en")
@@ -312,9 +316,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                   //////////////////////////////////////////
                   ///      Mobile Number
                   TextFormField(
-                   
-                   obscureText: true,
-                    onChanged: (val){password=val;},
+                    obscureText: true,
+                    onChanged: (val) {
+                      password = val;
+                    },
                     validator: (String val) {
                       if (val.isEmpty) {
                         return myLocale.languageCode.contains("en")
@@ -327,15 +332,15 @@ class EditProfileUserState extends State<EditProfileUser> {
                         password = val;
                       });
                     },
-                     decoration: InputDecoration(
+                    decoration: InputDecoration(
                         labelText: myLocale.languageCode.contains("en")
                             ? "Password"
                             : "كلمة السر"),
                     keyboardType: TextInputType.text,
                   ),
-            SizedBox(
-              height: 10,
-            ),
+                  SizedBox(
+                    height: 10,
+                  ),
 
                   FlatButton(
                     color: Colors.blue,
@@ -346,10 +351,6 @@ class EditProfileUserState extends State<EditProfileUser> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      
-
-
-
                       upDateProfile();
                       Navigator.of(context).pop();
                     },

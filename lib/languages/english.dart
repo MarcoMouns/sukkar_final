@@ -165,7 +165,13 @@ Map<String, String> englishLang = {
   "reportsPage":"Measurement report",
   "birthDate":"Birthdate",
   "Add glucose meter":"Add glucose meter",
-
+  "about":"About Sukar",
+  "contacts":"Contact us",
+  "Terms":"Terms & Conditions",
+  "facebook":"Facebook",
+  "twitter ":"Twitter",
+  "instagram":"Instagram" ,
+  "Snapchat": "Snapchat"
 
 
 

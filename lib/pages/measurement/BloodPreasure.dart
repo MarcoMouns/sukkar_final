@@ -261,6 +261,7 @@ class _BloodPressureState extends State<BloodPressure> {
                               .then((result) async {
                             print(result);
                           });
+                        Navigator.of(context).pop();
                         },
                       ),
                     ),
