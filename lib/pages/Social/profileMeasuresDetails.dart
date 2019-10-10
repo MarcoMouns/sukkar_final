@@ -32,6 +32,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   int cupOfWater = 0;
   int heartRate = 0;
   int bloodPresure = 0;
+  int bloodPresure1 =0;
 
   int goalCalories = 1300;
   int goalSteps = 700;
@@ -69,6 +70,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       cupOfWater = 0 ;
       heartRate = 0;
       bloodPresure =0;
+      bloodPresure1 =0;
       print("in if");
 
 
@@ -92,7 +94,13 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
         : response.data["Measurements"]["water_cups"];
     heartRate =  response.data["Measurements"]["Heartbeat"] == null
         ? 0
-        : response.data["Measurements"]["Heartbeat"];   
+        : response.data["Measurements"]["Heartbeat"];
+    bloodPresure = response.data["Measurements"]["SystolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["SystolicPressure"];
+    bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["DiastolicPressure"];           
         }
     print("=================================================fffffffffff");
     isLoading = false;
@@ -157,6 +165,17 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                               : greenColor),
                 ),
                 SizedBox(
+                  width: 120,
+                  height: 150,
+                  child: measurementsCircles(
+                      "ic_blood_pressure",
+                      bloodPresure1.toString(),
+                      allTranslations.text("bloodPressure"),
+                      0.9,
+                      2,
+                      redColor),
+                ),
+                  SizedBox(
                   width: 120,
                   height: 150,
                   child: measurementsCircles(
