@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../measurementsPageCircles.dart';
 
@@ -13,8 +15,10 @@ class MeasurementDetails extends StatefulWidget {
   static int steps;
   static int distance;
   static int cupOfWater;
-
+  static int heartRate;
   FormData formData = new FormData();
+
+  
   MeasurementDetails(DateTime d, int suger, cal, stps, dist, water) {
     date = d;
     sugerToday = suger;
@@ -22,6 +26,8 @@ class MeasurementDetails extends StatefulWidget {
     steps = stps;
     distance = dist;
     cupOfWater = water;
+
+    
   }
 
   @override
@@ -31,15 +37,16 @@ class MeasurementDetails extends StatefulWidget {
 class _MeasurementDetailsState extends State<MeasurementDetails> {
   var dateString =
       '${MeasurementDetails.date.year}-${MeasurementDetails.date.month}-${MeasurementDetails.date.day}';
-
-  int sugerToday = MeasurementDetails.sugerToday;
-  int calories = MeasurementDetails.calories;
-  int steps = MeasurementDetails.steps;
-  int distance = MeasurementDetails.distance;
+  bool isLoading = true;
+  int sugerToday = 0;
+  int calories = 0;
+  int steps = 0;
+  int distance = 0;
   int ncal = 0;
-  int cupOfWater = MeasurementDetails.cupOfWater;
-  int heartRate = 40;
-  int bloodPresure = 130;
+  int cupOfWater = 0;
+  int heartRate = 0;
+  int bloodPresure1 = 0;
+  int bloodPresure = 0;
 
   int goalCalories = 1300;
   int goalSteps = 700;
@@ -66,7 +73,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     };
     response = await dio.get("$baseUrl/measurements?date=$date",
         options: Options(headers: headers));
-    sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
+    sugerToday = response.data["Measurements"]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
     distance = response.data["Measurements"]["distance"] == null
@@ -81,9 +88,21 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
+    heartRate = response.data["Measurements"]["Heartbeat"] == null
+        ? 0
+        : response.data["Measurements"]["Heartbeat"];
+    bloodPresure = response.data["Measurements"]["SystolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["SystolicPressure"];
+    bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["DiastolicPressure"];       
+       
+            
     print("=================================================fffffffffff");
-
+    print(response.data);
     setState(() {});
+    
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -110,7 +129,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget page = Scaffold(
       appBar: AppBar(
         title: Text(allTranslations.text("reportsPage")),
       ),
@@ -142,13 +161,27 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                 SizedBox(
                   width: 120,
                   height: 150,
-                  child: measurementsCircles(
+                  child: SafeArea(
+                    child: measurementsCircles(
                       "ic_blood_pressure",
                       bloodPresure.toString(),
                       allTranslations.text("bloodPressure"),
                       0.9,
                       2,
                       redColor),
+                  ),
+                ), SizedBox(
+                  width: 120,
+                  height: 150,
+                  child: SafeArea(
+                    child: measurementsCircles(
+                      "ic_blood_pressure",
+                      bloodPresure1.toString(),
+                      allTranslations.text("bloodPressure"),
+                      0.9,
+                      2,
+                      redColor),
+                  ),
                 ),
                 SizedBox(
                   width: 120,
@@ -248,5 +281,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
       ),
     
     );
+
+    return page;
   }
 }

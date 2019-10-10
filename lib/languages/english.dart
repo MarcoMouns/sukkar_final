@@ -169,7 +169,7 @@ Map<String, String> englishLang = {
   "contacts":"Contact us",
   "Terms":"Terms & Conditions",
   "facebook":"Facebook",
-  "twitter ":"Twitter",
+  "twitter":"Twitter",
   "instagram":"Instagram" ,
   "Snapchat": "Snapchat"
 

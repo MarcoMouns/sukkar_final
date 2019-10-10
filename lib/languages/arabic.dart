@@ -171,7 +171,7 @@ Map<String, String> arabicLang = {
   "contacts":"تواصلوا معنا",
   "Terms": "الشروط والأحكام",
   "facebook":"فيسبوك",
-  "twitter ":"تويتر",
+  "twitter":"تويتر",
   "instagram":"انستجرام" ,
   "Snapchat": "سناب شات"
 

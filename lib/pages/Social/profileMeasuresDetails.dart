@@ -60,6 +60,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
     };
     response = await dio.get("$baseUrl/friends/$id",
         options: Options(headers: headers));
+        print(response.data);
     if(response.data["Measurements"]== null){
       sugerToday = 0;
       distance = 0;
@@ -68,10 +69,13 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       cupOfWater = 0 ;
       heartRate = 0;
       bloodPresure =0;
+      print("in if");
 
 
-    } else   
-   { sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
+
+    } 
+    else   
+    { sugerToday = response.data["Measurements"]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
     distance = response.data["Measurements"]["distance"] == null
@@ -93,7 +97,6 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
     print("=================================================fffffffffff");
     isLoading = false;
     setState(() {});
-    return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
   void getcal() async {
