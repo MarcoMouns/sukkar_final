@@ -103,6 +103,8 @@ class _FriendsPageState extends State<FriendsPage>
     setState(() {});
   }
 
+  TextEditingController hiController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -127,6 +129,7 @@ class _FriendsPageState extends State<FriendsPage>
                       child: Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: TextField(
+                          controller: hiController,
                           onChanged: (value) async {
                             try {
                               setState(() {
@@ -272,11 +275,16 @@ class _FriendsPageState extends State<FriendsPage>
                                       response3 = await dio3.post(
                                           "http://104.248.168.117/api/follow/$id");
                                       getAll();
+                                      check = true;
+                                      hiController.clear();
                                       FocusScope.of(context)
                                           .requestFocus(new FocusNode());
                                       print(
                                           'nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                                       print('Response = ${response3.data}');
+                                      setState(() {
+
+                                      });
                                     } on DioError catch (e) {
                                       print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                       print(e.response.data);
