@@ -12,6 +12,7 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../ex.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -653,6 +654,7 @@ class _HomePageState extends State<HomePage> {
 
                 new ListView(
               children: <Widget>[
+                RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(

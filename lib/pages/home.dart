@@ -24,6 +24,7 @@ import '../languages/all_translations.dart';
  * Modifications
  */
 class MainHome extends StatefulWidget {
+
   _MainHomeState createState() => _MainHomeState();
 }
 
