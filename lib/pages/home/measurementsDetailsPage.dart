@@ -6,7 +6,9 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../const.dart';
 import '../../measurementsPageCircles.dart';
+import 'MainCircle/Circles.dart';
 
 class MeasurementDetails extends StatefulWidget {
   static DateTime date;
@@ -37,16 +39,18 @@ class MeasurementDetails extends StatefulWidget {
 class _MeasurementDetailsState extends State<MeasurementDetails> {
   var dateString =
       '${MeasurementDetails.date.year}-${MeasurementDetails.date.month}-${MeasurementDetails.date.day}';
+  String timeOfLastMeasure = "";
   bool isLoading = true;
   int sugerToday = 0;
   int calories = 0;
   int steps = 0;
   int distance = 0;
   int ncal = 0;
-  int cupOfWater = 0;
+  int cupOfWater;
   int heartRate = 0;
   int bloodPresure1 = 0;
   int bloodPresure = 0;
+  int cOW=0;
 
   int goalCalories = 1300;
   int goalSteps = 700;
@@ -96,13 +100,15 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
         : response.data["Measurements"]["SystolicPressure"];
     bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
         ? 0
-        : response.data["Measurements"]["DiastolicPressure"];       
+        : response.data["Measurements"]["DiastolicPressure"];
+
+    timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
        
             
     print("=================================================fffffffffff");
     print(response.data);
-    setState(() {});
-    
+    isLoading=false;
+    if(mounted) setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -129,6 +135,19 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
 
   @override
   Widget build(BuildContext context) {
+
+    double _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        40 -
+        56;
+    //check if the width or height ratio is bigger so no overlaying occur
+    double _chartRadius =
+        (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
+            MediaQuery.of(context).size.width - 30
+            ? _screenHeight * 3 / 5
+            : MediaQuery.of(context).size.width - 30) /
+            2;
+
     Widget page = Scaffold(
       appBar: AppBar(
         title: Text(allTranslations.text("reportsPage")),
@@ -158,19 +177,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                               ? yellowColor
                               : greenColor),
                 ),
-                SizedBox(
-                  width: 120,
-                  height: 150,
-                  child: SafeArea(
-                    child: measurementsCircles(
-                      "ic_blood_pressure",
-                      bloodPresure.toString(),
-                      allTranslations.text("bloodPressure"),
-                      0.9,
-                      2,
-                      redColor),
-                  ),
-                ), SizedBox(
+                 SizedBox(
                   width: 120,
                   height: 150,
                   child: SafeArea(
@@ -206,17 +213,26 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   child: SizedBox(
                     width: 150,
                     height: 160,
-                    child: measurementsCircles(
-                        "ic_logo_3",
-                        sugerToday.toString(),
-                        allTranslations.text("sugarDetails"),
-                        sugerToday / 600.0,
-                        1.5,
-                        sugerToday < 80
-                            ? yellowColor
-                            : sugerToday >= 80 && sugerToday <= 200
-                                ? greenColor
-                                : redColor),
+                    child: MainCircles.diabetes(
+                      percent: sugerToday == 0 || sugerToday == null
+                          ? 1 / 600
+                          : sugerToday / 600,
+                      context: context,
+                      time: timeOfLastMeasure,
+                      sugar: sugerToday == 0
+                          ? '0'
+                          : sugerToday == null ? '0' : sugerToday.toString(),
+                      raduis: _chartRadius,
+                      status: sugerToday == 0 || sugerToday == null
+                          ? allTranslations.text("sugarNull")
+                          : (sugerToday < 80)
+                          ? allTranslations.text("low")
+                          : (sugerToday >= 80 && sugerToday <= 200
+                          ? allTranslations.text("normal")
+                          : allTranslations.text("high")),
+                      ontap: ()=> null,
+                      footer: Container(),
+                    ),
                   ),
                 ),
               )
@@ -279,9 +295,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
           )
         ],
       ),
-    
+
     );
 
-    return page;
+    return
+      isLoading?Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+        ),
+      ):page;
   }
 }
