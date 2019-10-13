@@ -148,7 +148,7 @@ Map<String, String> arabicLang = {
   "good": "سليم",
   "normal": "طبيعي",
   "high": "مرتفع",
-  "editProfile": "تعديل الصفحة الشخصية",
+  "editProfile": "تعديل البيانات الشخصية",
   "emptyFollowers": "لا يوجد متابعون",
   "emptyFollowing":  "لا يوجد متابعين",
   "saturday":"السبت",
