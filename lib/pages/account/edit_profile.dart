@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
@@ -11,7 +11,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
 import '../Settings.dart';
-import 'complete.dart';
 import 'package:path/path.dart';
 
 final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));

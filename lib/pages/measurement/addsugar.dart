@@ -3,17 +3,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/Models/sugar.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/bluetooth/bluetoothDevice.dart';
-import 'package:health/pages/home/home.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:health/pages/Settings.dart' as settings;
 
-import '../Settings.dart';
 import '../home.dart';
 
 class AddSugar extends StatefulWidget {

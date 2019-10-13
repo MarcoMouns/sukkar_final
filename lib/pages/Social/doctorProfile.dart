@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health/Models/article_tab/article_category.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/chat.dart';
@@ -21,7 +20,6 @@ class DoctorProfile extends StatefulWidget {
 class _DoctorProfileState extends State<DoctorProfile> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print('get userId => ${widget.doctorSpecialists}');
   }

@@ -8,7 +8,6 @@ import 'package:health/Models/friends_tab/searchFriends.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../shared-data.dart';
 
 final String baseUrl = 'http://104.248.168.117/api';
 

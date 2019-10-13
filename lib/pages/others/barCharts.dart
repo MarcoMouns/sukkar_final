@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:health/pages/Social/ProfieChart.dart';
-import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/pages/Social/friends.dart';

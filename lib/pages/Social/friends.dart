@@ -4,11 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/friends_tab/getFollowers.dart';
 import 'package:health/Models/friends_tab/getFollowing.dart';
-import 'package:health/pages/Settings.dart';
 
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/Social/chat.dart';
-import 'package:health/pages/Social/ProfieChart.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +58,6 @@ class _FriendsPageState extends State<FriendsPage>
   @override
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
-    // TODO: implement initState
     super.initState();
     getAll();
   }

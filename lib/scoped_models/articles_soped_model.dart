@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/Models/articles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../Models/medicine_model.dart';
 
 final String baseUrl = 'http://104.248.168.117/api';
 

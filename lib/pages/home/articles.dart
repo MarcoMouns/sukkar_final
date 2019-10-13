@@ -4,7 +4,7 @@ import 'package:health/scoped_models/main.dart';
 import './articleDetails.dart';
 
 import '../../languages/all_translations.dart';
-import 'package:intl/intl.dart' as intl;
+
 class ArticlesPage extends StatefulWidget {
   final MainModel model;
   final id;
@@ -19,7 +19,6 @@ class _ArticlesPageState extends State<ArticlesPage> with SingleTickerProviderSt
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.model.fetchArticlesCategoriesDetails(widget.id).then((result) {
       if (result != null) {

@@ -23,7 +23,6 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getNotifications();
   }

@@ -1,13 +1,6 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/helpers/color_transform.dart';
-import 'package:health/pages/account/new.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
-import 'package:health/pages/others/chooseHomeWidgets.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +24,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUser();
   }

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show  rootBundle;
 import 'package:health/languages/arabic.dart';
 import 'package:health/languages/english.dart';
 import 'application.dart';

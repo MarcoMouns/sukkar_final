@@ -1,7 +1,6 @@
 // import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:health/pages/Social/doctor.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/Settings.dart' as settings;
 import 'package:health/pages/home/articlesCategory.dart';
