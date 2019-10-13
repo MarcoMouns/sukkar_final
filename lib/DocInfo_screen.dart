@@ -29,7 +29,6 @@ class _DocInfoState extends State<DocInfo> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUser();
   }

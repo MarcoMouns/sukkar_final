@@ -1,13 +1,6 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/helpers/color_transform.dart';
-import 'package:health/pages/account/new.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
-import 'package:health/pages/others/chooseHomeWidgets.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +9,7 @@ import '../../languages/all_translations.dart';
 import 'dart:convert';
 
 import '../../shared-data.dart';
+import 'contacts.dart';
 import 'edit_profile.dart';
 
 class EditProfile extends StatefulWidget {
@@ -30,7 +24,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUser();
   }
@@ -183,6 +176,24 @@ class _EditProfileState extends State<EditProfile> {
                           onChanged: (val) {},
                         ),
                       ),
+                        Divider(
+                        height: 0,
+                      ),
+                      ListTile(
+                        title: Text(
+                          "تغير الهدف",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                        onTap: () async {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => changeTargetScreen())
+                          );
+                        },
+                      ),
                       Divider(
                         height: 0,
                       ),
@@ -281,24 +292,80 @@ class _EditProfileState extends State<EditProfile> {
                       Divider(
                         height: 0,
                       ),
-                      ListTile(
-                        title: Text(
-                          "تغير الهدف",
-                          style: TextStyle(color: Colors.grey),
+                            ListTile(
+                        title: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                              allTranslations.text("about"),
+                              style: TextStyle(color: Colors.grey),
+                            )),
+                            
+                          ],
                         ),
+                        onTap: () {
+
+                       
+                        },
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.redAccent,
                         ),
-                        onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => changeTargetScreen())
-                          );
-                        },
                       ),
                       Divider(
                         height: 0,
                       ),
+                      ListTile(
+                        title: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: Text(
+                              allTranslations.text("contacts"),
+                              style: TextStyle(color: Colors.grey),
+                            )),
+                            
+                          ],
+                        ),
+                        onTap: () {
+                           Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return Contacts();
+                          }));
+                        },
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                     
+                      
+                      Divider(
+                        height: 0,
+                      ),
+                      ListTile(
+                        title: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: Text(
+                              allTranslations.text("Terms"),
+                              style: TextStyle(color: Colors.grey),
+                            )),
+                            
+                          ],
+                        ),
+                        onTap: () {
+                        },
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                     
+                      
+                      Divider(
+                        height: 0,
+                      ),
+                      
                       ListTile(
                         title: Text(
                           allTranslations.text("signout"),
@@ -314,6 +381,7 @@ class _EditProfileState extends State<EditProfile> {
                         },
 
                       ),
+                      
                     ],
                   ),
                 ),

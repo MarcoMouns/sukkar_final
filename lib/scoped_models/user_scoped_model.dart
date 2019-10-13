@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../shared-data.dart';
 
 
 final String baseUrl = 'http://104.248.168.117/api';

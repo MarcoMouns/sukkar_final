@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../Models/foods_model.dart';

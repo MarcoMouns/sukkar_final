@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:health/Models/article_tab/article_category.dart';
-import 'package:health/Models/article_tab/article_detail_category.dart';
-import 'package:health/Models/article_tab/article_details.dart';
 import 'package:health/Models/doctor_tab/doctor_chat.dart';
 import 'package:health/Models/doctor_tab/doctor_specialists.dart';
 import 'package:health/Models/doctor_tab/specialists.dart';

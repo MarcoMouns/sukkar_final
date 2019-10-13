@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/measurement/itemList.dart';
 import 'package:health/scoped_models/main.dart';
 
 import 'package:intl/intl.dart' as intl;
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 class BloodPressure extends StatefulWidget {
   MainModel model;
@@ -261,6 +259,7 @@ class _BloodPressureState extends State<BloodPressure> {
                               .then((result) async {
                             print(result);
                           });
+                        Navigator.of(context).pop();
                         },
                       ),
                     ),

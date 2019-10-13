@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health/pages/account/change_password.dart';
 import 'package:health/pages/account/reset_pass_verify_code.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../scoped_models/main.dart';

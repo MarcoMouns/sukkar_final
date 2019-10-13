@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../MainCircle/mainCircle.dart';
 import 'package:health/languages/all_translations.dart';
 
-import 'package:intl/intl.dart' as intl;
 
 abstract class MainCircles {
   static double fontSize = 12;

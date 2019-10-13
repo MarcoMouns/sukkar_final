@@ -270,8 +270,11 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                 SizedBox(
                                   width: 100,
                                   child: TextField(
-                                    focusNode: _focusNode1,
-                                    controller: _heightController,
+                                    onChanged: (value){
+                                       userHeight = int.parse(value);
+                                      
+                                       print("user height $userHeight");
+                                    },
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(

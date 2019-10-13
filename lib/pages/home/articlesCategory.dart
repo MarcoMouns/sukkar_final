@@ -16,7 +16,6 @@ class _ArticleCategoryState extends State<ArticleCategory> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     widget.model.fetchArticlesCategories().then((result) {
       if (result != null) {

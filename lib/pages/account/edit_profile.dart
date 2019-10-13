@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
@@ -11,9 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
 import '../Settings.dart';
-import 'complete.dart';
 import 'package:path/path.dart';
+
 final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
+
 class EditProfileUser extends StatefulWidget {
   @override
   EditProfileUserState createState() => EditProfileUserState();
@@ -32,12 +33,12 @@ class EditProfileUserState extends State<EditProfileUser> {
 
   String email;
   String name;
+  String password;
   TextEditingController nameCtrl = TextEditingController();
 
   String img;
   final String baseUrl = 'http://104.248.168.117/api';
 
-  String password;
   initState() {
     getUserInfo();
     super.initState();
@@ -96,7 +97,7 @@ class EditProfileUserState extends State<EditProfileUser> {
       // };
       formdata.add('name', name);
       formdata.add('email', email);
-      formdata.add('password', "11111111");
+      formdata.add('password', password);
       formdata.add('_method', "PUT");
 
       if (profilePicture != null) {
@@ -285,7 +286,9 @@ class EditProfileUserState extends State<EditProfileUser> {
                   ///      Email
 
                   TextFormField(
-                    onChanged: (val){email=val;},
+                    onChanged: (val) {
+                      email = val;
+                    },
                     initialValue: email,
                     decoration: InputDecoration(
                         labelText: myLocale.languageCode.contains("en")
@@ -312,9 +315,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                   //////////////////////////////////////////
                   ///      Mobile Number
                   TextFormField(
-                   
-                   obscureText: true,
-                    onChanged: (val){password=val;},
+                    obscureText: true,
+                    onChanged: (val) {
+                      password = val;
+                    },
                     validator: (String val) {
                       if (val.isEmpty) {
                         return myLocale.languageCode.contains("en")
@@ -327,15 +331,15 @@ class EditProfileUserState extends State<EditProfileUser> {
                         password = val;
                       });
                     },
-                     decoration: InputDecoration(
+                    decoration: InputDecoration(
                         labelText: myLocale.languageCode.contains("en")
                             ? "Password"
                             : "كلمة السر"),
                     keyboardType: TextInputType.text,
                   ),
-            SizedBox(
-              height: 10,
-            ),
+                  SizedBox(
+                    height: 10,
+                  ),
 
                   FlatButton(
                     color: Colors.blue,
@@ -346,10 +350,6 @@ class EditProfileUserState extends State<EditProfileUser> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      
-
-
-
                       upDateProfile();
                       Navigator.of(context).pop();
                     },

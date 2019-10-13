@@ -167,6 +167,17 @@ Map<String, String> arabicLang = {
   "reportsPage":"التقارير",
   "birthDate":"تاريخ الميلاد",
   "Add glucose meter":"اضف جهاز قياس",
+  "about":"عن التطبيق",
+  "contacts":"تواصلوا معنا",
+  "Terms": "الشروط والأحكام",
+  "facebook":"فيسبوك",
+  "twitter":"تويتر",
+  "instagram":"انستجرام" ,
+  "Snapchat": "سناب شات"
+
+
+
+
 
 
 };

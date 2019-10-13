@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health/Models/doctor_tab/doctor_chat.dart';
-import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/Social/ProfieChart.dart';
 
 class Chat extends StatefulWidget {
   bool isDoctor = false;

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +11,7 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../ex.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -145,10 +145,22 @@ class _HomePageState extends State<HomePage> {
     // print(a);
   }
 
+  int calTarget=0;
+
   getValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int ncal = SharedData.customerData['average_calorie'];
-    ncal = SharedData.customerData['average_calorie'];
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+    jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.get("$baseUrl/auth/me",
+        options: Options(headers: headers));
+
+    print('hna al respnese bta3 me ea baaaaaaaaaaaaaaaaah');
+    print('=>>>>>>>>>>>$response');
+
+    ncal = response.data['user']['average_calorie'];
     if(ncal==null){
       ncal=0;
     }
@@ -157,18 +169,15 @@ class _HomePageState extends State<HomePage> {
 
     print(Rcalories);
 
-    int calTarget=0;
+
 
     if(Rcalories>ncal && ncal!=0){
       calTarget=Rcalories-ncal;
     }
-    prefs.setInt('calTarget', calTarget);
-    int x;
-    x= prefs.getInt('calTarget');
 
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
-    print(x);
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
+    setState(() {
+
+    });
 
   }
 
@@ -187,13 +196,7 @@ class _HomePageState extends State<HomePage> {
 
   int ncal = 1;
   void getcal() async {
-    print("waaw===========");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("waaw===========");
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-    ncal = prefs.getInt('calTarget');
-    print(ncal);
-    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    ncal = calTarget;
 
     if (ncal == null || ncal == 0) {
       ncal = 0;
@@ -223,6 +226,7 @@ class _HomePageState extends State<HomePage> {
     print("=================================================fffffffffff");
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
 
+
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
@@ -238,6 +242,8 @@ class _HomePageState extends State<HomePage> {
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
+    print('@rami HNA KOBAIET 2om AL MAYA');
+    print(cupOfWater);
     setState(() {});
     // } catch (e) {
     //   //sugerToday = sugerToday;
@@ -647,6 +653,7 @@ class _HomePageState extends State<HomePage> {
 
                 new ListView(
               children: <Widget>[
+                RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(

@@ -62,7 +62,7 @@ class DataListBean {
   String deletedAt;
   String createdAt;
   String updatedAt;
-  int searchCode;
+  String searchCode;
   int id;
   int gender;
   int generatedCode;

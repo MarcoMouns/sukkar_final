@@ -4,11 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/friends_tab/getFollowers.dart';
 import 'package:health/Models/friends_tab/getFollowing.dart';
-import 'package:health/pages/Settings.dart';
 
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/Social/chat.dart';
-import 'package:health/pages/Social/ProfieChart.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +58,6 @@ class _FriendsPageState extends State<FriendsPage>
   @override
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
-    // TODO: implement initState
     super.initState();
     getAll();
   }
@@ -103,6 +99,8 @@ class _FriendsPageState extends State<FriendsPage>
     setState(() {});
   }
 
+  TextEditingController hiController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -127,6 +125,7 @@ class _FriendsPageState extends State<FriendsPage>
                       child: Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: TextField(
+                          controller: hiController,
                           onChanged: (value) async {
                             try {
                               setState(() {
@@ -272,11 +271,16 @@ class _FriendsPageState extends State<FriendsPage>
                                       response3 = await dio3.post(
                                           "http://104.248.168.117/api/follow/$id");
                                       getAll();
+                                      check = true;
+                                      hiController.clear();
                                       FocusScope.of(context)
                                           .requestFocus(new FocusNode());
                                       print(
                                           'nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                                       print('Response = ${response3.data}');
+                                      setState(() {
+
+                                      });
                                     } on DioError catch (e) {
                                       print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                       print(e.response.data);

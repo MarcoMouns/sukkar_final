@@ -1,8 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/Models/sleepTime.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AddSleep extends StatefulWidget {
@@ -19,17 +25,93 @@ class _AddSleepState extends State<AddSleep> {
     setState(() {});
   }
 
-  _getDummySleepingTime() {
-    
-    // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    /// _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    //  _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
+  Response response;
+  Dio dio = new Dio();
+
+
+
+  Future<Response> addSleeping() async {
+    Response response;
+
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+
+    var response = await dio.post("$baseUrl/measurements/sleeping?startHour=&startMin=&endHour=&endMin=",
+        
+         options: Options(headers: headers));
+      
+          //print(response.data);
+
+          
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
   }
+
+
+  Future<Response> getMeasurementsForDay(String date) async {
+    Response response;
+
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      response = await dio.get("$baseUrl/measurements?date=$date",
+          options: Options(headers: headers));
+      print("response=$response.data.toString()");
+      print("==================================");
+      print("response=$response.data.toString()");
+      setState(() {});
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
+  }
+
+  Future<Response> deleteMeasurements(String date, int val, String time) async {
+    Response response;
+
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      response = await dio.delete(
+          "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
+          options: Options(headers: headers));
+      print("response=$response.data.toString()");
+      print("==================================");
+      print("response=$response.data.toString()");
+
+      setState(() {});
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
+  }
+
+
 
   @override
   void initState() {
-    _getDummySleepingTime();
+   
     _getTime();
     super.initState();
   }
@@ -174,6 +256,7 @@ class _AddSleepState extends State<AddSleep> {
 
   _addSleepTime(String duration, String time) {
     _sleepingTime.add(SleepTime(duration: duration, time: time));
+    addSleeping();
     setState(() {});
   }
 }
@@ -187,8 +270,8 @@ class CustomDialog extends StatefulWidget {
 
 class _CustomDialogState extends State<CustomDialog> {
   PageController _controller = PageController();
-  DateTime from = DateTime.now();
-  DateTime to = DateTime.now();
+  static DateTime from = DateTime.now();
+  static DateTime to = DateTime.now();
   _save() {
     DateTime duration =
         to.subtract(Duration(hours: from.hour, minutes: from.minute));

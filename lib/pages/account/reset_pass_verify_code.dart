@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/account/change_password.dart';
-import 'package:health/pages/account/complete.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../scoped_models/main.dart';
