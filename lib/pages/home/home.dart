@@ -204,6 +204,9 @@ class _HomePageState extends State<HomePage> {
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
+    setState(() {
+
+    });
   }
 
   Dio dio = new Dio();
@@ -384,6 +387,10 @@ class _HomePageState extends State<HomePage> {
           });
         });
       }
+    },
+    );
+    setState(() {
+
     });
   }
 
@@ -436,11 +443,21 @@ class _HomePageState extends State<HomePage> {
                               ? allTranslations.text("normal")
                               : allTranslations.text("high")),
                   ontap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddSugar(selectedDate)),
-                    );
+                    Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddSugar(selectedDate)),)
+                        .then((val)=> val? {
+                    getMeasurementsForDay(date),
+                    emptylists(),
+                    fetchMeals(),
+                    print(sugerToday),
+                    setFirebaseImage(),
+                    getCustomerData(),
+                    getMeasurements(date),
+                    getHomeFetch(),
+                    // if (sugerToday == null) {
+                    //   loading = true;
+                    // }
+                    getcal(),
+                    }:null);
                   },
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

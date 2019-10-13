@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../changeTarget_Screen.dart';
+import '../../circles_choice_screen.dart';
 import '../../languages/all_translations.dart';
 import 'dart:convert';
 
@@ -159,6 +160,25 @@ class _EditProfileState extends State<EditProfile> {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return EditProfileUser();
+                          }));
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      ListTile(
+                        title: Text(
+                          allTranslations.text("editcircle"),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                        onTap: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return CirclesChoiceScreen();
                           }));
                         },
                       ),

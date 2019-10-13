@@ -143,10 +143,6 @@ class _AddSugarState extends State<AddSugar> {
     return response;
   }
 
-  Future<bool> willpopscope(){
-    return Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainHome()));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -159,7 +155,7 @@ class _AddSugarState extends State<AddSugar> {
             leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pop(context,true);
               },
             ),
             centerTitle: true,
@@ -280,7 +276,7 @@ class _AddSugarState extends State<AddSugar> {
                 ],
               ),
             ),
-            onWillPop: ()=> willpopscope(),
+            onWillPop: () async => Navigator.of(context).pop(true) ,
           ),
         ),
     );
