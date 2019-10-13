@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../const.dart';
 import '../../measurementsPageCircles.dart';
 import 'MainCircle/Circles.dart';
 
@@ -151,7 +151,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
         title: Text(allTranslations.text("reportsPage")),
       ),
       body: ListView(
-        children: [
+        
+        children: isLoading == true ? <Widget>[ Loading()]:<Widget>[
+
           SizedBox(
             height: 40,
           ),
@@ -211,7 +213,15 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   child: SizedBox(
                     width: 150,
                     height: 160,
-                    child: MainCircles.diabetes(
+                    child: sugerToday == 0
+                              ? measurementsCircles(
+                                  "ic_logo_3",
+                                  sugerToday.toString(),
+                                  allTranslations.text("sugarNull"),
+                                  0,
+                                  1.5,
+                                  yellowColor)
+                              :MainCircles.diabetes(
                       percent: sugerToday == 0 || sugerToday == null
                           ? 1 / 600
                           : sugerToday / 600,
@@ -292,15 +302,11 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
             ),
           )
         ],
+      
       ),
 
     );
 
-    return
-      isLoading?Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-        ),
-      ):page;
+    return page;
   }
 }

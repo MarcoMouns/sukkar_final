@@ -10,7 +10,6 @@ import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class AddSleep extends StatefulWidget {
   @override
   _AddSleepState createState() => _AddSleepState();
@@ -28,10 +27,10 @@ class _AddSleepState extends State<AddSleep> {
   Response response;
   Dio dio = new Dio();
 
-
-
   Future<Response> addSleeping() async {
     Response response;
+    DateTime from = CustomDialogState.from;
+    DateTime to = CustomDialogState.to;
 
     try {
       SharedPreferences sharedPreferences =
@@ -42,13 +41,11 @@ class _AddSleepState extends State<AddSleep> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-    var response = await dio.post("$baseUrl/measurements/sleeping?startHour=&startMin=&endHour=&endMin=",
-        
-         options: Options(headers: headers));
-      
-          //print(response.data);
+      var response = await dio.post(
+          "$baseUrl/measurements/sleeping?startHour=${from.hour}&startMin=${from.minute}&endHour=${to.hour}&endMin=${to.minute}",
+          options: Options(headers: headers));
 
-          
+      print(response.data);
     } catch (e) {
       print("error =====================");
     }
@@ -56,9 +53,12 @@ class _AddSleepState extends State<AddSleep> {
     return response;
   }
 
-
-  Future<Response> getMeasurementsForDay(String date) async {
+  Future<Response> getSleeping() async {
     Response response;
+    String duration, time;
+    DateTime start;
+    DateTime end;
+    SleepTime sleepTime;
 
     try {
       SharedPreferences sharedPreferences =
@@ -68,11 +68,38 @@ class _AddSleepState extends State<AddSleep> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      response = await dio.get("$baseUrl/measurements?date=$date",
+      response = await dio.get("$baseUrl/measurements",
           options: Options(headers: headers));
       print("response=$response.data.toString()");
       print("==================================");
-      print("response=$response.data.toString()");
+      print(time);
+      time = response.data["Measurements"]["sleepStartTime"];
+      print(time);
+      start = DateTime.parse((DateTime.now().year).toString() +
+          "-" +
+          (DateTime.now().month).toString() +
+          "-" +
+          (DateTime.now().day).toString() +
+          " " +
+          time);
+      print(time);
+      end = DateTime.parse((DateTime.now().year).toString() +
+          "-" +
+          (DateTime.now().month).toString() +
+          "-" +
+          (DateTime.now().day).toString() +
+          " " +response.data["Measurements"]["SleepEndTime"]);
+           
+      duration = (start.difference(end).inDays).toString();
+      print(time);
+      sleepTime.duration = duration;
+      print(time);
+      sleepTime.time = time;
+
+      _sleepingTime.add(sleepTime);
+
+      print(time);
+
       setState(() {});
     } catch (e) {
       print("error =====================");
@@ -107,13 +134,11 @@ class _AddSleepState extends State<AddSleep> {
     return response;
   }
 
-
-
   @override
   void initState() {
-   
     _getTime();
     super.initState();
+    getSleeping();
   }
 
   Duration timer = const Duration();
@@ -147,11 +172,15 @@ class _AddSleepState extends State<AddSleep> {
                           style: TextStyle(color: Colors.red, fontSize: 25.0),
                         ),
                         subtitle: Text(
-                          intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
+                          intl.DateFormat(
+                                  "h:m a", allTranslations.locale.languageCode)
+                              .format(DateTime.now()),
                           style: TextStyle(color: Colors.red),
                         ),
                         trailing: Image.asset(
-                          "assets/icons/ic_list_sleep.png",width: 50,height: 50,
+                          "assets/icons/ic_list_sleep.png",
+                          width: 50,
+                          height: 50,
                           color: Colors.blue,
                         ),
                       ),
@@ -206,8 +235,10 @@ class _AddSleepState extends State<AddSleep> {
                                       fontSize: 13, color: Colors.blueGrey),
                                 ),
                                 trailing: InkWell(
-                                  child:
-                                      ImageIcon(AssetImage("assets/icons/ic_trash.png"),color: Colors.red,),
+                                  child: ImageIcon(
+                                    AssetImage("assets/icons/ic_trash.png"),
+                                    color: Colors.red,
+                                  ),
                                   onTap: () {
                                     _sleepingTime.remove(sleepTime);
                                     setState(() {});
@@ -236,6 +267,7 @@ class _AddSleepState extends State<AddSleep> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     onPressed: () {
+                      addSleeping();
                       Navigator.pop(context);
                     },
                   ),
@@ -263,12 +295,12 @@ class _AddSleepState extends State<AddSleep> {
 
 class CustomDialog extends StatefulWidget {
   @override
-  _CustomDialogState createState() => _CustomDialogState();
- final  _addSleepTime;
+  CustomDialogState createState() => CustomDialogState();
+  final _addSleepTime;
   CustomDialog(this._addSleepTime);
 }
 
-class _CustomDialogState extends State<CustomDialog> {
+class CustomDialogState extends State<CustomDialog> {
   PageController _controller = PageController();
   static DateTime from = DateTime.now();
   static DateTime to = DateTime.now();
@@ -354,8 +386,10 @@ class _CustomDialogState extends State<CustomDialog> {
                       onDateTimeChanged: (value) {
                         if (index == 0) {
                           from = value;
+                          print(value);
                         } else {
                           to = value;
+                          print(value);
                         }
                       },
                       mode: CupertinoDatePickerMode.time,

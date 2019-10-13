@@ -653,7 +653,7 @@ class _HomePageState extends State<HomePage> {
 
                 new ListView(
               children: <Widget>[
-                RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
+                // RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(

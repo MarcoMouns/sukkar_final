@@ -156,7 +156,7 @@ class _AddSugarState extends State<AddSugar> {
             leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                willpopscope();
+                Navigator.of(context).pop();
               },
             ),
             centerTitle: true,
