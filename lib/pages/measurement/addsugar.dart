@@ -65,8 +65,11 @@ class _AddSugarState extends State<AddSugar> {
       };
       print(suger);
       print(date);
+        var now = new DateTime.now();
+        var formatter = new intl.DateFormat('hh:mm a');
+        String formatted = formatter.format(now);
       var response = await dio.post(
-          "$baseUrl/measurements/sugar?sugar=$suger&date=$date&hour=${DateTime.now().hour}&min=${DateTime.now().minute}",
+          "$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
       print("$baseUrl/measurements/sugar?sugar=$suger&date=$date");
       //print(response.data);
