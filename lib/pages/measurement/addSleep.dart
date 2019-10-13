@@ -55,10 +55,6 @@ class _AddSleepState extends State<AddSleep> {
 
   Future<Response> getSleeping() async {
     Response response;
-    String duration, time;
-    DateTime start;
-    DateTime end;
-    
 
     try {
       SharedPreferences sharedPreferences =
@@ -72,34 +68,33 @@ class _AddSleepState extends State<AddSleep> {
           options: Options(headers: headers));
       print("response=$response.data.toString()");
       print("==================================");
-      print("1");
-      time = response.data["Measurements"]["sleepStartTime"];
-      print("2");
-      start = DateTime.parse((DateTime.now().year).toString() +
-          "-" +
-          (DateTime.now().month).toString() +
-          "-" +
-          (DateTime.now().day).toString() +
-          " " +
-          time);
-      print(time);
-      end = DateTime.parse((DateTime.now().year).toString() +
-          "-" +
-          (DateTime.now().month).toString() +
-          "-" +
-          (DateTime.now().day).toString() +
-          " " +response.data["Measurements"]["SleepEndTime"]);
-      print(start);
-      print(end);     
-      duration = (start.subtract(Duration(hours: end.hour, minutes: end.minute))).toString();
-      print(duration);
-      duration = (start.difference(end).inHours).toString();
-      print("4");
-      SleepTime sleepTime = SleepTime(duration: duration , time: time);
 
-      _sleepingTime.add(sleepTime);
+      DateTime from = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          int.parse((response.data["Measurements"]["sleepStartTime"]).split(":")[0]),
+          int.parse((response.data["Measurements"]["sleepStartTime"]).split(":")[1]));
+      //print("==================================" + from.toString());
+      print("==================================");
+      DateTime to = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          int.parse((response.data["Measurements"]["SleepEndTime"]).split(":")[0]),
+          int.parse((response.data["Measurements"]["SleepEndTime"]).split(":")[1]));
+      //print("==================================" + to.toString());
+      print("==================================");
+      DateTime duration =
+          to.subtract(Duration(hours: from.hour, minutes: from.minute));
+      _sleepingTime.add(SleepTime(
+          duration:
+              " ${allTranslations.text("hour")} ${duration.hour} ,${allTranslations.text("minute")} ${duration.minute}",
+          time:
+              "${allTranslations.text("from")} ${from.hour.toString()}:${from.minute.toString()} ${allTranslations.text("to")} ${to.hour.toString()}:${to.minute.toString()}"));
 
-      print("6");
+      print("==================================" + duration.toString());
+      print("==================================");
 
       setState(() {});
     } catch (e) {
