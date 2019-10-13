@@ -58,7 +58,7 @@ class _AddSleepState extends State<AddSleep> {
     String duration, time;
     DateTime start;
     DateTime end;
-    SleepTime sleepTime;
+    
 
     try {
       SharedPreferences sharedPreferences =
@@ -72,9 +72,9 @@ class _AddSleepState extends State<AddSleep> {
           options: Options(headers: headers));
       print("response=$response.data.toString()");
       print("==================================");
-      print(time);
+      print("1");
       time = response.data["Measurements"]["sleepStartTime"];
-      print(time);
+      print("2");
       start = DateTime.parse((DateTime.now().year).toString() +
           "-" +
           (DateTime.now().month).toString() +
@@ -89,16 +89,17 @@ class _AddSleepState extends State<AddSleep> {
           "-" +
           (DateTime.now().day).toString() +
           " " +response.data["Measurements"]["SleepEndTime"]);
-           
-      duration = (start.difference(end).inDays).toString();
-      print(time);
-      sleepTime.duration = duration;
-      print(time);
-      sleepTime.time = time;
+      print(start);
+      print(end);     
+      duration = (start.subtract(Duration(hours: end.hour, minutes: end.minute))).toString();
+      print(duration);
+      duration = (start.difference(end).inHours).toString();
+      print("4");
+      SleepTime sleepTime = SleepTime(duration: duration , time: time);
 
       _sleepingTime.add(sleepTime);
 
-      print(time);
+      print("6");
 
       setState(() {});
     } catch (e) {
