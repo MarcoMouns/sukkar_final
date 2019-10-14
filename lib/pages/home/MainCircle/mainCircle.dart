@@ -160,7 +160,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                   : FittedBox(
                                 // child: Text(
 
-                                //   //TODO:: @me @zizo
+                                //   
                                 //   ///this commeted until we work on the back end
                                 //   //"${widget.status ?? ''}"
                                 //   "",

@@ -11,15 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './languages/all_translations.dart';
 import './languages/translations.dart';
 
-// import './languages/appModel.dart';
 import './scoped_models/main.dart';
 import 'package:health/pages/landPage.dart';
 import 'package:health/pages/Settings.dart';
 
-// import './pages/account/complete.dart';
 import './pages/account/profile.dart';
-
-// import './pages/account/verify.dart';
 import './pages/account/reset.dart';
 import './pages/account/login.dart';
 import './pages/account/new.dart';
@@ -27,7 +23,6 @@ import './pages/others/map.dart';
 import './pages/home.dart';
 import './pages/others/offers.dart';
 import 'Welcome screen.dart';
-//import 'package:flutter/foundation.dart';
 
 void main() async {
   // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
@@ -121,9 +116,9 @@ class _MyAppState extends State<MyApp> {
           ],
           routes: <String, WidgetBuilder>{
             '/': (BuildContext context) =>
-            sharedPreferences.get('authUser') == null
-                ? WelcomeScreen()
-                : MainHome(),
+                sharedPreferences.get('authUser') == null
+                    ? WelcomeScreen()
+                    : MainHome(),
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),
             '/newUser': (BuildContext context) => NewUser(),

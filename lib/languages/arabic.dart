@@ -145,6 +145,7 @@ Map<String, String> arabicLang = {
   "not logged": "انت لست مسجل قم بالتسجيل",
   "loading": "جاري التحميل ...",
   "low":"منخفض",
+  "LowNormal": "اقل الطبيعي",
   "good": "سليم",
   "normal": "طبيعي",
   "high": "مرتفع",

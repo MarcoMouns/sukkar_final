@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/notifications.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/scoped_models/main.dart';
@@ -13,6 +14,8 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   List<NotificationsBean> articleCategories = List<NotificationsBean>();
   Dio dio = new Dio();
   Response response;
@@ -25,7 +28,30 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     getNotifications();
+     var initializationSettingsAndroid =
+        new AndroidInitializationSettings('app_icon'); 
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
   }
+
+  Future onSelectNotification(String payload) async {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return new AlertDialog(
+          title: Text("PayLoad"),
+          content: Text("Payload : $payload"),
+        );
+      },
+    );
+  }
+
+
+  
 
   getNotifications() async{
     setState(() {

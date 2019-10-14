@@ -57,14 +57,12 @@ abstract class MainCircles {
     return ChartWidget(
         isOnSide: true,
         isUpper: true,
-        /// @omar dah rakam wa7ed double
         radius: raduis,
         image: "ic_heart_rate",
         footer: column,
         title: text,
         percent: percent,
         time: "",
-        //TODO: @Omar here is the value of chart color
         color: Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
@@ -254,8 +252,8 @@ abstract class MainCircles {
             : footer,
         time: (time.toString()),
         percent: percent,
-        color: (int.parse(sugar)< 80 || sugar == null) ?Color.fromRGBO(254, 252, 232, 1)
-                       : (int.parse(sugar) >= 80 && int.parse(sugar) <= 200) 
+        color: (int.parse(sugar) <= 69 || sugar == null) ?Color.fromRGBO(254, 252, 232, 1)
+                       : (int.parse(sugar) >= 70 && int.parse(sugar) <= 200) 
                                ? Color.fromRGBO(229, 246, 211, 1) :
                                Color.fromRGBO(253, 238, 238, 1)
         , mainAxisAlignment: MainAxisAlignment.center,

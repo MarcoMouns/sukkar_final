@@ -11,7 +11,6 @@ import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:health/pages/Settings.dart' as settings;
 
-import '../home.dart';
 
 class AddSugar extends StatefulWidget {
   static DateTime date;
@@ -287,8 +286,32 @@ class _AddSugarState extends State<AddSugar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('نصائح انتبة لها'),
-          content: measuresOfDay.first >= 80 && measuresOfDay.first <= 200
+          title: Text('نتيجة القياس'),
+          content: 
+          measuresOfDay.first >= 70 && measuresOfDay.first <= 90?
+          SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.37,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "لديك انخفاض في نسبة السكر",
+                            style: TextStyle(
+                              color: Color.fromRGBO(225, 177, 44,1.0),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Text("عليك إتباع النصائح التالية:"),
+                          Text("1-" + " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
+                          Text("2-" + " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
+                          Text("3-" + " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
+                        ],
+                      ),
+                    )
+          
+          :measuresOfDay.first >= 80 && measuresOfDay.first <= 200
               ? Text(
                   "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
                   style: TextStyle(color: Colors.green),
