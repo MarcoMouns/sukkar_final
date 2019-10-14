@@ -171,7 +171,15 @@ Map<String, String> englishLang = {
   "facebook":"Facebook",
   "twitter":"Twitter",
   "instagram":"Instagram" ,
-  "Snapchat": "Snapchat"
+  "Snapchat": "Snapchat",
+  "changeCircles":"Change Circles",
+  "Changecircle_Water":"no of Water Cups",
+  "Changecircle_HeartBeat":"Heart Beat",
+  "Changecircle_calories":"Calories",
+  "Changecircle_Steps":"Number of Steps",
+  "Changecircle_dictance":"Distance",
+  "Changecircle_presure":"Blood Presure",
+
 
 
 

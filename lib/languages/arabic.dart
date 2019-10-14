@@ -174,7 +174,17 @@ Map<String, String> arabicLang = {
   "facebook":"فيسبوك",
   "twitter":"تويتر",
   "instagram":"انستجرام" ,
-  "Snapchat": "سناب شات"
+  "Snapchat": "سناب شات",
+  "changeCircles":"تغير الدوائر",
+  "Changecircle_Water":"عدد اكواب المياة",
+  "Changecircle_HeartBeat":"ضربات القلب",
+  "Changecircle_calories":"الكلورى",
+  "Changecircle_Steps":"عدد الخطوات",
+  "Changecircle_dictance":"المسافة",
+  "Changecircle_presure":"ضغط الدم",
+
+
+
 
 
 

@@ -288,13 +288,13 @@ class _AddSugarState extends State<AddSugar> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('نصائح انتبة لها'),
-          content: measuresOfDay.first >= 80 && measuresOfDay.first <= 180
+          content: measuresOfDay.first >= 80 && measuresOfDay.first <= 200
               ? Text(
                   "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
                   style: TextStyle(color: Colors.green),
                   textAlign: TextAlign.center,
                 )
-              : measuresOfDay.first >= 180
+              : measuresOfDay.first > 180
                   ? SizedBox(
                       height: MediaQuery.of(context).size.height * 0.37,
                       child: Column(

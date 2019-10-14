@@ -79,14 +79,8 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                     height: widget.radius/2.2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
-                          completeColor: widget.status == null
-                              ?Color.fromRGBO(12, 156, 205, 19):
-                          (int.parse(widget.title)) >=180?
-                          Colors.red:
-                          (int.parse(widget.title)) >=80 && (int.parse(widget.title)) <180?
-                              Colors.green
-                              :
-                              Colors.yellow
+                          completeColor:
+                              Color.fromRGBO(12, 156, 205, 19)
                           ,
                           completePercent: _animation.value*0.7,
                           width: 3.0),
