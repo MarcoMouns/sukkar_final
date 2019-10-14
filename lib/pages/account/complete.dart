@@ -29,6 +29,7 @@ class _CompleteState extends State<Complete> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _passwrodController = TextEditingController();
   TextEditingController _injuryDateController = TextEditingController();
+  TextEditingController _BirthDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
   bool hasPhoto=true;
@@ -365,6 +366,46 @@ class _CompleteState extends State<Complete> {
                                   else
                                     return null;
                                 },
+                              ),
+                              new InkWell(
+                                onTap: () {
+                                  DatePicker.showDatePicker(context,
+                                      showTitleActions: true,
+                                      minTime: DateTime(1900, 3, 5),
+                                      maxTime: DateTime(2030, 6, 7),
+                                      onChanged: (date) {
+                                        _BirthDateController.text =
+                                            date.toString();
+                                        print('change $date');
+                                      }, onConfirm: (date) {
+                                        _BirthDateController.text =
+                                            date.toString();
+                                        print('confirm $date');
+                                      },
+                                      currentTime: DateTime.now(),
+                                      locale: LocaleType.en);
+                                },
+                                child: LogInInput(
+                                  enabled: false,
+                                  controller: _BirthDateController,
+                                  autoValidate: _autoValidate,
+                                  name: "birthDate",
+                                  keyboard: TextInputType.datetime,
+                                  focusNode: _focusNode3,
+                                  onSaved: (String val) {
+                                    setState(() {
+                                      _formData['birthDate'] = val;
+                                    });
+                                  },
+                                  validator: (String val) {
+                                    if (val.isEmpty) {
+                                      return myLocale.languageCode
+                                          .contains("en")
+                                          ? "Birthdate is required."
+                                          : " تاريخ الميلاد مطلوب";
+                                    }
+                                  },
+                                ),
                               ),
                               new InkWell(
                                 onTap: () {
