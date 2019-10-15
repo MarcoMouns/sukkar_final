@@ -554,6 +554,8 @@ class _HomePageState extends State<HomePage> {
         footerText: " meter " +
             "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
             allTranslations.text("Goal is"));
+
+
     widgetCircleWater= MainCircles.water(
         percent: (cupOfWater / goalCupOfWater).toDouble(),
         context: context,
@@ -564,7 +566,7 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : cupOfWater.toString(),
         onTap: () => null,
-        footerText: "الهدف"
+        footerText: "الهدف: "+"${(15-cupOfWater).toString()}"
     );
     widgetCircleHeart=MainCircles.heart(
         percent: 0.9,
@@ -576,7 +578,7 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : heartRate.toString(),
         onTap: () => null,
-        footerText: "الهدف"
+        footerText: ""
     );
     widgetCircleBlood=MainCircles.blood(
         percent: 0.9,
@@ -588,7 +590,7 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : bloodPresure1.toString(),
         onTap: () => null,
-        footerText: "الهدف"
+        footerText: ""
     );
     setState(() {});
   }
