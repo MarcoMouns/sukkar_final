@@ -131,11 +131,11 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ),
                               ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context,true);
                           },
-                          child: Icon(Icons.close, color: Colors.white),
+                          icon: Icon(Icons.close, color: Colors.white),
                         )
                       ],
                     )

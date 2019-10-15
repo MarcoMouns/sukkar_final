@@ -159,87 +159,50 @@ class _AddSugarState extends State<AddSugar> {
             ),
             centerTitle: true,
           ),
-          body: WillPopScope(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: ListView(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            now,
-                            style: TextStyle(color: Colors.red, fontSize: 25.0),
-                          ),
-                          // subtitle: Text(
-                          //   intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
-                          //   style: TextStyle(color: Colors.red),
-                          // ),
-                          trailing: Image.asset(
-                            "assets/icons/ic_logo_3.png",
-                            color: Colors.blue,
-                            width: 50,
-                            height: 50,
-                          ),
+          body: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          now,
+                          style: TextStyle(color: Colors.red, fontSize: 25.0),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 40),
-                          child: Text(
-                            allTranslations.text("measure sugar bla bla bla bla"),
-                            style:
-                            TextStyle(color: Colors.blueGrey, fontSize: 17),
-                          ),
+                        // subtitle: Text(
+                        //   intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
+                        //   style: TextStyle(color: Colors.red),
+                        // ),
+                        trailing: Image.asset(
+                          "assets/icons/ic_logo_3.png",
+                          color: Colors.blue,
+                          width: 50,
+                          height: 50,
                         ),
-                        Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              InkWell(
-                                child: Center(
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    height: 60,
-                                    //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                                    child: Center(
-                                      child: Text(
-                                        allTranslations.text("measure"),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            color: Colors.grey[300], width: 1.5),
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  _showBottomSheet(
-                                      context: context,
-                                      model: model,
-                                      type: 'sugar',
-                                      title: "measure sugar",
-                                      subTitle: "enterTodaySugar",
-                                      imageName: "ic_blood_pressure",
-                                      min: 0.0,
-                                      max: 600.0);
-                                },
-                              ),
-                              Container(
-                                width: 20,
-                              ),
-                              InkWell(
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 40),
+                        child: Text(
+                          allTranslations.text("measure sugar bla bla bla bla"),
+                          style:
+                          TextStyle(color: Colors.blueGrey, fontSize: 17),
+                        ),
+                      ),
+                      Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            InkWell(
+                              child: Center(
                                 child: Container(
                                   width: MediaQuery.of(context).size.width / 3,
                                   height: 60,
-
                                   //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
                                   child: Center(
                                     child: Text(
-                                      allTranslations.text("measure2"),
+                                      allTranslations.text("measure"),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -251,31 +214,65 @@ class _AddSugarState extends State<AddSugar> {
                                     ),
                                   ),
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            BlueToothDevice(model)),
-                                  );
-                                },
                               ),
-                            ],
-                          ),
+                              onTap: () {
+                                _showBottomSheet(
+                                    context: context,
+                                    model: model,
+                                    type: 'sugar',
+                                    title: "measure sugar",
+                                    subTitle: "enterTodaySugar",
+                                    imageName: "ic_blood_pressure",
+                                    min: 0.0,
+                                    max: 600.0);
+                              },
+                            ),
+                            Container(
+                              width: 20,
+                            ),
+                            InkWell(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: 60,
+
+                                //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                                child: Center(
+                                  child: Text(
+                                    allTranslations.text("measure2"),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.grey[300], width: 1.5),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BlueToothDevice(model)),
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: listOfSuger(),
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: listOfSuger(),
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            onWillPop: () async => Navigator.of(context).pop(true) ,
           ),
         ),
     );
