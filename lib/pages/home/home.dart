@@ -111,11 +111,9 @@ class _HomePageState extends State<HomePage> {
     getcal();
 
     //print("$sugerToday ===========================");
-
-    
   }
 
-  Future<void> fetchMeals() async{
+  Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
       print('Result fetch => $result');
       if (result != null) {
@@ -134,10 +132,9 @@ class _HomePageState extends State<HomePage> {
 
   addIntToSF() async {
     print(_calories);
-    if(_calories.length==0){
-      Rcalories=0;
-    }
-    else{
+    if (_calories.length == 0) {
+      Rcalories = 0;
+    } else {
       Rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -145,40 +142,35 @@ class _HomePageState extends State<HomePage> {
     // print(a);
   }
 
-  int calTarget=0;
+  int calTarget = 0;
 
   getValuesSF() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/auth/me",
-        options: Options(headers: headers));
+    response =
+        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
 
     print('hna al respnese bta3 me ea baaaaaaaaaaaaaaaaah');
     print('=>>>>>>>>>>>$response');
 
     ncal = response.data['user']['average_calorie'];
-    if(ncal==null){
-      ncal=0;
+    if (ncal == null) {
+      ncal = 0;
     }
 
     print(ncal);
 
     print(Rcalories);
 
-
-
-    if(Rcalories>ncal && ncal!=0){
-      calTarget=Rcalories-ncal;
+    if (Rcalories > ncal && ncal != 0) {
+      calTarget = Rcalories - ncal;
     }
 
-    setState(() {
-
-    });
-
+    setState(() {});
   }
 
   Future setFirebaseImage() async {
@@ -204,9 +196,7 @@ class _HomePageState extends State<HomePage> {
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   Dio dio = new Dio();
@@ -228,7 +218,6 @@ class _HomePageState extends State<HomePage> {
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
     print("=================================================fffffffffff");
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
-
 
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
@@ -359,39 +348,38 @@ class _HomePageState extends State<HomePage> {
       loading = true;
       loading1 = true;
     });
-    widget.model.fetchHome(date).then((result) {
-      print('*****************************************************');
-      print('HERE is the start of Result');
-      print(result == null ? 'fffff' : 'yyyy');
-      print('*****************************************************');
-      if (result != null) {
-        setState(() {
-          // Measurements
+    widget.model.fetchHome(date).then(
+      (result) {
+        print('*****************************************************');
+        print('HERE is the start of Result');
+        print(result == null ? 'fffff' : 'yyyy');
+        print('*****************************************************');
+        if (result != null) {
+          setState(() {
+            // Measurements
 
-          dataHome = result.measurements;
-          print(sugerToday);
+            dataHome = result.measurements;
+            print(sugerToday);
 
-          print(dataHome.sugar);
-          getMeasurementsForDay(date);
-          print(dataHome.sugar);
-          // Sugar Charts
-          Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
-            setState(() {
-              // Articles banner
+            print(dataHome.sugar);
+            getMeasurementsForDay(date);
+            print(dataHome.sugar);
+            // Sugar Charts
+            Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
+              setState(() {
+                // Articles banner
 
-              banners = result.banners;
-              loading1 = false;
-              loading = false;
-              getMeasurementsForDay(date);
+                banners = result.banners;
+                loading1 = false;
+                loading = false;
+                getMeasurementsForDay(date);
+              });
             });
           });
-        });
-      }
-    },
+        }
+      },
     );
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void _onData(int stepCountValue) async {
@@ -438,29 +426,35 @@ class _HomePageState extends State<HomePage> {
                   status: sugerToday == 0 || sugerToday == null
                       ? allTranslations.text("sugarNull")
                       : (sugerToday < 69)
-                          ? allTranslations.text("low"):
-                        (sugerToday >= 70 && sugerToday <= 89)?
-                          allTranslations.text("LowNormal")
-                          : (sugerToday >= 90 && sugerToday <= 200)
-                              ? allTranslations.text("normal")
-                              : allTranslations.text("high"),
+                          ? allTranslations.text("low")
+                          : (sugerToday >= 70 && sugerToday <= 89)
+                              ? allTranslations.text("LowNormal")
+                              : (sugerToday >= 90 && sugerToday <= 200)
+                                  ? allTranslations.text("normal")
+                                  : allTranslations.text("high"),
                   ontap: () {
-                    NotificationsState.showNotification("title","body");
-                    Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddSugar(selectedDate)),)
-                        .then((val)=> val? {
-                    getMeasurementsForDay(date),
-                    emptylists(),
-                    fetchMeals(),
-                    print(sugerToday),
-                    setFirebaseImage(),
-                    getCustomerData(),
-                    getMeasurements(date),
-                    getHomeFetch(),
-                    // if (sugerToday == null) {
-                    //   loading = true;
-                    // }
-                    getcal(),
-                    }:null);
+                    NotificationsState.showNotification("title", "body");
+                    Navigator.of(context)
+                        .push(
+                          new MaterialPageRoute(
+                              builder: (_) => new AddSugar(selectedDate)),
+                        )
+                        .then((val) => val
+                            ? {
+                                getMeasurementsForDay(date),
+                                emptylists(),
+                                fetchMeals(),
+                                print(sugerToday),
+                                setFirebaseImage(),
+                                getCustomerData(),
+                                getMeasurements(date),
+                                getHomeFetch(),
+                                // if (sugerToday == null) {
+                                //   loading = true;
+                                // }
+                                getcal(),
+                              }
+                            : null);
                   },
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -533,9 +527,9 @@ class _HomePageState extends State<HomePage> {
                           ? 0
                           : dataHome.calories == null
                               ? 0
-                      :ncal==0?
-                          0
-                              : ((dataHome.calories / ncal) * 0.7),
+                              : ncal == 0
+                                  ? 0
+                                  : ((dataHome.calories / ncal) * 0.7),
                       context: context,
 //                day_Calories: dataHome['day_Calories'],
                       day_Calories: dataHome == null
@@ -555,9 +549,9 @@ class _HomePageState extends State<HomePage> {
                         ? 0
                         : dataHome.steps == null
                             ? 0
-                        :ncal==0?
-                    0
-                            : (dataHome.steps / (ncal / 0.0912)) * 0.7,
+                            : ncal == 0
+                                ? 0
+                                : (dataHome.steps / (ncal / 0.0912)) * 0.7,
                     context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
                     steps: dataHome == null
@@ -576,11 +570,11 @@ class _HomePageState extends State<HomePage> {
                         ? 0
                         : dataHome.distance == null
                             ? 0
-                        :ncal==0?
-                    0
-                            : dataHome.distance /
-                                (((ncal / 0.0912) * 0.762) ~/ 2) *
-                                0.7,
+                            : ncal == 0
+                                ? 0
+                                : dataHome.distance /
+                                    (((ncal / 0.0912) * 0.762) ~/ 2) *
+                                    0.7,
                     context: context,
                     raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
