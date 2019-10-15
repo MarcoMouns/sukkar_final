@@ -25,7 +25,6 @@ class _CompleteState extends State<Complete> {
   FocusNode _focusNode3 = FocusNode();
   FocusNode _focusNode4 = FocusNode();
   FocusNode _focusNode5 = FocusNode();
-  FocusNode _focusNode6 = FocusNode();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _passwrodController = TextEditingController();
@@ -42,7 +41,6 @@ class _CompleteState extends State<Complete> {
     "userName": null,
     "email": null,
     "injuredDate": null,
-    "birthDate" : null,
     "gender": null,
     "password": null,
     "fuid": null,
@@ -213,7 +211,7 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = true;
       });
-      //_formData['image'];
+      _formData['image'];
       print(img);
       print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111');
       print(_formData['fuid']);
@@ -264,7 +262,6 @@ class _CompleteState extends State<Complete> {
             _focusNode3.unfocus();
             _focusNode4.unfocus();
             _focusNode5.unfocus();
-            _focusNode6.unfocus();
           },
           child: Scaffold(
             key: _scaffoldKey,
@@ -394,7 +391,7 @@ class _CompleteState extends State<Complete> {
                                   autoValidate: _autoValidate,
                                   name: "birthDate",
                                   keyboard: TextInputType.datetime,
-                                  focusNode: _focusNode6,
+                                  focusNode: _focusNode3,
                                   onSaved: (String val) {
                                     setState(() {
                                       _formData['birthDate'] = val;

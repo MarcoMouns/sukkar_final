@@ -124,7 +124,7 @@ mixin UserScopedModel on Model {
       FormData formdata = new FormData();
       formdata.add("name", userData['userName']);
       formdata.add("email", userData['email']);
-      formdata.add("birth_date", userData['birthDate']);
+      formdata.add("birth_date", userData['injuredDate']);
       formdata.add("token_id", "0000000000");
       formdata.add("gender", userData['gender']);
       formdata.add("phone", userData['phone']);
