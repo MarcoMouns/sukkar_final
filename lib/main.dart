@@ -31,8 +31,6 @@ void main() async {
   await allTranslations.init();
 
   allTranslations.setNewLanguage("ar");
-  
-
   allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print(sharedPreferences.getKeys());
