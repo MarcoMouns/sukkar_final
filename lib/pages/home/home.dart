@@ -12,6 +12,7 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../measurementsPageCircles.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -89,6 +90,8 @@ class _HomePageState extends State<HomePage> {
   int steps;
   int calories;
   int cupOfWater;
+  int heartRate;
+  int bloodPresure1;
 
   init(BuildContext context) {
     _scrollController = ScrollController(
@@ -110,10 +113,14 @@ class _HomePageState extends State<HomePage> {
     // }
     getcal();
 
+
+
     //print("$sugerToday ===========================");
 
     
   }
+
+
 
   Future<void> fetchMeals() async{
     await widget.model.fetchAllMealsFoods().then((result) {
@@ -124,7 +131,6 @@ class _HomePageState extends State<HomePage> {
           print('******************************_calories = > $_calories');
           addIntToSF();
           getValuesSF();
-          loading = false;
         });
       } else {}
     }).catchError((err) {
@@ -146,6 +152,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   int calTarget=0;
+  bool circleCalorie=true;
+  bool circleSteps=true;
+  bool circleDistance=true;
+  bool circleWater=false;
+  bool circleHeart=false;
+  bool circleBlood=false;
+
 
   getValuesSF() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -159,6 +172,20 @@ class _HomePageState extends State<HomePage> {
 
     print('hna al respnese bta3 me ea baaaaaaaaaaaaaaaaah');
     print('=>>>>>>>>>>>$response');
+
+    circleBlood = response.data['user']['circles']['blood'];
+    circleHeart = response.data['user']['circles']['heart'];
+    circleSteps = response.data['user']['circles']['steps'];
+    circleWater = response.data['user']['circles']['water'];
+    circleCalorie = response.data['user']['circles']['calorie'];
+    circleDistance = response.data['user']['circles']['distance'];
+
+    print('BLood => $circleBlood');
+    print('heart => $circleHeart');
+    print('steps => $circleSteps');
+    print('water => $circleWater');
+    print('cal => $circleCalorie');
+    print('distance => $circleDistance');
 
     ncal = response.data['user']['average_calorie'];
     if(ncal==null){
@@ -179,10 +206,24 @@ class _HomePageState extends State<HomePage> {
 
     });
 
+    print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
+
+    print('BLood => $circleBlood');
+    print('heart => $circleHeart');
+    print('steps => $circleSteps');
+    print('water => $circleWater');
+    print('cal => $circleCalorie');
+    print('distance => $circleDistance');
+
+    initialCircles(169.0285);
+    initListOfCircles();
+    setState(() {});
+    loading = false;
+    setState(() {});
   }
 
   Future setFirebaseImage() async {
-    print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
+
     print(SharedData.customerData['fuid']);
     print(SharedData.customerData['image']);
     Firestore.instance
@@ -245,6 +286,13 @@ class _HomePageState extends State<HomePage> {
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
+    bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["DiastolicPressure"];
+    heartRate = response.data["Measurements"]["Heartbeat"] == null
+        ? 0
+        : response.data["Measurements"]["Heartbeat"];
+
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(cupOfWater);
     setState(() {});
@@ -417,6 +465,139 @@ class _HomePageState extends State<HomePage> {
     _onCancel();
   }
 
+  List<Widget> coCircles = new List<Widget>();
+  Widget widgetCircleCalorie;
+  Widget widgetCircleSteps;
+  Widget widgetCircleDistance;
+  Widget widgetCircleWater;
+  Widget widgetCircleHeart;
+  Widget widgetCircleBlood;
+  int goalCupOfWater=15;
+  Color greenColor = Color.fromRGBO(229, 246, 211, 1);
+  Color redColor = Color.fromRGBO(253, 238, 238, 1);
+  Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
+
+  void initListOfCircles(){
+    coCircles.clear();
+    if(circleCalorie==true){
+      coCircles.add(widgetCircleCalorie);
+    }
+    if(circleDistance==true){
+      coCircles.add(widgetCircleDistance);
+    }
+    if(circleBlood==true){
+      coCircles.add(widgetCircleBlood);
+    }
+    if(circleHeart==true){
+      coCircles.add(widgetCircleHeart);
+    }
+    if(circleWater==true){
+      coCircles.add(widgetCircleWater);
+    }
+    if(circleSteps==true){
+      coCircles.add(widgetCircleSteps);
+    }
+
+    setState(() {});
+  }
+
+  void initialCircles(_chartRadius){
+    widgetCircleCalorie=MainCircles.cal(
+        percent: dataHome == null
+            ? 0
+            : dataHome.calories == null
+            ? 0
+            :ncal==0?
+        0
+            : ((dataHome.calories / ncal) * 0.7),
+        context: context,
+        day_Calories: dataHome == null
+            ? 0
+            : dataHome.calories == null
+            ? 0
+            : dataHome.calories.toString(),
+        ontap: () => null,
+        raduis: _chartRadius,
+        footerText: "Cal " +
+            " $ncal :" +
+            allTranslations.text("Goal is"));
+    widgetCircleSteps=MainCircles.steps(
+        percent: dataHome == null
+            ? 0
+            : dataHome.steps == null
+            ? 0
+            :ncal==0?
+        0
+            : (dataHome.steps / (ncal / 0.0912)) * 0.7,
+        context: context,
+        steps: dataHome == null
+            ? 0
+            : dataHome.steps == null ? 0 : dataHome.steps,
+        raduis: _chartRadius,
+        onTap: () => null,
+        footerText: " Step " +
+            "${(ncal / 0.0912).toInt()} :" +
+            allTranslations.text("Goal is"));
+    widgetCircleDistance=MainCircles.distance(
+        percent: dataHome == null
+            ? 0
+            : dataHome.distance == null
+            ? 0
+            :ncal==0?
+        0
+            : dataHome.distance /
+            (((ncal / 0.0912) * 0.762) ~/ 2) *
+            0.7,
+        context: context,
+        raduis: _chartRadius,
+        distance: dataHome == null
+            ? '0'
+            : dataHome.distance == null
+            ? '0'
+            : dataHome.distance.toString(),
+        onTap: () => null,
+        footerText: " meter " +
+            "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
+            allTranslations.text("Goal is"));
+    widgetCircleWater= MainCircles.water(
+        percent: (cupOfWater / goalCupOfWater).toDouble(),
+        context: context,
+        raduis: _chartRadius,
+        numberOfCups: dataHome == null
+            ? '0'
+            : cupOfWater == null
+            ? '0'
+            : cupOfWater.toString(),
+        onTap: () => null,
+        footerText: "الهدف"
+    );
+    widgetCircleHeart=MainCircles.heart(
+        percent: 0.9,
+        context: context,
+        raduis: _chartRadius,
+        heart: dataHome == null
+            ? '0'
+            : heartRate == null
+            ? '0'
+            : heartRate.toString(),
+        onTap: () => null,
+        footerText: "الهدف"
+    );
+    widgetCircleBlood=MainCircles.blood(
+        percent: 0.9,
+        context: context,
+        raduis: _chartRadius,
+        blood: dataHome == null
+            ? '0'
+            : bloodPresure1 == null
+            ? '0'
+            : bloodPresure1.toString(),
+        onTap: () => null,
+        footerText: "الهدف"
+    );
+    setState(() {});
+  }
+
   Widget upperCircles(context, _chartRadius, model) {
     return loading == true
         ? Loading()
@@ -528,71 +709,14 @@ class _HomePageState extends State<HomePage> {
               ),
               new LayoutId(
                   id: 2,
-                  child: MainCircles.cal(
-                      percent: dataHome == null
-                          ? 0
-                          : dataHome.calories == null
-                              ? 0
-                      :ncal==0?
-                          0
-                              : ((dataHome.calories / ncal) * 0.7),
-                      context: context,
-//                day_Calories: dataHome['day_Calories'],
-                      day_Calories: dataHome == null
-                          ? 0
-                          : dataHome.calories == null
-                              ? 0
-                              : dataHome.calories.toString(),
-                      ontap: () => null,
-                      raduis: _chartRadius,
-                      footerText: "Cal " +
-                          " ${ncal} :" +
-                          allTranslations.text("Goal is"))),
+                  child: coCircles[0]),
               new LayoutId(
                 id: 3,
-                child: MainCircles.steps(
-                    percent: dataHome == null
-                        ? 0
-                        : dataHome.steps == null
-                            ? 0
-                        :ncal==0?
-                    0
-                            : (dataHome.steps / (ncal / 0.0912)) * 0.7,
-                    context: context,
-//              steps: dataHome['NumberOfSteps'] ?? 0,
-                    steps: dataHome == null
-                        ? 0
-                        : dataHome.steps == null ? 0 : dataHome.steps,
-                    raduis: _chartRadius,
-                    onTap: () => null,
-                    footerText: " Step " +
-                        "${(ncal / 0.0912).toInt()} :" +
-                        allTranslations.text("Goal is")),
+                child: coCircles[1],
               ),
               new LayoutId(
                 id: 4,
-                child: MainCircles.distance(
-                    percent: dataHome == null
-                        ? 0
-                        : dataHome.distance == null
-                            ? 0
-                        :ncal==0?
-                    0
-                            : dataHome.distance /
-                                (((ncal / 0.0912) * 0.762) ~/ 2) *
-                                0.7,
-                    context: context,
-                    raduis: _chartRadius,
-//              distance: dataHome['distance'].toString(),
-                    distance: dataHome == null
-                        ? '0'
-                        : dataHome.distance == null
-                            ? '0'
-                            : dataHome.distance.toString(),
-                    onTap: () => null,
-                    footerText: " meter " +
-                        "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
-                        allTranslations.text("Goal is")),
+                child: coCircles[2],
               )
             ],
           );
@@ -600,6 +724,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     if (_firstPageLoad) {
       init(context);
       _firstPageLoad = false;
@@ -620,8 +745,9 @@ class _HomePageState extends State<HomePage> {
                 ? _screenHeight * 3 / 5
                 : MediaQuery.of(context).size.width - 30) /
             2;
-
-    return Scaffold(
+    return loading == true
+        ? Loading()
+        : Scaffold(
         appBar: Settings.appBar(
           context: context,
           title: InkWell(
@@ -697,16 +823,11 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     onTap: () {
-                      // getMeasurements(date);
-                      // //getMeasurementsForDay(date);
-                      // getHomeFetch();
-
                       getMeasurementsForDay(date);
-
                       emptylists();
-
+                      fetchMeals();
                       print(sugerToday);
-
+                      setFirebaseImage();
                       getCustomerData();
                       getMeasurements(date);
                       getHomeFetch();
