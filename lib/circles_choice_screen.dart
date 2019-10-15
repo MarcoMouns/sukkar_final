@@ -12,12 +12,12 @@ class CirclesChoiceScreen extends StatefulWidget {
 }
 
 class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
-  bool o1 = false;
-  bool o2 = false;
-  bool o3 = false;
-  bool o4 = false;
-  bool o5 = false;
-  bool o6= false;
+  bool calories = false;
+  bool water = false;
+  bool heartRate = false;
+  bool steps = false;
+  bool distance = false;
+  bool bloodPressure = false;
   bool finish = false;
   List<bool> finished = [false, false, false];
 
@@ -28,44 +28,55 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
   int index5;
   int index6;
   int counter = 0;
-  int selectednumber=0;
+  int selectednumber = 0;
 
-
-  Widget w1= Container(
+  Widget w1 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w2= Container(
+  Widget w2 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w3= Container(
+  Widget w3 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w4= Container(
+  Widget w4 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w5= Container(
+  Widget w5 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w6= Container(
+  Widget w6 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
   Widget check = Container(
     width: 50,
@@ -82,7 +93,9 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
 
   void isChecked1(bool x) {
@@ -103,12 +116,12 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey, width: 2),
+            ),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked2(bool x) {
@@ -129,12 +142,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked3(bool x) {
@@ -155,12 +167,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked4(bool x) {
@@ -181,12 +192,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked5(bool x) {
@@ -207,38 +217,36 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked6(bool x) {
     x
         ? w6 = Container(
-      width: 50,
-      height: 50,
-      alignment: Alignment.center,
-      decoration:
-      BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-      child: Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 30,
-      ),
-    )
+            width: 50,
+            height: 50,
+            alignment: Alignment.center,
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+              size: 30,
+            ),
+          )
         : w6 = Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
-    );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
+          );
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   bool isFinished() {
@@ -250,9 +258,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
         finish = true;
       }
     }
-    setState(() {
-
-    });
+    setState(() {});
     return finish;
   }
 
@@ -263,37 +269,48 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
       }
     }
   }
-
-  void sendData() async {
-    Response response;
+ Response response;
     Dio dio = new Dio();
+  void sendData() async {
+   
 
-    SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
+    FormData formdata = new FormData();
+    formdata.add('calorie', 0);
+    formdata.add('steps', 0);
+    formdata.add('distance', 1);
+    formdata.add('water', 1);
+    formdata.add('heart', 1);
+    formdata.add('blood', 0);
+    formdata.add('ـmethod', "PUT");
 
-    response = await dio.post(
-        "104.248.168.117/",
-        options: Options(headers: headers));
+    response = await dio.post("104.248.168.117/api/users/circles",
+        data: formdata,
+        options: Options(
+          headers: headers,
+          method: 'PUT'
+        ));
 
-
+    print(response.data);
   }
 
-  Future _showDialog(){
+  Future _showDialog() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("من فضلك اختر ثلاث دوائر"),
-          content:
-              Text("لقد اخترت "+"$selectednumber"+" تبقى "+"${3-selectednumber}"),
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("من فضلك اختر ثلاث دوائر"),
+            content: Text("لقد اخترت " +
+                "$selectednumber" +
+                " تبقى " +
+                "${3 - selectednumber}"),
+          );
+        });
   }
 
   @override
@@ -320,28 +337,28 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_calories"))
                     ],
                   ),
-                  trailing: isFinished() == true && o1 == false
+                  trailing: isFinished() == true && calories == false
                       ? notcheck
-                      : isFinished() == true && o1 == true ? check : w1,
+                      : isFinished() == true && calories == true ? check : w1,
                   onTap: () {
-                    if (isFinished() == true && o1 == true) {
-                      o1 = false;
-                      isChecked1(o1);
+                    if (isFinished() == true && calories == true) {
+                      calories = false;
+                      isChecked1(calories);
                       counter = index1;
                       finished[index1] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o1 = !o1;
-                      if (o1 == true) {
+                      calories = !calories;
+                      if (calories == true) {
                         index1 = counter;
-                        isChecked1(o1);
+                        isChecked1(calories);
                         finished[index1] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked1(o1);
+                        isChecked1(calories);
                         counter = index1;
                         finished[index1] = false;
                         isFinished();
@@ -380,28 +397,28 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_Water"))
                     ],
                   ),
-                  trailing: isFinished() == true && o2 == false
+                  trailing: isFinished() == true && water == false
                       ? notcheck
-                      : isFinished() == true && o2 == true ? check : w2,
+                      : isFinished() == true && water == true ? check : w2,
                   onTap: () {
-                    if (isFinished() == true && o2 == true) {
-                      o2 = false;
-                      isChecked2(o2);
+                    if (isFinished() == true && water == true) {
+                      water = false;
+                      isChecked2(water);
                       counter = index2;
                       finished[index2] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o2 = !o2;
-                      if (o2 == true) {
+                      water = !water;
+                      if (water == true) {
                         index2 = counter;
-                        isChecked2(o2);
+                        isChecked2(water);
                         finished[index2] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked2(o2);
+                        isChecked2(water);
                         counter = index2;
                         finished[index2] = false;
                         isFinished();
@@ -428,28 +445,28 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_HeartBeat"))
                     ],
                   ),
-                  trailing: isFinished() == true && o3 == false
+                  trailing: isFinished() == true && heartRate == false
                       ? notcheck
-                      : isFinished() == true && o3 == true ? check : w3,
+                      : isFinished() == true && heartRate == true ? check : w3,
                   onTap: () {
-                    if (isFinished() == true && o3 == true) {
-                      o3 = false;
-                      isChecked3(o3);
+                    if (isFinished() == true && heartRate == true) {
+                      heartRate = false;
+                      isChecked3(heartRate);
                       counter = index3;
                       finished[index3] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o3 = !o3;
-                      if (o3 == true) {
+                      heartRate = !heartRate;
+                      if (heartRate == true) {
                         index3 = counter;
-                        isChecked3(o3);
+                        isChecked3(heartRate);
                         finished[index3] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked3(o3);
+                        isChecked3(heartRate);
                         counter = index3;
                         finished[index3] = false;
                         isFinished();
@@ -476,28 +493,28 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_Steps"))
                     ],
                   ),
-                  trailing: isFinished() == true && o4 == false
+                  trailing: isFinished() == true && steps == false
                       ? notcheck
-                      : isFinished() == true && o4 == true ? check : w4,
+                      : isFinished() == true && steps == true ? check : w4,
                   onTap: () {
-                    if (isFinished() == true && o4 == true) {
-                      o4 = false;
-                      isChecked4(o4);
+                    if (isFinished() == true && steps == true) {
+                      steps = false;
+                      isChecked4(steps);
                       counter = index4;
                       finished[index4] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o4 = !o4;
-                      if (o4 == true) {
+                      steps = !steps;
+                      if (steps == true) {
                         index4 = counter;
-                        isChecked4(o4);
+                        isChecked4(steps);
                         finished[index4] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked4(o4);
+                        isChecked4(steps);
                         counter = index4;
                         finished[index4] = false;
                         isFinished();
@@ -524,28 +541,28 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_dictance"))
                     ],
                   ),
-                  trailing: isFinished() == true && o5 == false
+                  trailing: isFinished() == true && distance == false
                       ? notcheck
-                      : isFinished() == true && o5 == true ? check : w5,
+                      : isFinished() == true && distance == true ? check : w5,
                   onTap: () {
-                    if (isFinished() == true && o5 == true) {
-                      o5 = false;
-                      isChecked5(o5);
+                    if (isFinished() == true && distance == true) {
+                      distance = false;
+                      isChecked5(distance);
                       counter = index5;
                       finished[index5] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o5 = !o5;
-                      if (o5 == true) {
+                      distance = !distance;
+                      if (distance == true) {
                         index5 = counter;
-                        isChecked5(o5);
+                        isChecked5(distance);
                         finished[index5] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked5(o5);
+                        isChecked5(distance);
                         counter = index5;
                         finished[index5] = false;
                         isFinished();
@@ -573,28 +590,30 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       Text(allTranslations.text("Changecircle_presure"))
                     ],
                   ),
-                  trailing: isFinished() == true && o6 == false
+                  trailing: isFinished() == true && bloodPressure == false
                       ? notcheck
-                      : isFinished() == true && o6 == true ? check : w6,
+                      : isFinished() == true && bloodPressure == true
+                          ? check
+                          : w6,
                   onTap: () {
-                    if (isFinished() == true && o6 == true) {
-                      o6 = false;
-                      isChecked6(o6);
+                    if (isFinished() == true && bloodPressure == true) {
+                      bloodPressure = false;
+                      isChecked6(bloodPressure);
                       counter = index6;
                       finished[index6] = false;
                       isFinished();
                     } else if (isFinished() == true) {
                       return null;
                     } else {
-                      o6 = !o6;
-                      if (o6 == true) {
+                      bloodPressure = !bloodPressure;
+                      if (bloodPressure == true) {
                         index6 = counter;
-                        isChecked6(o6);
+                        isChecked6(bloodPressure);
                         finished[index6] = true;
                         counter = checkEmptyPlaces();
                         isFinished();
                       } else {
-                        isChecked6(o6);
+                        isChecked6(bloodPressure);
                         counter = index6;
                         finished[index6] = false;
                         isFinished();
@@ -603,23 +622,26 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     setState(() {});
                   },
                 ),
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top)),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top)),
                 InkWell(
                   child: Container(
-                    width: MediaQuery.of(context).size.width*0.6,
-                    height: MediaQuery.of(context).size.height*0.07,
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     decoration: BoxDecoration(
                         color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
                     alignment: Alignment.center,
-                    child: Text("حفظ",style: TextStyle(color: Colors.white,fontSize: 20),),
+                    child: Text(
+                      "حفظ",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
                   onTap: () {
-                    if(isFinished()){
+                    if (isFinished()) {
                       sendData();
-                    }
-                    else{
+                    } else {
                       _showDialog();
                     }
                   },
