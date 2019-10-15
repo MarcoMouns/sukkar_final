@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/measurement/addsugar.dart';
+import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -444,6 +445,7 @@ class _HomePageState extends State<HomePage> {
                               ? allTranslations.text("normal")
                               : allTranslations.text("high"),
                   ontap: () {
+                    NotificationsState.showNotification("title","body");
                     Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddSugar(selectedDate)),)
                         .then((val)=> val? {
                     getMeasurementsForDay(date),

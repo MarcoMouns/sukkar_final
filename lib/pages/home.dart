@@ -145,6 +145,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     _rotateAmimation.addListener(() {
       _rotateAmimation.value;
     });
+    
   }
 
   @override
