@@ -288,7 +288,7 @@ class _AddSugarState extends State<AddSugar> {
         return AlertDialog(
           title: Text('نتيجة القياس'),
           content: 
-          measuresOfDay.first >= 70 && measuresOfDay.first <= 90?
+          measuresOfDay.first >= 70 && measuresOfDay.first < 80?
           SizedBox(
                       height: MediaQuery.of(context).size.height * 0.37,
                       child: Column(
@@ -317,7 +317,7 @@ class _AddSugarState extends State<AddSugar> {
                   style: TextStyle(color: Colors.green),
                   textAlign: TextAlign.center,
                 )
-              : measuresOfDay.first > 180
+              : measuresOfDay.first > 200
                   ? SizedBox(
                       height: MediaQuery.of(context).size.height * 0.37,
                       child: Column(
