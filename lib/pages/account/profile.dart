@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -10,6 +11,7 @@ import '../../languages/all_translations.dart';
 import 'dart:convert';
 
 import '../../shared-data.dart';
+import 'aboutApp.dart';
 import 'contacts.dart';
 import 'edit_profile.dart';
 
@@ -324,7 +326,12 @@ class _EditProfileState extends State<EditProfile> {
                           ],
                         ),
                         onTap: () {
+                        
 
+                        Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return AboutApp();
+                          }));
                        
                         },
                         trailing: Icon(
@@ -374,6 +381,11 @@ class _EditProfileState extends State<EditProfile> {
                           ],
                         ),
                         onTap: () {
+                           Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return TermsAndConditions();
+                          }));
+                       
                         },
                         trailing: Icon(
                           Icons.arrow_forward_ios,

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../helpers/color_transform.dart';
@@ -579,7 +580,16 @@ class _CompleteState extends State<Complete> {
               allTranslations.text("Privacy policy"),
             ),
             content: SingleChildScrollView(
-                child: Text("bla bla bla bla bla bla bla bla bla bla bla bla")),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return TermsAndConditions();
+                          }));
+                       
+                  },
+                  child: Text("قراءة الشروط و الاحكام" , style: TextStyle(color: Colors.blue),),
+                )),
             actions: <Widget>[
               InkWell(
                 child: Text(

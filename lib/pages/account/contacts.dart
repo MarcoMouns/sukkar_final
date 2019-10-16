@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Contacts extends StatefulWidget {
@@ -8,12 +13,47 @@ class Contacts extends StatefulWidget {
 }
 
 class _ContactsState extends State<Contacts> {
+  Response response;
+  Dio dio = new Dio();
+  String facebook;
+  String snapChat;
+  String twitter;
+  String instagram;
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getSocialLinks();
+  }
+
+  void getSocialLinks() async {
+ try{
+      response = await dio.get(
+      "http://104.248.168.117/api/social",
+    );
+
+    snapChat = response.data['snapchat'];
+    facebook = response.data['facebook'];
+    twitter = response.data['twitter'];
+    instagram = response.data['instagram'];
+    loading = false;
+ }
+ catch(e){
+   print("Error");
+ }
+
+    setState(() {});
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(allTranslations.text("contacts")),
       ),
-      body: ListView(
+      body: loading == true ? ListView( children: <Widget>[
+        Loading()
+      ], ) :ListView(
         children: <Widget>[
           ListTile(
             title: Text(
@@ -25,7 +65,7 @@ class _ContactsState extends State<Contacts> {
               color: Colors.redAccent,
             ),
             onTap: () {
-              const url = 'https://twitter.com/SukarDm';
+             var url = twitter;
               launch(url);
             },
           ),
@@ -42,7 +82,7 @@ class _ContactsState extends State<Contacts> {
               color: Colors.redAccent,
             ),
             onTap: () {
-              const url = 'http://www.snapchat.com/add/SukarDM';
+              var url = snapChat;
               launch(url);
             },
           ),
@@ -59,7 +99,7 @@ class _ContactsState extends State<Contacts> {
               color: Colors.redAccent,
             ),
             onTap: () {
-              const url = 'https://www.instagram.com/sukar_dm/';
+              var url = instagram;
               launch(url);
             },
           ),
@@ -76,7 +116,7 @@ class _ContactsState extends State<Contacts> {
               color: Colors.redAccent,
             ),
             onTap: () {
-              const url = 'https://www.facebook.com/sukardm1';
+              var url = facebook;
               launch(url);
             },
           ),
