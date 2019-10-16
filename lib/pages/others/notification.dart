@@ -113,11 +113,11 @@ class NotificationsState extends State<Notifications> {
                         title: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            RaisedButton(
-                              onPressed: () {
-                                showNotification("waaaw" , "omg");
-                              },
-                            ),
+                            // RaisedButton(
+                            //   onPressed: () {
+                            //     showNotification("waaaw" , "omg");
+                            //   },
+                            // ),
                             Text(data[index]['title'],
                                 style: TextStyle(
                                     color: Colors.black,

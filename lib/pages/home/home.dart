@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
   double dataCharts4 = 0.0;
   double dataCharts5 = 0.0;
   double dataCharts6 = 0.0;
-  bool loading;
+  bool loading = true;
   bool loading1;
   bool loading2;
   bool initOpen = true;
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
     //   loading = true;
     // }
     getcal();
-
+    loading = false;
 
 
     //print("$sugerToday ===========================");
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
     initialCircles(169.0285);
     initListOfCircles();
     setState(() {});
-    loading = false;
+    
     setState(() {});
   }
 
@@ -295,14 +295,18 @@ class _HomePageState extends State<HomePage> {
 
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(cupOfWater);
+
     setState(() {});
+
+    getMeasurements(date);
+    
+    
     // } catch (e) {
     //   //sugerToday = sugerToday;
 
     //   print("error ==============Today=======");
     // }
 
-    return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
   Future<Response> getMeasurements(String date1) async {
@@ -341,9 +345,10 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       print("error =====================");
     }
-
+    
     print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
+    
   }
 
   void emptylists() {
@@ -560,6 +565,7 @@ class _HomePageState extends State<HomePage> {
             "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
             allTranslations.text("Goal is"));
     widgetCircleWater= MainCircles.water(
+        
         percent: (cupOfWater / goalCupOfWater).toDouble(),
         context: context,
         raduis: _chartRadius,
@@ -569,27 +575,24 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : cupOfWater.toString(),
         onTap: () => null,
-        footerText: "الهدف"
+        footerText: "$goalCupOfWater"+" الهدف"
     );
     widgetCircleHeart=MainCircles.heart(
-        percent: 0.9,
+        percent: heartRate == null || heartRate == 0
+            ? 0 :heartRate/150,
         context: context,
         raduis: _chartRadius,
-        heart: dataHome == null
-            ? '0'
-            : heartRate == null
+        heart: heartRate == null
             ? '0'
             : heartRate.toString(),
         onTap: () => null,
         footerText: "الهدف"
     );
     widgetCircleBlood=MainCircles.blood(
-        percent: 0.9,
+        percent:  bloodPresure1 == null ||  bloodPresure1 == 0 ? 0 :bloodPresure1/bloodPresure1,
         context: context,
         raduis: _chartRadius,
-        blood: dataHome == null
-            ? '0'
-            : bloodPresure1 == null
+        blood: bloodPresure1 == null
             ? '0'
             : bloodPresure1.toString(),
         onTap: () => null,
@@ -626,7 +629,7 @@ class _HomePageState extends State<HomePage> {
                               ? allTranslations.text("normal")
                               : allTranslations.text("high"),
                   ontap: () {
-                    NotificationsState.showNotification("title","body");
+                    // NotificationsState.showNotification("title","body");
                     Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new AddSugar(selectedDate)),)
                         .then((val)=> val? {
                     getMeasurementsForDay(date),
