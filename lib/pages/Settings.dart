@@ -667,7 +667,8 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             items: _listItems,
             currentIndex: Settings.currentIndex,
             //fixedColor: Settings.mainColor(),
-            onTap: widget.navigationTapped),
+            onTap: widget.navigationTapped
+      ),
       ),
     );
   }

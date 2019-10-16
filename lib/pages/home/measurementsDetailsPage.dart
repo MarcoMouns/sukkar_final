@@ -54,7 +54,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   int goalSteps = 700;
   int goalDistance = 3000;
   int goalNcal = 1;
-  int goalCupOfWater = 10;
+  int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
@@ -185,7 +185,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       "ic_blood_pressure",
                       bloodPresure1.toString(),
                       allTranslations.text("bloodPressure"),
-                      0.9,
+                      bloodPresure1/180,
                       2,
                       redColor),
                   ),
@@ -197,7 +197,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       "ic_heart_rate",
                       heartRate.toString(),
                       allTranslations.text("heartRate"),
-                      0.9,
+                      heartRate/80,
                       2,
                       redColor),
                 ),
