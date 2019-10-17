@@ -18,7 +18,6 @@ class MeasurementDetails extends StatefulWidget {
   static int heartRate;
   FormData formData = new FormData();
 
-  
   MeasurementDetails(DateTime d, int suger, cal, stps, dist, water) {
     date = d;
     sugerToday = suger;
@@ -26,8 +25,6 @@ class MeasurementDetails extends StatefulWidget {
     steps = stps;
     distance = dist;
     cupOfWater = water;
-
-    
   }
 
   @override
@@ -43,17 +40,17 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   int calories = 0;
   int steps = 0;
   int distance = 0;
-  int ncal = 0;
+  static int ncal = 0;
   int cupOfWater;
   int heartRate = 0;
   int bloodPresure1 = 0;
   int bloodPresure = 0;
-  int cOW=0;
+  int cOW = 0;
 
-  int goalCalories = 1300;
-  int goalSteps = 700;
-  int goalDistance = 3000;
-  int goalNcal = 1;
+  int goalCalories = ncal;
+  int goalSteps = (ncal / 0.0912).toInt();
+  int goalDistance = ((ncal / 0.0912) * 0.762) ~/ 2;
+  int goalNcal = ncal;
   int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
@@ -101,12 +98,11 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
         : response.data["Measurements"]["DiastolicPressure"];
 
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
-       
-            
+
     print("=================================================fffffffffff");
     print(response.data);
-    isLoading=false;
-    if(mounted) setState(() {});
+    isLoading = false;
+    if (mounted) setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -133,7 +129,6 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
 
   @override
   Widget build(BuildContext context) {
-
     double _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         40 -
@@ -141,9 +136,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     //check if the width or height ratio is bigger so no overlaying occur
     double _chartRadius =
         (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
-            MediaQuery.of(context).size.width - 30
-            ? _screenHeight * 3 / 5
-            : MediaQuery.of(context).size.width - 30) /
+                    MediaQuery.of(context).size.width - 30
+                ? _screenHeight * 3 / 5
+                : MediaQuery.of(context).size.width - 30) /
             2;
 
     Widget page = Scaffold(
@@ -151,69 +146,75 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
         title: Text(allTranslations.text("reportsPage")),
       ),
       body: ListView(
-        
-        children: isLoading == true ? <Widget>[ Loading()]:<Widget>[
-
-          SizedBox(
-            height: 40,
-          ),
-          FittedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+        children: isLoading == true
+            ? <Widget>[Loading()]
+            : <Widget>[
                 SizedBox(
-                  width: 120,
-                  height: 130,
-                  child: measurementsCircles(
-                      "ic_cup",
-                      cupOfWater.toString(),
-                      allTranslations.text("cups"),
-                      (cupOfWater / goalCupOfWater).toDouble(),
-                      2,
-                      (cupOfWater / goalCupOfWater) < 0.3
-                          ? redColor
-                          : (cupOfWater / goalCupOfWater) > 0.3 &&
-                                  (cupOfWater / goalCupOfWater) < 0.6
-                              ? yellowColor
-                              : greenColor),
+                  height: 40,
                 ),
-                 SizedBox(
-                  width: 120,
-                  height: 150,
-                  child: SafeArea(
-                    child: measurementsCircles(
-                      "ic_blood_pressure",
-                      bloodPresure1.toString(),
-                      allTranslations.text("bloodPressure"),
-                      bloodPresure1/180,
-                      2,
-                      redColor),
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 120,
+                        height: 130,
+                        child: measurementsCircles(
+                            "ic_cup",
+                            cupOfWater.toString(),
+                            allTranslations.text("cups"),
+                            (cupOfWater / goalCupOfWater).toDouble(),
+                            2,
+                            (cupOfWater / goalCupOfWater) < 0.3
+                                ? redColor
+                                : (cupOfWater / goalCupOfWater) > 0.3 &&
+                                        (cupOfWater / goalCupOfWater) < 0.6
+                                    ? yellowColor
+                                    : greenColor),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 150,
+                        child: measurementsCircles(
+                            "ic_blood_pressure",
+                            bloodPresure.toString() +
+                                "/" +
+                                bloodPresure1.toString(),
+                            allTranslations.text("bloodPressure"),
+                            (bloodPresure1 / 180) * 0.7,
+                            2,
+                            redColor,
+                            true),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 130,
+                        child: measurementsCircles(
+                            "ic_heart_rate",
+                            heartRate.toString(),
+                            allTranslations.text("heartRate"),
+                            (heartRate / 79) * 0.7,
+                            2,
+                            (heartRate / 79) <= 0.4
+                                ? Color.fromRGBO(254, 252, 232, 1)
+                                : (heartRate / 79) > 0.4 &&
+                                        (heartRate / 79) < 1.1
+                                    ? Color.fromRGBO(229, 246, 211, 1)
+                                    : Color.fromRGBO(253, 238, 238, 1)),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  width: 120,
-                  height: 130,
-                  child: measurementsCircles(
-                      "ic_heart_rate",
-                      heartRate.toString(),
-                      allTranslations.text("heartRate"),
-                      heartRate/80,
-                      2,
-                      redColor),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FittedBox(
-                child: SizedBox(
-                  height: 160,
-                  child: SizedBox(
-                    width: 150,
-                    height: 160,
-                    child: sugerToday == 0
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    FittedBox(
+                      child: SizedBox(
+                        height: 160,
+                        child: SizedBox(
+                          width: 150,
+                          height: 160,
+                          child: sugerToday == 0
                               ? measurementsCircles(
                                   "ic_logo_3",
                                   sugerToday.toString(),
@@ -221,90 +222,91 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                                   0,
                                   1.5,
                                   yellowColor)
-                              :MainCircles.diabetes(
-                      percent: sugerToday == 0 || sugerToday == null
-                          ? 1 / 600
-                          : sugerToday / 600,
-                      context: context,
-                      time: timeOfLastMeasure,
-                      sugar: sugerToday == 0
-                          ? '0'
-                          : sugerToday == null ? '0' : sugerToday.toString(),
-                      raduis: _chartRadius,
-                      status: sugerToday == 0 || sugerToday == null
-                          ? allTranslations.text("sugarNull")
-                          : (sugerToday < 80)
-                          ? allTranslations.text("low")
-                          : (sugerToday >= 80 && sugerToday <= 200
-                          ? allTranslations.text("normal")
-                          : allTranslations.text("high")),
-                      ontap: ()=> null,
-                      footer: Container(),
-                    ),
+                              : MainCircles.diabetes(
+                                  percent: sugerToday == 0 || sugerToday == null
+                                      ? 1 / 600
+                                      : sugerToday / 600,
+                                  context: context,
+                                  time: timeOfLastMeasure,
+                                  sugar: sugerToday == 0
+                                      ? '0'
+                                      : sugerToday == null
+                                          ? '0'
+                                          : sugerToday.toString(),
+                                  raduis: _chartRadius,
+                                  status: sugerToday == 0 || sugerToday == null
+                                      ? allTranslations.text("sugarNull")
+                                      : (sugerToday < 80)
+                                          ? allTranslations.text("low")
+                                          : (sugerToday >= 80 &&
+                                                  sugerToday <= 200
+                                              ? allTranslations.text("normal")
+                                              : allTranslations.text("high")),
+                                  ontap: () => null,
+                                  footer: Container(),
+                                ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 120,
+                        height: 130,
+                        child: measurementsCircles(
+                            "ic_cal",
+                            calories.toString(),
+                            allTranslations.text("cals"),
+                            calories / goalCalories,
+                            2,
+                            (calories / goalCalories) < 0.3
+                                ? redColor
+                                : (calories / goalCalories) > 0.3 &&
+                                        (calories / goalCalories) < 0.6
+                                    ? yellowColor
+                                    : greenColor),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: measurementsCircles(
+                            "ic_steps",
+                            steps.toString(),
+                            allTranslations.text("steps"),
+                            steps / goalSteps,
+                            2,
+                            (steps / goalSteps) < 0.3
+                                ? redColor
+                                : (steps / goalSteps) > 0.3 &&
+                                        (steps / goalSteps) < 0.6
+                                    ? yellowColor
+                                    : greenColor),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 150,
+                        child: measurementsCircles(
+                            "ic_location",
+                            distance.toString(),
+                            allTranslations.text("distance"),
+                            distance / goalDistance,
+                            2,
+                            (distance / goalDistance) < 0.3
+                                ? redColor
+                                : (distance / goalDistance) > 0.3 &&
+                                        (distance / goalDistance) < 0.6
+                                    ? yellowColor
+                                    : greenColor),
+                      ),
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
-          FittedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 120,
-                  height: 130,
-                  child: measurementsCircles(
-                      "ic_cal",
-                      calories.toString(),
-                      allTranslations.text("cals"),
-                      calories / goalCalories,
-                      2,
-                      (calories / goalCalories) < 0.3
-                          ? redColor
-                          : (calories / goalCalories) > 0.3 &&
-                                  (calories / goalCalories) < 0.6
-                              ? yellowColor
-                              : greenColor),
-                ),
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: measurementsCircles(
-                      "ic_steps",
-                      steps.toString(),
-                      allTranslations.text("steps"),
-                      steps / goalSteps,
-                      2,
-                      (steps / goalSteps) < 0.3
-                          ? redColor
-                          : (steps / goalSteps) > 0.3 &&
-                                  (steps / goalSteps) < 0.6
-                              ? yellowColor
-                              : greenColor),
-                ),
-                SizedBox(
-                  width: 120,
-                  height: 150,
-                  child: measurementsCircles(
-                      "ic_location",
-                      distance.toString(),
-                      allTranslations.text("distance"),
-                      distance / goalDistance,
-                      2,
-                      (distance / goalDistance) < 0.3
-                          ? redColor
-                          : (distance / goalDistance) > 0.3 &&
-                                  (distance / goalDistance) < 0.6
-                              ? yellowColor
-                              : greenColor),
-                ),
+                )
               ],
-            ),
-          )
-        ],
-      
       ),
-
     );
 
     return page;

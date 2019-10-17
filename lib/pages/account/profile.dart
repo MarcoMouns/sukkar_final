@@ -211,9 +211,9 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                         onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => changeTargetScreen())
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(builder: (context) => changeTargetScreen())
+                          // );
                         },
                       ),
                       Divider(

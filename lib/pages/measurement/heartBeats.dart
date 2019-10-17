@@ -210,7 +210,7 @@ class _HeartBeatsState extends State<HeartBeats> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -222,7 +222,7 @@ class _HeartBeatsState extends State<HeartBeats> {
                               child: Text(allTranslations.text("add Heart rate")),
                             ),
                             Container(
-                              width: 70,
+                              width:  MediaQuery.of(context).size.width / 1.5,
                               decoration: ShapeDecoration(
                                   color: Colors.grey[300],
                                   shape: RoundedRectangleBorder(
@@ -234,15 +234,16 @@ class _HeartBeatsState extends State<HeartBeats> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: "70",
+                                  hintText: "",
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: SizedBox(),
+                             SizedBox(
+                              height: 30,
                             ),
+                        
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 10),
+                              padding: EdgeInsets.symmetric(vertical: 5),
                               width: MediaQuery.of(context).size.width / 1.5,
                               child: FlatButton(
                                 color: Color(0xff009DDC),
@@ -261,6 +262,25 @@ class _HeartBeatsState extends State<HeartBeats> {
                                     print(result);
                                     Navigator.pop(context);
                                   });
+                                },
+                              ),
+                            )  ,
+                           
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              child: FlatButton(
+                                color: Color(0xff009DDC),
+                                child: Text(
+                                  allTranslations.text("cancel"),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                onPressed: () {
+                                  
+                                   Navigator.pop(context);
                                 },
                               ),
                             )

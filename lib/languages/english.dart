@@ -180,6 +180,7 @@ Map<String, String> englishLang = {
   "Changecircle_Steps":"Number of Steps",
   "Changecircle_dictance":"Distance",
   "Changecircle_presure":"Blood Presure",
+  "cancel":"cancel",
 
 
 

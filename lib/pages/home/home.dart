@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
   int cupOfWater;
   int heartRate;
   int bloodPresure1;
+  int bloodPresure2;
 
   init(BuildContext context) {
     _scrollController = ScrollController(
@@ -124,10 +125,6 @@ class _HomePageState extends State<HomePage> {
     if (cupOfWater == goalCupOfWater) {
       showNotification(allTranslations.text("dailyGoal_Completed"),
           allTranslations.text("waterGoal_Completed"));
-    }
-    if (calories == calTarget) {
-      showNotification(allTranslations.text("dailyGoal_Completed"),
-          allTranslations.text("caloriesGoal_Completed"));
     }
 
     //print("$sugerToday ===========================");
@@ -226,6 +223,11 @@ class _HomePageState extends State<HomePage> {
 
     print(ncal);
 
+    if (calories == 10000) {
+      showNotification(allTranslations.text("dailyGoal_Completed"),
+          allTranslations.text("caloriesGoal_Completed"));
+    }
+
     print(Rcalories);
 
     if (Rcalories > ncal && ncal != 0) {
@@ -311,6 +313,9 @@ class _HomePageState extends State<HomePage> {
     bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
         ? 0
         : response.data["Measurements"]["DiastolicPressure"];
+    bloodPresure2 = response.data["Measurements"]["SystolicPressure"] == null
+        ? 0
+        : response.data["Measurements"]["SystolicPressure"];    
     heartRate = response.data["Measurements"]["Heartbeat"] == null
         ? 0
         : response.data["Measurements"]["Heartbeat"];
@@ -459,6 +464,7 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+
     setState(() {});
   }
 
@@ -527,7 +533,11 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : dataHome.calories == null
                 ? 0
-                : ncal == 0 ? 0 : ((dataHome.calories / ncal) * 0.7),
+                : ncal == 0
+                    ? 0
+                    : ((dataHome.calories / ncal) * 0.7) > 0.7
+                        ? 0.7
+                        : ((dataHome.calories / ncal) * 0.7),
         context: context,
         day_Calories: dataHome == null
             ? 0
@@ -557,8 +567,13 @@ class _HomePageState extends State<HomePage> {
                 : ncal == 0
                     ? 0
                     : dataHome.distance /
-                        (((ncal / 0.0912) * 0.762) ~/ 2) *
-                        0.7,
+                                (((ncal / 0.0912) * 0.762) ~/ 2) *
+                                0.7 >
+                            0.7
+                        ? 0.7
+                        : dataHome.distance /
+                            (((ncal / 0.0912) * 0.762) ~/ 2) *
+                            0.7,
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
@@ -570,27 +585,34 @@ class _HomePageState extends State<HomePage> {
             allTranslations.text("Goal is"));
 
     widgetCircleWater = MainCircles.water(
-        percent:
-            cupOfWater == null ? 0 : (cupOfWater / goalCupOfWater).toDouble(),
+        percent: cupOfWater == null
+            ? 0
+            : ((cupOfWater / goalCupOfWater).toDouble())  > 0.7
+                ? 1
+                : ((cupOfWater / goalCupOfWater).toDouble()) * 0.7,
         context: context,
         raduis: _chartRadius,
         numberOfCups: dataHome == null
             ? '0'
             : cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
-        footerText: "الهدف: " + "${(15 - cupOfWater).toString()}");
+        footerText: "الهدف: " + "${(15).toString()}");
     widgetCircleHeart = MainCircles.heart(
-        percent: heartRate == null ? 0 : heartRate / 79,
+        percent: heartRate == null
+            ? 0
+            : (heartRate / 79) * 0.7 > 7.0 ? 70 : (heartRate / 79) * 0.7,
         context: context,
         raduis: _chartRadius,
         heart: heartRate == null ? '0' : heartRate.toString(),
         onTap: () => null,
         footerText: "");
     widgetCircleBlood = MainCircles.blood(
-        percent: bloodPresure1 == null ? 0 : heartRate / 79,
+        percent: bloodPresure1 == null
+            ? 0
+            : (heartRate / 79) * 0.7 > 0.7 ? 0.7 : (heartRate / 79) * 0.7,
         context: context,
         raduis: _chartRadius,
-        blood: bloodPresure1 == null ? '0' : bloodPresure1.toString(),
+        blood: bloodPresure1 == null ? '0' :bloodPresure2.toString()+"/"+ bloodPresure1.toString(),
         onTap: () => null,
         footerText: "");
     setState(() {});
@@ -624,7 +646,6 @@ class _HomePageState extends State<HomePage> {
                                   ? allTranslations.text("normal")
                                   : allTranslations.text("high"),
                   ontap: () {
-                    NotificationsState.showNotification("title", "body");
                     Navigator.of(context)
                         .push(
                           new MaterialPageRoute(
@@ -766,6 +787,7 @@ class _HomePageState extends State<HomePage> {
                       getHomeFetch();
                       getMeasurementsForDay(date);
                       getMeasurements(date);
+                      getValuesSF();
 
                       selectedDate = e;
                     });
@@ -834,16 +856,10 @@ class _HomePageState extends State<HomePage> {
                           getMeasurements(date);
                           getHomeFetch();
                           getcal();
-
                           if (cupOfWater == goalCupOfWater) {
                             showNotification(
                                 allTranslations.text("dailyGoal_Completed"),
                                 allTranslations.text("waterGoal_Completed"));
-                          }
-                          if (calories == calTarget) {
-                            showNotification(
-                                allTranslations.text("dailyGoal_Completed"),
-                                allTranslations.text("caloriesGoal_Completed"));
                           }
                         },
                       ),

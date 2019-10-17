@@ -186,6 +186,7 @@ Map<String, String> arabicLang = {
   "dailyGoal_Completed": "حققت هدفك اليومي",
   "waterGoal_Completed": "لقد حققت هدفك اليوم لشرب المياه",
   "caloriesGoal_Completed": "لقد حققت هدفك اليومه في حرق السعرات",
+  "cancel":"الغاء",
 
 
 
