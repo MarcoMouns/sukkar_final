@@ -312,11 +312,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         onConfirm: (controller) {
           List<int> selectedItems = [];
           selectedItems.add(controller.selectedRowAt(section: 0));
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text('AlertDialogPicker.selected:$selectedItems'),
-            ),
-          );
+          
           specialityId = selectedItems.first;
           specialityName = _specoalists[selectedItems.first].titleAr;
           print('**********************=>speciality-Id=$specialityId');

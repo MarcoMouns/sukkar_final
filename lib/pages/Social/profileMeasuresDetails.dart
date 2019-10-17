@@ -70,7 +70,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       timeOfLastMeasure =
           response.data["Measurements"]["sugar"][0]["time"] == null
               ? " -- "
-              : response.data["Measurements"]["sugar"];
+              : response.data["Measurements"]["sugar"][0]["time"];
 
       distance = response.data["Measurements"]["distance"] == null
           ? 0

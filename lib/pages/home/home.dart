@@ -600,7 +600,7 @@ class _HomePageState extends State<HomePage> {
     widgetCircleHeart = MainCircles.heart(
         percent: heartRate == null
             ? 0
-            : (heartRate / 79) * 0.7 > 7.0 ? 70 : (heartRate / 79) * 0.7,
+            : (heartRate / 79) * 0.7 > 0.7 ? 1 : (heartRate / 79) ,
         context: context,
         raduis: _chartRadius,
         heart: heartRate == null ? '0' : heartRate.toString(),
