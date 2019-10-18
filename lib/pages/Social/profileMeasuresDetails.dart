@@ -33,10 +33,10 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   int bloodPresure1 = 0;
   String timeOfLastMeasure = "--";
 
-  int goalCalories = ncal;
-  int goalSteps = (ncal / 0.0912).toInt();
-  int goalDistance = ((ncal / 0.0912) * 0.762) ~/ 2;
-  int goalNcal = ncal;
+  static int goalCalories =1200;
+  int goalSteps = (goalCalories / 0.0912).toInt();
+  int goalDistance = ((goalCalories / 0.0912) * 0.762) ~/ 2;
+  int goalNcal = goalCalories;
   int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);

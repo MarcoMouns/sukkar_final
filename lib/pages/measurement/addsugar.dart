@@ -151,6 +151,12 @@ class _AddSugarState extends State<AddSugar> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(allTranslations.text("sugar")),
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context,true);
+              },
+            ),
             centerTitle: true,
           ),
           body: Padding(

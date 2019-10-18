@@ -405,7 +405,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         onTap: () async {
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/landPage', (Route<dynamic> route) => false);
+                              '/', (Route<dynamic> route) => false);
                           SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');
