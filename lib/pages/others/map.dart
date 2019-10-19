@@ -670,7 +670,7 @@ class _MapPageState extends State<MapPage> {
                                     print(
                                         '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                     response = await dio.post(
-                                        "http://104.248.168.117/api/mapInformation",
+                                        "http://api.sukar.co/api/mapInformation",
                                         data: formdata);
                                     if (response.statusCode != 200 &&
                                         response.statusCode != 201) {

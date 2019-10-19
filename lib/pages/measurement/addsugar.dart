@@ -285,7 +285,7 @@ class _AddSugarState extends State<AddSugar> {
         return AlertDialog(
           title: Text('نتيجة القياس'),
           content: 
-          measuresOfDay.first >= 70 && measuresOfDay.first < 80?
+          measuresOfDay.first >= 70 && measuresOfDay.first < 90?
           SizedBox(
                       height: MediaQuery.of(context).size.height * 0.37,
                       child: Column(
@@ -293,14 +293,14 @@ class _AddSugarState extends State<AddSugar> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "لديك انخفاض في نسبة السكر",
+                            "السكر لديك معدلاته اقل من الطبيعي",
                             style: TextStyle(
-                              color: Color.fromRGBO(225, 177, 44,1.0),
+                              color: Colors.green,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           Padding(padding: EdgeInsets.only(top: 10)),
-                          Text("عليك إتباع النصائح التالية:"),
+                          Text("تعرف على اعراض هبوط السكر:"),
                           Text("1-" + " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
                           Text("2-" + " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
                           Text("3-" + " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
@@ -308,7 +308,7 @@ class _AddSugarState extends State<AddSugar> {
                       ),
                     )
           
-          :measuresOfDay.first >= 80 && measuresOfDay.first <= 200
+          :measuresOfDay.first >= 90 && measuresOfDay.first <= 200
               ? Text(
                   "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
                   style: TextStyle(color: Colors.green),

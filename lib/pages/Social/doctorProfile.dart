@@ -43,7 +43,7 @@ class _DoctorProfileState extends State<DoctorProfile> {
                       ? Image.network(
                           "https://images.vexels.com/media/users/3/151709/isolated/preview/098c4aad185294e67a3f695b3e64a2ec-doctor-avatar-icon-by-vexels.png")
                       : Image.network(
-                          'http://104.248.168.117/ ${widget.doctorSpecialists.image}',
+                          'http://api.sukar.co/ ${widget.doctorSpecialists.image}',
                         ),
                 ),
                 SizedBox(

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:health/pages/home/MainCircle/presureCir.dart';
 import '../MainCircle/mainCircle.dart';
 import 'package:health/languages/all_translations.dart';
-
 
 abstract class MainCircles {
   static double fontSize = 12;
 
   static Widget bloodPreassure(
-      {BuildContext context, double raduis, String text, String footerText,double percent}) {
+      {BuildContext context,
+      double raduis,
+      String text,
+      String footerText,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -37,7 +41,11 @@ abstract class MainCircles {
   }
 
   static Widget heartRate(
-      {BuildContext context, double raduis, String text, String footerText, double percent}) {
+      {BuildContext context,
+      double raduis,
+      String text,
+      String footerText,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -68,7 +76,11 @@ abstract class MainCircles {
   }
 
   static Widget cups(
-      {BuildContext context, String text, double raduis, String footerText, double percent}) {
+      {BuildContext context,
+      String text,
+      double raduis,
+      String footerText,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -133,19 +145,21 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-                                  :Color.fromRGBO(229, 246, 211, 1),
+        color: percent <= 0.2
+            ? Color.fromRGBO(253, 238, 238, 1)
+            : percent > 0.2 && percent < 0.6
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
   static Widget water(
       {BuildContext context,
-        double raduis,
-        String footerText,
-        String numberOfCups,
-        Function onTap,
-        double percent}) {
+      double raduis,
+      String footerText,
+      String numberOfCups,
+      Function onTap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -174,19 +188,21 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-            :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-            :Color.fromRGBO(229, 246, 211, 1),
+        color: percent <= 0.2
+            ? Color.fromRGBO(253, 238, 238, 1)
+            : percent > 0.2 && percent < 0.6
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
   static Widget heart(
       {BuildContext context,
-        double raduis,
-        String footerText,
-        String heart,
-        Function onTap,
-        double percent}) {
+      double raduis,
+      String footerText,
+      String heart,
+      Function onTap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -215,19 +231,22 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-            :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-            :Color.fromRGBO(229, 246, 211, 1),
+        color:percent<= 0.4
+                                ?   Color.fromRGBO(254, 252, 232, 1)
+                                : percent > 0.4 &&
+                                        percent < 1.1
+                                    ? Color.fromRGBO(229, 246, 211, 1)
+                                    :   Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
   static Widget blood(
       {BuildContext context,
-        double raduis,
-        String footerText,
-        String blood,
-        Function onTap,
-        double percent}) {
+      double raduis,
+      String footerText,
+      String blood,
+      Function onTap,
+      double percent}) {
     Widget column;
     List<Widget> list = List();
     list.add(Text(
@@ -244,7 +263,7 @@ abstract class MainCircles {
     column = Column(
       children: list,
     );
-    return ChartWidget(
+    return PressureChartWidget(
         isOnSide: true,
         isUpper: false,
         radius: raduis,
@@ -256,9 +275,11 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-            :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-            :Color.fromRGBO(229, 246, 211, 1),
+        color: percent <= 0.2
+            ? Color.fromRGBO(253, 238, 238, 1)
+            : percent > 0.2 && percent < 0.6
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
@@ -299,9 +320,11 @@ abstract class MainCircles {
         },
         time: "",
         percent: percent,
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-                                  :Color.fromRGBO(229, 246, 211, 1));
+        color: percent <= 0.2
+            ? Color.fromRGBO(253, 238, 238, 1)
+            : percent > 0.2 && percent < 0.6
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(229, 246, 211, 1));
   }
 
   static Widget cal(
@@ -341,23 +364,24 @@ abstract class MainCircles {
           }
         },
         percent: percent,
-        color: percent<=0.2 ? Color.fromRGBO(253, 238, 238, 1)
-                             :percent > 0.2 && percent < 0.6 ? Color.fromRGBO(254, 252, 232, 1)
-                                  :Color.fromRGBO(229, 246, 211, 1),
-                                   
+        color: percent <= 0.2
+            ? Color.fromRGBO(253, 238, 238, 1)
+            : percent > 0.2 && percent < 0.6
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
-  static Widget diabetes(
-      {BuildContext context,
-      String sugar,
-      String status,
-      double raduis,
-      Widget footer,
-      Function ontap,
-      double percent,
-      String time,
-      }) {
+  static Widget diabetes({
+    BuildContext context,
+    String sugar,
+    String status,
+    double raduis,
+    Widget footer,
+    Function ontap,
+    double percent,
+    String time,
+  }) {
     return SizedBox(
       height: raduis + 25,
       child: ChartWidget(
@@ -375,11 +399,12 @@ abstract class MainCircles {
             : footer,
         time: (time.toString()),
         percent: percent,
-        color: (int.parse(sugar) <= 69 || sugar == null) ?Color.fromRGBO(254, 252, 232, 1)
-                       : (int.parse(sugar) >= 70 && int.parse(sugar) <= 200) 
-                               ? Color.fromRGBO(229, 246, 211, 1) :
-                               Color.fromRGBO(253, 238, 238, 1)
-        , mainAxisAlignment: MainAxisAlignment.center,
+        color: (int.parse(sugar) <= 69 || sugar == null)
+            ? Color.fromRGBO(254, 252, 232, 1)
+            : (int.parse(sugar) >= 70 && int.parse(sugar) <= 200)
+                ? Color.fromRGBO(229, 246, 211, 1)
+                : Color.fromRGBO(253, 238, 238, 1),
+        mainAxisAlignment: MainAxisAlignment.center,
         onTap: () {
           if (ontap != null) {
             ontap();

@@ -26,25 +26,25 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   int calories = 0;
   int steps = 0;
   int distance = 0;
-  int ncal = 0;
+  static int ncal = 0;
   int cupOfWater = 0;
   int heartRate = 0;
   int bloodPresure = 0;
   int bloodPresure1 = 0;
   String timeOfLastMeasure = "--";
 
-  int goalCalories = 1300;
-  int goalSteps = 700;
-  int goalDistance = 3000;
-  int goalNcal = 1;
-  int goalCupOfWater = 10;
+  static int goalCalories =1200;
+  int goalSteps = (goalCalories / 0.0912).toInt();
+  int goalDistance = ((goalCalories / 0.0912) * 0.762) ~/ 2;
+  int goalNcal = goalCalories;
+  int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
 
   Dio dio = new Dio();
-  final String baseUrl = 'http://104.248.168.117/api';
+  final String baseUrl = 'http://api.sukar.co/api';
 
   int id = ProfileMeasurementDetails.friendId;
 
@@ -70,7 +70,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       timeOfLastMeasure =
           response.data["Measurements"]["sugar"][0]["time"] == null
               ? " -- "
-              : response.data["Measurements"]["sugar"];
+              : response.data["Measurements"]["sugar"][0]["time"];
 
       distance = response.data["Measurements"]["distance"] == null
           ? 0
@@ -173,23 +173,31 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                         height: 150,
                         child: measurementsCircles(
                             "ic_blood_pressure",
-                            bloodPresure1.toString(),
+                            bloodPresure.toString() +
+                                "/" +
+                                bloodPresure1.toString(),
                             allTranslations.text("bloodPressure"),
-                            0.9,
+                            (bloodPresure1 / 180) * 0.7,
                             2,
-                            redColor),
+                            redColor,
+                            true),
                       ),
                       SizedBox(
-                        width: 120,
-                        height: 130,
-                        child: measurementsCircles(
+                          width: 120,
+                          height: 130,
+                          child: measurementsCircles(
                             "ic_heart_rate",
                             heartRate.toString(),
                             allTranslations.text("heartRate"),
-                            0.9,
+                            (heartRate / 79) * 0.7,
                             2,
-                            redColor),
-                      ),
+                            (heartRate / 79) <= 0.4
+                                ? Color.fromRGBO(254, 252, 232, 1)
+                                : (heartRate / 79) > 0.4 &&
+                                        (heartRate / 79) < 1.1
+                                    ? Color.fromRGBO(229, 246, 211, 1)
+                                    : Color.fromRGBO(253, 238, 238, 1),
+                          )),
                     ],
                   ),
                 ),

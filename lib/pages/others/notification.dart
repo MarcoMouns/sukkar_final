@@ -20,7 +20,7 @@ class NotificationsState extends State<Notifications> {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Dio dio = new Dio();
   Response response;
-  final String baseUrl = 'http://104.248.168.117/api';
+  final String baseUrl = 'http://api.sukar.co/api';
   var data;
   var length;
   bool loading;
@@ -113,11 +113,11 @@ class NotificationsState extends State<Notifications> {
                         title: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            RaisedButton(
-                              onPressed: () {
-                                showNotification("waaaw" , "omg");
-                              },
-                            ),
+                            // RaisedButton(
+                            //   onPressed: () {
+                            //     showNotification("waaaw" , "omg");
+                            //   },
+                            // ),
                             Text(data[index]['title'],
                                 style: TextStyle(
                                     color: Colors.black,

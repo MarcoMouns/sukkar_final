@@ -316,7 +316,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
 
     try{
       response = await dio.post(
-          "http://104.248.168.117/api/users/circles",
+          "http://api.sukar.co/api/users/circles",
           data: _formData,
           options: Options(headers: headers));
 

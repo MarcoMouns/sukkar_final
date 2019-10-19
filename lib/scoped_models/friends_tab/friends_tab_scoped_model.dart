@@ -9,7 +9,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-final String baseUrl = 'http://104.248.168.117/api';
+final String baseUrl = 'http://api.sukar.co/api';
 
 mixin FriendsScopedModel on Model {
   Response response;
@@ -28,9 +28,9 @@ mixin FriendsScopedModel on Model {
       };
 
       response = await dio.get(
-          "http://104.248.168.117/api/auth/searchCode/$value");
+          "http://api.sukar.co/api/auth/searchCode/$value");
 
-      print("http://104.248.168.117/api/auth/searchCode/$value");
+      print("http://api.sukar.co/api/auth/searchCode/$value");
 
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {

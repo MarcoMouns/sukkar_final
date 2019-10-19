@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor_chat_model.dart';
 
 class ApiProvider{
-  static const String apiBase = "104.248.168.117/api";
-  final String baseUrl = 'http://104.248.168.117/api';
+  static const String apiBase = "api.sukar.co/api";
+  final String baseUrl = 'http://api.sukar.co/api';
   //
   static const String specialistsEndPoint = "specialists";
 

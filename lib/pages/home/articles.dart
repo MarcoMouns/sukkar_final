@@ -68,7 +68,7 @@ class _ArticlesPageState extends State<ArticlesPage> with SingleTickerProviderSt
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: NetworkImage('http://104.248.168.117/${ articleCategories[index].image}')
+                                      image: NetworkImage('http://api.sukar.co/${ articleCategories[index].image}')
                             )),
                             ),
                             title: Text(

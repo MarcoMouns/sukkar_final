@@ -61,7 +61,7 @@ class _ArticleCategoryState extends State<ArticleCategory> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage('http://104.248.168.117/${ articleCategory[index].image}'))),
+                        image: NetworkImage('http://api.sukar.co/${ articleCategory[index].image}'))),
               ),
             ),
           );

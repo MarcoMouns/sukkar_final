@@ -7,7 +7,7 @@ import '../Models/foods_model.dart';
 import '../Models/meals.dart';
 import '../Models/all_meals_foods.dart';
 
-final String baseUrl = 'http://104.248.168.117/api';
+final String baseUrl = 'http://api.sukar.co/api';
 
 mixin MealScopedModel on Model {
   Response response;

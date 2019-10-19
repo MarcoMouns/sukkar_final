@@ -88,7 +88,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                   padding: EdgeInsets.all(15.0),
                                 ),
                                 imageUrl:
-                                'http://104.248.168.117${document['photoUrl']}',
+                                'http://api.sukar.co${document['photoUrl']}',
                                 width: 50.0,
                                 height: 50.0,
                                 fit: BoxFit.cover,
@@ -185,7 +185,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                   padding: EdgeInsets.all(15.0),
                                 ),
                                 imageUrl:
-                                'http://104.248.168.117${document['photoUrl']}',
+                                'http://api.sukar.co${document['photoUrl']}',
                                 width: 50.0,
                                 height: 50.0,
                                 fit: BoxFit.cover,
@@ -312,11 +312,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         onConfirm: (controller) {
           List<int> selectedItems = [];
           selectedItems.add(controller.selectedRowAt(section: 0));
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text('AlertDialogPicker.selected:$selectedItems'),
-            ),
-          );
+          
           specialityId = selectedItems.first;
           specialityName = _specoalists[selectedItems.first].titleAr;
           print('**********************=>speciality-Id=$specialityId');

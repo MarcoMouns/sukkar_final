@@ -148,7 +148,7 @@ class _FriendsPageState extends State<FriendsPage>
                               });
 
                               response = await dio.get(
-                                  "http://104.248.168.117/api/auth/searchCode/$value");
+                                  "http://api.sukar.co/api/auth/searchCode/$value");
                               print('Respnsee --- > ${response.data}');
 
                               if (response.data.isEmpty) {
@@ -239,7 +239,7 @@ class _FriendsPageState extends State<FriendsPage>
                                             ? NetworkImage(
                                                 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                             : NetworkImage(
-                                                'http://104.248.168.117/${image}'))),
+                                                'http://api.sukar.co/${image}'))),
                               ),
                               title: Text(
                                 name,
@@ -269,7 +269,7 @@ class _FriendsPageState extends State<FriendsPage>
                                       };
 
                                       response3 = await dio3.post(
-                                          "http://104.248.168.117/api/follow/$id");
+                                          "http://api.sukar.co/api/follow/$id");
                                       getAll();
                                       check = true;
                                       hiController.clear();
@@ -380,7 +380,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                       ? NetworkImage(
                                                                           'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                                                       : NetworkImage(
-                                                                          'http://104.248.168.117/${following[index].image}'),
+                                                                          'http://api.sukar.co/${following[index].image}'),
                                                                   fit: BoxFit
                                                                       .fill),
                                                               color:
@@ -449,7 +449,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         print(
                                                                             'KABL AL POST');
                                                                         response =
-                                                                            await dio.post("http://104.248.168.117/api/unfollow/${following[index].id}");
+                                                                            await dio.post("http://api.sukar.co/api/unfollow/${following[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                         print(
@@ -512,7 +512,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         };
 
                                                                         response =
-                                                                            await dio.post("http://104.248.168.117/api/unfollow/${following[index].id}");
+                                                                            await dio.post("http://api.sukar.co/api/unfollow/${following[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                         getAll();
@@ -580,7 +580,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                       ? NetworkImage(
                                                                           'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                                                       : NetworkImage(
-                                                                          'http://104.248.168.117/${followers[index].image}'),
+                                                                          'http://api.sukar.co/${followers[index].image}'),
                                                                   fit: BoxFit
                                                                       .fill),
                                                               color:
@@ -645,7 +645,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                               "Bearer ${authUser['authToken']}",
                                                                         };
                                                                         response2 =
-                                                                            await dio2.post("http://104.248.168.117/api/unfollow/${followers[index].id}");
+                                                                            await dio2.post("http://api.sukar.co/api/unfollow/${followers[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                       } on DioError catch (e) {
@@ -687,7 +687,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         };
 
                                                                         response2 =
-                                                                            await dio2.post("http://104.248.168.117/api/follow/${followers[index].id}");
+                                                                            await dio2.post("http://api.sukar.co/api/follow/${followers[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                       } on DioError catch (e) {

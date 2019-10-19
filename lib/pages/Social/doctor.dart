@@ -258,7 +258,7 @@ class _DoctorState extends State<Doctor> {
                                       ? NetworkImage(
                                           "https://images.vexels.com/media/users/3/151709/isolated/preview/098c4aad185294e67a3f695b3e64a2ec-doctor-avatar-icon-by-vexels.png")
                                       : NetworkImage(
-                                          'http://104.248.168.117/${doctorSpecialists[index].image}'))),
+                                          'http://api.sukar.co/${doctorSpecialists[index].image}'))),
                         ),
                         trailing: InkWell(
                           child: Image.asset(

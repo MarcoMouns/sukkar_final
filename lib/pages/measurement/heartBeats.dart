@@ -130,6 +130,7 @@ class _HeartBeatsState extends State<HeartBeats> {
                             ),
                             onTap: () {
                               _addMeasurement();
+                              
                             },
                           ),
                         ],
@@ -209,66 +210,81 @@ class _HeartBeatsState extends State<HeartBeats> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 2,
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: FittedBox(
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset("assets/icons/ic_list_hear_rate.png",width: 50,height: 50,),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(allTranslations.text("add Heart rate")),
-                              ),
-                              Container(
-                                width: 70,
-                                decoration: ShapeDecoration(
-                                    color: Colors.grey[300],
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: new BorderRadius.all(
-                                            Radius.circular(50)))),
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  controller: _controller,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "70",
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: SizedBox(),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                width: MediaQuery.of(context).size.width / 1.5,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: FlatButton(
-                                  color: Color(0xff009DDC),
-                                  child: Text(
-                                    allTranslations.text("save"),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset("assets/icons/ic_list_hear_rate.png",width: 50,height: 50,),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Text(allTranslations.text("add Heart rate")),
+                            ),
+                            Container(
+                              width:  MediaQuery.of(context).size.width / 1.5,
+                              decoration: ShapeDecoration(
+                                  color: Colors.grey[300],
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30)),
-                                  onPressed: () {
-                                    _save(_controller.text);
-                                    widget.model
-                                        .addMeasurements('Heartbeat', hearts)
-                                        .then((result) async {
-                                      print(result);
-                                      Navigator.pop(context);
-                                    });
-                                  },
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.circular(50)))),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                controller: _controller,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "",
                                 ),
+                              ),
+                            ),
+                             SizedBox(
+                              height: 30,
+                            ),
+                        
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              child: FlatButton(
+                                color: Color(0xff009DDC),
+                                child: Text(
+                                  allTranslations.text("save"),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
                                 ),
-                              )
-                            ],
-                          ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                onPressed: () {
+                                  _save(_controller.text);
+                                  widget.model
+                                      .addMeasurements('Heartbeat', hearts)
+                                      .then((result) async {
+                                    print(result);
+                                    Navigator.pop(context);
+                                  });
+                                },
+                              ),
+                            )  ,
+                           
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              child: FlatButton(
+                                color: Color(0xff009DDC),
+                                child: Text(
+                                  allTranslations.text("cancel"),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                onPressed: () {
+                                  
+                                   Navigator.pop(context);
+                                },
+                              ),
+                            )
+                          ],
                         ),
                       )),
                 )),

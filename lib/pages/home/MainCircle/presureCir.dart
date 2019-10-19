@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import '../MainCircle/CirclurProgressBa.dart';
 
-class ChartWidget extends StatefulWidget {
+class PressureChartWidget extends StatefulWidget {
   final String title;
   final String image;
   final Widget footer;
@@ -16,7 +16,7 @@ class ChartWidget extends StatefulWidget {
   final String time;
 
   final MainAxisAlignment mainAxisAlignment;
-  ChartWidget(
+  PressureChartWidget(
       {Key key,
         this.isUpper,
         this.onTap,
@@ -33,12 +33,12 @@ class ChartWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  ChartWidgetState createState() {
-    return new ChartWidgetState();
+  PressureChartWidgetState createState() {
+    return new PressureChartWidgetState();
   }
 }
 
-class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderStateMixin {
+class PressureChartWidgetState extends State<PressureChartWidget> with SingleTickerProviderStateMixin {
   Animation _animation;
   AnimationController _animationController;
   @override
@@ -108,7 +108,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                   ? Flexible(
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
-                                  child: Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
+                                  child: Text(widget.title==null?"--": widget.title,
                                       style: TextStyle(
                                           color: Colors.grey,
                                           fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
@@ -119,7 +119,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                     fit: BoxFit.scaleDown,
                                     child: Row(
                                       children: <Widget>[
-                                        Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
+                                        Text(widget.title==null?"--":widget.title,
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),

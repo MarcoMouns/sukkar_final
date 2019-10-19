@@ -91,7 +91,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
        ? Loading()
        :ListView(
      children: <Widget>[
-       Image.network('http://104.248.168.117/$image',
+       Image.network('http://api.sukar.co/$image',
            height: 250, fit: BoxFit.contain),
        Padding(
          padding: const EdgeInsets.all(20.0),

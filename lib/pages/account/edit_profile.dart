@@ -37,7 +37,7 @@ class EditProfileUserState extends State<EditProfileUser> {
   TextEditingController nameCtrl = TextEditingController();
 
   String img;
-  final String baseUrl = 'http://104.248.168.117/api';
+  final String baseUrl = 'http://api.sukar.co/api';
 
   initState() {
     getUserInfo();
@@ -253,7 +253,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                               'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                           : profilePicture == null
                               ? NetworkImage(
-                                  'http://104.248.168.117${SharedData.customerData['image']}')
+                                  'http://api.sukar.co${SharedData.customerData['image']}')
                               : AssetImage(profilePicture.path),
                     ),
                   ),

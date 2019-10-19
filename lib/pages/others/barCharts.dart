@@ -49,7 +49,7 @@ class _BarChartsState extends State<BarCharts>
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       formdata.add("date", DateTime.now());
-      response = await dio.post("http://104.248.168.117/api/SugarReads",
+      response = await dio.post("http://api.sukar.co/api/SugarReads",
           data: formdata);
       dataCharts = response.data;
       num = dataCharts.length;

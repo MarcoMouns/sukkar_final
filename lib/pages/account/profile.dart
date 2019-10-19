@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -10,6 +11,7 @@ import '../../languages/all_translations.dart';
 import 'dart:convert';
 
 import '../../shared-data.dart';
+import 'aboutApp.dart';
 import 'contacts.dart';
 import 'edit_profile.dart';
 
@@ -41,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
     };
 
     response = await dio.get(
-      "http://104.248.168.117/api/auth/me",
+      "http://api.sukar.co/api/auth/me",
     );
     
     weight = response.data['user']['weight'];
@@ -113,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
                                             ? NetworkImage(
                                                 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                             : NetworkImage(
-                                                'http://104.248.168.117${SharedData.customerData['image']}'),
+                                                'http://api.sukar.co${SharedData.customerData['image']}'),
                                       ),
                                       Text(
                                         SharedData.customerData['userName'],
@@ -209,9 +211,9 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                         onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => changeTargetScreen())
-                          );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(builder: (context) => changeTargetScreen())
+                          // );
                         },
                       ),
                       Divider(
@@ -324,7 +326,12 @@ class _EditProfileState extends State<EditProfile> {
                           ],
                         ),
                         onTap: () {
+                        
 
+                        Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return AboutApp();
+                          }));
                        
                         },
                         trailing: Icon(
@@ -374,6 +381,11 @@ class _EditProfileState extends State<EditProfile> {
                           ],
                         ),
                         onTap: () {
+                           Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return TermsAndConditions();
+                          }));
+                       
                         },
                         trailing: Icon(
                           Icons.arrow_forward_ios,
@@ -393,7 +405,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         onTap: () async {
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/landPage', (Route<dynamic> route) => false);
+                              '/', (Route<dynamic> route) => false);
                           SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');

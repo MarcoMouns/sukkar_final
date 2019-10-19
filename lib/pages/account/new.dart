@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/account/verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -16,6 +17,41 @@ class _NewUserState extends State<NewUser> {
   FocusNode _focusNode = FocusNode();
   String phoneNum;
   bool _isLoading = false;
+  bool isClicked = false;
+  void clicked(){
+    isClicked=true;
+    setState(() {});
+  }
+
+  void policy(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TermsAndConditions()));
+    clicked();
+  }
+
+  _showPrivacyPolicy() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              allTranslations.text("Privacy policy"),
+            ),
+            content: Text("اقراء الشروط و الاحكام" , style: TextStyle(color: Colors.black),),
+            actions: <Widget>[
+              InkWell(
+                child: Text(
+                  allTranslations.text("Agree"),
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onTap: () async{
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -136,6 +172,25 @@ class _NewUserState extends State<NewUser> {
                                   keyboard: TextInputType.numberWithOptions(
                                       decimal: false, signed: false),
                                 ),
+                               // Padding(padding: EdgeInsets.only(top: 15)),
+                                InkWell(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Checkbox(
+                                        value: isClicked,
+                                        onChanged: (bool v){
+                                          policy();
+                                        },
+                                        checkColor: Colors.white,
+                                        activeColor: Colors.blue,
+                                      ),
+                                      Text("الموافقة على الشروط و الاحكام ( للإطلاع على الشروط و الاحكام انقر هنا )",style: TextStyle(fontSize: 13),),
+                                    ],
+                                  ),
+                                  onTap: () => policy(),
+                                ),
+
+                                //Padding(padding: EdgeInsets.only(top: 15)),
                                 Center(
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
@@ -153,7 +208,9 @@ class _NewUserState extends State<NewUser> {
                                               _focusNode.unfocus();
                                               // await Navigator.of(context)
                                               //     .pushNamed('/verify');
-                                              _handleSubmit(context, model);
+                                              isClicked==true?
+                                              _handleSubmit(context, model):
+                                              _showPrivacyPolicy();
                                             },
                                             child: Container(
                                                 padding: EdgeInsets.all(10.0),

@@ -46,7 +46,7 @@ class _DocInfoState extends State<DocInfo> {
     };
 
     response = await dio.get(
-      "http://104.248.168.117/api/doctors/${widget.dId}",
+      "http://api.sukar.co/api/doctors/${widget.dId}",
     );
 
     print('*********************************************');
@@ -94,7 +94,7 @@ class _DocInfoState extends State<DocInfo> {
                   radius: 40,
                   backgroundImage:
                   response.data['doctor']['image']==null? Image.asset('assets/icons/ic_avatar.png'):
-                  NetworkImage('http://104.248.168.117${response.data['doctor']['image']}'),
+                  NetworkImage('http://api.sukar.co${response.data['doctor']['image']}'),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
