@@ -30,6 +30,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -57,6 +59,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -84,6 +88,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -110,6 +116,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -176,6 +184,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -238,6 +248,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -278,6 +290,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -320,6 +334,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -384,6 +400,8 @@ mixin UserScopedModel on Model {
       }
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -460,6 +478,8 @@ mixin UserScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -551,7 +571,7 @@ mixin UserScopedModel on Model {
   //     notifyListeners();
   //     return {"success": true, "error": null};
   //   } on DioError catch (e) {
-  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
   //     print(e.response.data);
   //     print(e.response.headers);
   //     print(e.response.request);
@@ -599,7 +619,7 @@ mixin UserScopedModel on Model {
   //     notifyListeners();
   //     return {"success": true, "error": null, "user": response.data['client']};
   //   } on DioError catch (e) {
-  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
   //     print(e.response.data);
   //     print(e.response.headers);
   //     print(e.response.request);
@@ -626,7 +646,7 @@ mixin UserScopedModel on Model {
   //     notifyListeners();
   //     return {"success": true, "error": null};
   //   } on DioError catch (e) {
-  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
   //     print(e.response.data);
   //     print(e.response.headers);
   //     print(e.response.request);
@@ -669,7 +689,7 @@ mixin UserScopedModel on Model {
   //     notifyListeners();
   //     return UserModel.fromJson(response.data); // [] => if operations is empty
   //   } on DioError catch (e) {
-  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
   //     print(e.response.data);
   //     print(e.response.headers);
   //     print(e.response.request);

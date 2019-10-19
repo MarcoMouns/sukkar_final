@@ -33,10 +33,10 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   int bloodPresure1 = 0;
   String timeOfLastMeasure = "--";
 
-  static int goalCalories =1200;
-  int goalSteps = (goalCalories / 0.0912).toInt();
-  int goalDistance = ((goalCalories / 0.0912) * 0.762) ~/ 2;
-  int goalNcal = goalCalories;
+  int goalCalories =0;
+  int goalSteps = 0;
+  int goalDistance = 0;
+  int goalNcal = 0;
   int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
@@ -100,22 +100,33 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   }
 
   void getcal() async {
-    print("waaw===========");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("waaw===========");
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+    jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    Response response =
+    await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
 
-    ncal = prefs.getInt('calTarget');
+    ncal = response.data['user']['average_calorie'];
     if (ncal == null || ncal == 0) {
-      ncal = 1200;
+      ncal = 0;
     }
+
+    goalCalories = ncal;
+    goalSteps = (ncal / 0.0912).toInt();
+    goalDistance = (((ncal / 0.0912) * 0.762) / 2).toInt();
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
+    setState(() {});
   }
 
   //_MeasurementDetailsState();
 
   initState() {
+    getcal();
     getMeasurementsForDay(id);
     super.initState();
   }

@@ -45,6 +45,8 @@ mixin MeasurementsScopedModel on Model {
       }
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       return false;
     }

@@ -42,6 +42,8 @@ mixin FriendsScopedModel on Model {
       return SearchFriends.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -77,6 +79,8 @@ mixin FriendsScopedModel on Model {
       return GetFollowers.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -112,6 +116,8 @@ mixin FriendsScopedModel on Model {
       return GetFollowing.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -146,6 +152,8 @@ mixin FriendsScopedModel on Model {
       return GetMeasureFriends.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);

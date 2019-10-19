@@ -38,6 +38,8 @@ mixin DoctorScopedModel on Model {
       return Specialists.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -73,6 +75,8 @@ mixin DoctorScopedModel on Model {
       return DoctorSpecialists.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -107,6 +111,8 @@ mixin DoctorScopedModel on Model {
       return DoctorChat.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -145,6 +151,8 @@ mixin DoctorScopedModel on Model {
       }
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       return false;
     }

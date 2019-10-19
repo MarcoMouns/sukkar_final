@@ -40,17 +40,16 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   int calories = 0;
   int steps = 0;
   int distance = 0;
-  static int ncal = 0;
+  int ncal = 0;
   int cupOfWater;
   int heartRate = 0;
   int bloodPresure1 = 0;
   int bloodPresure = 0;
   int cOW = 0;
 
-  int goalCalories = ncal;
-  int goalSteps = (ncal / 0.0912).toInt();
-  int goalDistance = ((ncal / 0.0912) * 0.762) ~/ 2;
-  int goalNcal = ncal;
+  int goalCalories = 0;
+  int goalSteps = 0;
+  int goalDistance = 0;
   int goalCupOfWater = 15;
 
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
@@ -107,22 +106,36 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   }
 
   void getcal() async {
-    print("waaw===========");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("waaw===========");
 
-    ncal = prefs.getInt('calTarget');
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+    jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    Response response =
+    await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+
+    ncal = response.data['user']['average_calorie'];
+
     if (ncal == null || ncal == 0) {
-      ncal = 1200;
+      ncal = 0;
     }
+
+    goalCalories = ncal;
+    goalSteps = (ncal / 0.0912).toInt();
+    goalDistance = (((ncal / 0.0912) * 0.762) / 2).toInt();
+
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     print(ncal);
     print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
+    setState(() {});
   }
 
   //_MeasurementDetailsState();
 
   initState() {
+    getcal();
     getMeasurementsForDay(dateString);
     super.initState();
   }
@@ -208,46 +221,49 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    FittedBox(
-                      child: SizedBox(
-                        height: 160,
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: FittedBox(
                         child: SizedBox(
-                          width: 150,
                           height: 160,
-                          child: sugerToday == 0
-                              ? measurementsCircles(
-                                  "ic_logo_3",
-                                  sugerToday.toString(),
-                                  allTranslations.text("sugarNull"),
-                                  0,
-                                  1.5,
-                                  yellowColor)
-                              : MainCircles.diabetes(
-                                  percent: sugerToday == 0 || sugerToday == null
-                                      ? 1 / 600
-                                      : sugerToday / 600,
-                                  context: context,
-                                  time: timeOfLastMeasure,
-                                  sugar: sugerToday == 0
-                                      ? '0'
-                                      : sugerToday == null
-                                          ? '0'
-                                          : sugerToday.toString(),
-                                  raduis: _chartRadius,
-                                  status: sugerToday == 0 || sugerToday == null
-                                      ? allTranslations.text("sugarNull")
-                                      : (sugerToday < 80)
-                                          ? allTranslations.text("low")
-                                          : (sugerToday >= 80 &&
-                                                  sugerToday <= 200
-                                              ? allTranslations.text("normal")
-                                              : allTranslations.text("high")),
-                                  ontap: () => null,
-                                  footer: Container(),
-                                ),
+                          child: SizedBox(
+                            width: 150,
+                            height: 160,
+                            child: sugerToday == 0
+                                ? measurementsCircles(
+                                "ic_logo_3",
+                                sugerToday.toString(),
+                                allTranslations.text("sugarNull"),
+                                0,
+                                1.5,
+                                yellowColor)
+                                : MainCircles.diabetes(
+                              percent: sugerToday == 0 || sugerToday == null
+                                  ? 1 / 600
+                                  : sugerToday / 600,
+                              context: context,
+                              time: timeOfLastMeasure,
+                              sugar: sugerToday == 0
+                                  ? '0'
+                                  : sugerToday == null
+                                  ? '0'
+                                  : sugerToday.toString(),
+                              raduis: _chartRadius,
+                              status: sugerToday == 0 || sugerToday == null
+                                  ? allTranslations.text("sugarNull")
+                                  : (sugerToday < 80)
+                                  ? allTranslations.text("low")
+                                  : (sugerToday >= 80 &&
+                                  sugerToday <= 200
+                                  ? allTranslations.text("normal")
+                                  : allTranslations.text("high")),
+                              ontap: () => null,
+                              footer: Container(),
+                            ),
+                          ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 FittedBox(
@@ -261,7 +277,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_cal",
                             calories.toString(),
                             allTranslations.text("cals"),
-                            calories / goalCalories,
+                            ncal==0? 0 : calories / goalCalories,
                             2,
                             (calories / goalCalories) < 0.3
                                 ? redColor
@@ -277,7 +293,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_steps",
                             steps.toString(),
                             allTranslations.text("steps"),
-                            steps / goalSteps,
+                            ncal==0? 0 : steps / goalSteps,
                             2,
                             (steps / goalSteps) < 0.3
                                 ? redColor
@@ -293,7 +309,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_location",
                             distance.toString(),
                             allTranslations.text("distance"),
-                            distance / goalDistance,
+                            ncal==0? 0 : distance / goalDistance,
                             2,
                             (distance / goalDistance) < 0.3
                                 ? redColor

@@ -178,6 +178,8 @@ class _FriendsPageState extends State<FriendsPage>
                               }
                             } on DioError catch (e) {
                               print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                              print(e);
+                              print('*****************************************************************');
                               print(e.response.data);
                               return false;
                             }

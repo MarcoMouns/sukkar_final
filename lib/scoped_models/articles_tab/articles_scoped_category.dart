@@ -7,7 +7,7 @@ import 'package:health/Models/article_tab/article_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://104.248.168.117/api';
+final String baseUrl = 'http://api.sukar.co/api';
 
 mixin ArticlesCategoriesScopedModel on Model {
   Response response;

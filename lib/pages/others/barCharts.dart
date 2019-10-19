@@ -62,6 +62,8 @@ class _BarChartsState extends State<BarCharts>
       }
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);

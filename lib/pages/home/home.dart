@@ -539,9 +539,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ncal == 0
             ? 0
-            : ((dataHome.calories / ncal) * 0.7) > 0.7
-            ? 0.7
-            : ((dataHome.calories / ncal) * 0.7),
+            : (((dataHome.calories / ncal))),
         context: context,
         day_Calories: dataHome == null
             ? 0
@@ -554,7 +552,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : dataHome.steps == null
             ? 0
-            : ncal == 0 ? 0 : (dataHome.steps / (ncal / 0.0912)) * 0.7,
+            : ncal == 0 ? 0 : ((dataHome.steps / (ncal / 0.0912))),
         context: context,
         steps:
         dataHome == null ? 0 : dataHome.steps == null ? 0 : dataHome.steps,
@@ -570,14 +568,8 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ncal == 0
             ? 0
-            : dataHome.distance /
-            (((ncal / 0.0912) * 0.762) ~/ 2) *
-            0.7 >
-            0.7
-            ? 0.7
-            : dataHome.distance /
-            (((ncal / 0.0912) * 0.762) ~/ 2) *
-            0.7,
+            : ((dataHome.distance /
+            ((((ncal / 0.0912) * 0.762) / 2).toInt()))),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
@@ -591,9 +583,7 @@ class _HomePageState extends State<HomePage> {
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
             ? 0
-            : ((cupOfWater / goalCupOfWater).toDouble())  > 0.7
-            ? 1
-            : ((cupOfWater / goalCupOfWater).toDouble()) * 0.7,
+            : ((cupOfWater / goalCupOfWater)),
         context: context,
         raduis: _chartRadius,
         numberOfCups: dataHome == null
@@ -613,7 +603,7 @@ class _HomePageState extends State<HomePage> {
     widgetCircleBlood = MainCircles.blood(
         percent: bloodPresure1 == null
             ? 0
-            : (heartRate / 79) * 0.7 > 0.7 ? 0.7 : (heartRate / 79) * 0.7,
+            : (((heartRate / 79) * 0.7 > 0.7 ? 0.7 : (heartRate / 79) * 0.7)),
         context: context,
         raduis: _chartRadius,
         blood: bloodPresure1 == null ? '0' :bloodPresure2.toString()+"/"+ bloodPresure1.toString(),
@@ -633,7 +623,7 @@ class _HomePageState extends State<HomePage> {
           child: MainCircles.diabetes(
             percent: sugerToday == 0 || sugerToday == null
                 ? 1 / 600
-                : sugerToday / 600,
+                : ((sugerToday / 600)),
             context: context,
             time: timeOfLastMeasure,
             sugar: sugerToday == 0

@@ -35,9 +35,12 @@ mixin ArticlesScopedModel on Model {
       return Articles.fromJson(response.data);
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }

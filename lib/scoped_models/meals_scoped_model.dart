@@ -28,7 +28,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return MealModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -64,7 +64,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return UserFoodsModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -98,7 +98,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return AllMealsFoodsModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -158,6 +158,8 @@ mixin MealScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
@@ -201,6 +203,8 @@ mixin MealScopedModel on Model {
       return true;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+      print(e);
+      print('*****************************************************************');
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);

@@ -85,7 +85,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                           completePercent: _animation.value*0.7,
                           width: 3.0),
                       child: CircleAvatar(
-                        radius: (widget.radius - 6) / 2,
+                        radius: widget.radius,
                         backgroundColor: widget.color,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
@@ -119,11 +119,11 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                                     fit: BoxFit.scaleDown,
                                     child: Row(
                                       children: <Widget>[
+                                        Text("mg/dl",style: TextStyle(fontSize: 10,color: Colors.grey),),
                                         Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
                                             style: TextStyle(
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
-                                        Text("mg/dl",style: TextStyle(fontSize: 10,color: Colors.grey),)
                                       ],
                                     )
                                 ),
