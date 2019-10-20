@@ -187,6 +187,8 @@ Map<String, String> arabicLang = {
   "waterGoal_Completed": "لقد حققت هدفك اليوم لشرب المياه",
   "caloriesGoal_Completed": "لقد حققت هدفك اليومه في حرق السعرات",
   "cancel":"الغاء",
+  "exitpopup":"هل تريد تسجيل الخروج و الخروج من التطبيق؟",
+  "exit":"خروج"
 
 
 

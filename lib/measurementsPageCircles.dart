@@ -17,7 +17,7 @@ class measurementsCircles extends StatefulWidget {
     iconName = icon;
     cirTitle = title;
     cirFooter = footer;
-    cirPercent = percent >= 1 ? 1 : percent *0.7;
+    cirPercent = percent;
     cirSize = size;
     cirColor = color;
     isPreSure = isp;

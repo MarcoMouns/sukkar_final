@@ -185,9 +185,14 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                                 "/" +
                                 bloodPresure1.toString(),
                             allTranslations.text("bloodPressure"),
-                            (bloodPresure1 / 180),
+                            (bloodPresure / 180),
                             2,
-                            redColor,
+                            (bloodPresure / 180) <= 0.2
+                                ? Color.fromRGBO(254, 252, 232, 1)
+                                : (bloodPresure / 180) > 0.2 &&
+                                        (bloodPresure / 180) < 0.6
+                                    ?  Color.fromRGBO(229, 246, 211, 1)
+                                    : Color.fromRGBO(253, 238, 238, 1),
                             true),
                       ),
                       SizedBox(
@@ -197,12 +202,11 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             "ic_heart_rate",
                             heartRate.toString(),
                             allTranslations.text("heartRate"),
-                            (heartRate / 79) * 0.7,
+                            (heartRate / 160),
                             2,
-                            (heartRate / 79) <= 0.4
+                            heartRate <= 60
                                 ? Color.fromRGBO(254, 252, 232, 1)
-                                : (heartRate / 79) > 0.4 &&
-                                        (heartRate / 79) < 1
+                                : heartRate > 60 && heartRate <= 160
                                     ? Color.fromRGBO(229, 246, 211, 1)
                                     : Color.fromRGBO(253, 238, 238, 1)),
                       ),

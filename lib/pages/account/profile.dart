@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
@@ -408,13 +410,43 @@ class _EditProfileState extends State<EditProfile> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         onTap: () async {
-                          SharedPreferences sharedPreferences =
-                              await SharedPreferences.getInstance();
-                          sharedPreferences.remove('authUser');
-                          sharedPreferences.clear();
-                         
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/', (Route<dynamic> route) => false);
+                          // SharedPreferences sharedPreferences =
+                          //     await SharedPreferences.getInstance();
+                          // sharedPreferences.remove('authUser');
+                          // sharedPreferences.clear();
+
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //     '/', (Route<dynamic> route) => false);
+
+                          showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoActionSheet(
+                              title: Text(allTranslations.text("exit")),
+                              message: Text(
+                                allTranslations.text("exitpopup"),
+                              ),
+                              actions: <Widget>[
+                                CupertinoActionSheetAction(
+                                  child: Text(allTranslations.text("exit")),
+                                  onPressed: () async {
+                                    SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.remove('authUser');
+                                    sharedPreferences.clear();
+                                    exit(0);
+                                    
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: Text(allTranslations.text("cancel")),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ],

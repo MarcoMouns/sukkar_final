@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
   init(BuildContext context) {
     _scrollController = ScrollController(
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
+       
   }
 
   initState() {
@@ -111,9 +112,6 @@ class _HomePageState extends State<HomePage> {
     getCustomerData();
     getMeasurements(date);
     getHomeFetch();
-    // if (sugerToday == null) {
-    //   loading = true;
-    // }
     getcal();
     setFirebaseImage();
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
@@ -127,7 +125,6 @@ class _HomePageState extends State<HomePage> {
           allTranslations.text("waterGoal_Completed"));
     }
 
-    //print("$sugerToday ===========================");
   }
 
   Future onSelectNotification(String payload) async {
@@ -598,7 +595,7 @@ class _HomePageState extends State<HomePage> {
     widgetCircleHeart = MainCircles.heart(
         percent: heartRate == null
             ? 0
-            : (heartRate / 79) > 1 ? 1 : (heartRate / 79) ,
+            : (heartRate / 160) > 1 ? 1 : (heartRate / 160) ,
         context: context,
         raduis: _chartRadius,
         heart: heartRate == null ? '0' : heartRate.toString(),
@@ -608,9 +605,9 @@ class _HomePageState extends State<HomePage> {
 
 
     widgetCircleBlood = MainCircles.blood(
-        percent: bloodPresure1 == null
+        percent: bloodPresure2 == null
             ? 0
-            : (((bloodPresure1 / 180) * 1> 1 ? 1 : (bloodPresure1 / 180))),
+            : (((bloodPresure2 / 180) > 1 ? 1 : (bloodPresure2 / 180))),
         context: context,
         raduis: _chartRadius,
         blood: bloodPresure1 == null ? '0' :bloodPresure2.toString()+"/"+ bloodPresure1.toString(),

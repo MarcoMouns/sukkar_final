@@ -181,6 +181,8 @@ Map<String, String> englishLang = {
   "Changecircle_dictance":"Distance",
   "Changecircle_presure":"Blood Presure",
   "cancel":"cancel",
+  "exitpopup":"Are you sure you want to signout and exit ?",
+  "exit":"exit"
 
 
 

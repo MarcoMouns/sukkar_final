@@ -23,13 +23,13 @@ import '../languages/all_translations.dart';
  * Modifications
  */
 class MainHome extends StatefulWidget {
-
   _MainHomeState createState() => _MainHomeState();
 }
 
 class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Color _plusColor = Settings.mainColor();
+  bool initOpen = true;
 
 //your stuff
 
@@ -41,11 +41,13 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController animationController;
   AnimationController animationController2;
 
-  void _handleSubmitted(BuildContext context, MainModel model, var value,String type) {
+  void _handleSubmitted(
+      BuildContext context, MainModel model, var value, String type) {
     model.addMeasurements(type, value).then((result) async {
       print(result);
     });
   }
+
   _onMenuTap(item, MainModel model) {
     if (item == 1) {
       Navigator.push(
@@ -60,7 +62,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     if (item == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context ) => BloodPressure(model)),
+        MaterialPageRoute(builder: (context) => BloodPressure(model)),
       );
     }
     if (item == 3) {
@@ -84,7 +86,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           builder: (BuildContext context) {
             return settings.BottomSheet(
                 title: "cups",
-                type:'water_cups',
+                type: 'water_cups',
                 subtitle: "enterWaterCups",
                 image: "ic_cup",
                 min: 0.0,
@@ -92,7 +94,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                 addSlider: true,
                 onSave: (String value) {
                   setState(() {
-                    _handleSubmitted(context, model, value,"water_cups");
+                    _handleSubmitted(context, model, value, "water_cups");
                   });
                 });
           });
@@ -130,21 +132,25 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _pageController= _getPageController();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 175),
-    );
-    _animation = Tween(begin: 180 * 0.05, end: 180 * 0.4).animate(_controller);
-    _rotateCopntroller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 175),
-    );
-    _rotateAmimation =
-        Tween(begin: 0.0, end: math.pi / 4).animate(_rotateCopntroller);
-    _rotateAmimation.addListener(() {
-      _rotateAmimation.value;
-    });
+
+   
+      _pageController = _getPageController();
+
+      _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 175),
+      );
+      _animation =
+          Tween(begin: 180 * 0.05, end: 180 * 0.4).animate(_controller);
+      _rotateCopntroller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 175),
+      );
+      _rotateAmimation =
+          Tween(begin: 0.0, end: math.pi / 4).animate(_rotateCopntroller);
+      _rotateAmimation.addListener(() {
+        _rotateAmimation.value;
+      });
     
   }
 
