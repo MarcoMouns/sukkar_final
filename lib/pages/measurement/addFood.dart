@@ -58,7 +58,7 @@ class _AddFoodState extends State<AddFood> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.network(
-                    "http://104.248.168.117/${allMeals[index].image}",
+                    "http://api.sukar.co/${allMeals[index].image}",
                     width: 50,
                     height: 50,
                   ),

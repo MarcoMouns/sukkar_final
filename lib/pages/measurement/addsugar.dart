@@ -287,7 +287,7 @@ class _AddSugarState extends State<AddSugar> {
           content: 
           measuresOfDay.first >= 70 && measuresOfDay.first < 90?
           SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.37,
+                      height: MediaQuery.of(context).size.height * 0.70,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +316,7 @@ class _AddSugarState extends State<AddSugar> {
                 )
               : measuresOfDay.first > 200
                   ? SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.37,
+                      height: MediaQuery.of(context).size.height * 0.70,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +339,7 @@ class _AddSugarState extends State<AddSugar> {
                       ),
                     )
                   : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.46,
+                      height: MediaQuery.of(context).size.height * 0.70,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,

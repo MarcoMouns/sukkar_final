@@ -468,7 +468,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             color: Colors.grey[200]),
-                        child: Image.network('http://104.248.168.117/api/articles/3'),
+                        child: Image.network('http://api.sukar.co/api/articles/3'),
                       ),
                     ),
                   ],

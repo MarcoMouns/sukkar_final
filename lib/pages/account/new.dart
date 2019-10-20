@@ -173,8 +173,7 @@ class _NewUserState extends State<NewUser> {
                                       decimal: false, signed: false),
                                 ),
                                // Padding(padding: EdgeInsets.only(top: 15)),
-                                InkWell(
-                                  child: Row(
+                                 Row(
                                     children: <Widget>[
                                       Checkbox(
                                         value: isClicked,
@@ -184,11 +183,20 @@ class _NewUserState extends State<NewUser> {
                                         checkColor: Colors.white,
                                         activeColor: Colors.blue,
                                       ),
-                                      Text("الموافقة على الشروط و الاحكام ( للإطلاع على الشروط و الاحكام انقر هنا )",style: TextStyle(fontSize: 13),),
+                                      Text("الموافقة على الشروط و الاحكام ",style: TextStyle(fontSize: 13),),
+                                      
                                     ],
                                   ),
+                                  InkWell(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text("  للإطلاع على الشروط و الاحكام انقر هنا  ", style: TextStyle(color: Colors.blueAccent),)
+                                      ],
+                                    ),
                                   onTap: () => policy(),
-                                ),
+                                  ),
+                                  
+                                 
 
                                 //Padding(padding: EdgeInsets.only(top: 15)),
                                 Center(

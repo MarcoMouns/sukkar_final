@@ -386,7 +386,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             };
 
                             response = await dio.post(
-                                "http://0api.sukar.co/api/users/height-weight",data: {
+                                "http://api.sukar.co/api/users/height-weight",data: {
                               "_method": 'PUT',
                               "height": userHeight,
                               "weight": userWidth.toString(),

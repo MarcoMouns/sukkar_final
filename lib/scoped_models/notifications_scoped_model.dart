@@ -5,7 +5,7 @@ import 'package:health/Models/notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://104.248.168.117/api';
+final String baseUrl = 'http://api.sukar.co/api';
 
 mixin NotificationsScopedModel on Model {
   Response response;

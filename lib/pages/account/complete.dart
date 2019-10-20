@@ -34,8 +34,8 @@ class _CompleteState extends State<Complete> {
   TextEditingController _BirthDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
-  bool hasPhoto=true;
-  bool picdone=false;
+  bool hasPhoto = true;
+  bool picdone = false;
 
   Map<String, dynamic> _formData = {
     "image": null,
@@ -43,7 +43,7 @@ class _CompleteState extends State<Complete> {
     "userName": null,
     "email": null,
     "injuredDate": null,
-    "birthDate" : null,
+    "birthDate": null,
     "gender": null,
     "password": null,
     "fuid": null,
@@ -67,18 +67,18 @@ class _CompleteState extends State<Complete> {
     ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
       setState(() {
         _formData['image'] = image;
-        img=image.path;
+        img = image.path;
         print('********************************');
         print(img);
         print('********************************');
       });
-      picdone=true;
+      picdone = true;
       Navigator.pop(context);
     });
   }
 
   void _imagePicker(BuildContext context) {
-    hasPhoto=true;
+    hasPhoto = true;
     Locale myLocale = Localizations.localeOf(context);
     showCupertinoModalPopup(
         context: context,
@@ -145,34 +145,41 @@ class _CompleteState extends State<Complete> {
     setState(() {
       _isLoading = true;
     });
-    final FirebaseUser user = (await _firebaseAuth.createUserWithEmailAndPassword(
-      email: _formData['email'],
-      password: _formData['password'],
-    ))
-        .user;
-    return user.uid;
+    try {
+      final FirebaseUser user =
+          (await _firebaseAuth.createUserWithEmailAndPassword(
+        email: _formData['email'],
+        password: _formData['password'],
+      ))
+              .user;
+      return user.uid;
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      showInSnackBar("من فضلك قم بأدخال بريد اليكتروني صحيح");
+    }
   }
 
-  Future<Null> CreateCFSaccount(String uid) async{
-
-    if (!_formKey.currentState.validate()
-        ||
+  Future<Null> CreateCFSaccount(String uid) async {
+    if (!_formKey.currentState.validate() ||
 //        _formData['image'] == null ||
-        _formData['phone'] == null
-    ) {
+        _formData['phone'] == null) {
       _autoValidate = true; // Start validating on every change.
       print(_formData);
 
       showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
-    }else{
+    } else {
       _formKey.currentState.save();
       setState(() {
         _isLoading = true;
       });
-      print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
+      print(
+          '************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       print(_formData['userName']);
       print(img);
-      print('************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
+      print(
+          '************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       Firestore.instance.collection('users').document(uid).setData({
         'nickname': _formData['userName'],
         'id': uid,
@@ -190,19 +197,18 @@ class _CompleteState extends State<Complete> {
     }
   }
 
-  void _handleSubmitted(BuildContext context, MainModel model,){
-
-
+  void _handleSubmitted(
+    BuildContext context,
+    MainModel model,
+  ) {
     Locale myLocale = Localizations.localeOf(context);
 //    final FormState form = _formKey.currentState;
     setState(() {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
     });
-    if (!_formKey.currentState.validate()
-        ||
+    if (!_formKey.currentState.validate() ||
 //        _formData['image'] == null ||
-        _formData['phone'] == null
-    ) {
+        _formData['phone'] == null) {
       _autoValidate = true; // Start validating on every change.
       print(_formData);
 
@@ -221,16 +227,15 @@ class _CompleteState extends State<Complete> {
       print(_formData['image']);
       print("booooooooooooooos fo2");
       print("form data => $_formData");
-      model.userRegister(_formData).then((result) async{
+      model.userRegister(_formData).then((result) async {
         if (result == true) {
           setState(() {
             _isLoading = false;
           });
 
           // show registration success
-          await         Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home',
-                  (Route<dynamic> route) => false);
+          await Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home', (Route<dynamic> route) => false);
 //          showInSnackBar(myLocale.languageCode.contains("en")
 //              ? "Registratin Completed successfully"
 //              : "تم التسجيل بنجاح");
@@ -285,7 +290,7 @@ class _CompleteState extends State<Complete> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     SizedBox(
                                       width: 24,
@@ -321,13 +326,16 @@ class _CompleteState extends State<Complete> {
                                   ],
                                 ),
                               ),
-                              hasPhoto?
-                              Container():
-                              Container(
-                                alignment: Alignment.center,
-                                width: MediaQuery.of(context).size.width,
-                                child: Text("please add a picture",style: TextStyle(color: Colors.red),),
-                              ),
+                              hasPhoto
+                                  ? Container()
+                                  : Container(
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Text(
+                                        "please add a picture",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
                               new LogInInput(
                                 enabled: true,
                                 name: "username",
@@ -378,14 +386,12 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime(2030, 6, 7),
                                       onChanged: (date) {
-                                        _BirthDateController.text =
-                                            date.toString();
-                                        print('change $date');
-                                      }, onConfirm: (date) {
-                                        _BirthDateController.text =
-                                            date.toString();
-                                        print('confirm $date');
-                                      },
+                                    _BirthDateController.text = date.toString();
+                                    print('change $date');
+                                  }, onConfirm: (date) {
+                                    _BirthDateController.text = date.toString();
+                                    print('confirm $date');
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -404,7 +410,7 @@ class _CompleteState extends State<Complete> {
                                   validator: (String val) {
                                     if (val.isEmpty) {
                                       return myLocale.languageCode
-                                          .contains("en")
+                                              .contains("en")
                                           ? "Birthdate is required."
                                           : " تاريخ الميلاد مطلوب";
                                     }
@@ -418,14 +424,14 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime(2030, 6, 7),
                                       onChanged: (date) {
-                                        _injuryDateController.text =
-                                            date.toString();
-                                        print('change $date');
-                                      }, onConfirm: (date) {
-                                        _injuryDateController.text =
-                                            date.toString();
-                                        print('confirm $date');
-                                      },
+                                    _injuryDateController.text =
+                                        date.toString();
+                                    print('change $date');
+                                  }, onConfirm: (date) {
+                                    _injuryDateController.text =
+                                        date.toString();
+                                    print('confirm $date');
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -444,7 +450,7 @@ class _CompleteState extends State<Complete> {
                                   validator: (String val) {
                                     if (val.isEmpty) {
                                       return myLocale.languageCode
-                                          .contains("en")
+                                              .contains("en")
                                           ? "injury Date is required."
                                           : " تاريخ الاصابة مطلوب";
                                     }
@@ -491,36 +497,36 @@ class _CompleteState extends State<Complete> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Row(
-                                        children: <Widget>[
-                                          Radio(
-                                            activeColor: Colors.redAccent,
-                                            onChanged: (val) {
-                                              setState(() {
-                                                _gender = val;
-                                              });
-                                            },
-                                            value: 'male',
-                                            groupValue: _gender,
-                                          ),
-                                          Text(allTranslations.text("male"))
-                                        ],
-                                      )),
+                                    children: <Widget>[
+                                      Radio(
+                                        activeColor: Colors.redAccent,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            _gender = val;
+                                          });
+                                        },
+                                        value: 'male',
+                                        groupValue: _gender,
+                                      ),
+                                      Text(allTranslations.text("male"))
+                                    ],
+                                  )),
                                   Expanded(
                                       child: Row(
-                                        children: <Widget>[
-                                          Radio(
-                                            activeColor: Colors.redAccent,
-                                            onChanged: (val) {
-                                              setState(() {
-                                                _gender = val;
-                                              });
-                                            },
-                                            value: 'female',
-                                            groupValue: _gender,
-                                          ),
-                                          Text(allTranslations.text("female"))
-                                        ],
-                                      ))
+                                    children: <Widget>[
+                                      Radio(
+                                        activeColor: Colors.redAccent,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            _gender = val;
+                                          });
+                                        },
+                                        value: 'female',
+                                        groupValue: _gender,
+                                      ),
+                                      Text(allTranslations.text("female"))
+                                    ],
+                                  ))
                                 ],
                               ),
                             ],
@@ -532,34 +538,38 @@ class _CompleteState extends State<Complete> {
                               vertical: 0.0, horizontal: 30.0),
                           child: _isLoading
                               ? CupertinoActivityIndicator(
-                            animating: true,
-                            radius: 15,
-                          )
+                                  animating: true,
+                                  radius: 15,
+                                )
                               : RaisedButton(
-                              elevation: 0.0,
-                              color: Settings.mainColor(),
-                              textColor: Colors.white,
-                              onPressed: () {
-                                if(hasPhoto&&picdone){
-                                  _showPrivacyPolicy(model);
-                                }
-                                else{
-                                  hasPhoto=false;
-                                  setState(() {
-                                  });
-                                }
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.all(0.0),
-                                  width: double.infinity,
-                                  child: Text(
-                                    allTranslations.text("verify"),
-                                    style: TextStyle(fontSize: 18.0),
-                                    textAlign: TextAlign.center,
-                                  )),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(20.0))),
+                                  elevation: 0.0,
+                                  color: Settings.mainColor(),
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    if (hasPhoto && picdone) {
+                                      uidx = await CreateFirebaseAccount();
+                                      _formData['fuid'] = uidx;
+                                      CreateCFSaccount(uidx);
+                                      _handleSubmitted(
+                                        context,
+                                        model,
+                                      );
+                                    } else {
+                                      hasPhoto = false;
+                                      setState(() {});
+                                    }
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(0.0),
+                                      width: double.infinity,
+                                      child: Text(
+                                        allTranslations.text("verify"),
+                                        style: TextStyle(fontSize: 18.0),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0))),
                         ),
                       ],
                     ),
@@ -581,28 +591,32 @@ class _CompleteState extends State<Complete> {
             ),
             content: SingleChildScrollView(
                 child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return TermsAndConditions();
-                          }));
-                       
-                  },
-                  child: Text("قراءة الشروط و الاحكام" , style: TextStyle(color: Colors.blue),),
-                )),
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return TermsAndConditions();
+                }));
+              },
+              child: Text(
+                "قراءة الشروط و الاحكام",
+                style: TextStyle(color: Colors.blue),
+              ),
+            )),
             actions: <Widget>[
               InkWell(
                 child: Text(
                   allTranslations.text("Agree"),
                   style: TextStyle(color: Colors.blue),
                 ),
-                onTap: () async{
+                onTap: () async {
 //                  Navigator.of(context).pop();
                   uidx = await CreateFirebaseAccount();
-                  _formData['fuid']=uidx;
+                  _formData['fuid'] = uidx;
                   CreateCFSaccount(uidx);
-                  _handleSubmitted(context, model,);
-
+                  _handleSubmitted(
+                    context,
+                    model,
+                  );
                 },
               ),
               InkWell(
@@ -635,35 +649,34 @@ class UserImage extends StatelessWidget {
     // }
     return Center(
         child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: userImage,
-              radius: 30,
-            ),
-            Container(
-              width: 80,
-              height: 80 ,
-            ),
-            imageFile==null?
-            Positioned(
-              right: 1,
-              bottom: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: Colors.blue,
-                      width: 2
+      alignment: Alignment.center,
+      children: <Widget>[
+        CircleAvatar(
+          backgroundColor: Colors.white,
+          backgroundImage: userImage,
+          radius: 30,
+        ),
+        Container(
+          width: 80,
+          height: 80,
+        ),
+        imageFile == null
+            ? Positioned(
+                right: 1,
+                bottom: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.blue, width: 2),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.black,
                   ),
                 ),
-                child: Icon(Icons.add,color: Colors.black,),
-              ),
-            ):
-            Container(),
-          ],
-        )
-    );
+              )
+            : Container(),
+      ],
+    ));
   }
 }
