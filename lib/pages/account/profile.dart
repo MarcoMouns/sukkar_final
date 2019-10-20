@@ -45,14 +45,12 @@ class _EditProfileState extends State<EditProfile> {
     response = await dio.get(
       "http://api.sukar.co/api/auth/me",
     );
-    
+
     weight = response.data['user']['weight'];
     hight = response.data['user']['hight'];
     print(weight);
     print(hight);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -135,7 +133,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                         IconButton(
                           onPressed: () {
-                            Navigator.pop(context,true);
+                            Navigator.pop(context, true);
                           },
                           icon: Icon(Icons.close, color: Colors.white),
                         )
@@ -198,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                           onChanged: (val) {},
                         ),
                       ),
-                        Divider(
+                      Divider(
                         height: 0,
                       ),
                       ListTile(
@@ -227,15 +225,29 @@ class _EditProfileState extends State<EditProfile> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 10  ),
+                              padding: EdgeInsets.only(right: 10),
                             ),
-                            FittedBox(child: Text("Kg: ",style: TextStyle(color: Colors.grey),)),
-                            FittedBox(child:Text("$weight",style: TextStyle(color: Colors.grey),)),
+                            FittedBox(
+                                child: Text(
+                              "Kg: ",
+                              style: TextStyle(color: Colors.grey),
+                            )),
+                            FittedBox(
+                                child: Text(
+                              "$weight",
+                              style: TextStyle(color: Colors.grey),
+                            )),
                             Padding(
-                              padding: EdgeInsets.only(right: 5  ),
+                              padding: EdgeInsets.only(right: 5),
                             ),
-                            FittedBox(child: Text("CM: ",style: TextStyle(color: Colors.grey)),),
-                            FittedBox(child: Text("$hight",style: TextStyle(color: Colors.grey)),),
+                            FittedBox(
+                              child: Text("CM: ",
+                                  style: TextStyle(color: Colors.grey)),
+                            ),
+                            FittedBox(
+                              child: Text("$hight",
+                                  style: TextStyle(color: Colors.grey)),
+                            ),
                           ],
                         ),
                         trailing: Icon(
@@ -243,8 +255,12 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                         onTap: () {
-                          Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new WeightAndHeight()),)
-                              .then((val)=>val?getUser():null);
+                          Navigator.of(context)
+                              .push(
+                                new MaterialPageRoute(
+                                    builder: (_) => new WeightAndHeight()),
+                              )
+                              .then((val) => val ? getUser() : null);
                         },
                       ),
                       Divider(
@@ -314,25 +330,21 @@ class _EditProfileState extends State<EditProfile> {
                       Divider(
                         height: 0,
                       ),
-                            ListTile(
+                      ListTile(
                         title: Row(
                           children: <Widget>[
                             Expanded(
-                              child: Text(
+                                child: Text(
                               allTranslations.text("about"),
                               style: TextStyle(color: Colors.grey),
                             )),
-                            
                           ],
                         ),
                         onTap: () {
-                        
-
-                        Navigator.of(context)
+                          Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return AboutApp();
                           }));
-                       
                         },
                         trailing: Icon(
                           Icons.arrow_forward_ios,
@@ -350,11 +362,10 @@ class _EditProfileState extends State<EditProfile> {
                               allTranslations.text("contacts"),
                               style: TextStyle(color: Colors.grey),
                             )),
-                            
                           ],
                         ),
                         onTap: () {
-                           Navigator.of(context)
+                          Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return Contacts();
                           }));
@@ -364,8 +375,6 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                       ),
-                     
-                      
                       Divider(
                         height: 0,
                       ),
@@ -377,43 +386,37 @@ class _EditProfileState extends State<EditProfile> {
                               allTranslations.text("Terms"),
                               style: TextStyle(color: Colors.grey),
                             )),
-                            
                           ],
                         ),
                         onTap: () {
-                           Navigator.of(context)
+                          Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             return TermsAndConditions();
                           }));
-                       
                         },
                         trailing: Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.redAccent,
                         ),
                       ),
-                     
-                      
                       Divider(
                         height: 0,
                       ),
-                      
                       ListTile(
                         title: Text(
                           allTranslations.text("signout"),
                           style: TextStyle(color: Colors.grey),
                         ),
                         onTap: () async {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/', (Route<dynamic> route) => false);
                           SharedPreferences sharedPreferences =
                               await SharedPreferences.getInstance();
                           sharedPreferences.remove('authUser');
                           sharedPreferences.clear();
+                         
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/', (Route<dynamic> route) => false);
                         },
-
                       ),
-                      
                     ],
                   ),
                 ),

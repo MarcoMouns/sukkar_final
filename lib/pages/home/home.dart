@@ -539,6 +539,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ncal == 0
             ? 0
+            : (dataHome.calories / ncal) > 1 ? 1
             : (((dataHome.calories / ncal))),
         context: context,
         day_Calories: dataHome == null
@@ -552,6 +553,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : dataHome.steps == null
             ? 0
+            :(dataHome.steps / (ncal / 0.0912)) > 1 ? 1 
             : ncal == 0 ? 0 : ((dataHome.steps / (ncal / 0.0912))),
         context: context,
         steps:
@@ -583,7 +585,7 @@ class _HomePageState extends State<HomePage> {
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
             ? 0
-            : ((cupOfWater / goalCupOfWater)),
+            :(cupOfWater / goalCupOfWater) > 1 ? 1: ((cupOfWater / goalCupOfWater)),
         context: context,
         raduis: _chartRadius,
         numberOfCups: dataHome == null
@@ -591,19 +593,24 @@ class _HomePageState extends State<HomePage> {
             : cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
         footerText: "الهدف: " + "${(15).toString()}");
+
+        
     widgetCircleHeart = MainCircles.heart(
         percent: heartRate == null
             ? 0
-            : (heartRate / 79) * 0.7 > 0.7 ? 1 : (heartRate / 79) ,
+            : (heartRate / 79) > 1 ? 1 : (heartRate / 79) ,
         context: context,
         raduis: _chartRadius,
         heart: heartRate == null ? '0' : heartRate.toString(),
         onTap: () => null,
         footerText: "");
+
+
+
     widgetCircleBlood = MainCircles.blood(
         percent: bloodPresure1 == null
             ? 0
-            : (((heartRate / 79) * 0.7 > 0.7 ? 0.7 : (heartRate / 79) * 0.7)),
+            : (((bloodPresure1 / 180) * 1> 1 ? 1 : (bloodPresure1 / 180))),
         context: context,
         raduis: _chartRadius,
         blood: bloodPresure1 == null ? '0' :bloodPresure2.toString()+"/"+ bloodPresure1.toString(),

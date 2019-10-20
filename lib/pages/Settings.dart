@@ -554,7 +554,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  List<BottomNavigationBarItem> _listItems = List<BottomNavigationBarItem>();
+ static List<BottomNavigationBarItem> _listItems = List<BottomNavigationBarItem>();
   static CustomBottomNavigationBarState c;
 
   CustomBottomNavigationBarState() {

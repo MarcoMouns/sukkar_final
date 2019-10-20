@@ -106,15 +106,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   }
 
   void getcal() async {
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     Response response =
-    await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
 
     ncal = response.data['user']['average_calorie'];
 
@@ -194,7 +193,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                                 "/" +
                                 bloodPresure1.toString(),
                             allTranslations.text("bloodPressure"),
-                            (bloodPresure1 / 180) * 0.7,
+                            (bloodPresure1 / 180) ,
                             2,
                             redColor,
                             true),
@@ -206,12 +205,12 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_heart_rate",
                             heartRate.toString(),
                             allTranslations.text("heartRate"),
-                            (heartRate / 79) * 0.7,
+                            (heartRate / 79) ,
                             2,
                             (heartRate / 79) <= 0.4
                                 ? Color.fromRGBO(254, 252, 232, 1)
                                 : (heartRate / 79) > 0.4 &&
-                                        (heartRate / 79) < 1.1
+                                        (heartRate / 79) < 1
                                     ? Color.fromRGBO(229, 246, 211, 1)
                                     : Color.fromRGBO(253, 238, 238, 1)),
                       ),
@@ -231,35 +230,43 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             height: 160,
                             child: sugerToday == 0
                                 ? measurementsCircles(
-                                "ic_logo_3",
-                                sugerToday.toString(),
-                                allTranslations.text("sugarNull"),
-                                0,
-                                1.5,
-                                yellowColor)
+                                    "ic_logo_3",
+                                    sugerToday.toString(),
+                                    allTranslations.text("sugarNull"),
+                                    0,
+                                    1.5,
+                                    yellowColor)
                                 : MainCircles.diabetes(
-                              percent: sugerToday == 0 || sugerToday == null
-                                  ? 1 / 600
-                                  : sugerToday / 600,
-                              context: context,
-                              time: timeOfLastMeasure,
-                              sugar: sugerToday == 0
-                                  ? '0'
-                                  : sugerToday == null
-                                  ? '0'
-                                  : sugerToday.toString(),
-                              raduis: _chartRadius,
-                              status: sugerToday == 0 || sugerToday == null
-                                  ? allTranslations.text("sugarNull")
-                                  : (sugerToday < 80)
-                                  ? allTranslations.text("low")
-                                  : (sugerToday >= 80 &&
-                                  sugerToday <= 200
-                                  ? allTranslations.text("normal")
-                                  : allTranslations.text("high")),
-                              ontap: () => null,
-                              footer: Container(),
-                            ),
+                                    percent:
+                                        sugerToday == 0 || sugerToday == null
+                                            ? 1 / 600
+                                            : sugerToday / 600,
+                                    context: context,
+                                    time: timeOfLastMeasure,
+                                    sugar: sugerToday == 0
+                                        ? '0'
+                                        : sugerToday == null
+                                            ? '0'
+                                            : sugerToday.toString(),
+                                    raduis: _chartRadius,
+                                    status: sugerToday == 0 ||
+                                            sugerToday == null
+                                        ? allTranslations.text("sugarNull")
+                                        : (sugerToday < 69)
+                                            ? allTranslations.text("low")
+                                            : (sugerToday >= 70 &&
+                                                    sugerToday <= 89)
+                                                ? allTranslations
+                                                    .text("LowNormal")
+                                                : (sugerToday >= 90 &&
+                                                        sugerToday <= 200)
+                                                    ? allTranslations
+                                                        .text("normal")
+                                                    : allTranslations
+                                                        .text("high"),
+                                    ontap: () => null,
+                                    footer: Container(),
+                                  ),
                           ),
                         ),
                       ),
@@ -277,7 +284,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_cal",
                             calories.toString(),
                             allTranslations.text("cals"),
-                            ncal==0? 0 : calories / goalCalories,
+                            ncal == 0 ? 0 : calories / goalCalories,
                             2,
                             (calories / goalCalories) < 0.3
                                 ? redColor
@@ -293,7 +300,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_steps",
                             steps.toString(),
                             allTranslations.text("steps"),
-                            ncal==0? 0 : steps / goalSteps,
+                            ncal == 0 ? 0 : steps / goalSteps,
                             2,
                             (steps / goalSteps) < 0.3
                                 ? redColor
@@ -309,7 +316,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_location",
                             distance.toString(),
                             allTranslations.text("distance"),
-                            ncal==0? 0 : distance / goalDistance,
+                            ncal == 0 ? 0 : distance / goalDistance,
                             2,
                             (distance / goalDistance) < 0.3
                                 ? redColor

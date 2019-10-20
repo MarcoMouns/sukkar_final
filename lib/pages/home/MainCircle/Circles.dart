@@ -37,7 +37,11 @@ abstract class MainCircles {
         footer: column,
         time: "",
         percent: percent,
-        color: Color.fromRGBO(254, 252, 232, 1));
+        color: percent <= 0.4
+            ? Color.fromRGBO(254, 252, 232, 1)
+            : percent > 0.4 && percent < 1
+                ? Color.fromRGBO(229, 246, 211, 1)
+                : Color.fromRGBO(253, 238, 238, 1));
   }
 
   static Widget heartRate(
@@ -71,7 +75,11 @@ abstract class MainCircles {
         title: text,
         percent: percent,
         time: "",
-        color: Color.fromRGBO(229, 246, 211, 1),
+        color: percent <= 0.4
+            ? Color.fromRGBO(254, 252, 232, 1)
+            : percent > 0.4 && percent <= 1
+                ? Color.fromRGBO(229, 246, 211, 1)
+                : Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
@@ -231,12 +239,11 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color:percent<= 0.4
-                                ?   Color.fromRGBO(254, 252, 232, 1)
-                                : percent > 0.4 &&
-                                        percent < 1.1
-                                    ? Color.fromRGBO(229, 246, 211, 1)
-                                    :   Color.fromRGBO(253, 238, 238, 1),
+        color: percent <= 0.4
+            ? Color.fromRGBO(254, 252, 232, 1)
+            : (percent) > 0.4 && (percent) < 1
+                ? Color.fromRGBO(229, 246, 211, 1)
+                : Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
