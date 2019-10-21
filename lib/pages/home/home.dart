@@ -1019,6 +1019,7 @@ class _HomePageState extends State<HomePage> {
                                                         child: Text(
                                                           banners[index]
                                                               .name,
+                                                              
                                                           style: TextStyle(
                                                               color: Color.fromRGBO(
                                                                   41,

@@ -195,10 +195,10 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             allTranslations.text("bloodPressure"),
                             (bloodPresure / 180),
                             2,
-                            (bloodPresure / 180) <= 0.2
+                            (bloodPresure / 180) <= 0.4
                                 ? Color.fromRGBO(254, 252, 232, 1)
-                                : (bloodPresure / 180) > 0.2 &&
-                                        (bloodPresure / 180) < 0.6
+                                : (bloodPresure / 180) > 0.4 &&
+                                        (bloodPresure / 180) < 1
                                     ? Color.fromRGBO(229, 246, 211, 1)
                                     : Color.fromRGBO(253, 238, 238, 1),
                             true),
