@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
@@ -29,6 +31,40 @@ class _ItemListState extends State<ItemList> {
 //  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   List<Foods> foods = [];
+
+  Dio dio = new Dio();
+
+  final String baseUrl = 'http://api.sukar.co/api';
+
+  Future<Void> getMeals() async {
+    Response response;
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.get("$baseUrl/foods?category=${widget.mealId}",
+        options: Options(headers: headers));
+
+    for (int i = 0; i < response.data['foods'].length; i++) {
+      Foods fd = new Foods();
+      fd.id = response.data['foods'][i]['id'];
+      fd.titleAr = response.data['foods'][i]['title_ar'];
+      fd.titleEn = response.data['foods'][i]['title_en'];
+      fd.calories = response.data['foods'][i]['calories'];
+      fd.createdAt = response.data['foods'][i]['created_at'];
+      fd.updatedAt = response.data['foods'][i]["updated_at"];
+      fd.userId = response.data['foods'][i]["user_id"];
+      fd.isselected = 0;
+      foods.add(fd);
+      print(i);
+    }
+
+    setState(() {});
+  }
+
   List<Medicines> medicines = [];
   List<Medicines> _selectedMedicines = [];
   // _getDummyData() {
@@ -50,7 +86,7 @@ class _ItemListState extends State<ItemList> {
     bool ok =
         await widget.model.addSelectedFoods(_selectedFoods, widget.mealId);
     if (ok) {
-      Navigator.pop(context,true);
+      Navigator.pop(context, true);
       print("Selected foods added successfully");
     } else {
       // Show Error
@@ -68,11 +104,9 @@ class _ItemListState extends State<ItemList> {
       print("user 8888888888 $user");
     });
 
-
     super.initState();
+    getMeals();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +227,7 @@ class _ItemListState extends State<ItemList> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        Navigator.pop(context,true);
+                        Navigator.pop(context, true);
                       },
                     )
                   ],

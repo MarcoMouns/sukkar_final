@@ -118,6 +118,7 @@ mixin MealScopedModel on Model {
         "Authorization": "Bearer ${authUser['authToken']}",
         // "token":"11215"
       };
+      
 
       FormData formdata = new FormData();
 
@@ -146,9 +147,11 @@ mixin MealScopedModel on Model {
       });
 
       print("+++++++++++++++++++++++++++++ fromdate $formdata");
-
-      response = await dio.post("$baseUrl/eat/$mealId");
+      
+      for(int i= 0 ; i<foods.length; i++){
+      response = await dio.post("$baseUrl/eat/${foods[i].id}");
       print(".................................. ${response.data.toString()}");
+      }
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
