@@ -68,45 +68,6 @@ mixin MedicineScopedModel on Model {
     }
   }
 
-  // Future<bool> addSelectedFoods(List<UserFoods> foods) async {
-  //   try {
-  //     SharedPreferences sharedPreferences =
-  //         await SharedPreferences.getInstance();
-  //     Map<String, dynamic> authUser =
-  //         jsonDecode(sharedPreferences.getString("authUser"));
-
-  //     dio.options.headers = {
-  //       "Authorization": "Bearer ${authUser['authToken']}",
-  //       // "token":"11215"
-  //     };
-
-  //     List<Map<String, dynamic>> request = foods.map((food) {
-  //       return {
-  //         "title_ar": food.titleAr,
-  //         "title_en": food.titleEn,
-  //         "calories": food.calories,
-  //         "eat_category_id": food.eatCategoryId,
-  //       };
-  //     }).toList();
-
-  //     response = await dio.post("$baseUrl/Userfoodtaken", data: request);
-  //     print(".................................. ${response.data.toString()}");
-  //     if (response.statusCode != 200 && response.statusCode != 201) {
-  //       notifyListeners();
-  //       return false;
-  //     }
-
-  //     notifyListeners();
-  //     return true;
-  //   } on DioError catch (e) {
-  //     print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-  //     print(e.response.data);
-  //     print(e.response.headers);
-  //     print(e.response.request);
-  //     notifyListeners();
-  //     return false;
-  //   }
-  // }
 
   Future<bool> addNewMedicine(Map<String, dynamic> medicineData) async {
     try {

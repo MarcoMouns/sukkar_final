@@ -68,104 +68,11 @@ class _ItemListState extends State<ItemList> {
       print("user 8888888888 $user");
     });
 
-    // SharedPreferences.getInstance().then((storage) {
-    //   setState(() {
-    //     medicines = storage
-    //         .getStringList("savedMedicines")
-    //         .map<Map<String, dynamic>>((String item) => jsonDecode(item))
-    //         .toList();
-    //   });
 
-    //   print("user 8888888888 $medicines");
-    // });
-
-//    if (widget.isfood) {
-//      widget.model.fetchUserFoods().then((result) {
-//        print("***************************** -----> ${result.foods}");
-//        if (result != null) {
-//          print("===============> $result");
-//          setState(() {
-//            foods.addAll(result.foods);
-//          });
-//        }
-//      });
-//    } else {
-//      widget.model.fetchUserMedicines().then((result) {
-//        print("***************************** -----> ${result.medicines}");
-//        if (result != null) {
-//          print("===============> $result");
-//          setState(() {
-//            medicines.addAll(result.medicines);
-//          });
-//        }
-//      });
-//    }
-
-    //-------------- local notification setup --------------//
-//    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-//    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
-//    var ios = new IOSInitializationSettings();
-//    var initSettings = new InitializationSettings(android, ios);
-//    flutterLocalNotificationsPlugin.initialize(initSettings,
-//        onSelectNotification: (dynamic payload) {
-//      return null;
-//    });
-
-    //------------------------------------------------------//
     super.initState();
   }
 
-  // showNotification(DateTime dateTime) async {
-  //   var time = new Time(dateTime.hour,dateTime.minute, dateTime.second);
-  //   var android = new AndroidNotificationDetails(
-  //       "channelId", "channelName", "channelDescription",
-  //       sound: "medicine",
-  //       priority: Priority.High,
-  //       importance: Importance.Max);
-  //   var iOS = new IOSNotificationDetails(sound: "medicine.mp3");
 
-  //   var platform = new NotificationDetails(android, iOS);
-
-  //   await flutterLocalNotificationsPlugin.showDailyAtTime(
-  //       0, ' سكر', 'ميعاد الدوا يابرنس', time, platform,
-  //       payload: "");
-  // }
-
-//  showNotification(DateTime dateTime) async {
-//    var scheduledNotificationDateTime = dateTime;
-//    var android = new AndroidNotificationDetails(
-//        "channelId", "channelName", "channelDescription",
-//        sound: "medicine", priority: Priority.High, importance: Importance.Max);
-//    var iOS = new IOSNotificationDetails(sound: "medicine.mp3");
-//
-//    var platform = new NotificationDetails(android, iOS);
-//
-//    await flutterLocalNotificationsPlugin.schedule(
-//        0,
-//        'الرفيق الصوتى',
-//        'لديك تسجيل تم جدولته لكى تستمع اليه الان اضغط للاستماع',
-//        scheduledNotificationDateTime,
-//        platform,
-//        payload: "");
-//  }
-
-//  Future<void> _showDailyAtTime(DateTime dateTime) async {
-//    var time = Time(dateTime.hour, dateTime.minute, dateTime.second);
-//    print("time ==> $time");
-//    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//        'repeatDailyAtTime channel id',
-//        'repeatDailyAtTime channel name',
-//        'repeatDailyAtTime description');
-//    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-//    var platformChannelSpecifics = NotificationDetails(
-//        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-//    await flutterLocalNotificationsPlugin.showDailyAtTime(
-//        0,
-//        'show daily title',
-//        'Daily notification shown at approximately ${time.hour}:${time.minute}:${time.second}',
-//        time,
-//        platformChannelSpecifics);
-//  }
 
   @override
   Widget build(BuildContext context) {

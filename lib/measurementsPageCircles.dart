@@ -57,7 +57,7 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         image: widget.iconName,
         footer: Text(widget.cirFooter),
         time: "",
-        percent: widget.cirPercent == null ? 0 : widget.cirPercent,
+        percent: widget.cirPercent == null ? 0 :widget.cirPercent > 1 ? 1 : widget.cirPercent,
         color: widget.cirColor,
       );
     }
