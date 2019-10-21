@@ -147,7 +147,7 @@ mixin MealScopedModel on Model {
 
       print("+++++++++++++++++++++++++++++ fromdate $formdata");
 
-      response = await dio.post("$baseUrl/Userfoodtaken", data: formdata);
+      response = await dio.post("$baseUrl/eat/$mealId");
       print(".................................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
