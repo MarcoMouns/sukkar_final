@@ -442,7 +442,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           onPressed: () {
                             widget.onSave(_controller.text);
                             //var formData =  _value;
-                            Navigator.pop(context);
+                            Navigator.pop(context,true);
                           },
                         )
                       ],
