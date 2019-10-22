@@ -65,6 +65,24 @@ class _ItemListState extends State<ItemList> {
     setState(() {});
   }
 
+  Future<Void> addNewFood(String ar,String en ,int cal,int mealID ) async {
+    Response response;
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.post("$baseUrl/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
+        options: Options(headers: headers));
+    print(response.data);    
+
+  
+
+    setState(() {});
+  }
+
   List<Medicines> medicines = [];
   List<Medicines> _selectedMedicines = [];
   // _getDummyData() {
@@ -163,6 +181,10 @@ class _ItemListState extends State<ItemList> {
                                             "------------- ${foodItem.titleAr}");
                                         print("]]]]]]]]]]]]]]> $foods");
                                         foods.add(foodItem);
+                                        addNewFood(foodItem.titleAr, foodItem.titleEn, foodItem.calories, widget.mealId);
+                                        foods.clear();
+                                        getMeals();
+
                                         // values.add(false);
                                       });
                                     },
