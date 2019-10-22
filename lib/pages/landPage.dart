@@ -1,5 +1,7 @@
+import 'dart:ffi';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Welcome%20screen.dart';
 import 'package:health/pages/Settings.dart';
@@ -11,6 +13,43 @@ class LandPage extends StatefulWidget {
 }
 
 class _LandPageState extends State<LandPage> {
+
+  List<String> msgs = new List();
+
+  
+  @override
+  void initState() {
+    super.initState();
+    for(int i =0 ; i < 6 ; i++ ){
+      msgs.add("");
+    }
+    getMessages();
+
+  }
+
+
+  Dio dio = new Dio();
+
+  final String baseUrl = 'http://api.sukar.co/api';
+
+  Future<Void> getMessages() async {
+    Response response;
+    List<String> msgs1 = new List();
+   
+    response = await dio.get("$baseUrl/opening-texts");
+    print(response.data);
+
+    for(int i=0; i < response.data.length;i++){
+      msgs1.add(response.data['text_${i+1}']);
+      print(response.data['text_${i+1}']);
+    }
+    msgs = msgs1;
+    
+    setState(() {});
+  
+
+
+  }
 
 
 
@@ -37,7 +76,7 @@ class _LandPageState extends State<LandPage> {
                       return LandPageSliderItem(
                         image: "assets/imgs/slider$index.png",
                         title: "landPage_title",
-                        subtitle: "landPage_subtitle",
+                        subtitle: msgs[index]== null ? "": msgs[index] ,
                       );
                     },
                     itemCount: 6,
@@ -149,7 +188,7 @@ class LandPageHeader extends StatelessWidget {
                     color: Settings.mainColor(),
                   )),
               subtitle: Text(
-                allTranslations.text(subtitle),
+                subtitle == null ? " ": subtitle,
                 style: TextStyle(color: Colors.redAccent),
               ),
             ),
