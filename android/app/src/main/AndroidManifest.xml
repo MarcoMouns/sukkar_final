@@ -24,6 +24,10 @@
             android:name="io.flutter.app.FlutterApplication"
             application="sokar"
             android:icon="@mipmap/ic_logo">
+
+        <!-- flutter_background_geolocation licence -->
+        <meta-data android:name="com.transistorsoft.locationmanager.license" android:value="f1ec35904987fae6addb62b938218cec4e7de4449019e7ec6f8f0ebf0096d79b" />
+
         <meta-data android:name="com.google.android.geo.API_KEY"
                    android:value="AIzaSyDjex7TdOYom09hNkP2vrTDEdMBDwM1Tc8"/>
         <activity
