@@ -21,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
   init(BuildContext context) {
     _scrollController = ScrollController(
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
-       
+
   }
 
   initState() {
@@ -280,6 +281,125 @@ class _HomePageState extends State<HomePage> {
 
   final String baseUrl = 'http://api.sukar.co/api';
 
+
+  int _odometer;
+  bool isStarting=true;
+  int count=0;
+
+  void bgPlugin() async{
+
+    Response response = new Response();
+    Dio dio = new Dio();
+
+
+    ////
+    // 1.  Listen to events (See docs for all 12 available events).
+    //
+
+    // Fired whenever a location is recorded
+    bg.BackgroundGeolocation.onLocation((bg.Location location) async{
+
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+      jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      response = await dio.get("$baseUrl/measurements?date=$date",
+          options: Options(headers: headers));
+
+      distance = response.data["Measurements"]["distance"] == null
+          ? 0
+          : response.data["Measurements"]["distance"];
+      if(distance==0){
+        //bg.BackgroundGeolocation.setOdometer(0);
+      }
+
+      print('-------------------------------------------> distance = $distance');
+      print('-------------------------------------------> odometer = $_odometer');
+
+      _odometer = (location.odometer).toInt();
+
+//      if(isStarting){
+//        while(distance != _odometer){
+//          _odometer=_odometer-100;
+//          count=count+50;
+//          try{
+//            FormData formdata = new FormData();
+//            formdata.add("steps", count);
+//            response = await dio.post(
+//                "http://api.sukar.co/api/update-steps",
+//                data: formdata,
+//                options: Options(headers: headers));
+//          }
+//          catch(e){
+//            print('NEEEEEEEEEEEEW --------> $e');
+//          }
+//
+//          if(distance >= _odometer){
+//            break;
+//          }
+//        }
+//        isStarting=false;
+//      }
+      if(distance+100 <= _odometer){
+        try{
+          FormData formdata = new FormData();
+          formdata.add("steps", 50);
+          response = await dio.post(
+              "http://api.sukar.co/api/update-steps",
+              data: formdata,
+              options: Options(headers: headers));
+        }
+        catch(e){
+          print('NEEEEEEEEEEEEW steps --------> $e');
+        }
+        distance=_odometer;
+        try{
+          FormData formdata = new FormData();
+          formdata.add("distance", distance);
+          response = await dio.post(
+              "http://api.sukar.co/api/update-distance",
+              data: formdata,
+              options: Options(headers: headers));
+        }
+        catch(e){
+          print('NEEEEEEEEEEEEW distance --------> $e');
+        }
+      }
+      setState(() {});
+    });
+
+    // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
+    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
+      print('[motionchange] - $location');
+    });
+
+    // Fired whenever the state of location-services changes.  Always fired at boot
+    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
+      print('[providerchange] - $event');
+    });
+
+    ////
+    // 2.  Configure the plugin
+    //
+    bg.BackgroundGeolocation.ready(bg.Config(
+        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
+        distanceFilter: 10.0,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        debug: true,
+        logLevel: bg.Config.LOG_LEVEL_VERBOSE
+    )).then((bg.State state) {
+      if (!state.enabled) {
+        ////
+        // 3.  Start the plugin.
+        //
+        bg.BackgroundGeolocation.start();
+      }
+    });
+  }
+
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
 
@@ -320,6 +440,10 @@ class _HomePageState extends State<HomePage> {
     heartRate = response.data["Measurements"]["Heartbeat"] == null
         ? 0
         : response.data["Measurements"]["Heartbeat"];
+
+
+
+    bgPlugin();
 
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(cupOfWater);
@@ -550,7 +674,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : dataHome.steps == null
             ? 0
-            :(dataHome.steps / (ncal / 0.0912)) > 1 ? 1 
+            :(dataHome.steps / (ncal / 0.0912)) > 1 ? 1
             : ncal == 0 ? 0 : ((dataHome.steps / (ncal / 0.0912))),
         context: context,
         steps:
@@ -591,7 +715,7 @@ class _HomePageState extends State<HomePage> {
         onTap: () => null,
         footerText: "الهدف: " + "${(15).toString()}");
 
-        
+
     widgetCircleHeart = MainCircles.heart(
         percent: heartRate == null
             ? 0
@@ -822,6 +946,17 @@ class _HomePageState extends State<HomePage> {
                 new ListView(
                   children: <Widget>[
                     // RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
+
+
+
+
+
+
+
+
+
+
+
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
@@ -1003,52 +1138,50 @@ class _HomePageState extends State<HomePage> {
 
                                             new Row(
                                               children: <Widget>[
-                                                new Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .center,
-                                                    children: <
-                                                        Widget>[
-                                                      Padding(
-                                                        padding:
-                                                        EdgeInsets
-                                                            .only(
-                                                          top: 10,
-                                                        ),
-                                                        child: Text(
-                                                          banners[index]
-                                                              .name,
-                                                              
-                                                          style: TextStyle(
-                                                              color: Color.fromRGBO(
-                                                                  41,
-                                                                  172,
-                                                                  216,
-                                                                  1),
-                                                              fontSize:
-                                                              20),
-                                                        ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .center,
+                                                  children: <
+                                                      Widget>[
+                                                    Padding(
+                                                      padding:
+                                                      EdgeInsets
+                                                          .only(
+                                                        top: 10,
                                                       ),
-                                                      Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top:
-                                                            10),
-                                                        child: Text(
-                                                          banners[index]
-                                                              .created,
-                                                          style:
-                                                          TextStyle(
-                                                            color: Colors
-                                                                .grey,
+                                                      child: Text(
+                                                        banners[index]
+                                                            .name,
+
+                                                        style: TextStyle(
+                                                            color: Color.fromRGBO(
+                                                                41,
+                                                                172,
+                                                                216,
+                                                                1),
                                                             fontSize:
-                                                            10,
-                                                          ),
+                                                            20),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets
+                                                          .only(
+                                                          top:
+                                                          10),
+                                                      child: Text(
+                                                        banners[index]
+                                                            .created,
+                                                        style:
+                                                        TextStyle(
+                                                          color: Colors
+                                                              .grey,
+                                                          fontSize:
+                                                          10,
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 SizedBox(
                                                   width: 130,
