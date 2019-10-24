@@ -80,7 +80,7 @@ class _DoctorState extends State<Doctor> {
                     children: <Widget>[
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.only(bottom: 7),
+                        padding: EdgeInsets.only(bottom: 1),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(

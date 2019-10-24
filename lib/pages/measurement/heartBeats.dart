@@ -52,7 +52,11 @@ class _HeartBeatsState extends State<HeartBeats> {
             leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pop(context,true);
+                Navigator.pop(context,(){
+                  setState(() {
+                    
+                  });
+                });
               },
             ),
             title: Text(allTranslations.text("add heart beat")),

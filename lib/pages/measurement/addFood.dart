@@ -172,6 +172,16 @@ class _AddFoodState extends State<AddFood> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(allTranslations.text("Add Food")),
+                        leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context,(){
+   setState(() {
+     
+   });
+                });
+              },
+            ),
             centerTitle: true,
           ),
           body:

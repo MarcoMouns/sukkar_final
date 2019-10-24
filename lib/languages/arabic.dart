@@ -28,7 +28,7 @@ Map<String, String> arabicLang = {
   "complete": "كمل",
   "myReports": "التقارير الخاصة بي",
   "cups": "الأكواب",
-  "sugarDetails":"السكر",
+  "sugarDetails": "السكر",
   "bloodPressure": "ضغط الدم",
   "heartRate": "ضربات القلب",
   "cals": "السعرات",
@@ -68,7 +68,12 @@ Map<String, String> arabicLang = {
   "save": "حفظ",
   "Add sleep": "اضف ساعات النوم",
   "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not":
-      "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not",
+      """ضغط الدم  | blood pressure 
+هو قوة دفع الدم من خلال الأوعية الدموية، حيث يعمل القلب بجهد أكبر والأوعية الدموية بضغط أكثر مما يجعلها عامل خطر رئيسًا لأمراض القلب والسكتة الدماغية ومشاكل أخرى.
+
+وهذا الضغط هو نتيجة قوتين:  
+(الضغط الانقباضي) : وهو القوة التي يضخ القلب بها الدم إلى جميع أنحاء الجسم. 
+(الضغط الانبساطي) : وهو ضغط الدم الذي يحدث بين نبضات القلب. """,
   "add duration": "اضف المدة",
   "hour": "ساعة",
   "minute": "دقيقة",
@@ -93,8 +98,12 @@ Map<String, String> arabicLang = {
   "Search name or id": "البحث بالرقم التعريفي",
   "search for doctor": "البحث عن أطباء",
   "measure": "قياس",
-  "measure2":"قياس بالجهاز",
-  "the normal from 61 to 79": "the normal from 61 to 79",
+  "measure2": "قياس بالجهاز",
+  "the normal from 61 to 79": """نبضات القلب  |  Heart rates 
+يتراوح معدل ضربات القلب أثناء الراحة للبالغين بين 60 و100 ضربة في الدقيقة.
+
+عوامل عديدة قد تؤثر في معدل ضربات القلب :
+العمر ، الرياضة ، التدخين ، الإصابة بمرض القلب والأوعية الدموية أو ارتفاع الكوليستيرول أو داء السكري و الانفعالات وتناول الأدوية""",
   "add heart beat": "اضف ضربات القلب",
   "Weight and height": "الوزن و الطول",
   "sugar": "السكري",
@@ -144,58 +153,49 @@ Map<String, String> arabicLang = {
   "Write message ...": "اكتب رسالة ...",
   "not logged": "انت لست مسجل قم بالتسجيل",
   "loading": "جاري التحميل ...",
-  "low":"منخفض",
+  "low": "منخفض",
   "LowNormal": "اقل الطبيعي",
   "good": "سليم",
   "normal": "طبيعي",
   "high": "مرتفع",
   "editProfile": "تعديل البيانات الشخصية",
   "emptyFollowers": "لا يوجد متابعون",
-  "emptyFollowing":  "لا يوجد متابعين",
-  "saturday":"السبت",
-  "sunday":"الاحد",
-  "monday":"الاثنين",
-  "tuesday":"الثلاثاء",
-  "wednesday":"الاربعاء",
-  "thursday":"الخميس",
-  "friday":"الجمعة",
-  "chooseLanguage":"اختار اللغة",
-  "chooseLanguageOption1":"English",
-  "chooseLanguageOption2":"العربية",
-  "sugarNull":"لا يوجد ",
-  "refresh":"تحديث",
-  "measurementsDetails":"عرض كل التقارير",
-  "editcircle":"تعديل الصفحة الشخصية",
-  "reportsPage":"التقارير",
-  "birthDate":"تاريخ الميلاد",
-  "Add glucose meter":"اضف جهاز قياس",
-  "about":"عن التطبيق",
-  "contacts":"تواصلوا معنا",
+  "emptyFollowing": "لا يوجد متابعين",
+  "saturday": "السبت",
+  "sunday": "الاحد",
+  "monday": "الاثنين",
+  "tuesday": "الثلاثاء",
+  "wednesday": "الاربعاء",
+  "thursday": "الخميس",
+  "friday": "الجمعة",
+  "chooseLanguage": "اختار اللغة",
+  "chooseLanguageOption1": "English",
+  "chooseLanguageOption2": "العربية",
+  "sugarNull": "لا يوجد ",
+  "refresh": "تحديث",
+  "measurementsDetails": "عرض كل التقارير",
+  "editcircle": "تعديل الصفحة الشخصية",
+  "reportsPage": "التقارير",
+  "birthDate": "تاريخ الميلاد",
+  "Add glucose meter": "اضف جهاز قياس",
+  "about": "عن التطبيق",
+  "contacts": "تواصلوا معنا",
   "Terms": "الشروط والأحكام",
-  "facebook":"فيسبوك",
-  "twitter":"تويتر",
-  "instagram":"انستجرام" ,
+  "facebook": "فيسبوك",
+  "twitter": "تويتر",
+  "instagram": "انستجرام",
   "Snapchat": "سناب شات",
-  "changeCircles":"تغير الدوائر",
-  "Changecircle_Water":"عدد اكواب المياة",
-  "Changecircle_HeartBeat":"ضربات القلب",
-  "Changecircle_calories":"الكلورى",
-  "Changecircle_Steps":"عدد الخطوات",
-  "Changecircle_dictance":"المسافة",
-  "Changecircle_presure":"ضغط الدم",
+  "changeCircles": "تغير الدوائر",
+  "Changecircle_Water": "عدد اكواب المياة",
+  "Changecircle_HeartBeat": "ضربات القلب",
+  "Changecircle_calories": "الكلورى",
+  "Changecircle_Steps": "عدد الخطوات",
+  "Changecircle_dictance": "المسافة",
+  "Changecircle_presure": "ضغط الدم",
   "dailyGoal_Completed": "حققت هدفك اليومي",
   "waterGoal_Completed": "لقد حققت هدفك اليوم لشرب المياه",
   "caloriesGoal_Completed": "لقد حققت هدفك اليومه في حرق السعرات",
-  "cancel":"الغاء",
-  "exitpopup":"هل تريد تسجيل الخروج و الخروج من التطبيق؟",
-  "exit":"خروج"
-
-
-
-
-
-
-
-
-
+  "cancel": "الغاء",
+  "exitpopup": "هل تريد تسجيل الخروج و الخروج من التطبيق؟",
+  "exit": "خروج"
 };

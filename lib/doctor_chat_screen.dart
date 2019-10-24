@@ -400,7 +400,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.69,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: StreamBuilder(
               stream: Firestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {
