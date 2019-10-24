@@ -307,67 +307,26 @@ class _HomePageState extends State<HomePage> {
       };
       response = await dio.get("$baseUrl/measurements?date=$date",
           options: Options(headers: headers));
-
-      distance = response.data["Measurements"]["distance"] == null
-          ? 0
-          : response.data["Measurements"]["distance"];
-      if(distance==0){
-        //bg.BackgroundGeolocation.setOdometer(0);
-      }
-
-      print('-------------------------------------------> distance = $distance');
-      print('-------------------------------------------> odometer = $_odometer');
+      print('BEDAAAAAAAIET AL A&A AL KEBERA-----------> $steps');
 
       _odometer = (location.odometer).toInt();
+      count=(_odometer*0.6
+      ).toInt();
 
-//      if(isStarting){
-//        while(distance != _odometer){
-//          _odometer=_odometer-100;
-//          count=count+50;
-//          try{
-//            FormData formdata = new FormData();
-//            formdata.add("steps", count);
-//            response = await dio.post(
-//                "http://api.sukar.co/api/update-steps",
-//                data: formdata,
-//                options: Options(headers: headers));
-//          }
-//          catch(e){
-//            print('NEEEEEEEEEEEEW --------> $e');
-//          }
-//
-//          if(distance >= _odometer){
-//            break;
-//          }
-//        }
-//        isStarting=false;
-//      }
-      if(distance+100 <= _odometer){
-        try{
-          FormData formdata = new FormData();
-          formdata.add("steps", 50);
-          response = await dio.post(
-              "http://api.sukar.co/api/update-steps",
-              data: formdata,
-              options: Options(headers: headers));
-        }
-        catch(e){
-          print('NEEEEEEEEEEEEW steps --------> $e');
-        }
-        distance=_odometer;
-        try{
-          FormData formdata = new FormData();
-          formdata.add("distance", distance);
-          response = await dio.post(
-              "http://api.sukar.co/api/update-distance",
-              data: formdata,
-              options: Options(headers: headers));
-        }
-        catch(e){
-          print('NEEEEEEEEEEEEW distance --------> $e');
-        }
+      try{
+        FormData formdata = new FormData();
+        formdata.add("steps", count);
+        response = await dio.post(
+            "http://api.sukar.co/api/update-steps",
+            data: formdata,
+            options: Options(headers: headers));
       }
+      catch(e){
+        print('NEEEEEEEEEEEEW --------> $e');
+      }
+
       setState(() {});
+
     });
 
     // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
