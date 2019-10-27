@@ -6,6 +6,7 @@ class measurementsCircles extends StatefulWidget {
   String iconName;
   String cirTitle;
   String cirFooter;
+  String cirFooter2;
   double cirPercent;
   double cirSize;
   Color cirColor;
@@ -13,7 +14,8 @@ class measurementsCircles extends StatefulWidget {
   bool isPreSure;
 
   measurementsCircles(String icon, String title, String footer, double percent,
-      double size, Color color, [bool isp=false]) {
+      double size, Color color,
+      [bool isp = false, String footer2 = null]) {
     iconName = icon;
     cirTitle = title;
     cirFooter = footer;
@@ -21,6 +23,7 @@ class measurementsCircles extends StatefulWidget {
     cirSize = size;
     cirColor = color;
     isPreSure = isp;
+    cirFooter2 = footer2;
   }
   @override
   _measurementsCirclesState createState() => _measurementsCirclesState();
@@ -41,9 +44,16 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         radius: raduis,
         title: widget.cirTitle == null ? 0 : widget.cirTitle,
         image: widget.iconName,
-        footer: Text(widget.cirFooter),
+        footer: Column(
+          children: <Widget>[
+            Text(widget.cirFooter,style: TextStyle(color: Colors.grey)),
+            widget.cirFooter2 != null ? Text(widget.cirFooter2 , style: TextStyle(color: Colors.grey),) : Container()
+          ],
+        ),
         time: "",
-        percent: widget.cirPercent == null ? 0 :widget.cirPercent > 1 ? 1 : widget.cirPercent ,
+        percent: widget.cirPercent == null
+            ? 0
+            : widget.cirPercent > 1 ? 1 : widget.cirPercent,
         color: widget.cirColor,
       );
     }
@@ -55,9 +65,11 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         radius: raduis,
         title: widget.cirTitle == null ? 0 : widget.cirTitle,
         image: widget.iconName,
-        footer: Text(widget.cirFooter),
+        footer: Text(widget.cirFooter,style: TextStyle(color: Colors.grey)),
         time: "",
-        percent: widget.cirPercent == null ? 0 :widget.cirPercent > 1 ? 1 : widget.cirPercent,
+        percent: widget.cirPercent == null
+            ? 0
+            : widget.cirPercent > 1 ? 1 : widget.cirPercent,
         color: widget.cirColor,
       );
     }

@@ -672,7 +672,7 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
-        footerText: "الهدف: " + "${(15).toString()}");
+        footerText: allTranslations.text("Goal is")+": " + "${(15).toString()}");
 
 
     widgetCircleHeart = MainCircles.heart(
@@ -1127,7 +1127,7 @@ class _HomePageState extends State<HomePage> {
                                                       padding: EdgeInsets
                                                           .only(
                                                           top:
-                                                          10),
+                                                          5),
                                                       child: Text(
                                                         banners[index]
                                                             .created,

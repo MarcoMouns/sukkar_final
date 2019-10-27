@@ -153,9 +153,9 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent <= 0.2
+        color: percent <= 0.3
             ? Color.fromRGBO(253, 238, 238, 1)
-            : percent > 0.2 && percent < 0.6
+            : percent > 0.3 && percent < 0.6
                 ? Color.fromRGBO(254, 252, 232, 1)
                 : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
@@ -196,9 +196,9 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: percent <= 0.2
+        color: percent <= 0.3
             ? Color.fromRGBO(253, 238, 238, 1)
-            : percent > 0.2 && percent < 0.6
+            : percent > 0.3 && percent < 0.6
                 ? Color.fromRGBO(254, 252, 232, 1)
                 : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);
@@ -372,9 +372,9 @@ abstract class MainCircles {
           }
         },
         percent: percent,
-        color: percent <= 0.2
+        color: percent <= 0.3
             ? Color.fromRGBO(253, 238, 238, 1)
-            : percent > 0.2 && percent < 0.6
+            : percent > 0.3 && percent < 0.6
                 ? Color.fromRGBO(254, 252, 232, 1)
                 : Color.fromRGBO(229, 246, 211, 1),
         mainAxisAlignment: MainAxisAlignment.start);

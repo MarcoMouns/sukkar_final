@@ -182,7 +182,10 @@ Map<String, String> englishLang = {
   "Changecircle_presure":"Blood Presure",
   "cancel":"cancel",
   "exitpopup":"Are you sure you want to signout and exit ?",
-  "exit":"exit"
+  "exit":"exit",
+  "editGoal":"Edit Goal",
+  "noShare":"No video or file to share"
+  
 
 
 

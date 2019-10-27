@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../changeTarget_Screen.dart';
 import '../../circles_choice_screen.dart';
 import '../../languages/all_translations.dart';
 import 'dart:convert';
@@ -203,7 +203,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       ListTile(
                         title: Text(
-                          "تغير الهدف",
+                          allTranslations.text("editGoal"),
                           style: TextStyle(color: Colors.grey),
                         ),
                         trailing: Icon(
@@ -211,9 +211,9 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                         onTap: () async {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(builder: (context) => changeTargetScreen())
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => editGoalsScreen())
+                          );
                         },
                       ),
                       Divider(

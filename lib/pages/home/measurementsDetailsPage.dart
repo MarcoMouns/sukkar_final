@@ -165,6 +165,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   height: 40,
                 ),
                 FittedBox(
+                  fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -177,12 +178,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             allTranslations.text("cups"),
                             (cupOfWater / goalCupOfWater).toDouble(),
                             2,
-                            (cupOfWater / goalCupOfWater) < 0.3
+                            (cupOfWater / goalCupOfWater) <= 0.3
                                 ? redColor
                                 : (cupOfWater / goalCupOfWater) > 0.3 &&
                                         (cupOfWater / goalCupOfWater) < 0.6
                                     ? yellowColor
-                                    : greenColor),
+                                    : greenColor,
+                            false,
+                            "${allTranslations.text("Goal is") + ": " + goalCupOfWater.toString()}"),
                       ),
                       SizedBox(
                         width: 120,
@@ -198,7 +201,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             (bloodPresure >= 90 && bloodPresure <= 140) &&
                                     (bloodPresure >= 60 && bloodPresure1 <= 90)
                                 ? Color.fromRGBO(229, 246, 211, 1)
-                                : (bloodPresure < 90 && bloodPresure1 <60)
+                                : (bloodPresure < 90 && bloodPresure1 < 60)
                                     ? Color.fromRGBO(254, 252, 232, 1)
                                     : Color.fromRGBO(253, 238, 238, 1),
                             true),
@@ -227,6 +230,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: FittedBox(
+                        fit: BoxFit.scaleDown,
                         child: SizedBox(
                           height: 160,
                           child: SizedBox(
@@ -278,6 +282,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   ],
                 ),
                 FittedBox(
+                  fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -290,12 +295,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             allTranslations.text("cals"),
                             ncal == 0 ? 0 : calories / goalCalories,
                             2,
-                            (calories / goalCalories) < 0.3
+                            (calories / goalCalories) <= 0.3
                                 ? redColor
                                 : (calories / goalCalories) > 0.3 &&
                                         (calories / goalCalories) < 0.6
                                     ? yellowColor
-                                    : greenColor),
+                                    : greenColor,
+                            false,
+                            "${allTranslations.text("Goal is") + ": " + goalCalories.toString()}"),
                       ),
                       SizedBox(
                         width: 120,
@@ -311,7 +318,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                                 : (steps / goalSteps) > 0.3 &&
                                         (steps / goalSteps) < 0.6
                                     ? yellowColor
-                                    : greenColor),
+                                    : greenColor,
+                            false,
+                            "${allTranslations.text("Goal is") + ": " + goalSteps.toString()}"),
                       ),
                       SizedBox(
                         width: 120,
@@ -322,12 +331,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             allTranslations.text("distance"),
                             ncal == 0 ? 0 : distance / goalDistance,
                             2,
-                            (distance / goalDistance) < 0.3
+                            (distance / goalDistance) <= 0.3
                                 ? redColor
                                 : (distance / goalDistance) > 0.3 &&
                                         (distance / goalDistance) < 0.6
                                     ? yellowColor
-                                    : greenColor),
+                                    : greenColor,
+                            false,
+                            "${allTranslations.text("Goal is") + ": " + goalDistance.toString()}"),
                       ),
                     ],
                   ),

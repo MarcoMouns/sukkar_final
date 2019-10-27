@@ -116,7 +116,7 @@ Map<String, String> arabicLang = {
   "الأربعاء": "الأربعاء",
   "الخميس": "الخميس",
   "الجمعة": "الجمعة",
-  "weight and height": "weight and height",
+  "weight and height": "الوزن والطول",
   "heigh": "الطول",
   "Weight": "الوزن",
   "cal": "كاليورى",
@@ -197,5 +197,8 @@ Map<String, String> arabicLang = {
   "caloriesGoal_Completed": "لقد حققت هدفك اليومه في حرق السعرات",
   "cancel": "الغاء",
   "exitpopup": "هل تريد تسجيل الخروج و الخروج من التطبيق؟",
-  "exit": "خروج"
+  "exit": "خروج",
+  "editGoal":"تعديل الاهداف",
+  "noShare":"لا يوجد فيديو او ملف لمشاركته"
+
 };
