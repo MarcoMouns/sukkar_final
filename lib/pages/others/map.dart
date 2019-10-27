@@ -271,43 +271,45 @@ class _MapPageState extends State<MapPage> {
     super.dispose();
   }
 
-  void _add() {
-    print('***************************************');
-    print('add');
-    x = x + 1;
-    print(x);
-    print('***************************************');
+//  void _add() {
+//    print('***************************************');
+//    print('add');
+//    x = x + 1;
+//    print(x);
+//    print('***************************************');
+//
+//    ///mathmatian scam as the human move 100 step per 1 min and 20 step
+//    ///per 0.1 kilo and the function fires every 4 sec as an average so
+//    ///3*4= 12 steps per 4 sec so in a min 15*12= 180 all of that is an
+//    ///average and pridction
+//    _polylineIdCounter = _polylineIdCounter + 3;
+//    final int polylineCount = polylines.length;
+//
+//    if (polylineCount == 12) {
+//      return;
+//    }
+//
+//    final String polylineIdVal = 'polyline_id_$_polylineIdCounter';
+//
+//    final PolylineId polylineId = PolylineId(polylineIdVal);
+//
+//    final Polyline polyline = Polyline(
+//      polylineId: polylineId,
+//      consumeTapEvents: true,
+//      color: Colors.orange,
+//      width: 5,
+//      points: _createPoints(),
+//      onTap: () {
+//        _onPolylineTapped(polylineId);
+//      },
+//    );
+//
+//    setState(() {
+//      polylines[polylineId] = polyline;
+//    });
+//  }
 
-    ///mathmatian scam as the human move 100 step per 1 min and 20 step
-    ///per 0.1 kilo and the function fires every 4 sec as an average so
-    ///3*4= 12 steps per 4 sec so in a min 15*12= 180 all of that is an
-    ///average and pridction
-    _polylineIdCounter = _polylineIdCounter + 3;
-    final int polylineCount = polylines.length;
 
-    if (polylineCount == 12) {
-      return;
-    }
-
-    final String polylineIdVal = 'polyline_id_$_polylineIdCounter';
-
-    final PolylineId polylineId = PolylineId(polylineIdVal);
-
-    final Polyline polyline = Polyline(
-      polylineId: polylineId,
-      consumeTapEvents: true,
-      color: Colors.orange,
-      width: 5,
-      points: _createPoints(),
-      onTap: () {
-        _onPolylineTapped(polylineId);
-      },
-    );
-
-    setState(() {
-      polylines[polylineId] = polyline;
-    });
-  }
 
   List<LatLng> _createPoints() {
     final double offset = _polylineIdCounter.ceilToDouble();
@@ -339,6 +341,7 @@ class _MapPageState extends State<MapPage> {
 
   double updatelat;
   double updatelong;
+  double _odometer=0;
 
   getLocation() {
     setState(() {
@@ -347,23 +350,28 @@ class _MapPageState extends State<MapPage> {
     print('CheckRun = > $checkRun');
     // Fired whenever a location is recorded
     bg.BackgroundGeolocation.onLocation((bg.Location location) {
-      print('[location] - $location');
-      print('<--------- start onLocation -----------> ');
-      print(location.coords.latitude);
-      print(location.coords.longitude);
-      print('<--------- End onLocation -----------> ');
-      if (checkRun == true) {
-        setState(() {
-          points.add(_createLatLng(
-              location.coords.latitude, location.coords.longitude));
-          print('Points=> $points');
-          _add();
-        });
-      } else if (checkRun == false) {
-        setState(() {
-          points.clear();
-        });
-      }
+//      print('[location] - $location');
+//      print('<--------- start onLocation -----------> ');
+//      print(location.coords.latitude);
+//      print(location.coords.longitude);
+//      print('<--------- End onLocation -----------> ');
+//      if (checkRun == true) {
+//        setState(() {
+//          points.add(_createLatLng(
+//              location.coords.latitude, location.coords.longitude));
+//          print('Points=> $points');
+////          _add();
+//        });
+//      } else if (checkRun == false) {
+//        setState(() {
+//          points.clear();
+//        });
+//      }
+
+      _odometer=location.odometer;
+      setState(() {});
+
+
     });
 
     // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
@@ -583,7 +591,7 @@ class _MapPageState extends State<MapPage> {
                             ),
                             MapItem(
                                 title: "steps",
-                                value: "${_polylineIdCounter}",
+                                value: "${(_odometer/2).toInt()}",
                                 image: "ic_steps2",
                                 isNotFloat: true),
                             MapItem(
@@ -661,8 +669,8 @@ class _MapPageState extends State<MapPage> {
                                     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                     print(meter);
                                     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                    formdata.add("distance", meter.toInt());
-                                    formdata.add("steps", _polylineIdCounter);
+                                    formdata.add("distance", _odometer.toInt());
+                                    formdata.add("steps", _odometer/2);
                                     formdata.add("calories", (_polylineIdCounter*0.0512).toInt());
                                     print(
                                         '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');

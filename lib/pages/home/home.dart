@@ -125,7 +125,6 @@ class _HomePageState extends State<HomePage> {
       showNotification(allTranslations.text("dailyGoal_Completed"),
           allTranslations.text("waterGoal_Completed"));
     }
-
   }
 
   Future onSelectNotification(String payload) async {
@@ -281,84 +280,6 @@ class _HomePageState extends State<HomePage> {
 
   final String baseUrl = 'http://api.sukar.co/api';
 
-
-  int _odometer;
-  bool isStarting=true;
-  int count=0;
-
-  void bgPlugin() async{
-
-    Response response = new Response();
-    Dio dio = new Dio();
-
-
-    ////
-    // 1.  Listen to events (See docs for all 12 available events).
-    //
-
-    // Fired whenever a location is recorded
-    bg.BackgroundGeolocation.onLocation((bg.Location location) async{
-
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
-      var headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
-      };
-      response = await dio.get("$baseUrl/measurements?date=$date",
-          options: Options(headers: headers));
-      print('BEDAAAAAAAIET AL A&A AL KEBERA-----------> $steps');
-
-      _odometer = (location.odometer).toInt();
-      count=(_odometer*0.6
-      ).toInt();
-
-      try{
-        FormData formdata = new FormData();
-        formdata.add("steps", count);
-        response = await dio.post(
-            "http://api.sukar.co/api/update-steps",
-            data: formdata,
-            options: Options(headers: headers));
-      }
-      catch(e){
-        print('NEEEEEEEEEEEEW --------> $e');
-      }
-
-      setState(() {});
-
-    });
-
-    // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
-    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
-      print('[motionchange] - $location');
-    });
-
-    // Fired whenever the state of location-services changes.  Always fired at boot
-    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
-      print('[providerchange] - $event');
-    });
-
-    ////
-    // 2.  Configure the plugin
-    //
-    bg.BackgroundGeolocation.ready(bg.Config(
-        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-        distanceFilter: 10.0,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        debug: true,
-        logLevel: bg.Config.LOG_LEVEL_VERBOSE
-    )).then((bg.State state) {
-      if (!state.enabled) {
-        ////
-        // 3.  Start the plugin.
-        //
-        bg.BackgroundGeolocation.start();
-      }
-    });
-  }
-
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
 
@@ -400,9 +321,6 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : response.data["Measurements"]["Heartbeat"];
 
-
-
-    bgPlugin();
 
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(cupOfWater);
@@ -911,11 +829,6 @@ class _HomePageState extends State<HomePage> {
 
 
 
-
-
-
-
-
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
@@ -1150,7 +1063,7 @@ class _HomePageState extends State<HomePage> {
                                                         .network(
                                                       "http://api.sukar.co/${banners[index].image}",
                                                       fit: BoxFit
-                                                          .fill,
+                                                          .cover,
                                                     ),
                                                     borderRadius:
                                                     BorderRadius
