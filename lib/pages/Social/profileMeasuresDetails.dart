@@ -185,13 +185,13 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                                 "/" +
                                 bloodPresure1.toString(),
                             allTranslations.text("bloodPressure"),
-                            (bloodPresure / 180),
+                            (bloodPresure / 140),
                             2,
-                            (bloodPresure / 180) <= 0.4
-                                ? Color.fromRGBO(254, 252, 232, 1)
-                                : (bloodPresure / 180) > 0.4 &&
-                                        (bloodPresure / 180) < 1
-                                    ? Color.fromRGBO(229, 246, 211, 1)
+                            (bloodPresure >= 90 && bloodPresure <= 140) &&
+                                    (bloodPresure >= 60 && bloodPresure1 <= 90)
+                                ? Color.fromRGBO(229, 246, 211, 1)
+                                : (bloodPresure < 90 && bloodPresure1 <60)
+                                    ? Color.fromRGBO(254, 252, 232, 1)
                                     : Color.fromRGBO(253, 238, 238, 1),
                             true),
                       ),
@@ -202,11 +202,11 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             "ic_heart_rate",
                             heartRate.toString(),
                             allTranslations.text("heartRate"),
-                            (heartRate / 160),
+                            (heartRate / 100),
                             2,
                             heartRate <= 60
                                 ? Color.fromRGBO(254, 252, 232, 1)
-                                : heartRate > 60 && heartRate <= 160
+                                : heartRate > 60 && heartRate <= 100
                                     ? Color.fromRGBO(229, 246, 211, 1)
                                     : Color.fromRGBO(253, 238, 238, 1)),
                       ),
@@ -298,7 +298,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             allTranslations.text("steps"),
                             ncal == 0 ? 0 : steps / goalSteps,
                             2,
-                            (steps / goalSteps) < 0.3
+                            (steps / goalSteps) <= 0.3
                                 ? redColor
                                 : (steps / goalSteps) > 0.3 &&
                                         (steps / goalSteps) < 0.6
