@@ -184,7 +184,8 @@ Map<String, String> englishLang = {
   "exitpopup":"Are you sure you want to signout and exit ?",
   "exit":"exit",
   "editGoal":"Edit Goal",
-  "noShare":"No video or file to share"
+  "noShare":"No video or file to share",
+  "steps":"Step"
   
 
 

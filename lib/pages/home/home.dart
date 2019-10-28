@@ -97,6 +97,10 @@ class _HomePageState extends State<HomePage> {
   int heartRate;
   int bloodPresure1;
   int bloodPresure2;
+  int calGoals;
+  int goalOfWater;
+  int stepsGoal;
+  int distanceGoal;
 
   init(BuildContext context) {
     _scrollController = ScrollController(
@@ -321,6 +325,19 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : response.data["Measurements"]["Heartbeat"];
 
+    calGoals = response.data["Measurements"]["calorie_goal"] == null
+        ? 0
+        : response.data["Measurements"]["calorie_goal"];
+    goalOfWater= response.data["Measurements"]["water_cups_goal"] == null
+        ? 0
+        : response.data["Measurements"]["water_cups_goal"];
+    stepsGoal= response.data["Measurements"]["steps_goal"] == null
+        ? 0
+        : response.data["Measurements"]["steps_goal"];
+    distanceGoal= response.data["Measurements"]["distance_goal"] == null
+        ? 0
+        : response.data["Measurements"]["distance_goal"];   
+
 
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(cupOfWater);
@@ -537,30 +554,30 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ncal == 0
             ? 0
-            : (dataHome.calories / ncal) > 1 ? 1
-            : (((dataHome.calories / ncal))),
+            : (dataHome.calories / calGoals) > 1 ? 1
+            : (((dataHome.calories / calGoals))),
         context: context,
         day_Calories: dataHome == null
             ? 0
             : dataHome.calories == null ? 0 : dataHome.calories.toString(),
         ontap: () => null,
         raduis: _chartRadius,
-        footerText: "Cal " + " $ncal :" + allTranslations.text("Goal is"));
+        footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
     widgetCircleSteps = MainCircles.steps(
         percent: dataHome == null
             ? 0
             : dataHome.steps == null
             ? 0
-            :(dataHome.steps / (ncal / 0.0912)) > 1 ? 1
-            : ncal == 0 ? 0 : ((dataHome.steps / (ncal / 0.0912))),
+            :(dataHome.steps / stepsGoal) > 1 ? 1
+            : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
         context: context,
         steps:
         dataHome == null ? 0 : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
         onTap: () => null,
-        footerText: " Step " +
-            "${(ncal / 0.0912).toInt()} :" +
-            allTranslations.text("Goal is"));
+        footerText:  allTranslations.text("Goal is")  +
+            ": $stepsGoal " +
+            allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
         percent: dataHome == null
             ? 0
@@ -568,16 +585,15 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ncal == 0
             ? 0
-            : ((dataHome.distance /
-            ((((ncal / 0.0912) * 0.762) / 2).toInt()))),
+            : ((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
             ? '0'
             : dataHome.distance == null ? '0' : dataHome.distance.toString(),
         onTap: () => null,
-        footerText: " meter " +
-            "${(((ncal / 0.0912) * 0.762) / 2).toInt()} :" +
+        footerText: " m " +
+            "${distanceGoal} :" +
             allTranslations.text("Goal is"));
 
     widgetCircleWater = MainCircles.water(
@@ -590,7 +606,7 @@ class _HomePageState extends State<HomePage> {
             ? '0'
             : cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
-        footerText: allTranslations.text("Goal is")+": " + "${(15).toString()}");
+        footerText: allTranslations.text("Goal is")+": " + "${(goalOfWater).toString()}");
 
 
     widgetCircleHeart = MainCircles.heart(

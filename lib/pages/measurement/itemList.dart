@@ -114,6 +114,10 @@ class _ItemListState extends State<ItemList> {
 
   @override
   void initState() {
+    print("-----=====----------======------------=====----");
+    print(widget.isfood);
+    print("-----=====----------======------------=====----");
+
     SharedPreferences.getInstance().then((storage) {
       setState(() {
         user = jsonDecode(storage.getString("authUser"));
