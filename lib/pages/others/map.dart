@@ -241,24 +241,52 @@ class _MapPageState extends State<MapPage> {
   double meter = 0;
   static lm.Distance distance = new lm.Distance();
   PolylineId selectedPolyline;
+  Position firstPosition;
   Position currentPosition;
   bool _isLoading = false;
   bool checkRun = false;
   final List<LatLng> points = <LatLng>[];
   Response response;
   Dio dio = new Dio();
+  bool ismaping=false;
+  bool troll=false;
+
+  void updatePostion() async{
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(
+        "current user position ---------------------------------------> $position  FROM UPDATE" );
+      setState(() {
+        currentPosition = position;
+        latlngSegment.add(LatLng(currentPosition.latitude,currentPosition.longitude));
+        _polyline.add(Polyline(
+          polylineId: PolylineId('line1'),
+          visible: true,
+          //latlng is List<LatLng>
+          points: latlngSegment,
+          width: 2,
+          color: Colors.blue,
+        ));
+      });
+
+    print('mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      ismaping? updatePostion() : null;
+    });
+    setState(() {});
+  }
 
   initState() {
     super.initState();
-    setState(() {
-      _isLoading = true;
-    });
     _getCurrentUserPosition().then((position) {
       print(
           "current user position ---------------------------------------> $position");
       setState(() {
-        currentPosition = position;
+        print('myAss is true');
+        firstPosition = position;
+        currentPosition= position;
         _isLoading = false;
+        print('myAss is ffalse');
       });
     }).catchError((err) {
       setState(() {
@@ -266,6 +294,19 @@ class _MapPageState extends State<MapPage> {
       });
     });
   }
+
+  Future<Position> _getCurrentUserPosition() async {
+    try{
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      print(
+          "current user position ---------------------------------------> $position");
+      return position;
+    }catch(e){
+      print('GEOOOOOOOOOO ->>>>>>>>>> $e');
+    }
+  }
+
 
   @override
   void dispose() {
@@ -313,43 +354,31 @@ class _MapPageState extends State<MapPage> {
 
 
 
-  List<LatLng> _createPoints() {
-    final double offset = _polylineIdCounter.ceilToDouble();
-    _polylineIdCounter = _polylineIdCounter + 3;
-    print('##############################################################');
-    print(_polylineIdCounter);
-    print('##############################################################');
-//    points.add(_createLatLng(currentPosition.latitude,
-//        currentPosition.longitude));
-//    points.add(_createLatLng(31.266222, 29.993530));
-    return points;
-  }
+//  List<LatLng> _createPoints() {
+//    final double offset = _polylineIdCounter.ceilToDouble();
+//    _polylineIdCounter = _polylineIdCounter + 3;
+//    print('##############################################################');
+//    print(_polylineIdCounter);
+//    print('##############################################################');
+////    points.add(_createLatLng(currentPosition.latitude,
+////        currentPosition.longitude));
+////    points.add(_createLatLng(31.266222, 29.993530));
+//    return points;
+//  }
 
-  LatLng _createLatLng(double lat, double lng) {
-    return LatLng(lat, lng);
-  }
+//  LatLng _createLatLng(double lat, double lng) {
+//    return LatLng(lat, lng);
+//  }
 
-  void _onPolylineTapped(PolylineId polylineId) {
-    setState(() {
-      selectedPolyline = polylineId;
-    });
-  }
+//  void _onPolylineTapped(PolylineId polylineId) {
+//    setState(() {
+//      selectedPolyline = polylineId;
+//    });
+//  }
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId(LatLng(currentPosition.latitude,
-            currentPosition.longitude).toString()),
-        //_lastMapPosition is any coordinate which should be your default
-        //position when map opens up
-        position: LatLng(currentPosition.latitude, currentPosition.longitude),
-        infoWindow: InfoWindow(
-          title: 'Awesome Polyline tutorial',
-          snippet: 'This is a snippet',
-        ),
-      ));
     });
   }
 
@@ -359,6 +388,7 @@ class _MapPageState extends State<MapPage> {
 
   getLocation() {
     setState(() {
+      ismaping=true;
       checkRun = true;
     });
     print('CheckRun = > $checkRun');
@@ -369,33 +399,33 @@ class _MapPageState extends State<MapPage> {
 //      print(location.coords.latitude);
 //      print(location.coords.longitude);
 //      print('<--------- End onLocation -----------> ');
-      if (checkRun == true) {
-        setState(() {
-          points.add(_createLatLng(
-              location.coords.latitude, location.coords.longitude));
-
-
-          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
-
-          _polyline.add(Polyline(
-            polylineId: PolylineId('line1'),
-            visible: true,
-            //latlng is List<LatLng>
-            points: latlngSegment,
-            width: 2,
-            color: Colors.blue,
-          ));
-
-
-          print('Points=> $points');
-//          _add();
-        });
-      } else if (checkRun == false) {
-        setState(() {
-          points.clear();
-        });
-      }
-
+//      if (checkRun == true) {
+//        setState(() {
+//          points.add(_createLatLng(
+//              location.coords.latitude, location.coords.longitude));
+//
+//
+//          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
+//
+//          _polyline.add(Polyline(
+//            polylineId: PolylineId('line1'),
+//            visible: true,
+//            //latlng is List<LatLng>
+//            points: latlngSegment,
+//            width: 2,
+//            color: Colors.blue,
+//          ));
+//
+//
+//          print('Points=> $points');
+////          _add();
+//        });
+//      } else if (checkRun == false) {
+//        setState(() {
+//          points.clear();
+//        });
+//      }
+      updatePostion();
       _odometer=location.odometer;
       setState(() {});
 
@@ -403,23 +433,23 @@ class _MapPageState extends State<MapPage> {
     });
 
     // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
-    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
-      print('[motionchange] - $location');
-      print('<--------- Locaiton onMotionChange -----------> ');
-      updatelat=location.coords.latitude;
-      updatelong=location.coords.longitude;
-      setState(() {
-
-      });
-      print(location.coords.latitude);
-      print(location.coords.longitude);
-      print('<--------- / Locaiton onMotionChange -----------> ');
-    });
+//    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
+//      print('[motionchange] - $location');
+//      print('<--------- Locaiton onMotionChange -----------> ');
+//      updatelat=location.coords.latitude;
+//      updatelong=location.coords.longitude;
+//      setState(() {
+//
+//      });
+//      print(location.coords.latitude);
+//      print(location.coords.longitude);
+//      print('<--------- / Locaiton onMotionChange -----------> ');
+//    });
 
     // Fired whenever the state of location-services changes.  Always fired at boot
-    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
+//    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
 //      print('[providerchange] - $event');
-    });
+//    });
 
     ////
     // 2.  Configure the plugin
@@ -441,14 +471,6 @@ class _MapPageState extends State<MapPage> {
         bg.BackgroundGeolocation.start();
       }
     });
-  }
-
-  Future<Position> _getCurrentUserPosition() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(
-        "current user position ---------------------------------------> $position");
-    return position;
   }
 
   @override
@@ -479,8 +501,8 @@ class _MapPageState extends State<MapPage> {
                       // },
                       markers: _markers,
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(currentPosition.latitude,
-                              currentPosition.longitude),
+                          target: LatLng(firstPosition.latitude,
+                              firstPosition.longitude),
                           zoom: 15),
                       onMapCreated: _onMapCreated,
                       polylines: _polyline,
@@ -527,8 +549,8 @@ class _MapPageState extends State<MapPage> {
                       right: 1,
                       child: Column(
                         children: <Widget>[
-                          Text("$updatelat",style: TextStyle(fontSize: 25),),
-                          Text("$updatelong",style: TextStyle(fontSize: 25)),
+                          Text("${0}",style: TextStyle(fontSize: 25),),
+                          Text("${0}",style: TextStyle(fontSize: 25)),
                         ],
                       ),
                     ),
@@ -661,6 +683,7 @@ class _MapPageState extends State<MapPage> {
                                   getLocation();
                                 } else if (checkRun == true) {
                                   setState(() {
+                                    ismaping=false;
                                     checkRun = false;
                                   });
                                   try {
