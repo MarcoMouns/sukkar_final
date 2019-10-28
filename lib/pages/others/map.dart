@@ -231,7 +231,9 @@ class _MapPageState extends State<MapPage> {
   }
 
   GoogleMapController mapController;
-  Map<PolylineId, Polyline> polylines = <PolylineId, Polyline>{};
+  Set<Polyline> _polyline = {};
+  Set<Marker> _markers = {};
+  List<LatLng> latlngSegment = List();
   int _polylineIdCounter = 1;
 
   ///this x is for debugging
@@ -336,6 +338,18 @@ class _MapPageState extends State<MapPage> {
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
+      _markers.add(Marker(
+        // This marker id can be anything that uniquely identifies each marker.
+        markerId: MarkerId(LatLng(currentPosition.latitude,
+            currentPosition.longitude).toString()),
+        //_lastMapPosition is any coordinate which should be your default
+        //position when map opens up
+        position: LatLng(currentPosition.latitude, currentPosition.longitude),
+        infoWindow: InfoWindow(
+          title: 'Awesome Polyline tutorial',
+          snippet: 'This is a snippet',
+        ),
+      ));
     });
   }
 
@@ -355,18 +369,32 @@ class _MapPageState extends State<MapPage> {
 //      print(location.coords.latitude);
 //      print(location.coords.longitude);
 //      print('<--------- End onLocation -----------> ');
-//      if (checkRun == true) {
-//        setState(() {
-//          points.add(_createLatLng(
-//              location.coords.latitude, location.coords.longitude));
-//          print('Points=> $points');
-////          _add();
-//        });
-//      } else if (checkRun == false) {
-//        setState(() {
-//          points.clear();
-//        });
-//      }
+      if (checkRun == true) {
+        setState(() {
+          points.add(_createLatLng(
+              location.coords.latitude, location.coords.longitude));
+
+
+          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
+
+          _polyline.add(Polyline(
+            polylineId: PolylineId('line1'),
+            visible: true,
+            //latlng is List<LatLng>
+            points: latlngSegment,
+            width: 2,
+            color: Colors.blue,
+          ));
+
+
+          print('Points=> $points');
+//          _add();
+        });
+      } else if (checkRun == false) {
+        setState(() {
+          points.clear();
+        });
+      }
 
       _odometer=location.odometer;
       setState(() {});
@@ -449,12 +477,14 @@ class _MapPageState extends State<MapPage> {
                       //   _addPolyline();
                       //   print(position);
                       // },
+                      markers: _markers,
                       initialCameraPosition: CameraPosition(
                           target: LatLng(currentPosition.latitude,
                               currentPosition.longitude),
                           zoom: 15),
                       onMapCreated: _onMapCreated,
-                      polylines: Set<Polyline>.of(polylines.values),
+                      polylines: _polyline,
+
 
                       // polylines: Set.from(userPlylines),
                       // markers: markers[_markerIdCounter].flat,

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+/// @omar notify
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/shared-data.dart';
@@ -36,7 +38,7 @@ void main() async {
   print(sharedPreferences.getKeys());
   getCustomerData();
   runApp(MyApp());
-  
+
 }
 
 class SpLash extends StatefulWidget {
@@ -61,11 +63,11 @@ class _SpLashState extends State<SpLash> {
             ModalRoute.withName("langPage"));
       });
     }
-  
-  
+
+
   }
 
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getAuthentication();
-    
+
   }
 
   void getAuthentication() async {
