@@ -171,10 +171,6 @@ class _AddSugarState extends State<AddSugar> {
                           now,
                           style: TextStyle(color: Colors.red, fontSize: 25.0),
                         ),
-                        // subtitle: Text(
-                        //   intl.DateFormat("h:m a",allTranslations.locale.languageCode).format(DateTime.now()),
-                        //   style: TextStyle(color: Colors.red),
-                        // ),
                         trailing: Image.asset(
                           "assets/icons/ic_logo_3.png",
                           color: Colors.blue,

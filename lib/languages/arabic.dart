@@ -202,7 +202,10 @@ Map<String, String> arabicLang = {
   "noShare":"لا يوجد فيديو او ملف لمشاركته",
   "steps":"خطوة",
   "addYourSleeping":"برجاء ادخال بيانات المخصصة بساعات نومك",
-  "medicineMeal":"اختار الوجبة"
+  "medicineMeal":"اختار الوجبة",
+  "AddMedicine":"اضف دواء",
+  "mediMenu":"قائمة الادوية",
+  "addMed":"add"
 
 
 };

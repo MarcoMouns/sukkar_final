@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:ffi';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/meal.dart';
 import 'package:health/helpers/loading.dart';
@@ -28,13 +33,12 @@ class _AddFoodState extends State<AddFood> {
   List<int> _calories = [];
   bool loading;
   int Rcalories;
+  Dio dio = new Dio();
+  Response response;
 
-  _getDummyMeals() {
-    _meals.add(Meal(type: "lanuch", food: "eggs"));
-    _meals.add(Meal(type: "lanuch", food: "eggs"));
-    _meals.add(Meal(type: "lanuch", food: "eggs"));
-    _meals.add(Meal(type: "lanuch", food: "eggs"));
-  }
+  final String baseUrl = 'http://api.sukar.co/api';
+
+
 
   _mealsWidget(MainModel model) {
 //    print('All Meals = > ${allMeals.length}');
@@ -86,8 +90,23 @@ class _AddFoodState extends State<AddFood> {
     super.initState();
     loading = true;
     fetchMeals();
-    _getDummyMeals();
     _getTime();
+  }
+
+
+
+    Future<Void> deleteFood(int id) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.delete("$baseUrl/food-today/$id",
+        options: Options(headers: headers));
+
+  
+    setState(() {});
   }
 
   Future<void> fetchMeals() async{
@@ -185,28 +204,7 @@ class _AddFoodState extends State<AddFood> {
             centerTitle: true,
           ),
           body:
-//          new Center(
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: <Widget>[
-//                Container(
-//                  padding: EdgeInsets.all(20),
-//                  margin: EdgeInsets.only(bottom: 20),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(100)),
-//                      color: Colors.redAccent
-//                  ),
-//                  child: Icon(
-//                    Icons.developer_mode,
-//                    size: 60,
-//                    color: Colors.white,
-//                  ),
-//                ),
-//                Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//              ],
-//            ),
-//          )
+
           new ScopedModelDescendant<MainModel>(
             builder: (BuildContext context, Widget child, MainModel model) {
               return loading == true ? Loading() : Padding(
@@ -291,6 +289,7 @@ class _AddFoodState extends State<AddFood> {
                                    onTap: () {
                                      allMealsFoods.remove(meal);
                                      _calories.remove(meal.calories);
+                                     deleteFood(meal.id);
                                      setState(() {});
                                    },
                                  ),
