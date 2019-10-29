@@ -35,42 +35,11 @@ mixin MedicineScopedModel on Model {
   //   }
   // }
 
-  Future<MedicineModel> fetchUserMedicines() async {
-    try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
 
-      dio.options.headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
-      };
-
-      response = await dio.get(
-        "$baseUrl/userMedicin",
-      );
-      print(".................................. ${response.data.toString()}");
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        notifyListeners();
-        return null;
-      }
-
-      notifyListeners();
-      return MedicineModel.fromJson(response.data);
-    } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
-      notifyListeners();
-      return null;
-    }
-  }
 
 
   Future<bool> addNewMedicine(Map<String, dynamic> medicineData) async {
-    try {
+    
       // get user token
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -88,25 +57,16 @@ mixin MedicineScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
+      
       };
 
       response = await dio.post("$baseUrl/medicine", data: formdata);
       print(response.data.toString());
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        notifyListeners();
-        return false;
-      }
+
 
       notifyListeners();
       return true;
-    } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
-      notifyListeners();
-      return false;
-    }
+    
+    
   }
 }

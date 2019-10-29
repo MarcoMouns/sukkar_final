@@ -8,7 +8,6 @@ import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:health/pages/measurement/addFood.dart';
 import 'package:health/pages/measurement/addSleep.dart';
 import 'package:health/pages/measurement/heartBeats.dart';
-import 'package:health/pages/measurement/itemList.dart';
 import 'package:health/pages/others/map.dart';
 import 'dart:math' as math;
 import '../doctor_chat_screen.dart';
@@ -18,6 +17,7 @@ import '../scoped_models/main.dart';
 
 import 'package:health/pages/Settings.dart';
 import '../languages/all_translations.dart';
+import 'measurement/medicineLIst.dart';
 
 /*
  * Modifications
@@ -53,10 +53,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ItemList(
-                  model: model,
-                  isfood: false,
-                )),
+            builder: (context) => MedList()),
       );
     }
     if (item == 2) {

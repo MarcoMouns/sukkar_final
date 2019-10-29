@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
@@ -8,8 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../Models/foods_model.dart';
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../Models/medicine_model.dart';
 
 class ItemList extends StatefulWidget {
@@ -28,17 +27,43 @@ class _ItemListState extends State<ItemList> {
   List<Foods> _selectedFoods = [];
   FocusNode _focusNode = FocusNode();
 
-//  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
   List<Foods> foods = [];
+  List<Medicine> medicines = [];
 
   Dio dio = new Dio();
+  Response response;
 
   final String baseUrl = 'http://api.sukar.co/api';
 
-  Future<Void> getMeals() async {
-    Response response;
+  Future<Void> getMedicine() async {
+    // get user token
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
 
+    print("authUser => $authUser");
+    print("authUserToken => ${authUser['authToken']}");
+
+    dio.options.headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+
+    response = await dio.get("$baseUrl/medicine");
+    print(response.data);
+    for (int i = 0; i < response.data['medicines'].length; i++) {
+      Medicine md = new Medicine();
+
+      md.id = response.data['medicines'][i]['id'];
+      md.name = response.data['medicines'][i]['name'];
+      md.createdAt = response.data['medicines'][i]['created_at'];
+      md.updatedAt = response.data['medicines'][i]["updated_at"];
+      md.isSelected = 0;
+      medicines.add(md);
+    }
+    setState(() {});
+  }
+
+  Future<Void> getMeals() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
@@ -65,7 +90,7 @@ class _ItemListState extends State<ItemList> {
     setState(() {});
   }
 
-  Future<Void> addNewFood(String ar,String en ,int cal,int mealID ) async {
+  Future<Void> addTakenMed(int id, int mealID) async {
     Response response;
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -74,31 +99,31 @@ class _ItemListState extends State<ItemList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.post("$baseUrl/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
+    response = await dio.post("$baseUrl/medicine/$id?category=$mealID",
         options: Options(headers: headers));
-    print(response.data);    
-
-  
+    print(response.data);
 
     setState(() {});
   }
 
-  List<Medicines> medicines = [];
-  List<Medicines> _selectedMedicines = [];
-  // _getDummyData() {
-  //   items = List();
-  //   values = List();
-  //   for (int i = 0; i < 3; i++) {
-  //     items.add("aboseed");
-  //     values.add(false);
-  //   }
-  // }
+  Future<Void> addNewFood(String ar, String en, int cal, int mealID) async {
+    Response response;
 
-  // Map<String, dynamic> _mealData = {
-  //   "name":null,
-  //   "categoryId":null,
-  //   "calories":null,
-  // };
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.post(
+        "$baseUrl/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
+        options: Options(headers: headers));
+    print(response.data);
+
+    setState(() {});
+  }
+
+  List<Medicines> _selectedMedicines = [];
 
   void _saveUserFoods() async {
     bool ok =
@@ -114,6 +139,13 @@ class _ItemListState extends State<ItemList> {
 
   @override
   void initState() {
+    super.initState();
+    if (widget.isfood == false) {
+      getMedicine();
+    } else {
+      getMeals();
+    }
+
     SharedPreferences.getInstance().then((storage) {
       setState(() {
         user = jsonDecode(storage.getString("authUser"));
@@ -121,9 +153,6 @@ class _ItemListState extends State<ItemList> {
 
       print("user 8888888888 $user");
     });
-
-    super.initState();
-    getMeals();
   }
 
   @override
@@ -181,11 +210,13 @@ class _ItemListState extends State<ItemList> {
                                             "------------- ${foodItem.titleAr}");
                                         print("]]]]]]]]]]]]]]> $foods");
                                         foods.add(foodItem);
-                                        addNewFood(foodItem.titleAr, foodItem.titleEn, foodItem.calories, widget.mealId);
+                                        addNewFood(
+                                            foodItem.titleAr,
+                                            foodItem.titleEn,
+                                            foodItem.calories,
+                                            widget.mealId);
                                         foods.clear();
                                         getMeals();
-
-                                        // values.add(false);
                                       });
                                     },
                                   )
@@ -195,49 +226,13 @@ class _ItemListState extends State<ItemList> {
                                     title: "add medicne",
                                     subtitle: "add Item not in menu",
                                     onSave: (String value) async {
-                                      // print("$value ====== > ${user['id']}");
-                                      // setState(() {
-                                      //   medicines.add({
-                                      //     "name": value,
-                                      //     "user_id": user['id'],
-                                      //     "isSelected": false,
-                                      //   });
-
-                                      //   print("$value ====== > ${user['id']}");
-                                      //   // values.add(false);
-                                      // });
-
                                       widget.model.addNewMedicine({
                                         "name": value,
                                         "user_id": user['id'],
                                       }).then((result) {
-                                        if (result) {
-                                          widget.model
-                                              .fetchUserMedicines()
-                                              .then((result) {
-                                            print(
-                                                "***************************** -----> ${result.medicines}");
-                                            if (result != null) {
-                                              print("===============> $result");
-                                              setState(() {
-                                                medicines = result.medicines;
-                                              });
-                                            }
-                                          });
-                                          Navigator.of(context).pop();
-                                        }
+                                        medicines.clear();
+                                        getMedicine();
                                       });
-
-                                      // SharedPreferences storage =
-                                      //     await SharedPreferences.getInstance();
-
-                                      // storage.setStringList(
-                                      //     "savedMedicines",
-                                      //     medicines
-                                      //         .map<String>(
-                                      //             (Map<String, dynamic> item) =>
-                                      //                 jsonEncode(item))
-                                      //         .toList());
                                     });
                           });
                     },
@@ -266,20 +261,7 @@ class _ItemListState extends State<ItemList> {
                                 borderRadius: new BorderRadius.all(
                                     Radius.elliptical(10, 10)))),
                         child: TextField(
-                          onChanged: (String value) {
-                            // print(value);
-                            // medicines = medicines.map((item) {
-                            //   print(item['name'].contains(value));
-                            //   if (item['name'].contains(value)) {
-                            //     return item;
-                            //   } else {
-                            //     return null;
-                            //   }
-                            // }).toList();
-
-                            // print(medicines);
-                            // setState(() {});
-                          },
+                          onChanged: (String value) {},
                           focusNode: _focusNode,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -303,7 +285,7 @@ class _ItemListState extends State<ItemList> {
                                     Text(
                                       widget.isfood
                                           ? foods[index].titleAr
-                                          : medicines[index].medicine.name,
+                                          : medicines[index].name,
                                       style: TextStyle(
                                           fontSize: 18, color: Colors.blueGrey),
                                     ),
@@ -318,7 +300,6 @@ class _ItemListState extends State<ItemList> {
                                                 ? "assets/icons/ic_radio_off.png"
                                                 : "assets/icons/ic_radio_on.png")
                                             : Image.asset(medicines[index]
-                                                        .medicine
                                                         .isSelected ==
                                                     1
                                                 ? "assets/icons/ic_radio_on.png"
@@ -340,39 +321,92 @@ class _ItemListState extends State<ItemList> {
                                               print(
                                                   "selected food $_selectedFoods");
                                             } else {
-                                              if (medicines[index]
-                                                      .medicine
-                                                      .isSelected ==
+                                              if (medicines[index].isSelected ==
                                                   0) {
-                                                medicines[index]
-                                                    .medicine
-                                                    .isSelected = 1;
-                                                _selectedMedicines
-                                                    .add(medicines[index]);
+                                                medicines[index].isSelected = 1;
 
-                                                //-----------
-                                                DatePicker.showTimePicker(
-                                                    context,
-                                                    showTitleActions: true,
-                                                    onChanged: (time) {
-                                                  print('change $time');
-                                                }, onConfirm: (time) {
-                                                  print('confirm $time');
-//                                                  _showDailyAtTime(time);
-                                                  // showNotification(time);
-                                                },
-                                                    currentTime: DateTime.now(),
-                                                    locale: LocaleType.en);
-                                              } else {
-                                                medicines[index]
-                                                    .medicine
-                                                    .isSelected = 0;
-                                                _selectedMedicines
-                                                    .remove(medicines[index]);
+                                                //TODO:add meal id dialog
+                                                int meal;
+
+                                                showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          CupertinoActionSheet(
+                                                    title: Text(allTranslations
+                                                        .text("medicineMeal")),
+                                                    actions: <Widget>[
+                                                      CupertinoActionSheetAction(
+                                                        child: Text(
+                                                            allTranslations.text(
+                                                                "breakfast")),
+                                                        onPressed: () {
+                                                          meal = 1;
+                                                          addTakenMed(
+                                                              medicines[index]
+                                                                  .id,
+                                                              meal);
+                                                          medicines[index]
+                                                              .isSelected = 0;
+                                                          setState(() {});
+
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                      CupertinoActionSheetAction(
+                                                        child: Text(
+                                                            allTranslations
+                                                                .text("lunch")),
+                                                        onPressed: () {
+                                                          meal = 2;
+                                                          addTakenMed(
+                                                              medicines[index]
+                                                                  .id,
+                                                              meal);
+                                                          medicines[index]
+                                                              .isSelected = 0;
+                                                          setState(() {});
+
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                      CupertinoActionSheetAction(
+                                                        child: Text(
+                                                            allTranslations
+                                                                .text(
+                                                                    "dinner")),
+                                                        onPressed: () {
+                                                          meal = 3;
+                                                          addTakenMed(
+                                                              medicines[index]
+                                                                  .id,
+                                                              meal);
+                                                          medicines[index]
+                                                              .isSelected = 0;
+                                                          setState(() {});
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                      CupertinoActionSheetAction(
+                                                        child: Text(
+                                                            allTranslations
+                                                                .text(
+                                                                    "cancel")),
+                                                        onPressed: () {
+                                                          medicines[index]
+                                                              .isSelected = 0;
+                                                          setState(() {});
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
                                               }
-
-                                              print(
-                                                  "_selectedMedicines $_selectedMedicines");
                                             }
                                           });
                                         },
@@ -526,7 +560,6 @@ class _BottomSheetState extends State<BottomSheet> {
                               alignment: Alignment.bottomRight,
                               children: <Widget>[
                                 TextField(
-                                  //    focusNode: focusNode,
                                   textDirection: TextDirection.ltr,
                                   keyboardType: TextInputType.number,
                                   controller: _controller,
@@ -563,17 +596,6 @@ class _BottomSheetState extends State<BottomSheet> {
                             widget.onSave(
                                 _controllerName.text, _controller.text);
                             Navigator.of(context).pop();
-                            // model.addNewFood({
-                            //   "name": _controllerName.text,
-                            //   "categoryId": widget.categoryId,
-                            //   "calories": _controller.text,
-                            // }).then((resutl) {
-                            //   if (resutl) {
-                            //     Navigator.pop(context);
-                            //   } else {
-                            //     print("errooooooooooooooooooooorrrrrrrrrr");
-                            //   }
-                            // });
                           },
                         )
                       ],

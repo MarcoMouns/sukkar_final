@@ -199,6 +199,13 @@ Map<String, String> arabicLang = {
   "exitpopup": "هل تريد تسجيل الخروج و الخروج من التطبيق؟",
   "exit": "خروج",
   "editGoal":"تعديل الاهداف",
-  "noShare":"لا يوجد فيديو او ملف لمشاركته"
+  "noShare":"لا يوجد فيديو او ملف لمشاركته",
+  "steps":"خطوة",
+  "addYourSleeping":"برجاء ادخال بيانات المخصصة بساعات نومك",
+  "medicineMeal":"اختار الوجبة",
+  "AddMedicine":"اضف دواء",
+  "mediMenu":"قائمة الادوية",
+  "addMed":"add"
+
 
 };

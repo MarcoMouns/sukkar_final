@@ -11,10 +11,10 @@ class editGoalsScreen extends StatefulWidget {
 }
 
 class editGoalsScreenState extends State<editGoalsScreen> {
-  int waterGoal;
-  int calGoal;
-  int stepsGoal;
-  int distanceGoal;
+  int waterGoal=0;
+  int calGoal=0;
+  int stepsGoal=0;
+  int distanceGoal=0;
   bool isLoading = true;
   Dio dio = new Dio();
 
@@ -30,7 +30,13 @@ class editGoalsScreenState extends State<editGoalsScreen> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response =
-        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+        await dio.get("$baseUrl/measurements/goals", options: Options(headers: headers));
+        waterGoal = response.data['goals']['water_cups_goal'];
+        distanceGoal = response.data['goals']['distance_goal'];
+        calGoal = response.data['goals']['calorie_goal'];
+        stepsGoal = response.data['goals']['steps_goal'];
+
+        print(response.data);
 
     isLoading = false;
     return response;
@@ -49,15 +55,20 @@ class editGoalsScreenState extends State<editGoalsScreen> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response =
-        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+        await dio.post("$baseUrl/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal", options: Options(headers: headers));
 
-    isLoading = false;
+    print(response.data);
+    
+
+
+
+
     return response;
   }
 
   initState() {
     super.initState();
-    //getCurrentGoals();
+    getCurrentGoals();
   }
 
   @override
@@ -87,7 +98,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 trailing: SizedBox(
                   height: 50,
                   width: 50,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: waterGoal.toString(),
                     keyboardType: TextInputType.number,
                     onChanged: (val){
                       waterGoal = int.parse(val);
@@ -116,7 +128,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 trailing: SizedBox(
                   height: 50,
                   width: 50,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: calGoal.toString(),
                     keyboardType: TextInputType.number,
                     onChanged: (val){
                       calGoal = int.parse(val);
@@ -146,7 +159,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 trailing: SizedBox(
                   height: 50,
                   width: 50,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: stepsGoal.toString(),
                     keyboardType: TextInputType.number,
                     onChanged: (val){
                       stepsGoal = int.parse(val);
@@ -176,7 +190,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 trailing: SizedBox(
                   height: 50,
                   width: 50,
-                  child: TextField(
+                  child: TextFormField(
+                   initialValue: distanceGoal.toString(),
                    keyboardType: TextInputType.number,
                     onChanged: (val){
                       distanceGoal = int.parse(val);
@@ -200,6 +215,7 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 ),
                 onTap: () {
                   setGoals();
+                  Navigator.of(context).pop();
                 },
               )
             ],

@@ -211,9 +211,8 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.redAccent,
                         ),
                         onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => editGoalsScreen())
-                          );
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => editGoalsScreen()));
                         },
                       ),
                       Divider(
@@ -316,12 +315,6 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           );
 
-                          // if (allTranslations.currentLanguage == "en") {
-                          //   allTranslations.setNewLanguage("ar", true);
-                          // } else {
-                          //   allTranslations.setNewLanguage("en", true);
-                          // }
-
                           setState(() {});
                         },
                         trailing: Icon(
@@ -410,14 +403,6 @@ class _EditProfileState extends State<EditProfile> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         onTap: () async {
-                          // SharedPreferences sharedPreferences =
-                          //     await SharedPreferences.getInstance();
-                          // sharedPreferences.remove('authUser');
-                          // sharedPreferences.clear();
-
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //     '/', (Route<dynamic> route) => false);
-
                           showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) =>
@@ -435,7 +420,6 @@ class _EditProfileState extends State<EditProfile> {
                                     sharedPreferences.remove('authUser');
                                     sharedPreferences.clear();
                                     exit(0);
-                                    
                                   },
                                 ),
                                 CupertinoActionSheetAction(

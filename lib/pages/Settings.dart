@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:health/scoped_models/main.dart';
 
-//import 'package:flutter_svg/flutter_svg.dart';
 import '../shared-data.dart';
 import 'others/notification.dart';
 
 import '../languages/all_translations.dart';
 
 class Settings {
-  //final String api = "https://mbrcld.ae/ApplyTest/api/Learning/";
-  // final chatServerUrl =
-  //     "http://mbrcld.ae/ApplyTest/signalr/"; //"https://94.200.225.237:443/";//;
-  // static String oneSignalApp = "35061b46-8aba-46f0-96f6-b1afb9df3360";
   static String googleApi = 'AIzaSyCBlmohZdkR7SPHIsQDzIMhKNc_wLaimDs';
 
-  //static String title = "";
   static int currentIndex = 0;
   static Function navigationTapped;
 
@@ -22,8 +16,7 @@ class Settings {
     return Color.fromRGBO(32, 158, 212, 1);
   }
 
-  static Widget appBar({Widget title, BuildContext context,MainModel model}) {
-//    print(SharedData.customerData);
+  static Widget appBar({Widget title, BuildContext context, MainModel model}) {
     return PreferredSize(
       preferredSize: Size(MediaQuery.of(context).size.width, 40),
       child: SafeArea(
@@ -43,22 +36,6 @@ class Settings {
                     },
                     icon: ImageIcon(AssetImage("assets/icons/ic_bell.png")),
                   ),
-
-//                  Positioned(
-//                    top: 5,
-//                    right: 5,
-//                    child: CircleAvatar(
-//                      radius: 8,
-//                      backgroundColor: Colors.redAccent,
-//                      child: Text(
-//                        "4",
-//                        style: TextStyle(
-//                            color: Colors.white,
-//                            fontSize: 14,
-//                            fontWeight: FontWeight.bold),
-//                      ),
-//                    ),
-//                  ),
                 ],
               ),
               title,
@@ -69,12 +46,9 @@ class Settings {
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(SharedData
-                      .customerData[
-                  'image'] ==
-                      'Null' ||
-                      SharedData.customerData[
-                      'image'] ==
-                          null
+                                  .customerData['image'] ==
+                              'Null' ||
+                          SharedData.customerData['image'] == null
                       ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
                       : 'http://api.sukar.co${SharedData.customerData['image']}'),
                 ),
@@ -89,8 +63,6 @@ class Settings {
   static onLocaleChanged() async {
     print('Language has been changed to: ${allTranslations.currentLanguage}');
   }
-
-
 }
 
 class LogInInput extends StatefulWidget {
@@ -125,11 +97,9 @@ class LogInInput extends StatefulWidget {
 }
 
 class _LogInInputState extends State<LogInInput> {
-  
   @override
   Widget build(BuildContext context) {
     return Padding(
-      
       padding: const EdgeInsets.only(right: 20.0, left: 20.0, bottom: 20.0),
       child: TextFormField(
         initialValue: widget.initVal,
@@ -263,22 +233,22 @@ class MenuListRow extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SlideTransition(
-                position: new Tween<Offset>(
-                  begin: const Offset(-1.0, 0.0),
-                  end: Offset.zero,
-                ).animate(animationController2),
-                child: CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: RotationTransition(
-                        turns: Tween(begin: 0.0, end: 1.0)
-                            .animate(animationController),
-                        child: Image.asset(
-                          "assets/icons/$image.png",
-                          width: 35,
-                        ),
-                    ),
+              position: new Tween<Offset>(
+                begin: const Offset(-1.0, 0.0),
+                end: Offset.zero,
+              ).animate(animationController2),
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.white,
+                child: RotationTransition(
+                  turns:
+                      Tween(begin: 0.0, end: 1.0).animate(animationController),
+                  child: Image.asset(
+                    "assets/icons/$image.png",
+                    width: 35,
+                  ),
                 ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(10.0),
@@ -405,16 +375,16 @@ class _BottomSheetState extends State<BottomSheet> {
                           style: TextStyle(color: Colors.grey),
                         ),
                         Container(
-                            width: 150,
-                            child: LogInInput(
-                              enabled: true,
-                              autoValidate: true,
-                              name: "",
-                              controller: _controller,
-                              keyboard: widget.addSlider
-                                  ? TextInputType.numberWithOptions()
-                                  : null,
-                            ),
+                          width: 150,
+                          child: LogInInput(
+                            enabled: true,
+                            autoValidate: true,
+                            name: "",
+                            controller: _controller,
+                            keyboard: widget.addSlider
+                                ? TextInputType.numberWithOptions()
+                                : null,
+                          ),
                         ),
                         widget.addSlider
                             ? Slider(
@@ -442,7 +412,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           onPressed: () {
                             widget.onSave(_controller.text);
                             //var formData =  _value;
-                            Navigator.pop(context,true);
+                            Navigator.pop(context, true);
                           },
                         )
                       ],
@@ -554,7 +524,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
- static List<BottomNavigationBarItem> _listItems = List<BottomNavigationBarItem>();
+  static List<BottomNavigationBarItem> _listItems =
+      List<BottomNavigationBarItem>();
   static CustomBottomNavigationBarState c;
 
   CustomBottomNavigationBarState() {
@@ -563,7 +534,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   _getDate() {
     _listItems.clear();
-    
+
     _listItems.add(BottomNavigationBarItem(
         icon: Image.asset(
           "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
@@ -606,20 +577,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '' : ''}.png",
                       width: 25,
                       height: 25),
-//                  Positioned(
-//                      left: 0.5,
-//                      top: 0,
-//                      child: Container(
-//                        width: 10,
-//                        height: 10,
-//                        decoration: BoxDecoration(
-//                            color: Colors.red, shape: BoxShape.circle),
-//                        child: Text(
-//                          "9",
-//                          textAlign: TextAlign.center,
-//                          style: TextStyle(fontSize: 9, color: Colors.white),
-//                        ),
-//                      ))
                 ],
               )
             : Image.asset(
@@ -627,12 +584,12 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 height: 25,
                 width: 25,
               ),
-        title: Text(allTranslations.text("doctors"),
-            style: TextStyle(
-                color:
-                    Settings.currentIndex == 3 ? Colors.blue : Colors.black),
+        title: Text(
+          allTranslations.text("doctors"),
+          style: TextStyle(
+              color: Settings.currentIndex == 3 ? Colors.blue : Colors.black),
         ),
-    ),
+      ),
     );
     _listItems.add(BottomNavigationBarItem(
         icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
@@ -656,7 +613,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
     _getDate();
     return Container(
-      height: MediaQuery.of(context).size.height/9,
+      height: MediaQuery.of(context).size.height / 9,
       child: Theme(
         data: ThemeData(
             canvasColor: Colors.white,
@@ -666,9 +623,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             type: BottomNavigationBarType.fixed,
             items: _listItems,
             currentIndex: Settings.currentIndex,
-            //fixedColor: Settings.mainColor(),
-            onTap: widget.navigationTapped
-      ),
+            onTap: widget.navigationTapped),
       ),
     );
   }

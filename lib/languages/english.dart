@@ -184,7 +184,14 @@ Map<String, String> englishLang = {
   "exitpopup":"Are you sure you want to signout and exit ?",
   "exit":"exit",
   "editGoal":"Edit Goal",
-  "noShare":"No video or file to share"
+  "noShare":"No video or file to share",
+  "steps":"Step",
+  "addYourSleeping":"Please Add your Sleeping Record Data",
+  "medicineMeal":"choose the meal",
+  "AddMedicine":"Add Medicine",
+  "mediMenu":"Medicine Menu",
+  "addMed":"add"
+
   
 
 

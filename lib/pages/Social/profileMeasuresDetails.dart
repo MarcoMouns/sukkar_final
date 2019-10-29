@@ -95,38 +95,20 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
           ? 0
           : response.data["Measurements"]["DiastolicPressure"];
+
+      goalCalories = response.data["Measurements"]["calorie_goal"];
+      goalCupOfWater = response.data["Measurements"]["water_cups_goal"];
+      goalSteps = response.data["Measurements"]["steps_goal"];
+      goalDistance = response.data["Measurements"]["distance_goal"];
     }
     print("=================================================fffffffffff");
     isLoading = false;
     setState(() {});
   }
 
-  void getcal() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
-    var headers = {
-      "Authorization": "Bearer ${authUser['authToken']}",
-    };
-    Response response =
-        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
-
-    ncal = response.data['user']['average_calorie'];
-    if (ncal == null || ncal == 0) {
-      ncal = 0;
-    }
-    goalCalories = ncal;
-    goalSteps = (ncal / 0.0912).toInt();
-    goalDistance = (((ncal / 0.0912) * 0.762) / 2).toInt();
-
-    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
-    print(ncal);
-    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
-    setState(() {});
-  }
+ 
 
   initState() {
-    getcal();
     getMeasurementsForDay(id);
     super.initState();
   }
