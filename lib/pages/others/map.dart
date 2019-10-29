@@ -12,7 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart' as lm;
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-    as bg;
+as bg;
 
 ///********************from here this is the stopwatch********************
 ///note: i was too lazy to make this in another class and use it here #panda
@@ -32,9 +32,9 @@ class ElapsedTime {
 
 class Dependencies {
   final List<ValueChanged<ElapsedTime>> timerListeners =
-      <ValueChanged<ElapsedTime>>[];
+  <ValueChanged<ElapsedTime>>[];
   final TextStyle textStyle =
-      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+  const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
   final Stopwatch stopwatch = new Stopwatch();
   final int timerMillisecondsRefreshRate = 30;
 }
@@ -218,14 +218,14 @@ class _MapPageState extends State<MapPage> {
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-        const TextStyle(fontSize: 16.0, color: Colors.white);
+    const TextStyle(fontSize: 16.0, color: Colors.white);
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
 
   Widget buildButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-        const TextStyle(fontSize: 16.0, color: Colors.white);
+    const TextStyle(fontSize: 16.0, color: Colors.white);
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
@@ -241,24 +241,55 @@ class _MapPageState extends State<MapPage> {
   double meter = 0;
   static lm.Distance distance = new lm.Distance();
   PolylineId selectedPolyline;
+  Position firstPosition;
   Position currentPosition;
   bool _isLoading = false;
   bool checkRun = false;
   final List<LatLng> points = <LatLng>[];
   Response response;
   Dio dio = new Dio();
+  bool ismaping = false;
+  bool troll = false;
+
+  void updatePostion() async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print(
+        "current user position ---------------------------------------> $position  FROM UPDATE");
+    setState(() {
+      currentPosition = position;
+      latlngSegment.add(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
+      _polyline.add(Polyline(
+        polylineId: PolylineId('line1'),
+        visible: true,
+        //latlng is List<LatLng>
+        points: latlngSegment,
+        width: 2,
+        color: Colors.blue,
+      ));
+    });
+
+    print(
+        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
+    Timer.periodic(Duration(seconds: 30), (timer) {
+      ismaping ? updatePostion() : null;
+    });
+    setState(() {});
+  }
 
   initState() {
     super.initState();
-    setState(() {
-      _isLoading = true;
-    });
+    currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
       print(
           "current user position ---------------------------------------> $position");
       setState(() {
+        print('myAss is true');
+        firstPosition = position;
         currentPosition = position;
         _isLoading = false;
+        print('myAss is ffalse');
       });
     }).catchError((err) {
       setState(() {
@@ -266,6 +297,19 @@ class _MapPageState extends State<MapPage> {
       });
     });
   }
+
+  Future<Position> _getCurrentUserPosition() async {
+    try {
+      Position position = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      print(
+          "current user position ---------------------------------------> $position");
+      return position;
+    } catch (e) {
+      print('GEOOOOOOOOOO ->>>>>>>>>> $e');
+    }
+  }
+
 
   @override
   void dispose() {
@@ -312,44 +356,31 @@ class _MapPageState extends State<MapPage> {
 //  }
 
 
+//  List<LatLng> _createPoints() {
+//    final double offset = _polylineIdCounter.ceilToDouble();
+//    _polylineIdCounter = _polylineIdCounter + 3;
+//    print('##############################################################');
+//    print(_polylineIdCounter);
+//    print('##############################################################');
+////    points.add(_createLatLng(currentPosition.latitude,
+////        currentPosition.longitude));
+////    points.add(_createLatLng(31.266222, 29.993530));
+//    return points;
+//  }
 
-  List<LatLng> _createPoints() {
-    final double offset = _polylineIdCounter.ceilToDouble();
-    _polylineIdCounter = _polylineIdCounter + 3;
-    print('##############################################################');
-    print(_polylineIdCounter);
-    print('##############################################################');
-//    points.add(_createLatLng(currentPosition.latitude,
-//        currentPosition.longitude));
-//    points.add(_createLatLng(31.266222, 29.993530));
-    return points;
-  }
+//  LatLng _createLatLng(double lat, double lng) {
+//    return LatLng(lat, lng);
+//  }
 
-  LatLng _createLatLng(double lat, double lng) {
-    return LatLng(lat, lng);
-  }
-
-  void _onPolylineTapped(PolylineId polylineId) {
-    setState(() {
-      selectedPolyline = polylineId;
-    });
-  }
+//  void _onPolylineTapped(PolylineId polylineId) {
+//    setState(() {
+//      selectedPolyline = polylineId;
+//    });
+//  }
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-      _markers.add(Marker(
-        // This marker id can be anything that uniquely identifies each marker.
-        markerId: MarkerId(LatLng(currentPosition.latitude,
-            currentPosition.longitude).toString()),
-        //_lastMapPosition is any coordinate which should be your default
-        //position when map opens up
-        position: LatLng(currentPosition.latitude, currentPosition.longitude),
-        infoWindow: InfoWindow(
-          title: 'Awesome Polyline tutorial',
-          snippet: 'This is a snippet',
-        ),
-      ));
     });
   }
 
@@ -359,6 +390,7 @@ class _MapPageState extends State<MapPage> {
 
   getLocation() {
     setState(() {
+      ismaping = true;
       checkRun = true;
     });
     print('CheckRun = > $checkRun');
@@ -369,33 +401,33 @@ class _MapPageState extends State<MapPage> {
 //      print(location.coords.latitude);
 //      print(location.coords.longitude);
 //      print('<--------- End onLocation -----------> ');
-      if (checkRun == true) {
-        setState(() {
-          points.add(_createLatLng(
-              location.coords.latitude, location.coords.longitude));
-
-
-          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
-
-          _polyline.add(Polyline(
-            polylineId: PolylineId('line1'),
-            visible: true,
-            //latlng is List<LatLng>
-            points: latlngSegment,
-            width: 2,
-            color: Colors.blue,
-          ));
-
-
-          print('Points=> $points');
-//          _add();
-        });
-      } else if (checkRun == false) {
-        setState(() {
-          points.clear();
-        });
-      }
-
+//      if (checkRun == true) {
+//        setState(() {
+//          points.add(_createLatLng(
+//              location.coords.latitude, location.coords.longitude));
+//
+//
+//          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
+//
+//          _polyline.add(Polyline(
+//            polylineId: PolylineId('line1'),
+//            visible: true,
+//            //latlng is List<LatLng>
+//            points: latlngSegment,
+//            width: 2,
+//            color: Colors.blue,
+//          ));
+//
+//
+//          print('Points=> $points');
+////          _add();
+//        });
+//      } else if (checkRun == false) {
+//        setState(() {
+//          points.clear();
+//        });
+//      }
+      updatePostion();
       _odometer=location.odometer;
       setState(() {});
 
@@ -403,35 +435,35 @@ class _MapPageState extends State<MapPage> {
     });
 
     // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
-    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
-      print('[motionchange] - $location');
-      print('<--------- Locaiton onMotionChange -----------> ');
-      updatelat=location.coords.latitude;
-      updatelong=location.coords.longitude;
-      setState(() {
-
-      });
-      print(location.coords.latitude);
-      print(location.coords.longitude);
-      print('<--------- / Locaiton onMotionChange -----------> ');
-    });
+//    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
+//      print('[motionchange] - $location');
+//      print('<--------- Locaiton onMotionChange -----------> ');
+//      updatelat=location.coords.latitude;
+//      updatelong=location.coords.longitude;
+//      setState(() {
+//
+//      });
+//      print(location.coords.latitude);
+//      print(location.coords.longitude);
+//      print('<--------- / Locaiton onMotionChange -----------> ');
+//    });
 
     // Fired whenever the state of location-services changes.  Always fired at boot
-    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
+//    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
 //      print('[providerchange] - $event');
-    });
+//    });
 
     ////
     // 2.  Configure the plugin
     //
     bg.BackgroundGeolocation.ready(bg.Config(
-            desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-            distanceFilter: 10.0,
-            stopOnTerminate: false,
-            startOnBoot: true,
-            debug: false,
-            logLevel: bg.Config.LOG_LEVEL_INFO,
-            reset: true))
+        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
+        distanceFilter: 10.0,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        debug: false,
+        logLevel: bg.Config.LOG_LEVEL_INFO,
+        reset: true))
         .then((bg.State state) {
       if (!state.enabled) {
         ////
@@ -443,14 +475,6 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  Future<Position> _getCurrentUserPosition() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(
-        "current user position ---------------------------------------> $position");
-    return position;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -459,282 +483,291 @@ class _MapPageState extends State<MapPage> {
             : TextDirection.ltr,
         child: SafeArea(
             child: new Scaffold(
-          body: _isLoading
-              ? Center(
-                  child: CupertinoActivityIndicator(
-                    animating: true,
-                    radius: 15,
+              body: _isLoading
+                  ? Center(
+                child: CupertinoActivityIndicator(
+                  animating: true,
+                  radius: 15,
+                ),
+              )
+                  : new Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  new GoogleMap(
+                    // onTap: (LatLng position) {
+                    //   setState(() {
+                    //     destinationPosition = position;
+                    //   });
+                    //   _addPolyline();
+                    //   print(position);
+                    // },
+                    markers: _markers,
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(firstPosition.latitude,
+                            firstPosition.longitude),
+                        zoom: 15),
+                    onMapCreated: _onMapCreated,
+                    polylines: _polyline,
+
+
+                    // polylines: Set.from(userPlylines),
+                    // markers: markers[_markerIdCounter].flat,
+                    // markers: Set.from(userMarkers),
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    mapType: MapType.normal,
+                    // tiltGesturesEnabled: true,
+                    // gestureRecognizers: ,
+                    gestureRecognizers: Set()
+                      ..add(Factory<PanGestureRecognizer>(
+                              () => PanGestureRecognizer()))..add(
+                          Factory<ScaleGestureRecognizer>(
+                                  () => ScaleGestureRecognizer()))..add(
+                          Factory<TapGestureRecognizer>(
+                                  () => TapGestureRecognizer()))..add(
+                          Factory<VerticalDragGestureRecognizer>(
+                                  () => VerticalDragGestureRecognizer())),
+                    // gestureRecognizers: Set()
+                    //   ..add(
+                    //     Factory<PanGestureRecognizer>(
+                    //       () => PanGestureRecognizer(),
+                    //     ),
+                    //   )
+                    //   ..add(
+                    //     Factory<VerticalDragGestureRecognizer>(
+                    //       () => VerticalDragGestureRecognizer(),
+                    //     ),
+                    //   ),
+                    compassEnabled: true,
                   ),
-                )
-              : new Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    new GoogleMap(
-                      // onTap: (LatLng position) {
-                      //   setState(() {
-                      //     destinationPosition = position;
-                      //   });
-                      //   _addPolyline();
-                      //   print(position);
-                      // },
-                      markers: _markers,
-                      initialCameraPosition: CameraPosition(
-                          target: LatLng(currentPosition.latitude,
-                              currentPosition.longitude),
-                          zoom: 15),
-                      onMapCreated: _onMapCreated,
-                      polylines: _polyline,
+                  // Container(
+                  //   width: double.infinity,
+                  //   height: double.infinity,
+                  //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
+                  // ),
 
-
-                      // polylines: Set.from(userPlylines),
-                      // markers: markers[_markerIdCounter].flat,
-                      // markers: Set.from(userMarkers),
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      mapType: MapType.normal,
-                      // tiltGesturesEnabled: true,
-                      // gestureRecognizers: ,
-                      gestureRecognizers: Set()
-                        ..add(Factory<PanGestureRecognizer>(
-                            () => PanGestureRecognizer()))
-                        ..add(Factory<ScaleGestureRecognizer>(
-                            () => ScaleGestureRecognizer()))
-                        ..add(Factory<TapGestureRecognizer>(
-                            () => TapGestureRecognizer()))
-                        ..add(Factory<VerticalDragGestureRecognizer>(
-                            () => VerticalDragGestureRecognizer())),
-                      // gestureRecognizers: Set()
-                      //   ..add(
-                      //     Factory<PanGestureRecognizer>(
-                      //       () => PanGestureRecognizer(),
-                      //     ),
-                      //   )
-                      //   ..add(
-                      //     Factory<VerticalDragGestureRecognizer>(
-                      //       () => VerticalDragGestureRecognizer(),
-                      //     ),
-                      //   ),
-                      compassEnabled: true,
+                  Positioned(
+                    top: 1,
+                    right: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Text("${currentPosition.longitude}",
+                          style: TextStyle(fontSize: 25),),
+                        Text("${currentPosition.latitude}",
+                            style: TextStyle(fontSize: 25)),
+                      ],
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   height: double.infinity,
-                    //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
-                    // ),
-
-                    Positioned(
-                      top: 1,
-                      right: 1,
-                      child: Column(
-                        children: <Widget>[
-                          Text("$updatelat",style: TextStyle(fontSize: 25),),
-                          Text("$updatelong",style: TextStyle(fontSize: 25)),
-                        ],
-                      ),
-                    ),
-                    new Positioned(
-                      top: 50,
-                      left: allTranslations.currentLanguage == "ar" ? 20 : null,
-                      right:
-                          allTranslations.currentLanguage == "ar" ? null : 20,
-                      child: InkWell(
-                        onTap: () {
-                          widget.pageController.animateToPage(1,
-                              duration: Duration(milliseconds: 10),
-                              curve: Curves.bounceIn);
-                        },
-                        child: Container(
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
-                    new Positioned(
-                      bottom: 50,
-                      left: 0,
-                      right: 0,
+                  ),
+                  new Positioned(
+                    top: 50,
+                    left: allTranslations.currentLanguage == "ar" ? 20 : null,
+                    right:
+                    allTranslations.currentLanguage == "ar" ? null : 20,
+                    child: InkWell(
+                      onTap: () {
+                        widget.pageController.animateToPage(1,
+                            duration: Duration(milliseconds: 10),
+                            curve: Curves.bounceIn);
+                      },
                       child: Container(
-                        margin: EdgeInsets.all(30),
-                        padding: EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.redAccent),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(children: [
-                                Stack(children: [
-                                  Container(
-                                    margin: EdgeInsets.all(10),
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.redAccent),
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
-                                    child: Center(
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.1,
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Directionality(
-                                            textDirection: TextDirection.ltr,
-                                            child: TimerText(
-                                                dependencies: dependencies),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 5,
-                                    left: 25,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: Colors.white, width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(12.5)),
-                                      child: Image.asset(
-                                          "assets/icons/ic_time.png",
-                                          width: 20,
-                                          height: 20),
-                                    ),
-                                  )
-                                ]),
-                                Text(
-                                  allTranslations.text("time"),
-                                  style: TextStyle(color: Colors.grey),
-                                )
-                              ]),
-                            ),
-                            MapItem(
-                                title: "steps",
-                                value: "${(_odometer/2).toInt()}",
-                                image: "ic_steps2",
-                                isNotFloat: true),
-                            MapItem(
-                                title: "cals",
-                                value: "${(_polylineIdCounter*0.0512).ceil()}",
-                                image: "ic_cal",
-                                isLeft: false)
-                          ],
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
                         ),
                       ),
                     ),
-
-                    ///**************************************************
-
-                    ///**************************************************
-                    new Positioned(
-                      bottom: 60,
-                      left: 0,
-                      right: 0,
+                  ),
+                  new Positioned(
+                    bottom: 50,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      margin: EdgeInsets.all(30),
+                      padding: EdgeInsets.all(30),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.redAccent),
+                          borderRadius: BorderRadius.circular(15)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                              textColor: Colors.white,
-                              color: checkRun == false
-                                  ? Settings.mainColor()
-                                  : Colors.red,
-                              child: Container(
-                                  padding: EdgeInsets.all(15),
-                                  child: checkRun == false
-                                      ? Text(allTranslations.text("startNow"))
-                                      : Text(allTranslations.text("endNow"))),
-                              onPressed: () async {
-                                rightButtonPressed();
-                                if (checkRun == false) {
-                                  getLocation();
-                                } else if (checkRun == true) {
-                                  setState(() {
-                                    checkRun = false;
-                                  });
-                                  try {
-                                    FormData formdata = new FormData();
-                                    // get user token
-                                    SharedPreferences sharedPreferences =
-                                        await SharedPreferences.getInstance();
-                                    Map<String, dynamic> authUser = jsonDecode(
-                                        sharedPreferences
-                                            .getString("authUser"));
-                                    dio.options.headers = {
-                                      "Authorization":
-                                          "Bearer ${authUser['authToken']}",
-                                    };
-                                    formdata.add("startLongitude",
-                                        points.first.longitude);
-                                    formdata.add(
-                                        "endLongitude", points.last.longitude);
-                                    formdata.add(
-                                        "startLatitude", points.first.latitude);
-                                    formdata.add(
-                                        "endLatitude", points.last.latitude);
-                                    formdata.add("date", DateTime.now());
-                                    print(
-                                        '******************************************************');
-                                    print(DateTime.now());
-                                    print(
-                                        '******************************************************');
-                                    meter = distance.as(
-                                        lm.LengthUnit.Meter,
-                                        lm.LatLng(points.first.latitude,
-                                            points.first.longitude),
-                                        lm.LatLng(points.last.latitude,
-                                            points.last.longitude));
-                                    setState(() {});
-                                    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                    print(meter);
-                                    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                    formdata.add("distance", _odometer.toInt());
-                                    formdata.add("steps", _odometer/2);
-                                    formdata.add("calories", (_polylineIdCounter*0.0512).toInt());
-                                    print(
-                                        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                    print(formdata);
-                                    print(
-                                        '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                    response = await dio.post(
-                                        "http://api.sukar.co/api/mapInformation",
-                                        data: formdata);
-                                    if (response.statusCode != 200 &&
-                                        response.statusCode != 201) {
-                                      return false;
-                                    } else {
-                                      print('success -->');
-                                      print('Response = ${response.data}');
-                                      return true;
-                                    }
-                                  } on DioError catch (e) {
-                                    print(
-                                        "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                    print(e.response.data);
-                                    return false;
-                                  }
-                                }
-                               // return true;
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)))
+                          Expanded(
+                            child: Column(children: [
+                              Stack(children: [
+                                Container(
+                                  margin: EdgeInsets.all(10),
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      border:
+                                      Border.all(color: Colors.redAccent),
+                                      borderRadius:
+                                      BorderRadius.circular(30)),
+                                  child: Center(
+                                    child: SizedBox(
+                                      width:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          0.1,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Directionality(
+                                          textDirection: TextDirection.ltr,
+                                          child: TimerText(
+                                              dependencies: dependencies),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 5,
+                                  left: 25,
+                                  child: Container(
+                                    width: 25,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: Colors.white, width: 2),
+                                        borderRadius:
+                                        BorderRadius.circular(12.5)),
+                                    child: Image.asset(
+                                        "assets/icons/ic_time.png",
+                                        width: 20,
+                                        height: 20),
+                                  ),
+                                )
+                              ]),
+                              Text(
+                                allTranslations.text("time"),
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            ]),
+                          ),
+                          MapItem(
+                              title: "steps",
+                              value: "${(_odometer / 2).toInt()}",
+                              image: "ic_steps2",
+                              isNotFloat: true),
+                          MapItem(
+                              title: "cals",
+                              value: "${(_polylineIdCounter * 0.0512).ceil()}",
+                              image: "ic_cal",
+                              isLeft: false)
                         ],
                       ),
-                    )
-                  ],
-                ),
-        ))
+                    ),
+                  ),
+
+                  ///**************************************************
+
+                  ///**************************************************
+                  new Positioned(
+                    bottom: 60,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                            textColor: Colors.white,
+                            color: checkRun == false
+                                ? Settings.mainColor()
+                                : Colors.red,
+                            child: Container(
+                                padding: EdgeInsets.all(15),
+                                child: checkRun == false
+                                    ? Text(allTranslations.text("startNow"))
+                                    : Text(allTranslations.text("endNow"))),
+                            onPressed: () async {
+                              rightButtonPressed();
+                              if (checkRun == false) {
+                                getLocation();
+                              } else if (checkRun == true) {
+                                setState(() {
+                                  ismaping = false;
+                                  checkRun = false;
+                                });
+                                try {
+                                  FormData formdata = new FormData();
+                                  // get user token
+                                  SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences
+                                          .getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                    "Bearer ${authUser['authToken']}",
+                                  };
+                                  formdata.add("startLongitude",
+                                      points.first.longitude);
+                                  formdata.add(
+                                      "endLongitude", points.last.longitude);
+                                  formdata.add(
+                                      "startLatitude", points.first.latitude);
+                                  formdata.add(
+                                      "endLatitude", points.last.latitude);
+                                  formdata.add("date", DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  print(DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  meter = distance.as(
+                                      lm.LengthUnit.Meter,
+                                      lm.LatLng(points.first.latitude,
+                                          points.first.longitude),
+                                      lm.LatLng(points.last.latitude,
+                                          points.last.longitude));
+                                  setState(() {});
+                                  print(
+                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                                  print(meter);
+                                  print(
+                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                                  formdata.add("distance", _odometer.toInt());
+                                  formdata.add("steps", _odometer / 2);
+                                  formdata.add("calories",
+                                      (_polylineIdCounter * 0.0512).toInt());
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  print(formdata);
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  response = await dio.post(
+                                      "http://api.sukar.co/api/mapInformation",
+                                      data: formdata);
+                                  if (response.statusCode != 200 &&
+                                      response.statusCode != 201) {
+                                    return false;
+                                  } else {
+                                    print('success -->');
+                                    print('Response = ${response.data}');
+                                    return true;
+                                  }
+                                } on DioError catch (e) {
+                                  print(
+                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                  print(e.response.data);
+                                  return false;
+                                }
+                              }
+                              // return true;
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ))
 //        new Center(
 //          child: Column(
 //            crossAxisAlignment: CrossAxisAlignment.center,
@@ -757,7 +790,7 @@ class _MapPageState extends State<MapPage> {
 //            ],
 //          ),
 //        )
-        );
+    );
   }
 }
 
@@ -770,11 +803,11 @@ class MapItem extends StatelessWidget {
 
   MapItem(
       {Key key,
-      this.title,
-      this.value,
-      this.image,
-      this.isLeft = false,
-      this.isNotFloat = false})
+        this.title,
+        this.value,
+        this.image,
+        this.isLeft = false,
+        this.isNotFloat = false})
       : super(key: key);
 
   @override
@@ -805,7 +838,7 @@ class MapItem extends StatelessWidget {
                   border: Border.all(color: Colors.white, width: 2),
                   borderRadius: BorderRadius.circular(12.5)),
               child:
-                  Image.asset("assets/icons/$image.png", width: 20, height: 20),
+              Image.asset("assets/icons/$image.png", width: 20, height: 20),
             ),
           )
         ]),
