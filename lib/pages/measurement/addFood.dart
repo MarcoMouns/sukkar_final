@@ -283,17 +283,17 @@ class _AddFoodState extends State<AddFood> {
                                         style: TextStyle(
                                             fontSize: 13, color: Colors.blueGrey),
                                       ),
-//                                  trailing: InkWell(
-//                                    child: ImageIcon(
-//                                      AssetImage("assets/icons/ic_trash.png"),
-//                                      color: Colors.red,
-//                                    ),
-//                                    onTap: () {
-//                                      allMealsFoods.remove(meal);
-//                                      _calories.remove(meal.calories);
-//                                      setState(() {});
-//                                    },
-//                                  ),
+                                 trailing: InkWell(
+                                   child: ImageIcon(
+                                     AssetImage("assets/icons/ic_trash.png"),
+                                     color: Colors.red,
+                                   ),
+                                   onTap: () {
+                                     allMealsFoods.remove(meal);
+                                     _calories.remove(meal.calories);
+                                     setState(() {});
+                                   },
+                                 ),
                                     ),
                                     Divider(
                                       height: 16,

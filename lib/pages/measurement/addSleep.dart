@@ -183,8 +183,7 @@ class _AddSleepState extends State<AddSleep> {
                       Padding(
                         padding: EdgeInsets.only(top: 30, bottom: 40),
                         child: Text(
-                          allTranslations.text(
-                              "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not"),
+                          allTranslations.text("addYourSleeping"),
                           style:
                               TextStyle(color: Colors.blueGrey, fontSize: 17),
                         ),

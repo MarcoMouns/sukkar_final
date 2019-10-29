@@ -36,7 +36,6 @@ class Medicines {
       this.medicineId,
       this.createdAt,
       this.updatedAt,
-      this.times,
       this.medicine});
 
   Medicines.fromJson(Map<String, dynamic> json) {

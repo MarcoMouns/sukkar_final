@@ -185,7 +185,9 @@ Map<String, String> englishLang = {
   "exit":"exit",
   "editGoal":"Edit Goal",
   "noShare":"No video or file to share",
-  "steps":"Step"
+  "steps":"Step",
+  "addYourSleeping":"Please Add your Sleeping Record Data",
+  "medicineMeal":"choose the meal"
   
 
 

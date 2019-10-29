@@ -200,7 +200,9 @@ Map<String, String> arabicLang = {
   "exit": "خروج",
   "editGoal":"تعديل الاهداف",
   "noShare":"لا يوجد فيديو او ملف لمشاركته",
-  "steps":"خطوة"
+  "steps":"خطوة",
+  "addYourSleeping":"برجاء ادخال بيانات المخصصة بساعات نومك",
+  "medicineMeal":"اختار الوجبة"
 
 
 };

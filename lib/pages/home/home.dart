@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
 //scrollController to init the swiper postion
   ScrollController _scrollController;
   Response response;
-//  Map dataHome;
   MeasurementsBean dataHome;
   int sugerToday;
   String timeOfLastMeasure = "";
@@ -344,11 +343,6 @@ class _HomePageState extends State<HomePage> {
     print(calories);
 
     setState(() {});
-    // } catch (e) {
-    //   //sugerToday = sugerToday;
-
-    //   print("error ==============Today=======");
-    // }
 
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
@@ -519,7 +513,6 @@ class _HomePageState extends State<HomePage> {
   Widget widgetCircleWater;
   Widget widgetCircleHeart;
   Widget widgetCircleBlood;
-  //int goalCupOfWater = 15;
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
@@ -678,9 +671,6 @@ class _HomePageState extends State<HomePage> {
                                 getCustomerData(),
                                 getMeasurements(date),
                                 getHomeFetch(),
-                                // if (sugerToday == null) {
-                                //   loading = true;
-                                // }
                                 getcal(),
                               }
                             : null);
@@ -831,17 +821,8 @@ class _HomePageState extends State<HomePage> {
                 builder: (BuildContext context, Widget child, MainModel model) {
               return Directionality(
                 textDirection: TextDirection.ltr,
-                child:
-//                    ListView(
-//                      children: <Widget>[
-//                        Text('${newList}')
-//                      ],
-//                    )
-
-                    new ListView(
+                child: new ListView(
                   children: <Widget>[
-                    // RaisedButton(onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ex())),),
-
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: InkWell(
@@ -985,10 +966,7 @@ class _HomePageState extends State<HomePage> {
                                                               100,
                                                     )
                                                   : new InkWell(
-                                                      onTap:
-//                                    newList[index]['name'] == null
-//                                        ? null:
-                                                          () async {
+                                                      onTap: () async {
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
@@ -1019,15 +997,7 @@ class _HomePageState extends State<HomePage> {
                                                                 .size
                                                                 .width -
                                                             100,
-                                                        child:
-//                                      newList[index]['name'] == null
-//                                          ? Image.network(
-//                                              "http://api.sukar.co/${newList[index]['image']}",
-//                                              fit: BoxFit.cover,
-//                                            )
-//                                          :
-
-                                                            new Row(
+                                                        child: new Row(
                                                           children: <Widget>[
                                                             Column(
                                                               crossAxisAlignment:
@@ -1508,7 +1478,6 @@ class _HomePageState extends State<HomePage> {
             }));
   }
 
-//  final Color leftBarColor = Color(0xff53fdd7);
   final Color rightBarColor = Colors.redAccent;
   final double width = 7;
   final Color barBackgroundColor = Colors.grey.shade200;
