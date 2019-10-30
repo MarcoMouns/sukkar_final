@@ -24,6 +24,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   bool arrowFlip = false;
   bool isLoading=true;
   int specialityId = 0;
+  int indexSpeciality =0;
   double starRating=3;
   String specialityName = "عيون";
   List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
@@ -43,6 +44,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     if (mounted) setState(() {});
     print('1111111111111111111==========>${_specoalists[1].titleEn}');
     isLoading=false;
+    specialityId=_specoalists[0].id;
     setState(() {
     });
   }
@@ -215,7 +217,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                   ),
                                   Padding(padding: EdgeInsets.only(top: 5)),
                                   Text(
-                                    "${_specoalists[specialityId].titleAr}",
+                                    "${_specoalists[indexSpeciality].titleAr}",
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   RatingBar(
@@ -301,6 +303,10 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           'cancel',
           style: TextStyle(color: Colors.grey),
         ),
+        onCancel: () {
+          Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text('AlertDialogPicker.cancel')));
+        },
         confirm: Text(
           'confirm',
           style: TextStyle(color: Colors.blue),
@@ -308,8 +314,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         onConfirm: (controller) {
           List<int> selectedItems = [];
           selectedItems.add(controller.selectedRowAt(section: 0));
-          
-          specialityId = selectedItems.first;
+
+          indexSpeciality = selectedItems.first;
+          specialityId = _specoalists[indexSpeciality].id;
           specialityName = _specoalists[selectedItems.first].titleAr;
           print('**********************=>speciality-Id=$specialityId');
           arrowFlip = false;
@@ -326,6 +333,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           return _specoalists.length;
         },
         itemBuilder: (section, row) {
+
           return Text(
             '${_specoalists[row].titleAr}',
             style: TextStyle(fontSize: 12),
@@ -396,7 +404,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.6,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: StreamBuilder(
               stream: Firestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {
@@ -422,3 +430,4 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     );
   }
 }
+
