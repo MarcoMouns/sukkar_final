@@ -157,6 +157,31 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     animationController.dispose();
   }
 
+  int cIndex = 0;
+
+  Widget navPages(int index, MainModel model) {
+    if (index == 0) {
+      return Directionality(
+        textDirection: TextDirection.ltr,
+        child: PageView(
+          children: <Widget>[
+            HomePage(model: model,),
+            MapPage(),
+          ],
+        ),
+      );
+    }
+    if (index == 1) {
+      return ArticleCategory(model);
+    }
+    if (index == 2) {
+      return FriendsPage(model);
+    }
+    if (index == 3) {
+      return DoctorChatScreen();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -168,31 +193,16 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           return new Scaffold(
             key: _scaffoldKey,
             backgroundColor: Colors.white,
-            body: PageView(
-              controller: _getPageController(),
-              onPageChanged: (i) {
-                Settings.currentIndex = i - 1;
-                setState(() {});
-              },
-              children: <Widget>[
-                MapPage(
-                  pageController: _getPageController(),
-                ),
-                HomePage(
-                  pageController: _getPageController(),
-                  model: model,
-                ),
-                ArticleCategory(model),
-                FriendsPage(model),
-                DoctorChatScreen(),
-              ],
-            ),
+            body: navPages(cIndex, model),
             bottomNavigationBar: Settings.currentIndex >= 0
                 ? CustomBottomNavigationBar(
                     plusColor: _plusColor,
                     pageController: _getPageController(),
                     navigationTapped: (i) async {
+                      cIndex = i;
+                      setState(() {});
                       if (i == 4) {
+                        print('zatona');
                         _plusColor = Colors.white;
                         setState(() {});
                         showOverlay(context, model);
@@ -203,16 +213,13 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController.forward();
                         animationController2.forward();
-                      } else if (i < 4)
-                        _getPageController().animateToPage(i + 1,
-                            curve: Curves.bounceIn,
-                            duration: Duration(milliseconds: 10));
-
-                      setState(() {
-                        if (i != 4) {
-                          Settings.currentIndex = i;
-                        }
-                      });
+                      }
+                      else if (i < 4)
+                        setState(() {
+                          if (i != 4) {
+                            Settings.currentIndex = i;
+                          }
+                        });
                     })
                 : null,
           );
@@ -362,6 +369,8 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                   highlightColor: Colors.transparent,
                   onTap: () {
                     _removeOverlay();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MainHome()));
                   },
                   child: ImageIcon(
                     AssetImage("assets/icons/ic_add.png"),
