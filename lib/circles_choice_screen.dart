@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'languages/all_translations.dart';
@@ -322,7 +323,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
 
       if(response.statusCode==201){
         print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-        _successShowDialog();
+//        _successShowDialog();
       }
       else{
         print('shiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit');
@@ -693,6 +694,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     if(isFinished()){
                       changeToInt();
                       sendData();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome()));
                     }
                     else{
                       _errorShowDialog();
