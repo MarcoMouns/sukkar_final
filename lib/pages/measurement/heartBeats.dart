@@ -5,6 +5,8 @@ import 'package:health/languages/all_translations.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:intl/intl.dart' as intl;
 
+import '../home.dart';
+
 class HeartBeats extends StatefulWidget {
   MainModel model;
 
@@ -139,6 +141,20 @@ class _HeartBeatsState extends State<HeartBeats> {
                           ),
                         ],
                       ),
+Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+20)),
+InkWell(
+  child: Container(
+    width: MediaQuery.of(context).size.width*0.6,
+    height: MediaQuery.of(context).size.height*0.07,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      color: Colors.green,
+    ),
+    child: Text(allTranslations.text("save"),style: TextStyle(color: Colors.white),),
+  ),
+  onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome())),
+)
 //                      new Padding(
 //                        padding: EdgeInsets.only(top: 20),
 //                        child: Column(

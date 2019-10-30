@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:health/scoped_models/main.dart';
 
 import '../shared-data.dart';
+import 'home.dart';
 import 'others/notification.dart';
 
 import '../languages/all_translations.dart';
@@ -412,7 +413,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           onPressed: () {
                             widget.onSave(_controller.text);
                             //var formData =  _value;
-                            Navigator.pop(context, true);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome()));
                           },
                         )
                       ],

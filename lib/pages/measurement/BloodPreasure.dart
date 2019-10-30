@@ -4,6 +4,8 @@ import 'package:health/scoped_models/main.dart';
 
 import 'package:intl/intl.dart' as intl;
 
+import '../home.dart';
+
 class BloodPressure extends StatefulWidget {
   MainModel model;
 
@@ -252,7 +254,7 @@ class _BloodPressureState extends State<BloodPressure> {
                               .then((result) async {
                             print(result);
                           });
-                        Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome()));
                         },
                       ),
                     ),
