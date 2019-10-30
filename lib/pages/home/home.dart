@@ -825,6 +825,7 @@ class _HomePageState extends State<HomePage> {
                       textDirection: TextDirection.ltr,
                       child: new ListView(
                         children: <Widget>[
+                          Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top+15)),
                           SizedBox(
                             child: Column(
                               children: <Widget>[
