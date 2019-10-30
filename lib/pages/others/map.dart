@@ -251,15 +251,9 @@ class _MapPageState extends State<MapPage> {
   bool ismaping = false;
   bool troll = false;
 
-  void updatePostion() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print(
-        "current user position ---------------------------------------> $position  FROM UPDATE");
+  void draw(){
+    print('hiîàààààà1111111111111111111111111111111');
     setState(() {
-      currentPosition = position;
-      latlngSegment.add(
-          LatLng(currentPosition.latitude, currentPosition.longitude));
       _polyline.add(Polyline(
         polylineId: PolylineId('line1'),
         visible: true,
@@ -269,11 +263,27 @@ class _MapPageState extends State<MapPage> {
         color: Colors.blue,
       ));
     });
+  }
+
+  void updatePostion() async {
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+    //print(
+      //  "current user position ---------------------------------------> $position  FROM UPDATE");
+    setState(() {
+      currentPosition = position;
+      latlngSegment.add(
+          LatLng(firstPosition.latitude, firstPosition.longitude));
+      latlngSegment.add(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
+      print(LatLng(currentPosition.latitude, currentPosition.longitude));
+    });
+    setState(() {});
 
     print(
         'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
     Timer.periodic(Duration(seconds: 30), (timer) {
-      ismaping ? updatePostion() : null;
+      ismaping ? updatePostion() : draw();
     });
     setState(() {});
   }
@@ -301,7 +311,7 @@ class _MapPageState extends State<MapPage> {
   Future<Position> _getCurrentUserPosition() async {
     try {
       Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
       print(
           "current user position ---------------------------------------> $position");
       return position;
@@ -481,8 +491,7 @@ class _MapPageState extends State<MapPage> {
         textDirection: allTranslations.currentLanguage == "ar"
             ? TextDirection.rtl
             : TextDirection.ltr,
-        child: SafeArea(
-            child: new Scaffold(
+        child: Scaffold(
               body: _isLoading
                   ? Center(
                 child: CupertinoActivityIndicator(
@@ -767,7 +776,7 @@ class _MapPageState extends State<MapPage> {
                   )
                 ],
               ),
-            ))
+            )
 //        new Center(
 //          child: Column(
 //            crossAxisAlignment: CrossAxisAlignment.center,

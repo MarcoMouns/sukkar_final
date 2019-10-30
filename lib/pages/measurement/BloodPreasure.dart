@@ -106,11 +106,6 @@ class _BloodPressureState extends State<BloodPressure> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-//                          _inputText(
-//                              allTranslations.text("Diastolic"),
-//                              allTranslations.text("normal"),
-//                              Colors.blue,
-//                              myFocusNode1),
                           new Expanded(
                               child: Column(
                             children: <Widget>[
@@ -118,7 +113,6 @@ class _BloodPressureState extends State<BloodPressure> {
                                 alignment: Alignment.bottomRight,
                                 children: <Widget>[
                                   TextFormField(
-                                    focusNode: myFocusNode1,
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(
@@ -182,7 +176,6 @@ class _BloodPressureState extends State<BloodPressure> {
                                     alignment: Alignment.bottomRight,
                                     children: <Widget>[
                                       TextFormField(
-                                        focusNode: myFocusNode1,
                                         textDirection: TextDirection.ltr,
                                         keyboardType: TextInputType.number,
                                         style: TextStyle(

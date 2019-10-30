@@ -991,7 +991,7 @@ class _HomePageState extends State<HomePage> {
                                                                             10))),
                                                         margin: EdgeInsets
                                                             .symmetric(
-                                                                horizontal: 5),
+                                                                horizontal: 10),
                                                         width: MediaQuery.of(
                                                                     context)
                                                                 .size
@@ -999,7 +999,25 @@ class _HomePageState extends State<HomePage> {
                                                             100,
                                                         child: new Row(
                                                           children: <Widget>[
-                                                            Column(
+                                                
+  
+                                                            SizedBox(
+                                                              width: 130,
+                                                              height: 100,
+                                                              child: ClipRRect(
+                                                                child: Image
+                                                                    .network(
+                                                                  "http://api.sukar.co/${banners[index].image}",
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                            ),
+                                                                        Column(
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .center,
@@ -1010,6 +1028,7 @@ class _HomePageState extends State<HomePage> {
                                                                       EdgeInsets
                                                                           .only(
                                                                     top: 10,
+                                                                    right: 10
                                                                   ),
                                                                   child: Text(
                                                                     banners[index]
@@ -1042,22 +1061,6 @@ class _HomePageState extends State<HomePage> {
                                                                   ),
                                                                 ),
                                                               ],
-                                                            ),
-                                                            SizedBox(
-                                                              width: 130,
-                                                              height: 100,
-                                                              child: ClipRRect(
-                                                                child: Image
-                                                                    .network(
-                                                                  "http://api.sukar.co/${banners[index].image}",
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
                                                             ),
                                                           ],
                                                         ),
