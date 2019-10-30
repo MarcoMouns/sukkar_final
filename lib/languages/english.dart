@@ -190,7 +190,8 @@ Map<String, String> englishLang = {
   "medicineMeal":"choose the meal",
   "AddMedicine":"Add Medicine",
   "mediMenu":"Medicine Menu",
-  "addMed":"add"
+  "addMed":"add",
+  "editcircle": "Edit Home Circles",
 
   
 

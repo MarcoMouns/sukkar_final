@@ -133,6 +133,7 @@ mixin UserScopedModel on Model {
       formdata.add("name", userData['userName']);
       formdata.add("email", userData['email']);
       formdata.add("birth_date", userData['birthDate']);
+      formdata.add("injuredDate", userData['injuredDate']);
       formdata.add("token_id", "0000000000");
       formdata.add("gender", userData['gender']);
       formdata.add("phone", userData['phone']);
@@ -166,7 +167,8 @@ mixin UserScopedModel on Model {
         "userName": response.data['user']['name'],
         "phone": response.data['user']['phone'],
         "email": response.data['user']['email'],
-        "injuredDate": response.data['user']['birth_date'],
+        "birthDate": response.data['user']['birth_date'],
+        "injuredDate": response.data['user']['injuredDate'],
         "state": response.data['user']['state'],
         "image": response.data['user']['image'],
         "gender": response.data['user']['gender'],
