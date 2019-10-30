@@ -413,7 +413,7 @@ class _BottomSheetState extends State<BottomSheet> {
                           onPressed: () {
                             widget.onSave(_controller.text);
                             //var formData =  _value;
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome()));
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
                           },
                         )
                       ],
