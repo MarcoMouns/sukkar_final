@@ -243,7 +243,7 @@ class _MapPageState extends State<MapPage> {
   PolylineId selectedPolyline;
   Position firstPosition;
   Position currentPosition;
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool checkRun = false;
   final List<LatLng> points = <LatLng>[];
   Response response;
@@ -298,12 +298,11 @@ class _MapPageState extends State<MapPage> {
         print('myAss is true');
         firstPosition = position;
         currentPosition = position;
-        _isLoading = false;
         print('myAss is ffalse');
+        _isLoading = false;
       });
     }).catchError((err) {
       setState(() {
-        _isLoading = false;
       });
     });
   }
@@ -767,7 +766,7 @@ class _MapPageState extends State<MapPage> {
                                   return false;
                                 }
                               }
-                              // return true;
+                               return true;
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0)))

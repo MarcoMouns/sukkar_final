@@ -93,7 +93,7 @@ class _DocInfoState extends State<DocInfo> {
                 CircleAvatar(
                   radius: 40,
                   backgroundImage:
-                  response.data['doctor']['image']==null? Image.asset('assets/icons/ic_avatar.png'):
+                  response.data['doctor']['image']==null? AssetImage('assets/icons/ic_avatar.png'):
                   NetworkImage('http://api.sukar.co${response.data['doctor']['image']}'),
                 ),
                 Padding(

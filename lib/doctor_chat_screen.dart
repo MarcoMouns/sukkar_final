@@ -301,10 +301,6 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           'cancel',
           style: TextStyle(color: Colors.grey),
         ),
-        onCancel: () {
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('AlertDialogPicker.cancel')));
-        },
         confirm: Text(
           'confirm',
           style: TextStyle(color: Colors.blue),
@@ -400,7 +396,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.6,
             child: StreamBuilder(
               stream: Firestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {
