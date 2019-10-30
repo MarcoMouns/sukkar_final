@@ -825,52 +825,6 @@ class _HomePageState extends State<HomePage> {
                       textDirection: TextDirection.ltr,
                       child: new ListView(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
-                              highlightColor: Colors.white,
-                              splashColor: Colors.white,
-                              focusColor: Colors.white,
-                              hoverColor: Colors.white,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.refresh,
-                                    color: Colors.grey,
-                                    size: 16,
-                                  ),
-                                  Text(allTranslations.text("refresh"),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.normal)),
-                                ],
-                              ),
-                              onTap: () {
-                                getMeasurementsForDay(date);
-                                emptylists();
-                                fetchMeals();
-                                print(sugerToday);
-                                setFirebaseImage();
-                                getCustomerData();
-                                getMeasurements(date);
-                                getHomeFetch();
-                                getcal();
-                                if (cupOfWater >= goalOfWater && goalOfWater != 0) {
-                                  showNotification(
-                                      allTranslations.text("dailyGoal_Completed"),
-                                      allTranslations.text("waterGoal_Completed"));
-                                }
-
-                                if (calories >= calGoals && calories != 0) {
-                                  showNotification(
-                                      allTranslations.text("dailyGoal_Completed"),
-                                      allTranslations.text("caloriesGoal_Completed"));
-                                }
-                              },
-                            ),
-                          ),
                           SizedBox(
                             child: Column(
                               children: <Widget>[

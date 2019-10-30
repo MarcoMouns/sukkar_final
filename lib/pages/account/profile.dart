@@ -13,6 +13,7 @@ import '../../languages/all_translations.dart';
 import 'dart:convert';
 
 import '../../shared-data.dart';
+import '../home.dart';
 import 'aboutApp.dart';
 import 'contacts.dart';
 import 'edit_profile.dart';
@@ -299,7 +300,7 @@ class _EditProfileState extends State<EditProfile> {
                                   onPressed: () {
                                     allTranslations.setNewLanguage("en", true);
                                     setState(() {});
-                                    Navigator.pop(context);
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -308,7 +309,7 @@ class _EditProfileState extends State<EditProfile> {
                                   onPressed: () {
                                     allTranslations.setNewLanguage("ar", true);
                                     setState(() {});
-                                    Navigator.pop(context);
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
                                   },
                                 )
                               ],
