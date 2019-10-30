@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  Future setFirebaseImage() async {
+  static Future setFirebaseImage() async {
     print(SharedData.customerData['fuid']);
     print(SharedData.customerData['image']);
     Firestore.instance
@@ -933,6 +933,7 @@ class _HomePageState extends State<HomePage> {
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 10,
+                                                
                                         child: Directionality(
                                           textDirection: TextDirection.rtl,
                                           child: ListView.builder(
@@ -958,7 +959,7 @@ class _HomePageState extends State<HomePage> {
                                                                           10))),
                                                       margin:
                                                           EdgeInsets.symmetric(
-                                                              horizontal: 5),
+                                                              horizontal: 10),
                                                       width:
                                                           MediaQuery.of(context)
                                                                   .size
@@ -966,6 +967,7 @@ class _HomePageState extends State<HomePage> {
                                                               100,
                                                     )
                                                   : new InkWell(
+                                                    
                                                       onTap: () async {
                                                         Navigator.push(
                                                           context,
@@ -981,6 +983,7 @@ class _HomePageState extends State<HomePage> {
                                                         );
                                                       },
                                                       child: new Container(
+                                                        
                                                         decoration: ShapeDecoration(
                                                             color: Colors
                                                                 .grey[200],
@@ -992,15 +995,9 @@ class _HomePageState extends State<HomePage> {
                                                         margin: EdgeInsets
                                                             .symmetric(
                                                                 horizontal: 10),
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            100,
+                                                        width: 230,
                                                         child: new Row(
                                                           children: <Widget>[
-                                                
-  
                                                             SizedBox(
                                                               width: 130,
                                                               height: 100,
@@ -1017,19 +1014,17 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                             ),
-                                                                        Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
+                                                           SizedBox(
+                                                             child:   Column(
                                                               children: <
                                                                   Widget>[
                                                                 Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                    top: 10,
-                                                                    right: 10
-                                                                  ),
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              10,
+                                                                          right:
+                                                                              10),
                                                                   child: Text(
                                                                     banners[index]
                                                                         .name,
@@ -1062,6 +1057,9 @@ class _HomePageState extends State<HomePage> {
                                                                 ),
                                                               ],
                                                             ),
+                                                          
+                                                           ) 
+                                                          
                                                           ],
                                                         ),
                                                       ),

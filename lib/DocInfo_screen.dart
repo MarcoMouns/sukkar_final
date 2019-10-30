@@ -80,9 +80,7 @@ class _DocInfoState extends State<DocInfo> {
         ),
       )
       :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+      ListView(
         children: <Widget>[
           Container(
             alignment: Alignment.topCenter,
@@ -158,6 +156,7 @@ class _DocInfoState extends State<DocInfo> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
+              
               children: <Widget>[
                 Text("عن الدكتور",style: TextStyle(color: Colors.blue,fontSize: 20),),
                 Container(

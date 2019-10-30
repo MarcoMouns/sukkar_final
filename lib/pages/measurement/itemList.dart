@@ -26,6 +26,7 @@ class _ItemListState extends State<ItemList> {
   Map<String, dynamic> user;
   List<Foods> _selectedFoods = [];
   FocusNode _focusNode = FocusNode();
+  String filter="";
 
   List<Foods> foods = [];
   List<Medicine> medicines = [];
@@ -261,7 +262,12 @@ class _ItemListState extends State<ItemList> {
                                 borderRadius: new BorderRadius.all(
                                     Radius.elliptical(10, 10)))),
                         child: TextField(
-                          onChanged: (String value) {},
+                          onChanged: (String value) {
+                            filter = value;
+                            setState(() {
+                              
+                            });
+                          },
                           focusNode: _focusNode,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -273,154 +279,164 @@ class _ItemListState extends State<ItemList> {
                       Expanded(
                         child: ListView.builder(
                           itemCount:
+                              
                               widget.isfood ? foods.length : medicines.length,
                           itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      widget.isfood
-                                          ? foods[index].titleAr
-                                          : medicines[index].name,
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.blueGrey),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 15,
-                                      backgroundColor: Colors.white,
-                                      child: InkWell(
-                                        child: widget.isfood
-                                            ? Image.asset(foods[index]
-                                                        .isselected ==
-                                                    0
-                                                ? "assets/icons/ic_radio_off.png"
-                                                : "assets/icons/ic_radio_on.png")
-                                            : Image.asset(medicines[index]
-                                                        .isSelected ==
-                                                    1
-                                                ? "assets/icons/ic_radio_on.png"
-                                                : "assets/icons/ic_radio_off.png"),
-                                        onTap: () {
-                                          setState(() {
-                                            if (widget.isfood) {
-                                              if (foods[index].isselected ==
-                                                  0) {
-                                                foods[index].isselected = 1;
-                                                _selectedFoods
-                                                    .add(foods[index]);
-                                              } else {
-                                                foods[index].isselected = 0;
-                                                _selectedFoods
-                                                    .remove(foods[index]);
-                                              }
-
-                                              print(
-                                                  "selected food $_selectedFoods");
-                                            } else {
-                                              if (medicines[index].isSelected ==
-                                                  0) {
-                                                medicines[index].isSelected = 1;
-
-                                                //TODO:add meal id dialog
-                                                int meal;
-
-                                                showCupertinoModalPopup(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          CupertinoActionSheet(
-                                                    title: Text(allTranslations
-                                                        .text("medicineMeal")),
-                                                    actions: <Widget>[
-                                                      CupertinoActionSheetAction(
-                                                        child: Text(
-                                                            allTranslations.text(
-                                                                "breakfast")),
-                                                        onPressed: () {
-                                                          meal = 1;
-                                                          addTakenMed(
-                                                              medicines[index]
-                                                                  .id,
-                                                              meal);
-                                                          medicines[index]
-                                                              .isSelected = 0;
-                                                          setState(() {});
-
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      ),
-                                                      CupertinoActionSheetAction(
-                                                        child: Text(
-                                                            allTranslations
-                                                                .text("lunch")),
-                                                        onPressed: () {
-                                                          meal = 2;
-                                                          addTakenMed(
-                                                              medicines[index]
-                                                                  .id,
-                                                              meal);
-                                                          medicines[index]
-                                                              .isSelected = 0;
-                                                          setState(() {});
-
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      ),
-                                                      CupertinoActionSheetAction(
-                                                        child: Text(
-                                                            allTranslations
-                                                                .text(
-                                                                    "dinner")),
-                                                        onPressed: () {
-                                                          meal = 3;
-                                                          addTakenMed(
-                                                              medicines[index]
-                                                                  .id,
-                                                              meal);
-                                                          medicines[index]
-                                                              .isSelected = 0;
-                                                          setState(() {});
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      ),
-                                                      CupertinoActionSheetAction(
-                                                        child: Text(
-                                                            allTranslations
-                                                                .text(
-                                                                    "cancel")),
-                                                        onPressed: () {
-                                                          medicines[index]
-                                                              .isSelected = 0;
-                                                          setState(() {});
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                      )
-                                                    ],
-                                                  ),
-                                                );
-                                              }
-                                            }
-                                          });
-                                        },
+                            Widget result;
+                            bool isRight = widget.isfood ? foods[index].titleAr.contains(filter): medicines[index].name.contains(filter);
+                             wisRight ?
+                            result =  Container(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        widget.isfood
+                                            ?  foods[index].titleAr
+                                            :  medicines[index].name,
+                                        style: TextStyle(
+                                            fontSize: 18, color: Colors.blueGrey),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                Divider(
-                                  color: Colors.grey,
-                                  indent: 2,
-                                  height: 30,
-                                )
-                              ],
-                            );
+                                      CircleAvatar(
+                                        radius: 15,
+                                        backgroundColor: Colors.white,
+                                        child: InkWell(
+                                          child: widget.isfood
+                                              ? Image.asset(foods[index]
+                                                          .isselected ==
+                                                      0
+                                                  ? "assets/icons/ic_radio_off.png"
+                                                  : "assets/icons/ic_radio_on.png")
+                                              : Image.asset(medicines[index]
+                                                          .isSelected ==
+                                                      1
+                                                  ? "assets/icons/ic_radio_on.png"
+                                                  : "assets/icons/ic_radio_off.png"),
+                                          onTap: () {
+                                            setState(() {
+                                              if (widget.isfood) {
+                                                if (foods[index].isselected ==
+                                                    0) {
+                                                  foods[index].isselected = 1;
+                                                  _selectedFoods
+                                                      .add(foods[index]);
+                                                } else {
+                                                  foods[index].isselected = 0;
+                                                  _selectedFoods
+                                                      .remove(foods[index]);
+                                                }
+
+                                                print(
+                                                    "selected food $_selectedFoods");
+                                              } else {
+                                                if (medicines[index].isSelected ==
+                                                    0) {
+                                                  medicines[index].isSelected = 1;
+
+                                                  //TODO:add meal id dialog
+                                                  int meal;
+
+                                                  showCupertinoModalPopup(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) =>
+                                                            CupertinoActionSheet(
+                                                      title: Text(allTranslations
+                                                          .text("medicineMeal")),
+                                                      actions: <Widget>[
+                                                        CupertinoActionSheetAction(
+                                                          child: Text(
+                                                              allTranslations.text(
+                                                                  "breakfast")),
+                                                          onPressed: () {
+                                                            meal = 1;
+                                                            addTakenMed(
+                                                                medicines[index]
+                                                                    .id,
+                                                                meal);
+                                                            medicines[index]
+                                                                .isSelected = 0;
+                                                            setState(() {});
+
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                        CupertinoActionSheetAction(
+                                                          child: Text(
+                                                              allTranslations
+                                                                  .text("lunch")),
+                                                          onPressed: () {
+                                                            meal = 2;
+                                                            addTakenMed(
+                                                                medicines[index]
+                                                                    .id,
+                                                                meal);
+                                                            medicines[index]
+                                                                .isSelected = 0;
+                                                            setState(() {});
+
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                        CupertinoActionSheetAction(
+                                                          child: Text(
+                                                              allTranslations
+                                                                  .text(
+                                                                      "dinner")),
+                                                          onPressed: () {
+                                                            meal = 3;
+                                                            addTakenMed(
+                                                                medicines[index]
+                                                                    .id,
+                                                                meal);
+                                                            medicines[index]
+                                                                .isSelected = 0;
+                                                            setState(() {});
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        ),
+                                                        CupertinoActionSheetAction(
+                                                          child: Text(
+                                                              allTranslations
+                                                                  .text(
+                                                                      "cancel")),
+                                                          onPressed: () {
+                                                            medicines[index]
+                                                                .isSelected = 0;
+                                                            setState(() {});
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Divider(
+                                    color: Colors.grey,
+                                    indent: 2,
+                                    height: 30,
+                                  )
+                                ],
+                              ),
+                            ):result=Container();
+                            return result;
+                          
+                          
+                          
                           },
                         ),
                       ),

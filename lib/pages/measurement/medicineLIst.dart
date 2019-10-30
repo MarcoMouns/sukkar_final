@@ -30,6 +30,7 @@ class _MedListState extends State<MedList> {
   final String baseUrl = 'http://api.sukar.co/api';
 
   Future<Void> getMedi() async {
+    medi.clear();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
@@ -165,7 +166,7 @@ class _MedListState extends State<MedList> {
                                 builder: (context) => ItemList(
                                       model: model,
                                       isfood: false,
-                                    )));
+                                    ))).then((val)=>val?getMedi():null);
                       },
                     ),
                     SizedBox(
