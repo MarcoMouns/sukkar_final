@@ -284,7 +284,7 @@ class _ItemListState extends State<ItemList> {
                           itemBuilder: (context, index) {
                             Widget result;
                             bool isRight = widget.isfood ? foods[index].titleAr.contains(filter): medicines[index].name.contains(filter);
-                             wisRight ?
+                             isRight ?
                             result =  Container(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
