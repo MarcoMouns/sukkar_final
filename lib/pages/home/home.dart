@@ -931,7 +931,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: new Row(
                                                     children: <Widget>[
                                                       SizedBox(
-                                                        width: 130,
+                                                        width: 80,
                                                         height: 100,
                                                         child: ClipRRect(
                                                           child: Image
