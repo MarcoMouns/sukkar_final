@@ -180,6 +180,19 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     if (index == 3) {
       return DoctorChatScreen();
     }
+    
+    print('jjjjjjjjjjjjjj $index');
+    
+    
+    return Directionality(
+        textDirection: TextDirection.ltr,
+        child: PageView(
+          children: <Widget>[
+            HomePage(model: model,),
+            MapPage(),
+          ],
+        ),
+      );
   }
 
   @override

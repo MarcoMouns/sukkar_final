@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home.dart';
 
 class editGoalsScreen extends StatefulWidget {
   @override
@@ -11,11 +14,14 @@ class editGoalsScreen extends StatefulWidget {
 }
 
 class editGoalsScreenState extends State<editGoalsScreen> {
-  int waterGoal=0;
-  int calGoal=0;
-  int stepsGoal=0;
-  int distanceGoal=0;
+  int waterGoal = 0;
+  int calGoal = 0;
+  int stepsGoal = 0;
+  int distanceGoal = 0;
   bool isLoading = true;
+  bool isAutoMatic = true;
+  bool isdisabled = false;
+  String iconRemainingName = "_gray";
   Dio dio = new Dio();
 
   final String baseUrl = 'http://api.sukar.co/api';
@@ -29,24 +35,30 @@ class editGoalsScreenState extends State<editGoalsScreen> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response =
-        await dio.get("$baseUrl/measurements/goals", options: Options(headers: headers));
-        waterGoal = response.data['goals']['water_cups_goal'];
-        distanceGoal = response.data['goals']['distance_goal'];
-        calGoal = response.data['goals']['calorie_goal'];
-        stepsGoal = response.data['goals']['steps_goal'];
+    response = await dio.get("$baseUrl/measurements/goals",
+        options: Options(headers: headers));
+    waterGoal = response.data['goals']['water_cups_goal'];
+    distanceGoal = response.data['goals']['distance_goal'];
+    calGoal = response.data['goals']['calorie_goal'];
+    stepsGoal = response.data['goals']['steps_goal'];
+    print(isAutoMatic); 
+    isAutoMatic = response.data['isAutomatically'];
+    
+    isdisabled = !isAutoMatic;
+    iconRemainingName = isAutoMatic? "_gray" : "";
+   
+    
+    print(isAutoMatic); 
 
-        print(response.data);
-
+    print(response.data);
+    setState(() {});
     isLoading = false;
     return response;
   }
 
-
-
-
-    Future<Response> setGoals() async {
+  Future<Response> setGoals() async {
     Response response;
+    int isAuto = isAutoMatic ? 1 :0;
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
@@ -54,14 +66,11 @@ class editGoalsScreenState extends State<editGoalsScreen> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response =
-        await dio.post("$baseUrl/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal", options: Options(headers: headers));
+    response = await dio.post(
+        "$baseUrl/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal&isAutomatically=$isAuto",
+        options: Options(headers: headers));
 
     print(response.data);
-    
-
-
-
 
     return response;
   }
@@ -89,7 +98,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                     SizedBox(
                         height: 50,
                         width: 50,
-                        child: Image.asset("assets/icons/ic_cup.png",
+                        child: Image.asset(
+                            "assets/icons/ic_cup$iconRemainingName.png",
                             fit: BoxFit.scaleDown)),
                     Padding(padding: EdgeInsets.only(right: 15)),
                     Text(allTranslations.text("cups")),
@@ -99,9 +109,9 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                   height: 50,
                   width: 50,
                   child: TextFormField(
-                    initialValue: waterGoal.toString(),
+                    enabled: isdisabled,
                     keyboardType: TextInputType.number,
-                    onChanged: (val){
+                    onChanged: (val) {
                       waterGoal = int.parse(val);
                     },
                   ),
@@ -119,7 +129,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                     SizedBox(
                         height: 50,
                         width: 50,
-                        child: Image.asset("assets/icons/ic_cal.png",
+                        child: Image.asset(
+                            "assets/icons/ic_cal$iconRemainingName.png",
                             fit: BoxFit.scaleDown)),
                     Padding(padding: EdgeInsets.only(right: 15)),
                     Text(allTranslations.text("cals")),
@@ -129,9 +140,9 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                   height: 50,
                   width: 50,
                   child: TextFormField(
-                    initialValue: calGoal.toString(),
+                    enabled: isdisabled,
                     keyboardType: TextInputType.number,
-                    onChanged: (val){
+                    onChanged: (val) {
                       calGoal = int.parse(val);
                     },
                   ),
@@ -149,7 +160,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                     SizedBox(
                       height: 50,
                       width: 50,
-                      child: Image.asset("assets/icons/ic_steps.png",
+                      child: Image.asset(
+                          "assets/icons/ic_steps$iconRemainingName.png",
                           fit: BoxFit.scaleDown),
                     ),
                     Padding(padding: EdgeInsets.only(right: 15)),
@@ -160,9 +172,9 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                   height: 50,
                   width: 50,
                   child: TextFormField(
-                    initialValue: stepsGoal.toString(),
+                    enabled: isdisabled,
                     keyboardType: TextInputType.number,
-                    onChanged: (val){
+                    onChanged: (val) {
                       stepsGoal = int.parse(val);
                     },
                   ),
@@ -180,7 +192,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                     SizedBox(
                       height: 50,
                       width: 50,
-                      child: Image.asset("assets/icons/ic_location.png",
+                      child: Image.asset(
+                          "assets/icons/ic_location$iconRemainingName.png",
                           fit: BoxFit.scaleDown),
                     ),
                     Padding(padding: EdgeInsets.only(right: 15)),
@@ -191,15 +204,55 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                   height: 50,
                   width: 50,
                   child: TextFormField(
-                   initialValue: distanceGoal.toString(),
-                   keyboardType: TextInputType.number,
-                    onChanged: (val){
+                    enabled: isdisabled,
+                    keyboardType: TextInputType.number,
+                    onChanged: (val) {
                       distanceGoal = int.parse(val);
                     },
                   ),
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top)),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Divider(
+                  thickness: 0.7,
+                ),
+              ),
+              MergeSemantics(
+                child: ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.only(right: 15)),
+                      Text(allTranslations.text("isAuto")),
+                    ],
+                  ),
+                  trailing: CupertinoSwitch(
+                    value: isAutoMatic,
+                    onChanged: (bool value) {
+                      setState(() {
+                         isAutoMatic = !isAutoMatic;
+                        isdisabled = !isdisabled;
+                        iconRemainingName = isAutoMatic ? "_gray" : "";
+                        print(isAutoMatic);
+                        print("=======");
+                        print(value);
+                        setState(() {
+                          
+                        });
+                      });
+                    },
+                  ),
+                  onTap: () {
+                    setState(() {
+                      isAutoMatic = !isAutoMatic;
+                      print("=====================");
+                    });
+                  },
+                ),
+              ),
+              Padding(
+                  padding:
+                      EdgeInsets.only(top: MediaQuery.of(context).padding.top)),
               InkWell(
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -215,7 +268,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 ),
                 onTap: () {
                   setGoals();
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MainHome()));
                 },
               )
             ],

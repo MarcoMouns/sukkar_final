@@ -79,7 +79,7 @@ flutter:
     - assets/icons/
     - assets/lang/
     - assets/
-  fonts:
-    - family: najed
-      fonts:
-        - asset: assets/fonts/najed.ttf
+  # fonts:
+  #   - family: najed
+  #     fonts:
+  #       - asset: "assets/fonts/naj3ed.ttf"

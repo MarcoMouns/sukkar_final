@@ -192,6 +192,7 @@ Map<String, String> englishLang = {
   "mediMenu":"Medicine Menu",
   "addMed":"add",
   "editcircle": "Edit Home Circles",
+  "isAuto":"Calculate goals automatically"
 
   
 

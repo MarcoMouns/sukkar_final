@@ -205,7 +205,9 @@ Map<String, String> arabicLang = {
   "medicineMeal":"اختار الوجبة",
   "AddMedicine":"اضف دواء",
   "mediMenu":"قائمة الادوية",
-  "addMed":"add"
+  "addMed":"add",
+  "isAuto":"حساب الاهداف اليا"
+
 
 
 };
