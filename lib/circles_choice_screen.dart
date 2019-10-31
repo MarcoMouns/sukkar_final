@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/main.dart';
 import 'package:health/pages/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -694,7 +695,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     if(isFinished()){
                       changeToInt();
                       sendData();
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MainHome()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyApp()));
                     }
                     else{
                       _errorShowDialog();

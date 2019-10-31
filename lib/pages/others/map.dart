@@ -267,13 +267,11 @@ class _MapPageState extends State<MapPage> {
 
   void updatePostion() async {
     Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     //print(
       //  "current user position ---------------------------------------> $position  FROM UPDATE");
     setState(() {
       currentPosition = position;
-      latlngSegment.add(
-          LatLng(firstPosition.latitude, firstPosition.longitude));
       latlngSegment.add(
           LatLng(currentPosition.latitude, currentPosition.longitude));
       print(LatLng(currentPosition.latitude, currentPosition.longitude));
@@ -310,7 +308,7 @@ class _MapPageState extends State<MapPage> {
   Future<Position> _getCurrentUserPosition() async {
     try {
       Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
       print(
           "current user position ---------------------------------------> $position");
       return position;
@@ -554,18 +552,18 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-                  Positioned(
-                    top: 1,
-                    right: 1,
-                    child: Column(
-                      children: <Widget>[
-                        Text("${currentPosition.longitude}",
-                          style: TextStyle(fontSize: 25),),
-                        Text("${currentPosition.latitude}",
-                            style: TextStyle(fontSize: 25)),
-                      ],
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: 1,
+                  //   right: 1,
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       Text("${currentPosition.longitude}",
+                  //         style: TextStyle(fontSize: 25),),
+                  //       Text("${currentPosition.latitude}",
+                  //           style: TextStyle(fontSize: 25)),
+                  //     ],
+                  //   ),
+                  // ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -663,7 +661,7 @@ class _MapPageState extends State<MapPage> {
                               isNotFloat: true),
                           MapItem(
                               title: "cals",
-                              value: "${(_polylineIdCounter * 0.0512).ceil()}",
+                              value: "${(_odometer * 0.0512).ceil()}",
                               image: "ic_cal",
                               isLeft: false)
                         ],
@@ -742,7 +740,7 @@ class _MapPageState extends State<MapPage> {
                                   formdata.add("distance", _odometer.toInt());
                                   formdata.add("steps", _odometer / 2);
                                   formdata.add("calories",
-                                      (_polylineIdCounter * 0.0512).toInt());
+                                      (_odometer * 0.0512).toInt());
                                   print(
                                       '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                   print(formdata);
