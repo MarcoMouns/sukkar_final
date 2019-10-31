@@ -17,6 +17,7 @@ import '../../Models/all_meals_foods.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../../shared-data.dart';
+import '../home.dart';
 
 class AddFood extends StatefulWidget {
   final MainModel model;
@@ -194,11 +195,8 @@ class _AddFoodState extends State<AddFood> {
                         leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pop(context,(){
-   setState(() {
-     
-   });
-                });
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => MainHome()));
               },
             ),
             centerTitle: true,
@@ -315,7 +313,8 @@ class _AddFoodState extends State<AddFood> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                         onPressed: () {
-                          Navigator.pop(context,true);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MainHome()));
                         },
                       ),
                     )

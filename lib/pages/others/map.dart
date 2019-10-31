@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong/latlong.dart' as lm;
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
 as bg;
+
+import '../home.dart';
 
 ///********************from here this is the stopwatch********************
 ///note: i was too lazy to make this in another class and use it here #panda
@@ -185,9 +188,7 @@ class HundredsState extends State<Hundreds> {
 ///
 class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
-  final PageController pageController;
 
-  MapPage({this.pageController});
 }
 
 class _MapPageState extends State<MapPage> {
@@ -571,9 +572,8 @@ class _MapPageState extends State<MapPage> {
                     allTranslations.currentLanguage == "ar" ? null : 20,
                     child: InkWell(
                       onTap: () {
-                        widget.pageController.animateToPage(1,
-                            duration: Duration(milliseconds: 10),
-                            curve: Curves.bounceIn);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => MainHome()));
                       },
                       child: Container(
                         child: Icon(

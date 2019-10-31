@@ -9,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/measurement/addsugar.dart';
+import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -31,10 +32,9 @@ import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'measurementsDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
-  final PageController pageController;
   final MainModel model;
 
-  HomePage({@required this.pageController, this.model});
+  HomePage({this.model});
 
   @override
   State<StatefulWidget> createState() {
@@ -697,11 +697,11 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            widget.pageController.animateToPage(3,
-                                duration: Duration(
-                                  milliseconds: 10,
-                                ),
-                                curve: Curves.bounceIn);
+//                            widget.pageController.animateToPage(3,
+//                                duration: Duration(
+//                                  milliseconds: 10,
+//                                ),
+//                                curve: Curves.bounceIn);
                           },
                           child: Stack(
                             alignment: Alignment.centerLeft,
@@ -833,41 +833,26 @@ class _HomePageState extends State<HomePage> {
                                   height: MediaQuery.of(context).size.height * 0.455,
                                   child: Row(
                                     children: <Widget>[
-                                      RotatedBox(
-                                        quarterTurns: 2,
-                                        child: InkWell(
-                                          child: Image.asset(
-                                            "assets/icons/ic_arrow_r.png",
-                                            matchTextDirection: true,
-                                            width: 15,
-                                            height:
-                                            MediaQuery.of(context).size.height *
-                                                3 /
-                                                5,
-                                          ),
-                                          onTap: () {
-                                            widget.pageController.animateToPage(2,
-                                                duration: Duration(milliseconds: 10),
-                                                curve: Curves.bounceIn);
-                                          },
-                                        ),
-                                      ),
+                                      Container(),
                                       Expanded(
                                         child: upperCircles(
                                             context, _chartRadius, model),
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          widget.pageController.animateToPage(0,
-                                              curve: Curves.bounceIn,
-                                              duration: Duration(milliseconds: 10));
+//                                          widget.pageController.animateToPage(0,
+//                                              curve: Curves.bounceIn,
+//                                              duration: Duration(milliseconds: 10));
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MapPage()));
                                         },
                                         child: Image.asset(
                                           "assets/icons/ic_arrow_r.png",
                                           width: 15,
                                           height: MediaQuery.of(context).size.height *
-                                              3 /
-                                              5,
+                                              3,
                                           matchTextDirection: true,
                                         ),
                                       ),
@@ -889,7 +874,7 @@ class _HomePageState extends State<HomePage> {
                                       new SizedBox(
                                         height:
                                         MediaQuery.of(context).size.height /
-                                            10,
+                                            11,
 
                                         child: Directionality(
                                           textDirection: TextDirection.rtl,

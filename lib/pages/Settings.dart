@@ -332,96 +332,108 @@ class _BottomSheetState extends State<BottomSheet> {
     }
   }
 
+  Future<void> pop() {
+    return Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => MainHome()));
+  }
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-              onTap: () {
-                Navigator.of(context).pop(_value);
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.only(bottom: 7),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Image.asset(
-                          "assets/icons/${widget.image}.png",
-                          height: 50,
-                          width: 50,
-                          color: Colors.red,
-                        ),
-                        Text(
-                          allTranslations.text(widget.title),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          allTranslations.text(widget.subtitle),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Container(
-                          width: 150,
-                          child: LogInInput(
-                            enabled: true,
-                            autoValidate: true,
-                            name: "",
-                            controller: _controller,
-                            keyboard: widget.addSlider
-                                ? TextInputType.numberWithOptions()
-                                : null,
+    return WillPopScope(
+      child: Padding(
+          padding:
+          EdgeInsets.only(bottom: MediaQuery
+              .of(context)
+              .viewInsets
+              .bottom),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop(_value);
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(bottom: 7),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Image.asset(
+                            "assets/icons/${widget.image}.png",
+                            height: 50,
+                            width: 50,
+                            color: Colors.red,
                           ),
-                        ),
-                        widget.addSlider
-                            ? Slider(
-                                inactiveColor: Colors.grey,
-                                value: double.parse(_value.toString()),
-                                min: widget.min,
-                                max: widget.max,
-                                divisions: (widget.max - widget.min).toInt(),
-                                label: '${_value.round()}',
-                                onChanged: (value) {
-                                  setState(() {
-                                    _value = value ~/ 1;
-                                    _controller.text = _value.toString();
-                                  });
-                                },
-                              )
-                            : SizedBox(
-                                width: 0,
-                                height: 0,
-                              ),
-                        RaisedButton(
-                          child: Text(
-                            allTranslations.text("save"),
+                          Text(
+                            allTranslations.text(widget.title),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.bold),
                           ),
-                          onPressed: () {
-                            widget.onSave(_controller.text);
-                            //var formData =  _value;
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
-                          },
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              )),
-        ));
+                          Text(
+                            allTranslations.text(widget.subtitle),
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          Container(
+                            width: 150,
+                            child: LogInInput(
+                              enabled: true,
+                              autoValidate: true,
+                              name: "",
+                              controller: _controller,
+                              keyboard: widget.addSlider
+                                  ? TextInputType.numberWithOptions()
+                                  : null,
+                            ),
+                          ),
+                          widget.addSlider
+                              ? Slider(
+                            inactiveColor: Colors.grey,
+                            value: double.parse(_value.toString()),
+                            min: widget.min,
+                            max: widget.max,
+                            divisions: (widget.max - widget.min).toInt(),
+                            label: '${_value.round()}',
+                            onChanged: (value) {
+                              setState(() {
+                                _value = value ~/ 1;
+                                _controller.text = _value.toString();
+                              });
+                            },
+                          )
+                              : SizedBox(
+                            width: 0,
+                            height: 0,
+                          ),
+                          RaisedButton(
+                            child: Text(
+                              allTranslations.text("save"),
+                            ),
+                            onPressed: () {
+                              widget.onSave(_controller.text);
+                              //var formData =  _value;
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => MainHome()));
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+          )),
+      onWillPop: () => pop(),
+    );
   }
 }
 
