@@ -44,6 +44,7 @@ class Settings {
                 onPressed: () {
                   Navigator.of(context).pushNamed('/editProfile');
                 },
+                
                 child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(SharedData

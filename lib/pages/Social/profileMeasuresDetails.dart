@@ -261,8 +261,8 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        width: 120,
-                        height: 130,
+                        width: 125,
+                        height: 150,
                         child: measurementsCircles(
                             "ic_cal",
                             calories.toString(),
@@ -279,8 +279,8 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             "${allTranslations.text("Goal is") + ": " + goalCalories.toString()}"),
                       ),
                       SizedBox(
-                        width: 120,
-                        height: 120,
+                        width: 125,
+                        height: 130,
                         child: measurementsCircles(
                             "ic_steps",
                             steps.toString(),
@@ -297,7 +297,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             "${allTranslations.text("Goal is") + ": " + goalSteps.toString()}"),
                       ),
                       SizedBox(
-                        width: 120,
+                        width: 125,
                         height: 150,
                         child: measurementsCircles(
                             "ic_location",

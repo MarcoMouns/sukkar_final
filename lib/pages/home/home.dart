@@ -661,20 +661,8 @@ class _HomePageState extends State<HomePage> {
                         .push(
                           new MaterialPageRoute(
                               builder: (_) => new AddSugar(selectedDate)),
-                        )
-                        .then((val) => val
-                            ? {
-                                getMeasurementsForDay(date),
-                                emptylists(),
-                                fetchMeals(),
-                                print(sugerToday),
-                                setFirebaseImage(),
-                                getCustomerData(),
-                                getMeasurements(date),
-                                getHomeFetch(),
-                                getcal(),
-                              }
-                            : null);
+                        );
+                        
                   },
                   footer: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
