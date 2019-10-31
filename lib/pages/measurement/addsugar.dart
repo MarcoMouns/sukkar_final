@@ -11,6 +11,8 @@ import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:health/pages/Settings.dart' as settings;
 
+import '../home.dart';
+
 
 class AddSugar extends StatefulWidget {
   static DateTime date;
@@ -154,7 +156,7 @@ class _AddSugarState extends State<AddSugar> {
             leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pop(context,true);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
               },
             ),
             centerTitle: true,

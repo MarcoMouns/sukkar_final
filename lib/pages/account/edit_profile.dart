@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/home.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
@@ -351,7 +352,8 @@ class EditProfileUserState extends State<EditProfileUser> {
                     ),
                     onPressed: () {
                       upDateProfile();
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => MainHome()));
                     },
                   )
                 ],

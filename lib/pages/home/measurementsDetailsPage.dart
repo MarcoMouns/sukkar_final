@@ -158,7 +158,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        width: 120,
+                        width: 125,
                         height: 130,
                         child: measurementsCircles(
                             "ic_cup",
@@ -176,7 +176,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "${allTranslations.text("Goal is") + ": " + goalCupOfWater.toString()}"),
                       ),
                       SizedBox(
-                        width: 120,
+                        width: 125,
                         height: 150,
                         child: measurementsCircles(
                             "ic_blood_pressure",
@@ -195,7 +195,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             true),
                       ),
                       SizedBox(
-                        width: 120,
+                        width: 125,
                         height: 130,
                         child: measurementsCircles(
                             "ic_heart_rate",
@@ -275,8 +275,8 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        width: 120,
-                        height: 130,
+                        width: 125,
+                        height: 150,
                         child: measurementsCircles(
                             "ic_cal",
                             calories.toString(),
@@ -293,8 +293,8 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "${allTranslations.text("Goal is") + ": " + goalCalories.toString()}"),
                       ),
                       SizedBox(
-                        width: 120,
-                        height: 120,
+                        width: 125,
+                        height: 130,
                         child: measurementsCircles(
                             "ic_steps",
                             steps.toString(),
@@ -311,7 +311,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "${allTranslations.text("Goal is") + ": " + goalSteps.toString()}"),
                       ),
                       SizedBox(
-                        width: 120,
+                        width: 125,
                         height: 150,
                         child: measurementsCircles(
                             "ic_location",
