@@ -246,6 +246,7 @@ class _MapPageState extends State<MapPage> {
   Position currentPosition;
   bool _isLoading = true;
   bool checkRun = false;
+  bool mov=false;
   final List<LatLng> points = <LatLng>[];
   Response response;
   Dio dio = new Dio();
@@ -395,6 +396,7 @@ class _MapPageState extends State<MapPage> {
   double updatelat;
   double updatelong;
   double _odometer=0;
+  double initOdometer;
 
   getLocation() {
     setState(() {
@@ -437,6 +439,11 @@ class _MapPageState extends State<MapPage> {
 //      }
       updatePostion();
       _odometer=location.odometer;
+      if(mov==false){
+        initOdometer=_odometer;
+        mov=true;
+        setState(() {});
+      }
       setState(() {});
 
 
@@ -500,6 +507,7 @@ class _MapPageState extends State<MapPage> {
                   : new Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
+
                   new GoogleMap(
                     // onTap: (LatLng position) {
                     //   setState(() {
@@ -553,18 +561,15 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-                  // Positioned(
-                  //   top: 1,
-                  //   right: 1,
-                  //   child: Column(
-                  //     children: <Widget>[
-                  //       Text("${currentPosition.longitude}",
-                  //         style: TextStyle(fontSize: 25),),
-                  //       Text("${currentPosition.latitude}",
-                  //           style: TextStyle(fontSize: 25)),
-                  //     ],
-                  //   ),
-                  // ),
+//                   Positioned(
+//                     top: 1,
+//                     right: 1,
+//                     child: Column(
+//                       children: <Widget>[
+//                           Text("$mov",style: TextStyle(color: Colors.blue,fontSize: 40),),
+//                       ],
+//                     ),
+//                   ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -695,6 +700,8 @@ class _MapPageState extends State<MapPage> {
                               if (checkRun == false) {
                                 getLocation();
                               } else if (checkRun == true) {
+                                mov=false;
+                                bg.BackgroundGeolocation.stop();
                                 setState(() {
                                   ismaping = false;
                                   checkRun = false;
@@ -727,10 +734,10 @@ class _MapPageState extends State<MapPage> {
                                       '******************************************************');
                                   print(
                                       "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                  formdata.add("distance", _odometer.toInt());
-                                  formdata.add("steps", _odometer / 2);
+                                  formdata.add("distance", initOdometer==_odometer?0:(_odometer).toInt());
+                                  formdata.add("steps", initOdometer==_odometer?0:(_odometer / 2).toInt());
                                   formdata.add("calories",
-                                      (_odometer * 0.0512).toInt());
+                                      initOdometer==_odometer?0:(_odometer * 0.0512).toInt());
                                   print(
                                       '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                   print(formdata);
