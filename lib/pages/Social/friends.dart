@@ -36,8 +36,9 @@ int rating;
 
 class FriendsPage extends StatefulWidget {
   final MainModel model;
+  bool fullScreen;
 
-  FriendsPage(this.model);
+  FriendsPage(this.model,this.fullScreen);
 
   @override
   _FriendsPageState createState() => _FriendsPageState();
@@ -119,7 +120,7 @@ class _FriendsPageState extends State<FriendsPage>
                 margin: EdgeInsets.fromLTRB(20, 0, 20, 4),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
                       child: Padding(
@@ -205,6 +206,7 @@ class _FriendsPageState extends State<FriendsPage>
                         ),
                       ),
                     ),
+widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()=>Navigator.of(context).pop()):Container(),
 //                     Padding(
 //                       padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 6),
 //                       child: Image.asset("assets/icons/ic_add_friends.png"),

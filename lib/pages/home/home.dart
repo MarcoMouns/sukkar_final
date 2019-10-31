@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
@@ -685,6 +686,7 @@ class _HomePageState extends State<HomePage> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => FriendsPage(model,true)));
 //                            widget.pageController.animateToPage(3,
 //                                duration: Duration(
 //                                  milliseconds: 10,

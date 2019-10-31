@@ -712,29 +712,19 @@ class _MapPageState extends State<MapPage> {
                                     "Bearer ${authUser['authToken']}",
                                   };
                                   formdata.add("startLongitude",
-                                      points.first.longitude);
+                                      0.0);
                                   formdata.add(
-                                      "endLongitude", points.last.longitude);
+                                      "endLongitude", 0.0);
                                   formdata.add(
-                                      "startLatitude", points.first.latitude);
+                                      "startLatitude", 0.0);
                                   formdata.add(
-                                      "endLatitude", points.last.latitude);
+                                      "endLatitude", 0.0);
                                   formdata.add("date", DateTime.now());
                                   print(
                                       '******************************************************');
                                   print(DateTime.now());
                                   print(
                                       '******************************************************');
-                                  meter = distance.as(
-                                      lm.LengthUnit.Meter,
-                                      lm.LatLng(points.first.latitude,
-                                          points.first.longitude),
-                                      lm.LatLng(points.last.latitude,
-                                          points.last.longitude));
-                                  setState(() {});
-                                  print(
-                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                  print(meter);
                                   print(
                                       "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                   formdata.add("distance", _odometer.toInt());

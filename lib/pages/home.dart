@@ -175,24 +175,22 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       return ArticleCategory(model);
     }
     if (index == 2) {
-      return FriendsPage(model);
+      return FriendsPage(model,false);
     }
     if (index == 3) {
       return DoctorChatScreen();
     }
-    
-    print('jjjjjjjjjjjjjj $index');
-    
-    
+    Settings.currentIndex = 0;
     return Directionality(
-        textDirection: TextDirection.ltr,
-        child: PageView(
-          children: <Widget>[
-            HomePage(model: model,),
-            MapPage(),
-          ],
-        ),
-      );
+      textDirection: TextDirection.ltr,
+      child: PageView(
+        children: <Widget>[
+          HomePage(model: model,),
+          MapPage(),
+        ],
+      ),
+    );
+
   }
 
   @override
