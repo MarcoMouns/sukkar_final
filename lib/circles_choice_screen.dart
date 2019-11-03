@@ -695,7 +695,9 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     if(isFinished()){
                       changeToInt();
                       sendData();
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MyApp()));
+                       Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => MainHome()));
                     }
                     else{
                       _errorShowDialog();

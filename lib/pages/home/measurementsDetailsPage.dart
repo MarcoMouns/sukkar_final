@@ -153,13 +153,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   height: 40,
                 ),
                 FittedBox(
+                  
                   fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
                         width: 125,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_cup",
                             cupOfWater.toString(),
@@ -177,7 +178,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_blood_pressure",
                             bloodPresure.toString() +
@@ -196,7 +197,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_heart_rate",
                             heartRate.toString(),
@@ -220,9 +221,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: SizedBox(
-                          height: 160,
+                          height: MediaQuery.of(context).size.height/3,
                           child: SizedBox(
-                            width: 150,
+                            width: MediaQuery.of(context).size.height/3,
                             height: 160,
                             child: sugerToday == 0
                                 ? measurementsCircles(
@@ -276,7 +277,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                     children: <Widget>[
                       SizedBox(
                         width: 125,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_cal",
                             calories.toString(),
@@ -294,7 +295,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_steps",
                             steps.toString(),
@@ -312,7 +313,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_location",
                             distance.toString(),

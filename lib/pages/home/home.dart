@@ -30,6 +30,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 
+import 'articlesCategory.dart';
 import 'measurementsDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -824,6 +825,19 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: <Widget>[
                                       Container(),
+                                    //  InkWell(
+                                    //     onTap: () {
+                                    //      //cIndex = 1;
+                                          
+                                    //     },
+                                    //     child: Image.asset(
+                                    //       "assets/icons/ic_arrow_l.png",
+                                    //       width: 15,
+                                    //       height: MediaQuery.of(context).size.height *
+                                    //           3,
+                                    //       matchTextDirection: true,
+                                    //     ),
+                                    //   ),
                                       Expanded(
                                         child: upperCircles(
                                             context, _chartRadius, model),
@@ -846,6 +860,7 @@ class _HomePageState extends State<HomePage> {
                                           matchTextDirection: true,
                                         ),
                                       ),
+                                      
                                     ],
                                   ),
                                 ),
@@ -967,7 +982,7 @@ class _HomePageState extends State<HomePage> {
                                                                         216,
                                                                         1),
                                                                     fontSize:
-                                                                    20),
+                                                                    15),
                                                               ),
                                                             ),
                                                             Padding(

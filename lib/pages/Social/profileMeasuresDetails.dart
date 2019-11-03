@@ -145,7 +145,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                     children: <Widget>[
                       SizedBox(
                         width: 120,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_cup",
                             cupOfWater.toString(),
@@ -163,7 +163,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       ),
                       SizedBox(
                         width: 120,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_blood_pressure",
                             bloodPresure.toString() +
@@ -182,7 +182,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       ),
                       SizedBox(
                         width: 120,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_heart_rate",
                             heartRate.toString(),
@@ -206,10 +206,10 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: SizedBox(
-                          height: 160,
+                          height: MediaQuery.of(context).size.height/3,
                           child: SizedBox(
-                            width: 150,
-                            height: 160,
+                            width: 170,
+                            height: MediaQuery.of(context).size.height/3,
                             child: sugerToday == 0
                                 ? measurementsCircles(
                                     "ic_logo_3",
@@ -262,7 +262,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                     children: <Widget>[
                       SizedBox(
                         width: 125,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_cal",
                             calories.toString(),
@@ -280,7 +280,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 130,
+                        height: 160,
                         child: measurementsCircles(
                             "ic_steps",
                             steps.toString(),
@@ -298,7 +298,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       ),
                       SizedBox(
                         width: 125,
-                        height: 150,
+                        height: 180,
                         child: measurementsCircles(
                             "ic_location",
                             distance.toString(),

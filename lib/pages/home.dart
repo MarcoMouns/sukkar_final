@@ -167,6 +167,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           children: <Widget>[
             HomePage(model: model,),
             MapPage(),
+            ArticleCategory(model)
           ],
         ),
       );
