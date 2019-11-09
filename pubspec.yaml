@@ -62,6 +62,7 @@ dependencies:
   flutter_blue: ^0.5.0
   rxdart: any
   background_fetch: '^0.3.1'
+  fit_kit: ^0.0.6
 
 
   

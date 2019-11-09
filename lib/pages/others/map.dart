@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../languages/all_translations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:latlong/latlong.dart' as lm;
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-as bg;
 
 import '../home.dart';
 
@@ -246,12 +244,12 @@ class _MapPageState extends State<MapPage> {
   Position currentPosition;
   bool _isLoading = true;
   bool checkRun = false;
-  bool mov=false;
   final List<LatLng> points = <LatLng>[];
   Response response;
   Dio dio = new Dio();
   bool ismaping = false;
   bool troll = false;
+  int totalSteps = 0;
 
   void draw(){
     print('hiîàààààà1111111111111111111111111111111');
@@ -267,6 +265,54 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
+  var healthKitData;
+  List<FitData> fitdata = new List<FitData>();
+
+  Future<List<int>> healthKit() async {
+    List<int> Steps = new List<int>();
+    healthKitData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(days: 5)),
+      DateTime.now(),
+    );
+
+    if (healthKitData == null || healthKitData == 0) {
+      return Steps;
+    }
+    else {
+      for (int i = 0; i <= healthKitData.length; i++) {
+        fitdata[i] = healthKitData[i];
+        Steps[i] = fitdata[i].value;
+      }
+    }
+    return Steps;
+  }
+
+  void getSteps() {
+    int steps;
+    calculateSteps().then((v) => steps = v);
+    totalSteps = steps - totalSteps;
+    setState(() {});
+  }
+
+
+  Future<int> calculateSteps() async {
+    int steps = 0;
+    List<int> StepsList = new List<int>();
+    StepsList = await healthKit();
+    if (StepsList.isEmpty) {
+      return 0;
+    }
+    else {
+      for (int i = 0; i <= StepsList.length; i++) {
+        steps = StepsList[i] + steps;
+      }
+      return steps;
+    }
+  }
+
+
+
   void updatePostion() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
@@ -278,17 +324,22 @@ class _MapPageState extends State<MapPage> {
           LatLng(currentPosition.latitude, currentPosition.longitude));
       print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
+
+    getSteps();
+
+
     setState(() {});
 
     print(
         'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
     Timer.periodic(Duration(seconds: 30), (timer) {
-      ismaping ? updatePostion() : draw();
+      checkRun ? updatePostion() : print('Finished (Y)');
     });
     setState(() {});
   }
 
   initState() {
+    Future<int> steps;
     super.initState();
     currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
@@ -299,12 +350,21 @@ class _MapPageState extends State<MapPage> {
         firstPosition = position;
         currentPosition = position;
         print('myAss is ffalse');
-        _isLoading = false;
       });
     }).catchError((err) {
-      setState(() {
-      });
+      setState(() {});
     });
+    steps = calculateSteps();
+    if (steps == 0) {
+      totalSteps = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+      _isLoading = false;
+    }
+    else {
+      steps.then((v) => totalSteps = v);
+      print('TOOTAAAAAAAAAl -------> $totalSteps');
+    }
+
   }
 
   Future<Position> _getCurrentUserPosition() async {
@@ -322,7 +382,6 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
-    bg.BackgroundGeolocation.stop();
     super.dispose();
   }
 
@@ -390,103 +449,6 @@ class _MapPageState extends State<MapPage> {
   _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-    });
-  }
-
-  double updatelat;
-  double updatelong;
-  double _odometer=0;
-  double initOdometer;
-
-  getLocation() {
-    setState(() {
-      ismaping = true;
-      checkRun = true;
-    });
-    print('CheckRun = > $checkRun');
-    // Fired whenever a location is recorded
-    bg.BackgroundGeolocation.onLocation((bg.Location location) {
-//      print('[location] - $location');
-//      print('<--------- start onLocation -----------> ');
-//      print(location.coords.latitude);
-//      print(location.coords.longitude);
-//      print('<--------- End onLocation -----------> ');
-//      if (checkRun == true) {
-//        setState(() {
-//          points.add(_createLatLng(
-//              location.coords.latitude, location.coords.longitude));
-//
-//
-//          latlngSegment.add(LatLng(location.coords.latitude, location.coords.longitude));
-//
-//          _polyline.add(Polyline(
-//            polylineId: PolylineId('line1'),
-//            visible: true,
-//            //latlng is List<LatLng>
-//            points: latlngSegment,
-//            width: 2,
-//            color: Colors.blue,
-//          ));
-//
-//
-//          print('Points=> $points');
-////          _add();
-//        });
-//      } else if (checkRun == false) {
-//        setState(() {
-//          points.clear();
-//        });
-//      }
-      updatePostion();
-      _odometer=location.odometer;
-      if(mov==false){
-        initOdometer=_odometer;
-        mov=true;
-        setState(() {});
-      }
-      setState(() {});
-
-
-    });
-
-    // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
-//    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
-//      print('[motionchange] - $location');
-//      print('<--------- Locaiton onMotionChange -----------> ');
-//      updatelat=location.coords.latitude;
-//      updatelong=location.coords.longitude;
-//      setState(() {
-//
-//      });
-//      print(location.coords.latitude);
-//      print(location.coords.longitude);
-//      print('<--------- / Locaiton onMotionChange -----------> ');
-//    });
-
-    // Fired whenever the state of location-services changes.  Always fired at boot
-//    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
-//      print('[providerchange] - $event');
-//    });
-
-    ////
-    // 2.  Configure the plugin
-    //
-    bg.BackgroundGeolocation.ready(bg.Config(
-        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-        distanceFilter: 10.0,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        debug: false,
-        logLevel: bg.Config.LOG_LEVEL_INFO,
-        reset: true))
-        .then((bg.State state) {
-      if (!state.enabled) {
-        ////
-        // 3.  Start the plugin.
-        //
-        print('[ready] success: $state');
-        bg.BackgroundGeolocation.start();
-      }
     });
   }
 
@@ -661,12 +623,12 @@ class _MapPageState extends State<MapPage> {
                           ),
                           MapItem(
                               title: "steps",
-                              value: "${(_odometer / 2).toInt()}",
+                              value: "$totalSteps",
                               image: "ic_steps2",
                               isNotFloat: true),
                           MapItem(
                               title: "cals",
-                              value: "${(_odometer * 0.0512).ceil()}",
+                              value: "${(totalSteps * 0.0512).ceil()}",
                               image: "ic_cal",
                               isLeft: false)
                         ],
@@ -687,7 +649,7 @@ class _MapPageState extends State<MapPage> {
                       children: <Widget>[
                         RaisedButton(
                             textColor: Colors.white,
-                            color: checkRun == false
+                            color: checkRun
                                 ? Settings.mainColor()
                                 : Colors.red,
                             child: Container(
@@ -697,11 +659,14 @@ class _MapPageState extends State<MapPage> {
                                     : Text(allTranslations.text("endNow"))),
                             onPressed: () async {
                               rightButtonPressed();
-                              if (checkRun == false) {
-                                getLocation();
-                              } else if (checkRun == true) {
-                                mov=false;
-                                bg.BackgroundGeolocation.stop();
+                              checkRun = !checkRun;
+                              setState(() {});
+                              if (checkRun == true) {
+                                updatePostion();
+                              } else if (checkRun == false) {
+                                if (_polyline.isNotEmpty) {
+                                  draw();
+                                }
                                 setState(() {
                                   ismaping = false;
                                   checkRun = false;
@@ -734,10 +699,9 @@ class _MapPageState extends State<MapPage> {
                                       '******************************************************');
                                   print(
                                       "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                  formdata.add("distance", initOdometer==_odometer?0:(_odometer).toInt());
-                                  formdata.add("steps", initOdometer==_odometer?0:(_odometer / 2).toInt());
-                                  formdata.add("calories",
-                                      initOdometer==_odometer?0:(_odometer * 0.0512).toInt());
+                                  formdata.add("distance", 10);
+                                  formdata.add("steps", totalSteps);
+                                  formdata.add("calories", 10);
                                   print(
                                       '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                   print(formdata);
