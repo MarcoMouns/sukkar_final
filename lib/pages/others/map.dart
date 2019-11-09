@@ -250,6 +250,11 @@ class _MapPageState extends State<MapPage> {
   bool ismaping = false;
   bool troll = false;
   int totalSteps = 0;
+  int showSteps = 0;
+  List healthKitData;
+  List fitdata = new List();
+  bool flag = true;
+  int step = 0;
 
   void draw(){
     print('hiîàààààà1111111111111111111111111111111');
@@ -259,55 +264,70 @@ class _MapPageState extends State<MapPage> {
         visible: true,
         //latlng is List<LatLng>
         points: latlngSegment,
-        width: 2,
+        width: 5,
         color: Colors.blue,
       ));
     });
   }
 
-  var healthKitData;
-  List<FitData> fitdata = new List<FitData>();
-
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
     healthKitData = await FitKit.read(
       DataType.STEP_COUNT,
-      DateTime.now().subtract(Duration(days: 5)),
+      DateTime.now().subtract(Duration(hours: 12)),
       DateTime.now(),
     );
 
-    if (healthKitData == null || healthKitData == 0) {
+    print(healthKitData);
+
+    if (healthKitData.isEmpty) {
       return Steps;
     }
     else {
-      for (int i = 0; i <= healthKitData.length; i++) {
-        fitdata[i] = healthKitData[i];
-        Steps[i] = fitdata[i].value;
+      for (int i = 0; i <= healthKitData.length - 1; i++) {
+        fitdata.add(healthKitData[i]);
+        Steps.add(fitdata[i].value);
       }
+      return Steps;
     }
-    return Steps;
+
   }
 
   void getSteps() {
-    int steps;
-    calculateSteps().then((v) => steps = v);
-    totalSteps = steps - totalSteps;
+    calculateSteps();
+    print('GET STEEEEEEEEEEEEEEEEEEPS --------------> $step');
+    print('After -> $totalSteps');
+    print('After SS-> $showSteps');
+    showSteps = step - totalSteps;
+    print('Before -> $totalSteps');
+    print('Before SS-> $showSteps');
+
     setState(() {});
   }
 
-
-  Future<int> calculateSteps() async {
+  void calculateSteps() async {
     int steps = 0;
     List<int> StepsList = new List<int>();
     StepsList = await healthKit();
     if (StepsList.isEmpty) {
-      return 0;
+      totalSteps = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+      _isLoading = false;
     }
     else {
-      for (int i = 0; i <= StepsList.length; i++) {
+      for (int i = 0; i <= StepsList.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $steps');
         steps = StepsList[i] + steps;
       }
-      return steps;
+      if (flag == true) {
+        totalSteps = steps;
+        print('Aaaaaaaa7777777aaaaaaaaaaa');
+        print(totalSteps);
+      }
+      flag = false;
+      _isLoading = false;
+      step = steps;
+      setState(() {});
     }
   }
 
@@ -326,14 +346,15 @@ class _MapPageState extends State<MapPage> {
     });
 
     getSteps();
+    draw();
 
 
     setState(() {});
 
     print(
         'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
-    Timer.periodic(Duration(seconds: 30), (timer) {
-      checkRun ? updatePostion() : print('Finished (Y)');
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      checkRun ? updatePostion() : null;
     });
     setState(() {});
   }
@@ -354,17 +375,7 @@ class _MapPageState extends State<MapPage> {
     }).catchError((err) {
       setState(() {});
     });
-    steps = calculateSteps();
-    if (steps == 0) {
-      totalSteps = 0;
-      print('a7na hna men al zerooooooooooooooooo');
-      _isLoading = false;
-    }
-    else {
-      steps.then((v) => totalSteps = v);
-      print('TOOTAAAAAAAAAl -------> $totalSteps');
-    }
-
+    calculateSteps();
   }
 
   Future<Position> _getCurrentUserPosition() async {
@@ -384,67 +395,6 @@ class _MapPageState extends State<MapPage> {
   void dispose() {
     super.dispose();
   }
-
-//  void _add() {
-//    print('***************************************');
-//    print('add');
-//    x = x + 1;
-//    print(x);
-//    print('***************************************');
-//
-//    ///mathmatian scam as the human move 100 step per 1 min and 20 step
-//    ///per 0.1 kilo and the function fires every 4 sec as an average so
-//    ///3*4= 12 steps per 4 sec so in a min 15*12= 180 all of that is an
-//    ///average and pridction
-//    _polylineIdCounter = _polylineIdCounter + 3;
-//    final int polylineCount = polylines.length;
-//
-//    if (polylineCount == 12) {
-//      return;
-//    }
-//
-//    final String polylineIdVal = 'polyline_id_$_polylineIdCounter';
-//
-//    final PolylineId polylineId = PolylineId(polylineIdVal);
-//
-//    final Polyline polyline = Polyline(
-//      polylineId: polylineId,
-//      consumeTapEvents: true,
-//      color: Colors.orange,
-//      width: 5,
-//      points: _createPoints(),
-//      onTap: () {
-//        _onPolylineTapped(polylineId);
-//      },
-//    );
-//
-//    setState(() {
-//      polylines[polylineId] = polyline;
-//    });
-//  }
-
-
-//  List<LatLng> _createPoints() {
-//    final double offset = _polylineIdCounter.ceilToDouble();
-//    _polylineIdCounter = _polylineIdCounter + 3;
-//    print('##############################################################');
-//    print(_polylineIdCounter);
-//    print('##############################################################');
-////    points.add(_createLatLng(currentPosition.latitude,
-////        currentPosition.longitude));
-////    points.add(_createLatLng(31.266222, 29.993530));
-//    return points;
-//  }
-
-//  LatLng _createLatLng(double lat, double lng) {
-//    return LatLng(lat, lng);
-//  }
-
-//  void _onPolylineTapped(PolylineId polylineId) {
-//    setState(() {
-//      selectedPolyline = polylineId;
-//    });
-//  }
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -623,12 +573,12 @@ class _MapPageState extends State<MapPage> {
                           ),
                           MapItem(
                               title: "steps",
-                              value: "$totalSteps",
+                              value: "$showSteps",
                               image: "ic_steps2",
                               isNotFloat: true),
                           MapItem(
                               title: "cals",
-                              value: "${(totalSteps * 0.0512).ceil()}",
+                              value: "${(showSteps * 0.0512).ceil()}",
                               image: "ic_cal",
                               isLeft: false)
                         ],
@@ -650,8 +600,8 @@ class _MapPageState extends State<MapPage> {
                         RaisedButton(
                             textColor: Colors.white,
                             color: checkRun
-                                ? Settings.mainColor()
-                                : Colors.red,
+                                ? Colors.red
+                                : Settings.mainColor(),
                             child: Container(
                                 padding: EdgeInsets.all(15),
                                 child: checkRun == false
@@ -665,7 +615,7 @@ class _MapPageState extends State<MapPage> {
                                 updatePostion();
                               } else if (checkRun == false) {
                                 if (_polyline.isNotEmpty) {
-                                  draw();
+                                  //draw();
                                 }
                                 setState(() {
                                   ismaping = false;
@@ -699,9 +649,11 @@ class _MapPageState extends State<MapPage> {
                                       '******************************************************');
                                   print(
                                       "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                  formdata.add("distance", 10);
-                                  formdata.add("steps", totalSteps);
-                                  formdata.add("calories", 10);
+                                  formdata.add("distance",
+                                      ((showSteps * 0.5).round()).toInt());
+                                  formdata.add("steps", showSteps);
+                                  formdata.add("calories",
+                                      ((showSteps * 0.0512).ceil()).toInt());
                                   print(
                                       '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                   print(formdata);

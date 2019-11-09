@@ -494,7 +494,6 @@ class _HomePageState extends State<HomePage> {
 
   void _onError(error) => print("Flutter Pedometer Error: $error");
 
-  void _onCancel() => _subscription.cancel();
 
   //------------------ END STEP COUNTER -------------//
 
@@ -503,10 +502,6 @@ class _HomePageState extends State<HomePage> {
     model.addMeasurements(type, value).then((result) async {
 //      print(result);
     });
-  }
-
-  dispose() {
-    _onCancel();
   }
 
   List<Widget> coCircles = new List<Widget>();
