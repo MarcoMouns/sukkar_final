@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -79,6 +81,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string></string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string></string>
 	<key>NSHealthShareUsageDescription</key>
 	<string></string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -93,6 +97,8 @@
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>When in use description</string>
+	<key>NSMainStoryboardFile</key>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string></string>
 	<key>NSMotionUsageDescription</key>

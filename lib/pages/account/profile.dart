@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/account/editGoals.dart';
+import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
@@ -150,6 +151,31 @@ class _EditProfileState extends State<EditProfile> {
                   padding: const EdgeInsets.all(0.0),
                   child: ListView(
                     children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => OffersScreen()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Image(
+                                  image:
+                                      AssetImage("assets/icons/ic_giftbox.png"),
+                                  width: 70,
+                                  height: 70,
+                                ),
+                                Text(
+                                  allTranslations.text("showOffers"),
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                       ListTile(
                         title: Text(
                           allTranslations.text("editProfile"),
@@ -300,7 +326,9 @@ class _EditProfileState extends State<EditProfile> {
                                   onPressed: () {
                                     allTranslations.setNewLanguage("en", true);
                                     setState(() {});
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => MainHome()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -309,7 +337,9 @@ class _EditProfileState extends State<EditProfile> {
                                   onPressed: () {
                                     allTranslations.setNewLanguage("ar", true);
                                     setState(() {});
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => MainHome()));
                                   },
                                 )
                               ],
