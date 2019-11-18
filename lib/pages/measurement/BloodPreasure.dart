@@ -57,7 +57,8 @@ class _BloodPressureState extends State<BloodPressure> {
                   myFocusNode1.unfocus();
                   myFocusNode2.unfocus();
                   myFocusNode3.unfocus();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => MainHome(cIndex: 0,)));
                 },
               ),
               actions: <Widget>[
@@ -254,7 +255,9 @@ class _BloodPressureState extends State<BloodPressure> {
                               .then((result) async {
                             print(result);
                           });
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => MainHome(cIndex: 0,)));
                         },
                       ),
                     ),

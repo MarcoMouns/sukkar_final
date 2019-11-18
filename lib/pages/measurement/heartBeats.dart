@@ -54,7 +54,8 @@ class _HeartBeatsState extends State<HeartBeats> {
             leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => MainHome(cIndex: 0,)));
               },
             ),
             title: Text(allTranslations.text("add heart beat")),
@@ -149,7 +150,9 @@ InkWell(
     ),
     child: Text(allTranslations.text("save"),style: TextStyle(color: Colors.white),),
   ),
-  onTap: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> MainHome())),
+  onTap: () =>
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (
+          context) => MainHome(cIndex: 0,))),
 )
 //                      new Padding(
 //                        padding: EdgeInsets.only(top: 20),

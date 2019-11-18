@@ -335,7 +335,7 @@ class _BottomSheetState extends State<BottomSheet> {
 
   Future<void> pop() {
     return Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => MainHome()));
+        MaterialPageRoute(builder: (context) => MainHome(cIndex: 0,)));
   }
   @override
   Widget build(BuildContext context) {
@@ -424,7 +424,8 @@ class _BottomSheetState extends State<BottomSheet> {
                               //var formData =  _value;
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => MainHome()));
+                                      builder: (context) =>
+                                          MainHome(cIndex: 0,)));
                             },
                           )
                         ],
@@ -530,11 +531,12 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final PageController pageController;
   final Color plusColor;
 
+  CustomBottomNavigationBar(
+      {this.navigationTapped, this.pageController, this.plusColor});
+
   CustomBottomNavigationBarState createState() =>
       CustomBottomNavigationBarState();
 
-  CustomBottomNavigationBar(
-      {this.navigationTapped, this.pageController, this.plusColor});
 }
 
 class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {

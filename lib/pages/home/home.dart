@@ -11,26 +11,21 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/map.dart';
-import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
-import '../../measurementsPageCircles.dart';
 import '../../shared-data.dart';
+import '../home.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
-import 'package:flutter/foundation.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-    as bg;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 
-import 'articlesCategory.dart';
 import 'measurementsDetailsPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -820,19 +815,27 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: <Widget>[
                                       Container(),
-                                    //  InkWell(
-                                    //     onTap: () {
-                                    //      //cIndex = 1;
-                                          
-                                    //     },
-                                    //     child: Image.asset(
-                                    //       "assets/icons/ic_arrow_l.png",
-                                    //       width: 15,
-                                    //       height: MediaQuery.of(context).size.height *
-                                    //           3,
-                                    //       matchTextDirection: true,
-                                    //     ),
-                                    //   ),
+                                      InkWell(
+                                        onTap: () {
+                                          //cIndex = 1;
+                                          Settings.currentIndex = 1;
+                                          setState(() {});
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MainHome(cIndex: 1,)));
+                                        },
+                                        child: Image.asset(
+                                          "assets/icons/ic_arrow_l.png",
+                                          width: 15,
+                                          height: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              3,
+                                          matchTextDirection: true,
+                                        ),
+                                      ),
                                       Expanded(
                                         child: upperCircles(
                                             context, _chartRadius, model),

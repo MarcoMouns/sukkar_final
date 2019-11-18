@@ -134,7 +134,8 @@ class _MedListState extends State<MedList> {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () =>
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MainHome())),
+                    MaterialPageRoute(
+                        builder: (context) => MainHome(cIndex: 0,))),
           ),
         ),
         body: loading == true

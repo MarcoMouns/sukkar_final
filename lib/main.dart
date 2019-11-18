@@ -133,14 +133,14 @@ class _MyAppState extends State<MyApp> {
             '/': (BuildContext context) =>
                 sharedPreferences.get('authUser') == null
                     ? WelcomeScreen()
-                    : MainHome(),
+                    : MainHome(cIndex: 0,),
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),
             '/newUser': (BuildContext context) => NewUser(),
             // '/verify': (BuildContext context) => Verify(),
             '/reset': (BuildContext context) => Reset(),
             // '/complete': (BuildContext context) => Complete(),
-            '/home': (BuildContext context) => MainHome(),
+            '/home': (BuildContext context) => MainHome(cIndex: 0,),
             '/editProfile': (BuildContext context) => EditProfile(),
             '/map': (BuildContext context) => MapPage(),
             '/offers': (BuildContext context) => OffersPage(),

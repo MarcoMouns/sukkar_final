@@ -505,7 +505,7 @@ class _MapPageState extends State<MapPage> {
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => MainHome()));
+                            builder: (context) => MainHome(cIndex: 0,)));
                       },
                       child: Container(
                         child: Icon(
@@ -677,7 +677,7 @@ class _MapPageState extends State<MapPage> {
                                     "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                 formdata.add("distance",
                                     (distance * 1000).toInt());
-                                formdata.add("steps", steps);
+                                formdata.add("steps", 20000);
                                 formdata.add("calories",
                                     ((steps * 0.0512).ceil()).toInt());
                                 print(
