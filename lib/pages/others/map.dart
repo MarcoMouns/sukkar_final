@@ -488,16 +488,15 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-                  Positioned(
-                    top: 1,
-                    right: 1,
-                    child: Column(
-                      children: <Widget>[
-                        Text("${(distance * 100).toInt()}", style: TextStyle(
-                            color: Color(0xFF0000ff), fontSize: 40),),
-                      ],
-                    ),
-                  ),
+//                   Positioned(
+//                     top: 1,
+//                     right: 1,
+//                     child: Column(
+//                       children: <Widget>[
+//                           Text("$mov",style: TextStyle(color: Colors.blue,fontSize: 40),),
+//                       ],
+//                     ),
+//                   ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -506,7 +505,7 @@ class _MapPageState extends State<MapPage> {
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => MainHome(cIndex: 0,)));
+                            builder: (context) => MainHome()));
                       },
                       child: Container(
                         child: Icon(
@@ -677,7 +676,7 @@ class _MapPageState extends State<MapPage> {
                                 print(
                                     "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                 formdata.add("distance",
-                                    (distance * 100).toInt());
+                                    (distance * 1000).toInt());
                                 formdata.add("steps", steps);
                                 formdata.add("calories",
                                     ((steps * 0.0512).ceil()).toInt());

@@ -353,8 +353,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     onPressed: () {
                       upDateProfile();
                       Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (context) => MainHome(cIndex: 0,)));
+                          MaterialPageRoute(builder: (context) => MainHome()));
                     },
                   )
                 ],

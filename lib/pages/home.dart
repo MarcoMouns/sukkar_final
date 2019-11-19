@@ -23,10 +23,6 @@ import 'measurement/medicineLIst.dart';
  * Modifications
  */
 class MainHome extends StatefulWidget {
-  int cIndex;
-
-  MainHome({this.cIndex});
-
   _MainHomeState createState() => _MainHomeState();
 }
 
@@ -133,6 +129,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
    
       _pageController = _getPageController();
 
@@ -160,6 +157,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     animationController.dispose();
   }
 
+  int cIndex = 0;
 
   Widget navPages(int index, MainModel model) {
     if (index == 0) {
@@ -169,6 +167,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           children: <Widget>[
             HomePage(model: model,),
             MapPage(),
+            ArticleCategory(model)
           ],
         ),
       );
@@ -192,7 +191,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
         ],
       ),
     );
-//hallo
+
   }
 
   @override
@@ -206,13 +205,13 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           return new Scaffold(
             key: _scaffoldKey,
             backgroundColor: Colors.white,
-            body: navPages(widget.cIndex, model),
+            body: navPages(cIndex, model),
             bottomNavigationBar: Settings.currentIndex >= 0
                 ? CustomBottomNavigationBar(
                     plusColor: _plusColor,
                     pageController: _getPageController(),
                     navigationTapped: (i) async {
-                      widget.cIndex = i;
+                      cIndex = i;
                       setState(() {});
                       if (i == 4) {
                         print('zatona');
@@ -383,8 +382,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                   onTap: () {
                     _removeOverlay();
                     Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => MainHome(cIndex: 0,)));
+                        MaterialPageRoute(builder: (context) => MainHome()));
                   },
                   child: ImageIcon(
                     AssetImage("assets/icons/ic_add.png"),

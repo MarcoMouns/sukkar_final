@@ -102,6 +102,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     goalSteps = response.data["Measurements"]["steps_goal"];
     goalDistance = response.data["Measurements"]["distance_goal"];
 
+
     print("==================>>>>>>>");
     print(goalCalories);
     print(goalCupOfWater);
@@ -109,12 +110,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     print(goalDistance);
     print("==================>>>>>>>");
 
+
     print("=================================================fffffffffff");
     print(response.data);
     isLoading = false;
     if (mounted) setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
+
 
   //_MeasurementDetailsState();
 
@@ -149,6 +152,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   height: 40,
                 ),
                 FittedBox(
+
                   fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -216,9 +220,15 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 3,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height / 3,
                           child: SizedBox(
-                            width: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 3,
                             height: 160,
                             child: sugerToday == 0
                                 ? measurementsCircles(
@@ -277,7 +287,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_cal",
                             calories.toString(),
                             allTranslations.text("cals"),
-                            calories == 0 ? 0 : calories / goalCalories,
+                            ncal == 0 ? 0 : calories / goalCalories,
                             2,
                             (calories / goalCalories) <= 0.3
                                 ? redColor
@@ -295,7 +305,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_steps",
                             steps.toString(),
                             allTranslations.text("steps"),
-                            steps == 0 ? 0 : steps / goalSteps,
+                            ncal == 0 ? 0 : steps / goalSteps,
                             2,
                             (steps / goalSteps) <= 0.3
                                 ? redColor
@@ -313,7 +323,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_location",
                             distance.toString(),
                             allTranslations.text("distance"),
-                            distance == 0 ? 0 : distance / goalDistance,
+                            ncal == 0 ? 0 : distance / goalDistance,
                             2,
                             (distance / goalDistance) <= 0.3
                                 ? redColor

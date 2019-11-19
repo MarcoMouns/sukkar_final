@@ -328,8 +328,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                MainHome(cIndex: 0,)));
+                                            builder: (context) => MainHome()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -340,8 +339,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                MainHome(cIndex: 0,)));
+                                            builder: (context) => MainHome()));
                                   },
                                 )
                               ],
