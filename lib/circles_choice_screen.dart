@@ -697,7 +697,8 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                       sendData();
                        Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) => MainHome()));
+                                      builder: (context) =>
+                                          MainHome(cIndex: 0,)));
                     }
                     else{
                       _errorShowDialog();

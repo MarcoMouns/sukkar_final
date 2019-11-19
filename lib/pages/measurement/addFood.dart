@@ -196,7 +196,8 @@ class _AddFoodState extends State<AddFood> {
               icon: Icon(Icons.close),
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => MainHome()));
+                    MaterialPageRoute(
+                        builder: (context) => MainHome(cIndex: 0,)));
               },
             ),
             centerTitle: true,
@@ -314,7 +315,7 @@ class _AddFoodState extends State<AddFood> {
                             borderRadius: BorderRadius.circular(30)),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MainHome()));
+                              builder: (context) => MainHome(cIndex: 0,)));
                         },
                       ),
                     )

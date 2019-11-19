@@ -344,7 +344,7 @@ class _MapPageState extends State<MapPage> {
             .elementAt(geoListLength - 2)
             .longitude,
         long2: latlngSegment.last.longitude,
-      );
+      ) + distance;
 
       if (latlngSegment
           .elementAt(geoListLength - 2)
@@ -488,15 +488,16 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-//                   Positioned(
-//                     top: 1,
-//                     right: 1,
-//                     child: Column(
-//                       children: <Widget>[
-//                           Text("$mov",style: TextStyle(color: Colors.blue,fontSize: 40),),
-//                       ],
-//                     ),
-//                   ),
+                  Positioned(
+                    top: 1,
+                    right: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Text("${(distance * 100).toInt()}", style: TextStyle(
+                            color: Color(0xFF0000ff), fontSize: 40),),
+                      ],
+                    ),
+                  ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -505,7 +506,7 @@ class _MapPageState extends State<MapPage> {
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => MainHome()));
+                            builder: (context) => MainHome(cIndex: 0,)));
                       },
                       child: Container(
                         child: Icon(
@@ -676,7 +677,7 @@ class _MapPageState extends State<MapPage> {
                                 print(
                                     "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                 formdata.add("distance",
-                                    (distance * 1000).toInt());
+                                    (distance * 100).toInt());
                                 formdata.add("steps", steps);
                                 formdata.add("calories",
                                     ((steps * 0.0512).ceil()).toInt());

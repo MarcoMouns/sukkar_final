@@ -269,7 +269,8 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                 onTap: () {
                   setGoals();
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MainHome()));
+                      MaterialPageRoute(
+                          builder: (context) => MainHome(cIndex: 0,)));
                 },
               )
             ],
