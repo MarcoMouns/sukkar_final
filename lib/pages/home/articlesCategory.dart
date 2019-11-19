@@ -3,6 +3,8 @@ import 'package:health/Models/article_tab/article_category.dart';
 import 'package:health/pages/home/articles.dart';
 import 'package:health/scoped_models/main.dart';
 
+import '../Settings.dart';
+
 class ArticleCategory extends StatefulWidget {
   final MainModel model;
   ArticleCategory(this.model);
@@ -17,9 +19,11 @@ class _ArticleCategoryState extends State<ArticleCategory> {
   @override
   void initState() {
     super.initState();
+
     widget.model.fetchArticlesCategories().then((result) {
       if (result != null) {
         setState(() {
+          Settings.currentIndex = 1;
           articleCategory = result.articleCategory.data;
           print('Result = > ${articleCategory[0].image}');
           print('Result = > ${articleCategory[0].titleAr}');

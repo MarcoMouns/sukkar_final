@@ -111,6 +111,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
+    setState(() {
+      Settings.currentIndex = 0;
+    });
     getMeasurementsForDay(date);
     super.initState();
     dummySelectedDate = DateTime.now();
@@ -830,19 +833,22 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: <Widget>[
                                       Container(),
-                                      //  InkWell(
-                                      //     onTap: () {
-                                      //      //cIndex = 1;
+                                      InkWell(
+                                        onTap: () {
+                                          //cIndex = 1;
 
-                                      //     },
-                                      //     child: Image.asset(
-                                      //       "assets/icons/ic_arrow_l.png",
-                                      //       width: 15,
-                                      //       height: MediaQuery.of(context).size.height *
-                                      //           3,
-                                      //       matchTextDirection: true,
-                                      //     ),
-                                      //   ),
+                                        },
+                                        child: Image.asset(
+                                          "assets/icons/ic_arrow_l.png",
+                                          width: 15,
+                                          height: MediaQuery
+                                              .of(context)
+                                              .size
+                                              .height *
+                                              3,
+                                          matchTextDirection: true,
+                                        ),
+                                      ),
                                       Expanded(
                                         child: upperCircles(
                                             context, _chartRadius, model),
@@ -1676,32 +1682,6 @@ class _HomePageState extends State<HomePage> {
       ));
     }
     return list2;
-  }
-
-  _showBottomSheet(
-      {BuildContext context,
-      MainModel model,
-      String title,
-      String type,
-      String subTitle,
-      String imageName,
-      double min,
-      double max}) async {
-    await showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (BuildContext context) {
-          return settings.BottomSheet(
-              title: title,
-              subtitle: subTitle,
-              image: imageName,
-              min: min,
-              max: max,
-              addSlider: true,
-              onSave: (String value) {
-                _handleSubmitted(context, model, value, type);
-              });
-        });
   }
 }
 

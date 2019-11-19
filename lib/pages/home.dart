@@ -158,18 +158,22 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   }
 
   int cIndex = 0;
+  PageController _Pcontroller = PageController(initialPage: 3, keepPage: false);
+  PageController _P2controller = PageController(
+      initialPage: 0, keepPage: false);
 
   Widget navPages(int index, MainModel model) {
     if (index == 0) {
-      return Directionality(
-        textDirection: TextDirection.ltr,
-        child: PageView(
-          children: <Widget>[
-            HomePage(model: model,),
-            MapPage(),
-            ArticleCategory(model)
-          ],
-        ),
+      return PageView(
+        reverse: true,
+        controller: _Pcontroller,
+        children: <Widget>[
+          DoctorChatScreen(),
+          FriendsPage(model, false),
+          ArticleCategory(model),
+          HomePage(model: model,),
+          MapPage(),
+        ],
       );
     }
     if (index == 1) {
@@ -212,6 +216,10 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                     pageController: _getPageController(),
                     navigationTapped: (i) async {
                       cIndex = i;
+                      if (cIndex == 0) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MainHome()));
+                      }
                       setState(() {});
                       if (i == 4) {
                         print('zatona');

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 //import 'package:health/api_provider.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:health/pages/Settings.dart';
 
 import 'DocInfo_screen.dart';
 import 'api_provider.dart';
@@ -46,12 +47,17 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     isLoading=false;
     specialityId=_specoalists[0].id;
     setState(() {
+
     });
   }
 
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      Settings.currentIndex = 3;
+    });
     getData();
     _initData();
   }

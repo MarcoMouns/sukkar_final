@@ -11,6 +11,7 @@ import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared-data.dart';
+import '../Settings.dart';
 
 var name;
 var check = true;
@@ -60,8 +61,12 @@ class _FriendsPageState extends State<FriendsPage>
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
     super.initState();
+    setState(() {
+      Settings.currentIndex = 2;
+    });
     getAll();
   }
+
 
   getAll() {
     widget.model.getFollowers().then((result) {
