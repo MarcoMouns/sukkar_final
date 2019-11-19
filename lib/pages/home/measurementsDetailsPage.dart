@@ -287,7 +287,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_cal",
                             calories.toString(),
                             allTranslations.text("cals"),
-                            ncal == 0 ? 0 : calories / goalCalories,
+                            calories == 0 ? 0 : calories / goalCalories,
                             2,
                             (calories / goalCalories) <= 0.3
                                 ? redColor
@@ -305,7 +305,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_steps",
                             steps.toString(),
                             allTranslations.text("steps"),
-                            ncal == 0 ? 0 : steps / goalSteps,
+                            steps == 0 ? 0 : steps / goalSteps,
                             2,
                             (steps / goalSteps) <= 0.3
                                 ? redColor
@@ -323,7 +323,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             "ic_location",
                             distance.toString(),
                             allTranslations.text("distance"),
-                            ncal == 0 ? 0 : distance / goalDistance,
+                            distance == 0 ? 0 : distance / goalDistance,
                             2,
                             (distance / goalDistance) <= 0.3
                                 ? redColor

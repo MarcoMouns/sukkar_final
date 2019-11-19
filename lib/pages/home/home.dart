@@ -88,6 +88,8 @@ class _HomePageState extends State<HomePage> {
   List<int> _calories = [];
   int Rcalories;
   DateTime selectedDate = DateTime.now();
+  DateTime dummySelectedDate =DateTime.now();
+
   var date =
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
@@ -111,6 +113,8 @@ class _HomePageState extends State<HomePage> {
   initState() {
     getMeasurementsForDay(date);
     super.initState();
+    dummySelectedDate = DateTime.now();
+    selectedDate = DateTime.now();
     emptylists();
     fetchMeals();
     print(sugerToday);
@@ -399,8 +403,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void incrementWeek() {
+    String dummyDate;
     istrue = true;
-    selectedDate = selectedDate.add(new Duration(days: 7));
+    dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
     emptylists();
     setState(() {});
     print(
@@ -412,10 +417,9 @@ class _HomePageState extends State<HomePage> {
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
 
       setState(() {
-        date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+        dummyDate = '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
         print(date);
-        getMeasurements(date);
-        getMeasurementsForDay(date);
+        getMeasurements(dummyDate);
 
         selectedDate = selectedDate;
       });
@@ -423,8 +427,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void decrementWeek() {
+    String dummyDate;
     istrue = true;
-    selectedDate = selectedDate.subtract(new Duration(days: 7));
+    dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
     emptylists();
     setState(() {});
     print(
@@ -435,11 +440,9 @@ class _HomePageState extends State<HomePage> {
       print(
           "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
       setState(() {
-        date = '${selectedDate.year}-${selectedDate.month}-${selectedDate.day}';
+        dummyDate = '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
         print(date);
-        getMeasurements(date);
-        getMeasurementsForDay(date);
-
+        getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
     });
