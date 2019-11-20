@@ -24,6 +24,7 @@ import 'package:flutter/foundation.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
+import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
@@ -154,6 +155,20 @@ bool flag = true;
       }
       flag = false;
       step = steps;
+      SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser = jsonDecode(
+          sharedPreferences
+              .getString("authUser"));
+      Map userHeader = {
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer ${authUser['authToken']}"
+      };
+      var response = await http.post(
+          "api.sukar.co/api/update-steps", body: {"steps": "$step",},
+          headers: userHeader);
+      print('----------------------------------> $response');
       setState(() {});
     }
   }
