@@ -7,14 +7,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vector_math/vector_math.dart';
-import 'dart:math';
 import '../../languages/all_translations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:fit_kit/fit_kit.dart';
 import 'package:latlong/latlong.dart' as lm;
-
 
 import '../home.dart';
 
@@ -142,7 +139,7 @@ class MinutesAndSecondsState extends State<MinutesAndSeconds> {
     String minutesStr = (minutes % 60).toString().padLeft(2, '0');
     String secondsStr = (seconds % 60).toString().padLeft(2, '0');
     return new Text('$minutesStr:$secondsStr',
-        style: dependencies.textStyle.copyWith(color: Color(0xFF45b6fe)));
+        style: dependencies.textStyle.copyWith(color: Colors.blue));
   }
 }
 
@@ -178,7 +175,7 @@ class HundredsState extends State<Hundreds> {
     String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
     return new Text('',
         style: dependencies.textStyle.copyWith(
-          color: Color(0xFF45b6fe),
+          color: Colors.blue,
         ));
   }
 }
@@ -220,14 +217,14 @@ class _MapPageState extends State<MapPage> {
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-    const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
+    const TextStyle(fontSize: 16.0, color: Colors.white);
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
 
   Widget buildButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-    const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
+    const TextStyle(fontSize: 16.0, color: Colors.white);
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
@@ -241,6 +238,7 @@ class _MapPageState extends State<MapPage> {
   ///this x is for debugging
   int x = 0;
   double meter = 0;
+  static lm.Distance distance = new lm.Distance();
   PolylineId selectedPolyline;
   Position firstPosition;
   Position currentPosition;
@@ -251,10 +249,12 @@ class _MapPageState extends State<MapPage> {
   Dio dio = new Dio();
   bool ismaping = false;
   bool troll = false;
+  int totalSteps = 0;
+  int showSteps = 0;
+  List healthKitData;
   List fitdata = new List();
   bool flag = true;
-  int steps = 0;
-  double distance = 0;
+  int step = 0;
 
   void draw(){
     print('hiîàààààà1111111111111111111111111111111');
@@ -265,34 +265,75 @@ class _MapPageState extends State<MapPage> {
         //latlng is List<LatLng>
         points: latlngSegment,
         width: 5,
-        color: Color(0xFF45b6fe),
+        color: Colors.blue,
       ));
     });
   }
 
-  double getDistance({double long1, double long2, double lat1, double lat2}) {
-    long1 = -long1 * degrees2Radians;
-    long2 = -long2 * degrees2Radians;
+  Future<List<int>> healthKit() async {
+    List<int> Steps = new List<int>();
+    healthKitData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(hours: 12)),
+      DateTime.now(),
+    );
 
-    lat1 = lat1 * degrees2Radians;
-    lat2 = lat2 * degrees2Radians;
+    print(healthKitData);
 
-    double Mlat = (lat1 - lat2) * degrees2Radians;
-    double Mlong = (long1 - long2) * degrees2Radians;
+    if (healthKitData.isEmpty) {
+      return Steps;
+    }
+    else {
+      for (int i = 0; i <= healthKitData.length - 1; i++) {
+        fitdata.add(healthKitData[i]);
+        Steps.add(fitdata[i].value);
+      }
+      return Steps;
+    }
 
-    double earthRadius = 6371e3;
-
-    var a = (sin(Mlat / 2) * sin(Mlat / 2)) +
-        (cos(lat1) * cos(lat2)) * sin(Mlong / 2) * sin(Mlong / 2);
-    var c = atan2(sqrt(a), sqrt(1 - a));
-
-    var distance = earthRadius * c;
-
-    return distance;
   }
 
-  void updatePostion() async {
+  void getSteps() {
+    calculateSteps();
+    print('GET STEEEEEEEEEEEEEEEEEEPS --------------> $step');
+    print('After -> $totalSteps');
+    print('After SS-> $showSteps');
+    showSteps = step - totalSteps;
+    print('Before -> $totalSteps');
+    print('Before SS-> $showSteps');
 
+    setState(() {});
+  }
+
+  void calculateSteps() async {
+    int steps = 0;
+    List<int> StepsList = new List<int>();
+    StepsList = await healthKit();
+    if (StepsList.isEmpty) {
+      totalSteps = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+      _isLoading = false;
+    }
+    else {
+      for (int i = 0; i <= StepsList.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $steps');
+        steps = StepsList[i] + steps;
+      }
+      if (flag == true) {
+        totalSteps = steps;
+        print('Aaaaaaaa7777777aaaaaaaaaaa');
+        print(totalSteps);
+      }
+      flag = false;
+      _isLoading = false;
+      step = steps;
+      setState(() {});
+    }
+  }
+
+
+
+  void updatePostion() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     //print(
@@ -304,67 +345,10 @@ class _MapPageState extends State<MapPage> {
       print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
 
-    int geoListLength = latlngSegment.length;
-
-
-    if (geoListLength <= 1) {
-      print(
-          'LAT1 ---------------------------> ${latlngSegment.first.latitude}');
-      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-      print('Long1 ---------------------------> ${latlngSegment.first
-          .longitude}');
-      print(
-          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-
-      distance = getDistance(
-        lat1: latlngSegment.first.latitude,
-        lat2: latlngSegment.last.latitude,
-        long1: latlngSegment.first.longitude,
-        long2: latlngSegment.last.longitude,
-      );
-      steps = (((distance * 100) * 0.65) + steps).toInt();
-    }
-    else {
-      print('LAT1 ---------------------------> ${latlngSegment
-          .elementAt(geoListLength - 2)
-          .latitude}');
-      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-      print('Long1 ---------------------------> ${latlngSegment
-          .elementAt(geoListLength - 2)
-          .longitude}');
-      print(
-          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-
-      distance = getDistance(
-        lat1: latlngSegment
-            .elementAt(geoListLength - 2)
-            .latitude,
-        lat2: latlngSegment.last.latitude,
-        long1: latlngSegment
-            .elementAt(geoListLength - 2)
-            .longitude,
-        long2: latlngSegment.last.longitude,
-      ) + distance;
-
-      if (latlngSegment
-          .elementAt(geoListLength - 2)
-          .longitude == latlngSegment.last.longitude) {
-        print('DISTANCE ---------------------------------> ${distance * 100}');
-        print('Before steps ---------------------------------> $steps');
-        steps = steps;
-        print('Before steps ---------------------------------> $steps');
-      }
-      else {
-        print('DISTANCE ---------------------------------> ${distance * 100}');
-        print('Before steps ---------------------------------> $steps');
-        steps = (((distance * 100) * 0.65) + steps).toInt();
-        print('After steps ---------------------------------> $steps');
-      }
-    }
-
-
-
+    getSteps();
     draw();
+
+
     setState(() {});
 
     print(
@@ -376,6 +360,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   initState() {
+    Future<int> steps;
     super.initState();
     currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
@@ -387,10 +372,10 @@ class _MapPageState extends State<MapPage> {
         currentPosition = position;
         print('myAss is ffalse');
       });
-      _isLoading = false;
     }).catchError((err) {
       setState(() {});
     });
+    calculateSteps();
   }
 
   Future<Position> _getCurrentUserPosition() async {
@@ -510,24 +495,21 @@ class _MapPageState extends State<MapPage> {
                       child: Container(
                         child: Icon(
                           Icons.arrow_forward_ios,
-                          color: Color(0xFF808080),
+                          color: Colors.grey,
                         ),
                       ),
                     ),
                   ),
                   new Positioned(
-                    bottom: 0,
+                    bottom: 50,
                     left: 0,
                     right: 0,
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.7,
-                      margin: EdgeInsets.only(right: 30, left: 30, bottom: 60),
+                      margin: EdgeInsets.all(30),
+                      padding: EdgeInsets.all(30),
                       decoration: BoxDecoration(
-                          color: Color(0xFFffffff),
-                          border: Border.all(color: Color(0xFFe13026)),
+                          color: Colors.white,
+                          border: Border.all(color: Colors.redAccent),
                           borderRadius: BorderRadius.circular(15)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -542,7 +524,7 @@ class _MapPageState extends State<MapPage> {
                                   height: 60,
                                   decoration: BoxDecoration(
                                       border:
-                                      Border.all(color: Color(0xFFe13026)),
+                                      Border.all(color: Colors.redAccent),
                                       borderRadius:
                                       BorderRadius.circular(30)),
                                   child: Center(
@@ -571,9 +553,9 @@ class _MapPageState extends State<MapPage> {
                                     width: 25,
                                     height: 25,
                                     decoration: BoxDecoration(
-                                        color: Color(0xFFffffff),
+                                        color: Colors.white,
                                         border: Border.all(
-                                            color: Color(0xFFffffff), width: 2),
+                                            color: Colors.white, width: 2),
                                         borderRadius:
                                         BorderRadius.circular(12.5)),
                                     child: Image.asset(
@@ -585,18 +567,18 @@ class _MapPageState extends State<MapPage> {
                               ]),
                               Text(
                                 allTranslations.text("time"),
-                                style: TextStyle(color: Color(0xFF808080)),
+                                style: TextStyle(color: Colors.grey),
                               )
                             ]),
                           ),
                           MapItem(
                               title: "steps",
-                              value: "$steps",
+                              value: "$showSteps",
                               image: "ic_steps2",
                               isNotFloat: true),
                           MapItem(
                               title: "cals",
-                              value: "${(steps * 0.0512).ceil()}",
+                              value: "${(showSteps * 0.0512).ceil()}",
                               image: "ic_cal",
                               isLeft: false)
                         ],
@@ -608,104 +590,97 @@ class _MapPageState extends State<MapPage> {
 
                   ///**************************************************
                   new Positioned(
-                    bottom: 15,
+                    bottom: 60,
                     left: 0,
                     right: 0,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: checkRun
-                                  ? Color(0xFFe13026)
-                                  : Settings.mainColor(),
-                            ),
-                            padding: EdgeInsets.only(
-                                top: 12, bottom: 12, right: 23, left: 23),
-                            child: checkRun == false
-                                ? Text(allTranslations.text("startNow"),
-                              style: TextStyle(color: Color(0xFFffffff),
-                                  fontSize: 14),)
-                                : Text(allTranslations.text("endNow"),
-                                style: TextStyle(color: Color(0xFFffffff),
-                                    fontSize: 14)),
-                          ),
-                          onTap: () async {
-                            rightButtonPressed();
-                            checkRun = !checkRun;
-                            setState(() {});
-                            if (checkRun == true) {
-                              updatePostion();
-                            } else if (checkRun == false) {
-                              if (_polyline.isNotEmpty) {
-                                //draw();
-                              }
-                              setState(() {
-                                ismaping = false;
-                                checkRun = false;
-                              });
-                              try {
-                                FormData formdata = new FormData();
-                                // get user token
-                                SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                                Map<String, dynamic> authUser = jsonDecode(
-                                    sharedPreferences
-                                        .getString("authUser"));
-                                dio.options.headers = {
-                                  "Authorization":
-                                  "Bearer ${authUser['authToken']}",
-                                };
-                                formdata.add("startLongitude",
-                                    0.0);
-                                formdata.add(
-                                    "endLongitude", 0.0);
-                                formdata.add(
-                                    "startLatitude", 0.0);
-                                formdata.add(
-                                    "endLatitude", 0.0);
-                                formdata.add("date", DateTime.now());
-                                print(
-                                    '******************************************************');
-                                print(DateTime.now());
-                                print(
-                                    '******************************************************');
-                                print(
-                                    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                formdata.add("distance",
-                                    (distance * 1000).toInt());
-                                formdata.add("steps", steps);
-                                formdata.add("calories",
-                                    ((steps * 0.0512).ceil()).toInt());
-                                print(
-                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                print(formdata);
-                                print(
-                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                response = await dio.post(
-                                    "http://api.sukar.co/api/mapInformation",
-                                    data: formdata);
-                                if (response.statusCode != 200 &&
-                                    response.statusCode != 201) {
-                                  return false;
-                                } else {
-                                  print('success -->');
-                                  print('Response = ${response.data}');
-                                  return true;
+                        RaisedButton(
+                            textColor: Colors.white,
+                            color: checkRun
+                                ? Colors.red
+                                : Settings.mainColor(),
+                            child: Container(
+                                padding: EdgeInsets.all(15),
+                                child: checkRun == false
+                                    ? Text(allTranslations.text("startNow"))
+                                    : Text(allTranslations.text("endNow"))),
+                            onPressed: () async {
+                              rightButtonPressed();
+                              checkRun = !checkRun;
+                              setState(() {});
+                              if (checkRun == true) {
+                                updatePostion();
+                              } else if (checkRun == false) {
+                                if (_polyline.isNotEmpty) {
+                                  //draw();
                                 }
-                              } on DioError catch (e) {
-                                print(
-                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                print(e.response.data);
-                                return false;
+                                setState(() {
+                                  ismaping = false;
+                                  checkRun = false;
+                                });
+                                try {
+                                  FormData formdata = new FormData();
+                                  // get user token
+                                  SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences
+                                          .getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                    "Bearer ${authUser['authToken']}",
+                                  };
+                                  formdata.add("startLongitude",
+                                      0.0);
+                                  formdata.add(
+                                      "endLongitude", 0.0);
+                                  formdata.add(
+                                      "startLatitude", 0.0);
+                                  formdata.add(
+                                      "endLatitude", 0.0);
+                                  formdata.add("date", DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  print(DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  print(
+                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                                  formdata.add("distance",
+                                      ((showSteps * 0.5).round()).toInt());
+                                  formdata.add("steps", showSteps);
+                                  formdata.add("calories",
+                                      ((showSteps * 0.0512).ceil()).toInt());
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  print(formdata);
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  response = await dio.post(
+                                      "http://api.sukar.co/api/mapInformation",
+                                      data: formdata);
+                                  if (response.statusCode != 200 &&
+                                      response.statusCode != 201) {
+                                    return false;
+                                  } else {
+                                    print('success -->');
+                                    print('Response = ${response.data}');
+                                    return true;
+                                  }
+                                } on DioError catch (e) {
+                                  print(
+                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                  print(e.response.data);
+                                  return false;
+                                }
                               }
-                            }
-                            return true;
-                          },
-                        )
+                               return true;
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)))
                       ],
                     ),
                   )
@@ -764,10 +739,10 @@ class MapItem extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFFe13026)),
+                border: Border.all(color: Colors.redAccent),
                 borderRadius: BorderRadius.circular(30)),
             child: Center(
-              child: Text("$value", style: TextStyle(color: Color(0xFF00a2ed))),
+              child: Text("$value", style: TextStyle(color: Colors.blueAccent)),
             ),
           ),
           Positioned(
@@ -778,8 +753,8 @@ class MapItem extends StatelessWidget {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                  color: Color(0xFFffffff),
-                  border: Border.all(color: Color(0xFFffffff), width: 2),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.white, width: 2),
                   borderRadius: BorderRadius.circular(12.5)),
               child:
               Image.asset("assets/icons/$image.png", width: 20, height: 20),
@@ -788,7 +763,7 @@ class MapItem extends StatelessWidget {
         ]),
         Text(
           allTranslations.text(title),
-          style: TextStyle(color: Color(0xFF808080)),
+          style: TextStyle(color: Colors.grey),
         )
       ]),
     );
