@@ -84,7 +84,7 @@
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
 	<string></string>
 	<key>NSHealthShareUsageDescription</key>
-	<string></string>
+	<string>to record steps</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string></string>
 	<key>NSHumanReadableCopyright</key>

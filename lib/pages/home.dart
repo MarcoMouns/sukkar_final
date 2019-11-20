@@ -389,7 +389,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                   highlightColor: Colors.transparent,
                   onTap: () {
                     _removeOverlay();
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => MainHome()));
                   },
                   child: ImageIcon(

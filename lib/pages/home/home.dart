@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,7 +17,6 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
-import '../../measurementsPageCircles.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -27,7 +27,6 @@ import 'package:health/pages/Settings.dart' as settings;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
-
 import 'articlesCategory.dart';
 import 'measurementsDetailsPage.dart';
 
@@ -60,13 +59,7 @@ class _HomePageState extends State<HomePage> {
   int sugerToday;
   String timeOfLastMeasure = "";
   List<BannersListBean> banners = List<BannersListBean>();
-  double dataCharts0 = 0.0;
-  double dataCharts1 = 0.0;
-  double dataCharts2 = 0.0;
-  double dataCharts3 = 0.0;
-  double dataCharts4 = 0.0;
-  double dataCharts5 = 0.0;
-  double dataCharts6 = 0.0;
+
   bool loading;
   bool loading1;
   bool loading2;
@@ -110,10 +103,68 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
+  List healthKitData;
+  List fitdata = new List();
+
+  Future<List<int>> healthKit() async {
+    List<int> Steps = new List<int>();
+    healthKitData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(hours: 12)),
+      DateTime.now(),
+    );
+
+    print(healthKitData);
+
+    if (healthKitData.isEmpty) {
+      return Steps;
+    }
+    else {
+      for (int i = 0; i <= healthKitData.length - 1; i++) {
+        fitdata.add(healthKitData[i]);
+        Steps.add(fitdata[i].value.round());
+      }
+      return Steps;
+    }
+
+  }
+
+int totalSteps = 0;
+bool flag = true;
+  int step = 0;
+
+  void calculateSteps() async {
+    print("im working");
+    int steps = 0;
+    List<int> StepsList = new List<int>();
+    StepsList = await healthKit();
+    if (StepsList.isEmpty) {
+      totalSteps = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+    }
+    else {
+      for (int i = 0; i <= StepsList.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $steps');
+        steps = StepsList[i] + steps;
+      }
+      if (flag == true) {
+        totalSteps = steps;
+        print('Aaaaaaaa7777777aaaaaaaaaaa');
+        print(totalSteps);
+      }
+      flag = false;
+      step = steps;
+      setState(() {});
+    }
+  }
+
+
+
   initState() {
     setState(() {
       Settings.currentIndex = 0;
     });
+    calculateSteps();
     getMeasurementsForDay(date);
     super.initState();
     dummySelectedDate = DateTime.now();
@@ -215,7 +266,6 @@ class _HomePageState extends State<HomePage> {
 
     print('BLood => $circleBlood');
     print('heart => $circleHeart');
-    print('steps => $circleSteps');
     print('water => $circleWater');
     print('cal => $circleCalorie');
     print('distance => $circleDistance');
@@ -237,7 +287,6 @@ class _HomePageState extends State<HomePage> {
 
     print('BLood => $circleBlood');
     print('heart => $circleHeart');
-    print('steps => $circleSteps');
     print('water => $circleWater');
     print('cal => $circleCalorie');
     print('distance => $circleDistance');
@@ -304,9 +353,6 @@ class _HomePageState extends State<HomePage> {
     distance = response.data["Measurements"]["distance"] == null
         ? 0
         : response.data["Measurements"]["distance"];
-    steps = response.data["Measurements"]["NumberOfSteps"] == null
-        ? 0
-        : response.data["Measurements"]["NumberOfSteps"];
     calories = response.data["Measurements"]["day_Calories"] == null
         ? 0
         : response.data["Measurements"]["day_Calories"];
@@ -571,7 +617,7 @@ class _HomePageState extends State<HomePage> {
                     : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
         context: context,
         steps:
-            dataHome == null ? 0 : dataHome.steps == null ? 0 : dataHome.steps,
+            dataHome == null ? 0 : dataHome.steps == null ? 0 : step,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +

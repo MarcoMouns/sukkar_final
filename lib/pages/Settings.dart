@@ -334,7 +334,7 @@ class _BottomSheetState extends State<BottomSheet> {
   }
 
   Future<void> pop() {
-    return Navigator.of(context).push(
+    return Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => MainHome()));
   }
   @override
