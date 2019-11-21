@@ -692,14 +692,14 @@ class _HomePageState extends State<HomePage> {
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: distance == null
+        percent: dataHome.distance == null
                 ? 0
-                : ncal == 0 ? 0 : ((distance/ distanceGoal)),
+                : ncal == 0 ? 0 : ((dataHome.distance/ distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
             ? '0'
-            : distance == null ? '0' : distance.toString(),
+            : dataHome.distance == null ? '0' : dataHome.distance.toString(),
         onTap: () => null,
         footerText:
             " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
