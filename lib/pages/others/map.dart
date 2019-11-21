@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -234,24 +235,16 @@ class _MapPageState extends State<MapPage> {
 
   GoogleMapController mapController;
   Set<Polyline> _polyline = {};
-  Set<Marker> _markers = {};
   List<LatLng> latlngSegment = List();
-  int _polylineIdCounter = 1;
 
-  ///this x is for debugging
-  int x = 0;
-  double meter = 0;
-  PolylineId selectedPolyline;
   Position firstPosition;
   Position currentPosition;
   bool _isLoading = true;
   bool checkRun = false;
-  final List<LatLng> points = <LatLng>[];
   Response response;
   Dio dio = new Dio();
-  bool ismaping = false;
-  bool troll = false;
-  List fitdata = new List();
+
+
   bool flag = true;
   int steps = 0;
   double distance = 0;
@@ -270,26 +263,55 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  double getDistance({double long1, double long2, double lat1, double lat2}) {
-    long1 = -long1 * degrees2Radians;
-    long2 = -long2 * degrees2Radians;
+//  double getDistance({double long1, double long2, double lat1, double lat2}) {
+//    long1 = -long1 * degrees2Radians;
+//    long2 = -long2 * degrees2Radians;
+//
+//    lat1 = lat1 * degrees2Radians;
+//    lat2 = lat2 * degrees2Radians;
+//
+//    double Mlat = (lat1 - lat2) * degrees2Radians;
+//    double Mlong = (long1 - long2) * degrees2Radians;
+//
+//    double earthRadius = 6371e3;
+//
+//    var a = (sin(Mlat / 2) * sin(Mlat / 2)) +
+//        (cos(lat1) * cos(lat2)) * sin(Mlong / 2) * sin(Mlong / 2);
+//    var c = atan2(sqrt(a), sqrt(1 - a));
+//
+//    var distance = earthRadius * c;
+//
+//    return distance;
+//  }
 
-    lat1 = lat1 * degrees2Radians;
-    lat2 = lat2 * degrees2Radians;
 
-    double Mlat = (lat1 - lat2) * degrees2Radians;
-    double Mlong = (long1 - long2) * degrees2Radians;
+  List healthKitStepsData;
+  List fitdata = new List();
 
-    double earthRadius = 6371e3;
+  void healthKit() async {
+    List<int> Steps = new List<int>();
+    healthKitStepsData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(minutes: 1)),
+      DateTime.now(),
+    );
 
-    var a = (sin(Mlat / 2) * sin(Mlat / 2)) +
-        (cos(lat1) * cos(lat2)) * sin(Mlong / 2) * sin(Mlong / 2);
-    var c = atan2(sqrt(a), sqrt(1 - a));
-
-    var distance = earthRadius * c;
-
-    return distance;
+    if (healthKitStepsData.isEmpty) {
+      steps = 0;
+    }
+    else {
+      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+        fitdata.add(healthKitStepsData[i]);
+        Steps.add(fitdata[i].value.round());
+      }
+      for (int i = 0; i <= Steps.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $steps');
+        steps = Steps[i] + steps;
+      }
+    }
+    setState(() {});
   }
+
 
   void updatePostion() async {
 
@@ -304,66 +326,63 @@ class _MapPageState extends State<MapPage> {
       print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
 
-    int geoListLength = latlngSegment.length;
+    //int geoListLength = latlngSegment.length;
 
 
-    if (geoListLength <= 1) {
-      print(
-          'LAT1 ---------------------------> ${latlngSegment.first.latitude}');
-      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-      print('Long1 ---------------------------> ${latlngSegment.first
-          .longitude}');
-      print(
-          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-
-      distance = getDistance(
-        lat1: latlngSegment.first.latitude,
-        lat2: latlngSegment.last.latitude,
-        long1: latlngSegment.first.longitude,
-        long2: latlngSegment.last.longitude,
-      );
-      steps = (((distance * 100) * 0.65) + steps).toInt();
-    }
-    else {
-      print('LAT1 ---------------------------> ${latlngSegment
-          .elementAt(geoListLength - 2)
-          .latitude}');
-      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-      print('Long1 ---------------------------> ${latlngSegment
-          .elementAt(geoListLength - 2)
-          .longitude}');
-      print(
-          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-
-      distance = getDistance(
-        lat1: latlngSegment
-            .elementAt(geoListLength - 2)
-            .latitude,
-        lat2: latlngSegment.last.latitude,
-        long1: latlngSegment
-            .elementAt(geoListLength - 2)
-            .longitude,
-        long2: latlngSegment.last.longitude,
-      ) + distance;
-
-      if (latlngSegment
-          .elementAt(geoListLength - 2)
-          .longitude == latlngSegment.last.longitude) {
-        print('DISTANCE ---------------------------------> ${distance * 100}');
-        print('Before steps ---------------------------------> $steps');
-        steps = steps;
-        print('Before steps ---------------------------------> $steps');
-      }
-      else {
-        print('DISTANCE ---------------------------------> ${distance * 100}');
-        print('Before steps ---------------------------------> $steps');
-        steps = (((distance * 100) * 0.65) + steps).toInt();
-        print('After steps ---------------------------------> $steps');
-      }
-    }
-
-
-
+//    if (geoListLength <= 1) {
+//      print(
+//          'LAT1 ---------------------------> ${latlngSegment.first.latitude}');
+//      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
+//      print('Long1 ---------------------------> ${latlngSegment.first
+//          .longitude}');
+//      print(
+//          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
+//
+//      distance = getDistance(
+//        lat1: latlngSegment.first.latitude,
+//        lat2: latlngSegment.last.latitude,
+//        long1: latlngSegment.first.longitude,
+//        long2: latlngSegment.last.longitude,
+//      );
+//      steps = (((distance * 100) * 0.65) + steps).toInt();
+//    }
+//    else {
+//      print('LAT1 ---------------------------> ${latlngSegment
+//          .elementAt(geoListLength - 2)
+//          .latitude}');
+//      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
+//      print('Long1 ---------------------------> ${latlngSegment
+//          .elementAt(geoListLength - 2)
+//          .longitude}');
+//      print(
+//          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
+//
+//      distance = getDistance(
+//        lat1: latlngSegment
+//            .elementAt(geoListLength - 2)
+//            .latitude,
+//        lat2: latlngSegment.last.latitude,
+//        long1: latlngSegment
+//            .elementAt(geoListLength - 2)
+//            .longitude,
+//        long2: latlngSegment.last.longitude,
+//      ) + distance;
+//
+//      if (latlngSegment
+//          .elementAt(geoListLength - 2)
+//          .longitude == latlngSegment.last.longitude) {
+//        print('DISTANCE ---------------------------------> ${distance * 100}');
+//        print('Before steps ---------------------------------> $steps');
+//        steps = steps;
+//        print('Before steps ---------------------------------> $steps');
+//      }
+//      else {
+//        print('DISTANCE ---------------------------------> ${distance * 100}');
+//        print('Before steps ---------------------------------> $steps');
+//        steps = (((distance * 100) * 0.65) + steps).toInt();
+//        print('After steps ---------------------------------> $steps');
+//      }
+//    }
     draw();
     setState(() {});
 
@@ -375,8 +394,11 @@ class _MapPageState extends State<MapPage> {
     setState(() {});
   }
 
+  Timer time;
+
   initState() {
     super.initState();
+    time = Timer.periodic(Duration(minutes: 1), (Timer t) => healthKit());
     currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
       print(
@@ -443,7 +465,6 @@ class _MapPageState extends State<MapPage> {
                     //   _addPolyline();
                     //   print(position);
                     // },
-                    markers: _markers,
                     initialCameraPosition: CameraPosition(
                         target: LatLng(firstPosition.latitude,
                             firstPosition.longitude),
@@ -488,15 +509,16 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-//                   Positioned(
-//                     top: 1,
-//                     right: 1,
-//                     child: Column(
-//                       children: <Widget>[
-//                           Text("$mov",style: TextStyle(color: Colors.blue,fontSize: 40),),
-//                       ],
-//                     ),
-//                   ),
+                  Positioned(
+                    top: 1,
+                    right: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Text("$fitdata", style: TextStyle(
+                            color: Color(0xFF0000ff), fontSize: 40),),
+                      ],
+                    ),
+                  ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -644,7 +666,6 @@ class _MapPageState extends State<MapPage> {
                                 //draw();
                               }
                               setState(() {
-                                ismaping = false;
                                 checkRun = false;
                               });
                               try {
