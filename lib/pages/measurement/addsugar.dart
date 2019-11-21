@@ -250,12 +250,12 @@ class _AddSugarState extends State<AddSugar> {
                                 ),
                               ),
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           BlueToothDevice(model)),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BlueToothDevice(model)),
+                                );
                               },
                             ),
                           ],
