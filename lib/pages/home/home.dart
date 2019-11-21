@@ -104,25 +104,23 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
-  List healthKitData;
+  List healthKitStepsData;
   List fitdata = new List();
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
-    healthKitData = await FitKit.read(
+    healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
       DateTime.now().subtract(Duration(hours: 12)),
       DateTime.now(),
     );
 
-    print(healthKitData);
-
-    if (healthKitData.isEmpty) {
+    if (healthKitStepsData.isEmpty) {
       return Steps;
     }
     else {
-      for (int i = 0; i <= healthKitData.length - 1; i++) {
-        fitdata.add(healthKitData[i]);
+      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+        fitdata.add(healthKitStepsData[i]);
         Steps.add(fitdata[i].value.round());
       }
       return Steps;
@@ -162,7 +160,7 @@ bool flag = true;
               .getString("authUser"));
       Map userHeader = {
         "Content-type": "application/json",
-        "Accept": "application/json",
+        "Acce0pt": "application/json",
         "Authorization": "Bearer ${authUser['authToken']}"
       };
       var response = await http.post(
