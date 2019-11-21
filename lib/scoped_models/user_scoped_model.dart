@@ -45,18 +45,17 @@ mixin UserScopedModel on Model {
     try {
       FormData formdata = new FormData();
       formdata.add("phone", data['phone']);
-      formdata.add("token_id", "12345");
       formdata.add("rand", data['code']);
 
       response = await dio.post("$baseUrl/auth/check_code", data: formdata);
       print(response.data.toString());
-      if (response.statusCode != 200 && response.statusCode != 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         notifyListeners();
-        return false;
+        return true;
       }
 
       notifyListeners();
-      return true;
+      return false;
     } on DioError catch (e) {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
@@ -64,8 +63,8 @@ mixin UserScopedModel on Model {
       print(e.response.data);
       print(e.response.headers);
       print(e.response.request);
-      notifyListeners();
-      return false;
+//      notifyListeners();
+//      return false;
     }
   }
 

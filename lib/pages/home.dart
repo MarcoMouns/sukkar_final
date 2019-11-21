@@ -217,7 +217,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                     navigationTapped: (i) async {
                       cIndex = i;
                       if (cIndex == 0) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => MainHome()));
                       }
                       setState(() {});

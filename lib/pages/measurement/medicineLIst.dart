@@ -133,7 +133,7 @@ class _MedListState extends State<MedList> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () =>
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => MainHome())),
           ),
         ),

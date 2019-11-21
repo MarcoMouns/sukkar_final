@@ -195,7 +195,7 @@ class _AddFoodState extends State<AddFood> {
                         leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => MainHome()));
               },
             ),

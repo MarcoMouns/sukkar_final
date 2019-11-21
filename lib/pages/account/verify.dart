@@ -40,16 +40,18 @@ class _VerifyState extends State<Verify> {
   }
 
   void _handleSubmit(BuildContext context, MainModel model) {
+    print('tab myass');
     if (!_formKey.currentState.validate()) {
       setState(() {
         _isLoading = false;
       });
-      return;
     }
+    print('tab myass');
     _formKey.currentState.save();
     setState(() {
       _isLoading = true;
     });
+    print('tab myass');
     model.verifyCode({
       "code": code,
       "phone": widget.phone,
@@ -59,9 +61,10 @@ class _VerifyState extends State<Verify> {
           _isLoading = false;
         });
         // go to check code page
-        Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) {
-          return Complete(widget.phone);
-        }));
+        Navigator.of(context).pushReplacement(
+            PageRouteBuilder(pageBuilder: (_, __, ___) {
+              return Complete(widget.phone);
+            }));
       } else {
         setState(() {
           _isLoading = false;
@@ -69,9 +72,10 @@ class _VerifyState extends State<Verify> {
         // show error
         showInSnackBar("ERROR");
       }
-      Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) {
-        return Complete(widget.phone);
-      }));
+
+//      Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) {
+//        return Complete(widget.phone);
+//      }));
     });
   }
 
@@ -219,7 +223,8 @@ class _VerifyState extends State<Verify> {
                                       margin: EdgeInsets.only(bottom: 10),
                                       child: TextFormField(
                                         decoration: InputDecoration(
-                                            hintText: "", counterText: ""),
+                                          hintText: "",
+                                        ),
                                         controller: _controller,
                                         focusNode: _focusNode,
                                         maxLength: 4,
@@ -230,6 +235,7 @@ class _VerifyState extends State<Verify> {
                                                 ? "Code is required"
                                                 : "الكود مطلوب";
                                           }
+                                          return "a";
                                         },
                                         onSaved: (String val) {
                                           setState(() {
@@ -251,7 +257,8 @@ class _VerifyState extends State<Verify> {
                                             padding: const EdgeInsets.all(8.0),
                                             child: Center(
                                               child: Text(
-                                                "${minutes ?? 04}:${seconds ?? 00}",
+                                                "${minutes ?? 01}:${seconds ??
+                                                    00}",
                                                 style: TextStyle(
                                                     color: Colors.redAccent,
                                                     fontSize: 18),
