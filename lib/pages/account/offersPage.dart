@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/others/adDetails.dart';
 
 class OffersScreen extends StatefulWidget {
   @override
@@ -14,13 +15,16 @@ class _OffersScreenState extends State<OffersScreen> {
   final String baseUrl = 'http://api.sukar.co/api';
   bool isLoading = true;
   List<String> ads = new List();
+  List<String> adTexts = new List();
   List<Widget> adsCards = new List();
 
   getOffers() async {
     response = await dio.get("$baseUrl/ads");
     for (int i = 0; i < response.data["ads"].length; i++) {
       print(response.data["ads"][i]["image"]);
+      print(response.data["ads"][i]["text"]);
       ads.add(response.data["ads"][i]["image"].toString());
+      adTexts.add(response.data["ads"][i]["text"].toString());
     }
     isLoading = false;
     setState(() {});
@@ -32,19 +36,24 @@ class _OffersScreenState extends State<OffersScreen> {
       list.add(SizedBox(
         height: 20,
       ));
-      list.add(Container(
-        padding: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
-        decoration: ShapeDecoration(
-            image: DecorationImage(
-                image: NetworkImage('http://api.sukar.co/${ads[i]}'),
-                fit: BoxFit.cover),
-            color: Colors.grey[200],
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10))),
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.width * 0.4,
-      ));
+      list.add(GestureDetector(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => AdDetailsScreen(ads[i],adTexts[i])));
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+            decoration: ShapeDecoration(
+                image: DecorationImage(
+                    image: NetworkImage('http://api.sukar.co/${ads[i]}'),
+                    fit: BoxFit.cover),
+                color: Colors.grey[200],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.width * 0.4,
+          )));
     }
     adsCards = list;
     return list;
@@ -55,7 +64,6 @@ class _OffersScreenState extends State<OffersScreen> {
     super.initState();
     getOffers();
     displayAds();
-    
   }
 
   @override
@@ -69,12 +77,13 @@ class _OffersScreenState extends State<OffersScreen> {
           : ListView(
               children: ads.isEmpty
                   ? <Widget>[
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Center(
-                    child: Text(allTranslations.text("noOffers")),
-                  )]
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Center(
+                        child: Text(allTranslations.text("noOffers")),
+                      )
+                    ]
                   : displayAds(),
             ),
     );

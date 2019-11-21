@@ -195,7 +195,8 @@ Map<String, String> englishLang = {
   "isAuto":"Calculate goals automatically",
   "showOffers":"Show Offers",
   "offers":"Offers",
-  "noOffers":"there is no offers"
+  "noOffers":"there is no offers",
+  "ad":"ads"
 
 
   

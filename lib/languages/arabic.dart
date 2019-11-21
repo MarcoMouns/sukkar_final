@@ -209,7 +209,8 @@ Map<String, String> arabicLang = {
   "isAuto":"حساب الاهداف اليا",
   "showOffers":"عرض العروض",
   "offers":"الدعاية و العروض",
-  "noOffers":"لا يوجد اعلانات او عروض"
+  "noOffers":"لا يوجد اعلانات او عروض",
+  "ad":"اعلان"
 
 
 
