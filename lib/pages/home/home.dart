@@ -160,15 +160,12 @@ bool flag = true;
       Map<String, dynamic> authUser = jsonDecode(
           sharedPreferences
               .getString("authUser"));
-      Map userHeader = {
-        "Content-type": "application/json",
-        "Accept": "application/json",
-        "Authorization": "Bearer ${authUser['authToken']}"
-      };
+     
+       print('-----------------------omgggggggg----------->');
       var response = await http.post(
-          "api.sukar.co/api/update-steps", body: {"steps": "$step",},
-          headers: userHeader);
-      print('----------------------------------> $response');
+          "http://api.sukar.co/api/update-steps", body: {"steps": "$step",},
+          headers: {"Authorization": "Bearer ${authUser['authToken']}"});
+      print('-----------------------omgggggggg-----------> ${response.body}');
       setState(() {});
     }
   }
