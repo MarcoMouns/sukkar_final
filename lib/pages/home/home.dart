@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
   var date =
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
-  int distance;
+  int distance = 0;
   int steps;
   int calories;
   int cupOfWater;
@@ -129,7 +129,6 @@ class _HomePageState extends State<HomePage> {
 
     if (disctance.isEmpty) {
       distance = 0;
-      print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= disctance.length - 1; i++) {
         print('huh eh tani -_- ->>>>> $distance');
@@ -172,7 +171,6 @@ class _HomePageState extends State<HomePage> {
 
   int totalSteps = 0;
   bool flag = true;
-  bool flag2 = true;
   int step = 0;
 
   void calculateSteps() async {
