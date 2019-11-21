@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:async' as prefix0;
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,11 +44,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PageController _bottomChartsPageViewController = PageController();
-
 //width of the screen to init the siwiper postion
-  int _stepCountValue;
-  StreamSubscription _subscription;
   var dateSplit;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
@@ -105,15 +102,61 @@ class _HomePageState extends State<HomePage> {
   }
 
   List healthKitStepsData;
+  List healthKitDistanceData;
   List fitdata = new List();
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
+    List<int> disctance = new List<int>();
+
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
       DateTime.now().subtract(Duration(hours: 12)),
       DateTime.now(),
     );
+
+    healthKitDistanceData = await FitKit.read(
+      DataType.DISTANCE,
+      DateTime.now().subtract(Duration(hours: 12)),
+      DateTime.now(),
+    );
+
+    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
+      fitdata.add(healthKitDistanceData[i]);
+      disctance.add(fitdata[i].value.round());
+    }
+
+    if (disctance.isEmpty) {
+      distance = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+    }
+    else {
+      for (int i = 0; i <= disctance.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $distance');
+        distance = disctance[i] + distance;
+      }
+      SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser = jsonDecode(
+          sharedPreferences
+              .getString("authUser"));
+
+      print('-----------------------omgggggggg----------->');
+      Map userHeader = {
+        "Content-type": "application/json",
+        "Acce0pt": "application/json",
+        "Authorization": "Bearer ${authUser['authToken']}"
+      };
+
+      var response = await http.post(
+          "$baseUrl/update-distance", body: {"distance": "$distance",},
+          headers: {"Authorization": "Bearer ${authUser['authToken']}"});
+
+      print('-----------------------omgggggggg-----------> ${response.body}');
+      setState(() {});
+    }
+
+    print('------OOOOOMMMMMMGGGGGGG-----------------> $disctance');
 
     if (healthKitStepsData.isEmpty) {
       return Steps;
@@ -130,10 +173,10 @@ class _HomePageState extends State<HomePage> {
 
 int totalSteps = 0;
 bool flag = true;
+  bool flag2 = true;
   int step = 0;
 
   void calculateSteps() async {
-    print("im working");
     int steps = 0;
     List<int> StepsList = new List<int>();
     StepsList = await healthKit();
@@ -148,7 +191,6 @@ bool flag = true;
       }
       if (flag == true) {
         totalSteps = steps;
-        print('Aaaaaaaa7777777aaaaaaaaaaa');
         print(totalSteps);
       }
       flag = false;
@@ -173,8 +215,6 @@ bool flag = true;
     }
   }
 
-
-
   initState() {
     setState(() {
       Settings.currentIndex = 0;
@@ -182,6 +222,8 @@ bool flag = true;
     calculateSteps();
     getMeasurementsForDay(date);
     super.initState();
+    Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
+
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
@@ -345,6 +387,29 @@ bool flag = true;
   Dio dio = new Dio();
 
   final String baseUrl = 'http://api.sukar.co/api';
+
+  Future sendWorkingHours() async {
+    Response response;
+
+    // try {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+    jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.get("$baseUrl/auth/me",
+        options: Options(headers: headers));
+
+    int isDoctor = response.data["user"]["state"];
+    if (isDoctor == 2) {
+      Response response2;
+
+      response2 = await dio.put("$baseUrl/doctors/update-work-hours?minutes=15",
+          options: Options(headers: headers));
+      print('Response2 ---------------> ${response2.data}');
+    }
+  }
 
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
@@ -550,14 +615,6 @@ bool flag = true;
 
     setState(() {});
   }
-
-  void _onData(int stepCountValue) async {
-    setState(() => _stepCountValue = stepCountValue);
-  }
-
-  void _onDone() => print("Finished pedometer tracking");
-
-  void _onError(error) => print("Flutter Pedometer Error: $error");
 
 
   //------------------ END STEP COUNTER -------------//

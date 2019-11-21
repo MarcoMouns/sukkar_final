@@ -697,8 +697,8 @@ class _MapPageState extends State<MapPage> {
                                 print(
                                     "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                 formdata.add("distance",
-                                    (distance).toInt());
-                                formdata.add("steps", steps);
+                                    (0).toInt());
+                                formdata.add("steps", 0);
                                 formdata.add("calories",
                                     ((steps * 0.0512).ceil()).toInt());
                                 print(
