@@ -679,26 +679,22 @@ class _HomePageState extends State<HomePage> {
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
     widgetCircleSteps = MainCircles.steps(
-        percent: dataHome == null
-            ? 0
-            : dataHome.steps == null
+        percent:dataHome.steps == null
                 ? 0
                 : (dataHome.steps / stepsGoal) > 1
                     ? 1
                     : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
         context: context,
-        steps: dataHome == null ? 0 : dataHome.steps == null ? 0 : step,
+        steps: dataHome.steps == null ? 0 : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: dataHome == null
-            ? 0
-            : dataHome.distance == null
+        percent: dataHome.distance == null
                 ? 0
-                : ncal == 0 ? 0 : ((dataHome.distance / distanceGoal)),
+                : ncal == 0 ? 0 : ((dataHome.distance/ distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
