@@ -165,110 +165,129 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     context,
     _chartRadius,
   ) {
-    return CustomMultiChildLayout(
-      delegate: CirclesDelegate(_chartRadius),
-      children: <Widget>[
-        new LayoutId(
-          id: 1,
-          child: MainCircles.diabetes(
-            percent: 0.2,
-            context: context,
+    return InkWell(
+      onTap: () =>
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (Context) => LandPage())),
+      child: CustomMultiChildLayout(
+        delegate: CirclesDelegate(_chartRadius),
+        children: <Widget>[
+          new LayoutId(
+            id: 1,
+            child: MainCircles.diabetes(
+              percent: 0.2,
+              context: context,
 //                sugar: dataHome['sugar'].toString(),
-            sugar: '0',
-            raduis: _chartRadius,
-            status: '0',
-            ontap: () => null,
-            footer: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                SizedBox(
-                  width: _chartRadius / 5,
-                ),
-                Expanded(
-                    child: InkWell(
-                  child: ImageIcon(
-                    AssetImage("assets/icons/ic_camera.png"),
-                    color: Colors.grey[300],
-                    size: 15,
+              sugar: '0',
+              raduis: _chartRadius,
+              status: '0',
+              ontap: () =>
+                  Navigator.of(context)
+                      .push(
+                      MaterialPageRoute(builder: (Context) => LandPage())),
+              footer: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  SizedBox(
+                    width: _chartRadius / 5,
                   ),
-                  onTap: () => ScreenshotShareImage.takeScreenshotShareImage(),
-                )),
-                Expanded(
-                  child: InkWell(
-                    onTap: () => null,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Positioned(
-                          child: CircleAvatar(
-                            radius: 7.5,
-                            backgroundImage:
-                                AssetImage("assets/imgs/profile.jpg"),
-                          ),
+                  Expanded(
+                      child: InkWell(
+                        child: ImageIcon(
+                          AssetImage("assets/icons/ic_camera.png"),
+                          color: Colors.grey[300],
+                          size: 15,
                         ),
-                        Positioned(
-                          left: 8.5,
-                          child: CircleAvatar(
-                            radius: 7.5,
-                            backgroundImage:
-                                AssetImage("assets/imgs/profile.jpg"),
+                        onTap: () =>
+                            ScreenshotShareImage.takeScreenshotShareImage(),
+                      )),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => null,
+                      child: Stack(
+                        alignment: Alignment.centerLeft,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Positioned(
+                            child: CircleAvatar(
+                              radius: 7.5,
+                              backgroundImage:
+                              AssetImage("assets/imgs/profile.jpg"),
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          left: 17,
-                          child: Icon(
-                            Icons.add,
-                            size: 15,
+                          Positioned(
+                            left: 8.5,
+                            child: CircleAvatar(
+                              radius: 7.5,
+                              backgroundImage:
+                              AssetImage("assets/imgs/profile.jpg"),
+                            ),
                           ),
-                        )
-                      ],
+                          Positioned(
+                            left: 17,
+                            child: Icon(
+                              Icons.add,
+                              size: 15,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: _chartRadius / 5,
-                ),
-              ],
+                  SizedBox(
+                    width: _chartRadius / 5,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        new LayoutId(
-            id: 2,
-            child: MainCircles.cal(
-                percent: 0.5,
-                context: context,
+          new LayoutId(
+              id: 2,
+              child: MainCircles.cal(
+                  percent: 0.5,
+                  context: context,
 //                day_Calories: dataHome['day_Calories'],
-                day_Calories: '0',
-                ontap: () => null,
-                raduis: _chartRadius,
-                footerText:
-                    "Cal " + " 100 :" + allTranslations.text("Goal is"))),
-        new LayoutId(
-          id: 3,
-          child: MainCircles.steps(
-              percent: 0.9,
-              context: context,
+                  day_Calories: '0',
+                  ontap: () =>
+                      Navigator.of(context)
+                          .push(
+                          MaterialPageRoute(builder: (Context) => LandPage())),
+                  raduis: _chartRadius,
+                  footerText:
+                  "Cal " + " 100 :" + allTranslations.text("Goal is"))),
+          new LayoutId(
+            id: 3,
+            child: MainCircles.steps(
+                percent: 0.9,
+                context: context,
 //              steps: dataHome['NumberOfSteps'] ?? 0,
-              steps: 0,
-              raduis: _chartRadius,
-              onTap: () => null,
-              footerText: " Step " + "100 :" + allTranslations.text("Goal is")),
-        ),
-        new LayoutId(
-          id: 4,
-          child: MainCircles.distance(
-              percent: 0.3,
-              context: context,
-              raduis: _chartRadius,
+                steps: 0,
+                raduis: _chartRadius,
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(
+                        MaterialPageRoute(builder: (Context) => LandPage())),
+                footerText: " Step " + "100 :" +
+                    allTranslations.text("Goal is")),
+          ),
+          new LayoutId(
+            id: 4,
+            child: MainCircles.distance(
+                percent: 0.3,
+                context: context,
+                raduis: _chartRadius,
 //              distance: dataHome['distance'].toString(),
-              distance: '0',
-              onTap: () => null,
-              footerText:
-                  " meter " + "200 :" + allTranslations.text("Goal is")),
-        )
-      ],
+                distance: '0',
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(
+                        MaterialPageRoute(builder: (Context) => LandPage())),
+                footerText:
+                " meter " + "200 :" + allTranslations.text("Goal is")),
+          )
+        ],
+      ),
     );
   }
 
@@ -360,11 +379,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onTap: () => null,
                     ),
                   ),
+
                   Expanded(
-                    child: upperCircles(
-                      context,
-                      _chartRadius,
-                    ),
+                      child: InkWell(
+                        onTap: () =>
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                    LandPage())),
+                        child: upperCircles(
+                          context,
+                          _chartRadius,
+                        ),
+                      )
                   ),
                   InkWell(
                     onTap: () => null,

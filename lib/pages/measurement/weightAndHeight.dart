@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/height/card_title.dart';
+import 'package:health/height/height_card.dart';
+import 'package:health/height/height_picker.dart';
+import 'package:health/height/widget_utils.dart';
 import 'package:health/languages/all_translations.dart';
 import "package:after_layout/after_layout.dart";
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +26,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
 
   double drawingHeigth;
 
-  int userHeight = 90;
+  int height;
   String userWidth ='0';
   Response response;
   Dio dio = new Dio();
@@ -40,17 +44,19 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     return drawingHeigth / 101;
   }
 
-  double get _sliderPosition {
-    double halfOfBottomLabel = 11.5;
-    int unitsFromBottom = userHeight - 90;
-    return halfOfBottomLabel + unitsFromBottom * _pixelsPerUnit;
-  }
+//
+//  double get _sliderPosition {
+//    double halfOfBottomLabel = 11.5;
+//    int unitsFromBottom = userHeight - 90;
+//    return halfOfBottomLabel + unitsFromBottom * _pixelsPerUnit;
+//  }
 
   //-----------
 
   TextEditingController _heightController;
   void initState() {
     super.initState();
+    height = height ?? 170;
     _heightController = TextEditingController();
     _heightController.addListener(() {
 //_range=ratio*double.parse(_heightController.text)+90;
@@ -58,49 +64,49 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     });
   }
 
-  Widget _drawSlider() {
-    return Positioned(
-      child: Stack(
-        overflow: Overflow.visible,
-        children: <Widget>[
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              SizedBox(
-                width: 5,
-              ),
-              Container(
-                width: 75,
-                height: 1,
-                color: Colors.blue,
-              ),
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            right: 110,
-            bottom: 0.0,
-            child: Text(
-              "$userHeight",
-              style: TextStyle(
-                color: Colors.blue,
-              ),
-            ),
-          ),
-        ],
-      ),
-      left: 0.0,
-      right: 0.0,
-      bottom: _sliderPosition,
-    );
-  }
+//  Widget _drawSlider() {
+//    return Positioned(
+//      child: Stack(
+//        overflow: Overflow.visible,
+//        children: <Widget>[
+//          Row(
+//            // mainAxisAlignment: MainAxisAlignment.end,
+//            children: <Widget>[
+//              SizedBox(
+//                width: 5,
+//              ),
+//              Container(
+//                width: 75,
+//                height: 1,
+//                color: Colors.blue,
+//              ),
+//              Container(
+//                width: 20,
+//                height: 20,
+//                decoration: BoxDecoration(
+//                  color: Colors.blue,
+//                  borderRadius: BorderRadius.circular(10),
+//                ),
+//              ),
+//            ],
+//          ),
+//          Positioned(
+//            right: 110,
+//            bottom: 0.0,
+//            child: Text(
+//              "$userHeight",
+//              style: TextStyle(
+//                color: Colors.blue,
+//              ),
+//            ),
+//          ),
+//        ],
+//      ),
+//      left: 0.0,
+//      right: 0.0,
+//      bottom: _sliderPosition,
+//    );
+//  }
 
   Widget isEven() {
     return Container(
@@ -228,33 +234,41 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                       Center(
                         child: Container(
                           height: MediaQuery.of(context).size.height - 200,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: GestureDetector(
-                            onVerticalDragUpdate: (DragUpdateDetails drag) {
-                              print("----------- ${drag.delta.dy}");
-                              if (drag.delta.dy > 0 && userHeight > 90) {
-                                setState(() {
-                                  userHeight--;
-                                });
-                              } else if (drag.delta.dy < 0 &&
-                                  userHeight < 190) {
-                                setState(() {
-                                  userHeight++;
-                                });
-                              }
-
-                              _heightController.text = userHeight.toString();
-
-                              print("user height $userHeight");
-                            },
-                            child: Stack(
-                              children: <Widget>[
-                                _drawLabels(),
-                                _drawSlider(),
-                              ],
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.4,
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Card(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: screenAwareSize(16.0, context)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    CardTitle("HEIGHT", subtitle: "(cm)"),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: screenAwareSize(
+                                                8.0, context)),
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                              return HeightPicker(
+                                                widgetHeight: constraints
+                                                    .maxHeight,
+                                                height: height,
+                                                onChange: (val) =>
+                                                    setState(() =>
+                                                    height = val),
+                                              );
+                                            }),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -271,9 +285,9 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                   width: 100,
                                   child: TextField(
                                     onChanged: (value){
-                                       userHeight = int.parse(value);
-                                      
-                                       print("user height $userHeight");
+                                      height = int.parse(value);
+
+                                      print("user height $height");
                                     },
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
@@ -366,12 +380,14 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async{
-                        if(userWidth.isEmpty || userHeight==90) {
+                        if (userWidth.isEmpty || height == 90) {
                         _showDialog();
                       }
                         else{
                           try {
-                            int average_calorie= (66 + (6.2 * int.parse(userWidth)) + (12.7 * userHeight) - (6.76 * 25)).toInt();
+                            int average_calorie = (66 +
+                                (6.2 * int.parse(userWidth)) + (12.7 * height) -
+                                (6.76 * 25)).toInt();
                             print('***********************************************');
                             print(average_calorie);
                             print('***********************************************');
@@ -388,7 +404,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             response = await dio.post(
                                 "http://api.sukar.co/api/users/height-weight",data: {
                               "_method": 'PUT',
-                              "height": userHeight,
+                              "height": height,
                               "weight": userWidth.toString(),
                               "average_calorie": average_calorie,
                             });

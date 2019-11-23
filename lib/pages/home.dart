@@ -151,11 +151,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    animationController.dispose();
-  }
 
   int cIndex = 0;
   PageController _Pcontroller = PageController(initialPage: 3, keepPage: false);

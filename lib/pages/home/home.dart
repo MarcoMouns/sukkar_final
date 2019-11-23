@@ -358,8 +358,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   static Future setFirebaseImage() async {
-    print(SharedData.customerData['fuid']);
-    print(SharedData.customerData['image']);
+    //print(SharedData.customerData['fuid']);
+    //print(SharedData.customerData['image']);
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
