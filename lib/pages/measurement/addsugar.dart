@@ -250,12 +250,12 @@ class _AddSugarState extends State<AddSugar> {
                                 ),
                               ),
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           BlueToothDevice(model)),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BlueToothDevice(model)),
+                                );
                               },
                             ),
                           ],
@@ -315,7 +315,10 @@ class _AddSugarState extends State<AddSugar> {
                 )
               : measuresOfDay.first > 200
                   ? SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.70,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.33,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +341,10 @@ class _AddSugarState extends State<AddSugar> {
                       ),
                     )
                   : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.70,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
