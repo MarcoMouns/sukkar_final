@@ -104,7 +104,8 @@ class _HomePageState extends State<HomePage> {
 
   List healthKitStepsData;
   List healthKitDistanceData;
-  List fitdata = new List();
+  List fitStepsData = new List();
+  List fitDistanceData = new List();
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
@@ -112,19 +113,19 @@ class _HomePageState extends State<HomePage> {
 
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      DateTime.now().subtract(Duration(hours: 12)),
+      DateTime.now().subtract(Duration(days :1)),
       DateTime.now(),
     );
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
-      DateTime.now().subtract(Duration(hours: 12)),
+      DateTime.now().subtract(Duration(days: 1)),
       DateTime.now(),
     );
 
     for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
-      fitdata.add(healthKitDistanceData[i]);
-      disctance.add(fitdata[i].value.round());
+      fitDistanceData.add(healthKitDistanceData[i]);
+      disctance.add(fitDistanceData[i].value.round());
     }
 
     if (disctance.isEmpty) {
@@ -162,8 +163,10 @@ class _HomePageState extends State<HomePage> {
       return Steps;
     } else {
       for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
-        fitdata.add(healthKitStepsData[i]);
-        Steps.add(fitdata[i].value.round());
+        fitStepsData.add(healthKitStepsData[i]);
+        print("Fit data ===> ${healthKitStepsData[i]}");
+        Steps.add(fitStepsData[i].value.round());
+        print(fitStepsData[i].value.round());
       }
       return Steps;
     }
@@ -177,11 +180,20 @@ class _HomePageState extends State<HomePage> {
     int steps = 0;
     List<int> StepsList = new List<int>();
     StepsList = await healthKit();
+    print("=====================================================");
+    print("=====================================================");
+    print("=====================================================");
+    print(healthKitStepsData);
+    print("=====================================================");
+    print("=====================================================");
+    print("=====================================================");
+
     if (StepsList.isEmpty) {
       totalSteps = 0;
       print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= StepsList.length - 1; i++) {
+        
         print('huh eh tani -_- ->>>>> $steps');
         steps = StepsList[i] + steps;
       }

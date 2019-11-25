@@ -59,7 +59,7 @@ dependencies:
   flutter_spinkit: ^4.0.0
   share: ^0.6.2+3
   #flutter_blue: ^0.6.2
-  rxdart: any
+  #rxdart: any
   vector_math: ^2.0.8
   fit_kit: ^0.0.6
 

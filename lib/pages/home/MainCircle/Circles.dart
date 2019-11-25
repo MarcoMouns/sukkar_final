@@ -328,7 +328,7 @@ abstract class MainCircles {
         },
         time: "",
         percent: percent,
-        color: percent <= 0.3
+        color: percent == 0 || percent <= 0.3
             ? Color.fromRGBO(253, 238, 238, 1)
             : percent > 0.3 && percent < 0.6
                 ? Color.fromRGBO(254, 252, 232, 1)
