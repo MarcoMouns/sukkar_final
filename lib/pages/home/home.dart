@@ -490,9 +490,7 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(calGoals);
     print(calories);
-
     setState(() {});
-
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
