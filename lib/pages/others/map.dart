@@ -250,7 +250,7 @@ class _MapPageState extends State<MapPage> {
   double distance = 0;
 
   void draw(){
-    print('hiîàààààà1111111111111111111111111111111');
+    //rint('i am drawing');
     setState(() {
       _polyline.add(Polyline(
         polylineId: PolylineId('line1'),
@@ -289,27 +289,35 @@ class _MapPageState extends State<MapPage> {
   List fitdata = new List();
 
   void healthKit() async {
+    steps = 0;
+    print('Start TIme ---------------> $startTime');
     List<int> Steps = new List<int>();
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      DateTime.now().subtract(Duration(minutes: 1)),
+      startTime,
       DateTime.now(),
     );
 
     if (healthKitStepsData.isEmpty) {
+      print('healthKitStepsData is Empty');
       steps = 0;
     }
     else {
       for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
         fitdata.add(healthKitStepsData[i]);
+        print('FitData -----> ${fitdata[i]}');
         Steps.add(fitdata[i].value.round());
+        print('Steps -------> ${Steps[i]}');
       }
       for (int i = 0; i <= Steps.length - 1; i++) {
         print('huh eh tani -_- ->>>>> $steps');
         steps = Steps[i] + steps;
       }
     }
-    setState(() {});
+    print("healthKitStepsData ------> $healthKitStepsData");
+    if (mounted) {
+      setState(() {});
+    }
   }
 
 
@@ -323,7 +331,7 @@ class _MapPageState extends State<MapPage> {
       currentPosition = position;
       latlngSegment.add(
           LatLng(currentPosition.latitude, currentPosition.longitude));
-      print(LatLng(currentPosition.latitude, currentPosition.longitude));
+//      print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
 
     //int geoListLength = latlngSegment.length;
@@ -386,8 +394,8 @@ class _MapPageState extends State<MapPage> {
     draw();
     setState(() {});
 
-    print(
-        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
+//    print(
+//        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
     Timer.periodic(Duration(seconds: 10), (timer) {
       checkRun ? updatePostion() : null;
     });
@@ -395,10 +403,10 @@ class _MapPageState extends State<MapPage> {
   }
 
   Timer time;
+  DateTime startTime = DateTime.now();
 
   initState() {
     super.initState();
-    time = Timer.periodic(Duration(minutes: 1), (Timer t) => healthKit());
     currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
       print(
@@ -509,16 +517,6 @@ class _MapPageState extends State<MapPage> {
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
 
-                  Positioned(
-                    top: 1,
-                    right: 1,
-                    child: Column(
-                      children: <Widget>[
-                        Text("$fitdata", style: TextStyle(
-                            color: Color(0xFF0000ff), fontSize: 40),),
-                      ],
-                    ),
-                  ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,
@@ -660,11 +658,12 @@ class _MapPageState extends State<MapPage> {
                             checkRun = !checkRun;
                             setState(() {});
                             if (checkRun == true) {
+                              startTime = DateTime.now();
+                              time = Timer.periodic(Duration(seconds: 30), (
+                                  Timer t) => healthKit());
                               updatePostion();
                             } else if (checkRun == false) {
-                              if (_polyline.isNotEmpty) {
-                                //draw();
-                              }
+                              time.cancel();
                               setState(() {
                                 checkRun = false;
                               });
