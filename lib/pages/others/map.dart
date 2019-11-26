@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -284,6 +285,34 @@ class _MapPageState extends State<MapPage> {
 //  }
 
 
+  List healthKitStepsData;
+  List fitdata = new List();
+
+  void healthKit() async {
+    List<int> Steps = new List<int>();
+    healthKitStepsData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(minutes: 1)),
+      DateTime.now(),
+    );
+
+    if (healthKitStepsData.isEmpty) {
+      steps = 0;
+    }
+    else {
+      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+        fitdata.add(healthKitStepsData[i]);
+        Steps.add(fitdata[i].value.round());
+      }
+      for (int i = 0; i <= Steps.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $steps');
+        steps = Steps[i] + steps;
+      }
+    }
+    setState(() {});
+  }
+
+
   void updatePostion() async {
 
     Position position = await Geolocator()
@@ -369,7 +398,7 @@ class _MapPageState extends State<MapPage> {
 
   initState() {
     super.initState();
-
+    time = Timer.periodic(Duration(minutes: 1), (Timer t) => healthKit());
     currentPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) {
       print(
@@ -479,6 +508,17 @@ class _MapPageState extends State<MapPage> {
                   //   height: double.infinity,
                   //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
                   // ),
+
+                  Positioned(
+                    top: 1,
+                    right: 1,
+                    child: Column(
+                      children: <Widget>[
+                        Text("$fitdata", style: TextStyle(
+                            color: Color(0xFF0000ff), fontSize: 40),),
+                      ],
+                    ),
+                  ),
                   new Positioned(
                     top: 50,
                     left: allTranslations.currentLanguage == "ar" ? 20 : null,

@@ -17,7 +17,7 @@ class HeightPicker extends StatefulWidget {
       this.height,
       this.widgetHeight,
       this.onChange,
-        this.maxHeight = 200,
+      this.maxHeight = 190,
       this.minHeight = 145})
       : super(key: key);
 

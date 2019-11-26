@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -85,7 +86,7 @@ class _HomePageState extends State<HomePage> {
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   int distance = 0;
-  int steps = 0;
+  int steps;
   int calories;
   int cupOfWater;
   int heartRate;
@@ -101,10 +102,134 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
+  List healthKitStepsData;
+  List healthKitDistanceData;
+  List fitStepsData = new List();
+  List fitDistanceData = new List();
+
+  Future<List<int>> healthKit() async {
+    List<int> Steps = new List<int>();
+    List<int> disctance = new List<int>();
+
+    healthKitStepsData = await FitKit.read(
+      DataType.STEP_COUNT,
+      DateTime.now().subtract(Duration(days :1)),
+      DateTime.now(),
+    );
+
+    healthKitDistanceData = await FitKit.read(
+      DataType.DISTANCE,
+      DateTime.now().subtract(Duration(days: 1)),
+      DateTime.now(),
+    );
+
+    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
+      fitDistanceData.add(healthKitDistanceData[i]);
+      disctance.add(fitDistanceData[i].value.round());
+    }
+
+    if (disctance.isEmpty) {
+      distance = 0;
+    } else {
+      for (int i = 0; i <= disctance.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $distance');
+        distance = disctance[i] + distance;
+      }
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+
+      print('-----------------------omgggggggg----------->');
+      Map userHeader = {
+        "Content-type": "application/json",
+        "Acce0pt": "application/json",
+        "Authorization": "Bearer ${authUser['authToken']}"
+      };
+
+      var response = await http.post("$baseUrl/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      print('-----------------------omgggggggg-----------> ${response.body}');
+      setState(() {});
+    }
+
+    print('------OOOOOMMMMMMGGGGGGG-----------------> $disctance');
+
+    if (healthKitStepsData.isEmpty) {
+      return Steps;
+    } else {
+      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+        fitStepsData.add(healthKitStepsData[i]);
+        print("Fit data ===> ${healthKitStepsData[i]}");
+        Steps.add(fitStepsData[i].value.round());
+        print(fitStepsData[i].value.round());
+      }
+      return Steps;
+    }
+  }
+
+  int totalSteps = 0;
+  bool flag = true;
+  int step = 0;
+
+  void calculateSteps() async {
+    int steps = 0;
+    List<int> StepsList = new List<int>();
+    StepsList = await healthKit();
+    print("=====================================================");
+    print("=====================================================");
+    print("=====================================================");
+    print(healthKitStepsData);
+    print("=====================================================");
+    print("=====================================================");
+    print("=====================================================");
+
+    if (StepsList.isEmpty) {
+      totalSteps = 0;
+      print('a7na hna men al zerooooooooooooooooo');
+    } else {
+      for (int i = 0; i <= StepsList.length - 1; i++) {
+        
+        print('huh eh tani -_- ->>>>> $steps');
+        steps = StepsList[i] + steps;
+      }
+      if (flag == true) {
+        totalSteps = steps;
+        print(totalSteps);
+      }
+      flag = false;
+      step = steps;
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+
+      print('-----------------------omgggggggg----------->');
+      Map userHeader = {
+        "Content-type": "application/json",
+        "Acce0pt": "application/json",
+        "Authorization": "Bearer ${authUser['authToken']}"
+      };
+      var response =
+          await http.post("http://api.sukar.co/api/update-steps", body: {
+        "steps": "$step",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+      print('-----------------------omgggggggg-----------> ${response.body}');
+      setState(() {});
+    }
+  }
+
   initState() {
     setState(() {
       Settings.currentIndex = 0;
     });
+    calculateSteps();
     getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
