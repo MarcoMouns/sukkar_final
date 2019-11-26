@@ -681,13 +681,9 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
     widgetCircleCalorie = MainCircles.cal(
         percent: dataHome == null
             ? 0
-            : dataHome.calories == null
+            : dataHome.steps == null
                 ? 0
-                : ncal == 0
-                    ? 0
-                    : (dataHome.calories / calGoals) > 1
-                        ? 1
-                        : (((dataHome.calories / calGoals))),
+            : (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
         day_Calories: dataHome == null
             ? 0
