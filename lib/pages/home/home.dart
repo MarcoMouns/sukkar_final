@@ -106,6 +106,11 @@ class _HomePageState extends State<HomePage> {
   List healthKitDistanceData;
   List fitStepsData = new List();
   List fitDistanceData = new List();
+static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
+  static DateTime now = new DateTime.now();
+  DateTime night12 =  DateTime(now.year, now.month, now.day, t.hour, t.minute);
+
+
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
@@ -113,13 +118,13 @@ class _HomePageState extends State<HomePage> {
 
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      DateTime.now().subtract(Duration(days :1)),
+      night12,
       DateTime.now(),
     );
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
-      DateTime.now().subtract(Duration(days: 1)),
+      night12,
       DateTime.now(),
     );
 
