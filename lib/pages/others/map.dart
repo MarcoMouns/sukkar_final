@@ -303,6 +303,7 @@ class _MapPageState extends State<MapPage> {
       steps = 0;
     }
     else {
+      print(healthKitStepsData);
       for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
         fitdata.add(healthKitStepsData[i]);
         print('FitData -----> ${fitdata[i]}');
@@ -310,8 +311,9 @@ class _MapPageState extends State<MapPage> {
         print('Steps -------> ${Steps[i]}');
       }
       for (int i = 0; i <= Steps.length - 1; i++) {
-        print('huh eh tani -_- ->>>>> $steps');
+
         steps = Steps[i] + steps;
+        print('huh eh tani -_- ->>>>> $steps');
       }
     }
     print("healthKitStepsData ------> $healthKitStepsData");
@@ -396,11 +398,12 @@ class _MapPageState extends State<MapPage> {
 
 //    print(
 //        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      checkRun ? updatePostion() : null;
-    });
+    //Timer.periodic(Duration(seconds: 10), (timer) {
+    //  checkRun ? updatePostion() : null;
+    //});
     setState(() {});
   }
+
 
   Timer time;
   DateTime startTime = DateTime.now();
@@ -474,8 +477,7 @@ class _MapPageState extends State<MapPage> {
                     //   print(position);
                     // },
                     initialCameraPosition: CameraPosition(
-                        target: LatLng(firstPosition.latitude,
-                            firstPosition.longitude),
+                        target: LatLng(31.23079,29.94481),
                         zoom: 15),
                     onMapCreated: _onMapCreated,
                     polylines: _polyline,
