@@ -682,7 +682,7 @@ class _HomePageState extends State<HomePage> {
         context: context,
         day_Calories: dataHome.steps == null
             ? 0
-            : dataHome.steps == null ? 0 : ((dataHome.steps) * 0.05),
+            : dataHome.steps == null ? 0 : ((dataHome.steps) * 0.05).toInt(),
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
