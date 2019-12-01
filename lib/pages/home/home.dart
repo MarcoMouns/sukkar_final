@@ -106,11 +106,9 @@ class _HomePageState extends State<HomePage> {
   List healthKitDistanceData;
   List fitStepsData = new List();
   List fitDistanceData = new List();
-static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
+  static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
   static DateTime now = new DateTime.now();
-  DateTime night12 =  DateTime(now.year, now.month, now.day, t.hour, t.minute);
-
-
+  DateTime night12 = DateTime(now.year, now.month, now.day, t.hour, t.minute);
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
@@ -198,7 +196,6 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
       print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= StepsList.length - 1; i++) {
-        
         print('huh eh tani -_- ->>>>> $steps');
         steps = StepsList[i] + steps;
       }
@@ -679,27 +676,26 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
     widgetCircleCalorie = MainCircles.cal(
         percent: dataHome.steps == null
             ? 0
-            : (dataHome.steps / stepsGoal) > 1
+            : ((dataHome.steps * 0.05) / stepsGoal) > 1
             ? 1
-            : ncal == 0 ?
-        0
-            :
-        (((dataHome.steps) * 0.05) / (calGoals)),
+            : ncal == 0 ? 0 : (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
-        day_Calories: dataHome.steps == null ? 0 : dataHome.steps == null
+        day_Calories: dataHome.steps == null
             ? 0
-            : (dataHome.steps),
+            : dataHome.steps == null ? 0 : ((dataHome.steps) * 0.05),
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
     widgetCircleSteps = MainCircles.steps(
-        percent:dataHome.steps == null
-                ? 0
-                : (dataHome.steps / stepsGoal) > 1
-                    ? 1
-                    : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
+        percent: dataHome.steps == null
+            ? 0
+            : (dataHome.steps / stepsGoal) > 1
+            ? 1
+            : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
         context: context,
-        steps: dataHome.steps == null ? 0 : dataHome.steps == null ? 0 : dataHome.steps,
+        steps: dataHome.steps == null
+            ? 0
+            : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
@@ -707,8 +703,8 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
         percent: dataHome.distance == null
-                ? 0
-                : ncal == 0 ? 0 : ((dataHome.distance/ distanceGoal)),
+            ? 0
+            : ncal == 0 ? 0 : ((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
