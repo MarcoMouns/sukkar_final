@@ -677,15 +677,18 @@ static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome == null
+        percent: dataHome.steps == null
             ? 0
-            : dataHome.steps == null
-                ? 0
-            : (((dataHome.steps) * 0.05) / (calGoals)),
+            : (dataHome.steps / stepsGoal) > 1
+            ? 1
+            : ncal == 0 ?
+        0
+            :
+        (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
-        day_Calories: dataHome == null
+        day_Calories: dataHome.steps == null ? 0 : dataHome.steps == null
             ? 0
-            : dataHome.calories == null ? 0 : dataHome.calories.toString(),
+            : (dataHome.steps),
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
