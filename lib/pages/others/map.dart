@@ -262,6 +262,7 @@ class _MapPageState extends State<MapPage> {
         width: 5,
         color: Color(0xFF45b6fe),
       ));
+      print("${_polyline.last.points}");
     });
   }
 
@@ -554,12 +555,12 @@ class _MapPageState extends State<MapPage> {
                             .size
                             .height * 0.3,
                         child: ListView.builder(
-                          itemCount: latlngSegment.length,
+                          itemCount: latlngSegment.length-1,
                           itemBuilder: (BuildContext context, int index) {
                             return Text(
-                              "${latlngSegment.isEmpty
+                              "${_polyline.isEmpty
                                   ? "List is Empty"
-                                  : latlngSegment[index]}",
+                                  : _polyline.elementAt(index).points}",
                               style: TextStyle(
                                 color: Color(0xFF0000ff),
                                 fontSize: 20,
