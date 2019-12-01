@@ -303,10 +303,12 @@ class _MapPageState extends State<MapPage> {
       steps = 0;
     }
     else {
-      print(healthKitStepsData);
-      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
-        fitdata.add(healthKitStepsData[i]);
-        print('FitData -----> ${fitdata[i]}');
+      //print(healthKitStepsData);
+      for (int i = 0; i < healthKitStepsData.length; i++) {
+//        print('this is I-------> ${i}');
+//        print(healthKitStepsData[i]);
+        fitdata.insert(i, healthKitStepsData[i]);
+        // print('FitData $i -----> ${fitdata[i]}');
         Steps.add(fitdata[i].value.round());
         print('Steps -------> ${Steps[i]}');
       }
