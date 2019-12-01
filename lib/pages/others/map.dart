@@ -240,17 +240,10 @@ class _MapPageState extends State<MapPage> {
     polylineId: PolylineId('line1'),
     visible: true,
     //latlng is List<LatLng>
-    points: [LatLng(31.2302673, 29.9564508)],
+    points: [LatLng(31.229114, 29.956838), LatLng(31.229346, 29.956776)],
     width: 5,
     color: Color(0xFF45b6fe),
-  ), Polyline(
-    polylineId: PolylineId('line1'),
-    visible: true,
-    //latlng is List<LatLng>
-    points: [LatLng(31.2302679, 29.9564498)],
-    width: 5,
-    color: Color(0xFF45b6fe),
-  )};
+  ),};
   List<LatLng> latlngSegment = List();
 
   Position firstPosition;
