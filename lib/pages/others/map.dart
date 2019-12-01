@@ -398,7 +398,7 @@ class _MapPageState extends State<MapPage> {
 //        print('After steps ---------------------------------> $steps');
 //      }
 //    }
-    draw();
+    //draw();
 
 //    print(
 //        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
@@ -687,6 +687,7 @@ class _MapPageState extends State<MapPage> {
                               time = Timer.periodic(Duration(seconds: 10), (
                                   Timer t) => updatePostion());
                             } else if (checkRun == false) {
+                              draw();
 //                              time.cancel();
                               setState(() {
                                 checkRun = false;
