@@ -261,14 +261,7 @@ class _MapPageState extends State<MapPage> {
   void draw(){
     //rint('i am drawing');
     setState(() {
-//      _polyline.add(Polyline(
-//        polylineId: PolylineId('line1'),
-//        visible: true,
-//        //latlng is List<LatLng>
-//        points: latlngSegment,
-//        width: 5,
-//        color: Color(0xFF45b6fe),
-//      ));
+      _polyline.first.points.add(latlngSegment.last);
     });
   }
 
