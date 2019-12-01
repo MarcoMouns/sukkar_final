@@ -37,9 +37,18 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print(sharedPreferences.getKeys());
   getCustomerData();
-  runApp(MyApp());
-
+  runApp(Main());
 }
+
+class Main extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: SpLash(),
+    );
+  }
+}
+
 
 class SpLash extends StatefulWidget {
   @override
@@ -47,38 +56,28 @@ class SpLash extends StatefulWidget {
 }
 
 class _SpLashState extends State<SpLash> {
-
-
-
-
-
-
   @override
   void initState() {
     super.initState();
     if (mounted) {
       Timer(Duration(seconds: 3, milliseconds: 300), () {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => LandPage()),
+            MaterialPageRoute(builder: (BuildContext context) => MyApp()),
             ModalRoute.withName("langPage"));
       });
     }
 
 
   }
-
-
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: new Image(
-        image: new AssetImage(
-          "assets/splash.gif",
-        ),
-        fit: BoxFit.fill,
+    return Scaffold(
+      body: Container(
+        color: Color(0xFF0c9ccd),
+        alignment: Alignment.center,
+        child: Image.asset("assets/LOGO.png", scale: 3,),
+
       ),
-      color: Colors.white,
     );
   }
 }
