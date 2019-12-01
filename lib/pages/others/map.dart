@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix1;
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart';
@@ -285,44 +287,44 @@ class _MapPageState extends State<MapPage> {
 //  }
 
 
-  List healthKitStepsData;
-  List fitdata = new List();
-
-  void healthKit() async {
-    steps = 0;
-    print('Start TIme ---------------> $startTime');
-    List<int> Steps = new List<int>();
-    healthKitStepsData = await FitKit.read(
-      DataType.STEP_COUNT,
-      startTime,
-      DateTime.now(),
-    );
-
-    if (healthKitStepsData.isEmpty) {
-      print('healthKitStepsData is Empty');
-      steps = 0;
-    }
-    else {
-      //print(healthKitStepsData);
-      for (int i = 0; i < healthKitStepsData.length; i++) {
-//        print('this is I-------> ${i}');
-//        print(healthKitStepsData[i]);
-        fitdata.insert(i, healthKitStepsData[i]);
-        // print('FitData $i -----> ${fitdata[i]}');
-        Steps.add(fitdata[i].value.round());
-        print('Steps -------> ${Steps[i]}');
-      }
-      for (int i = 0; i <= Steps.length - 1; i++) {
-
-        steps = Steps[i] + steps;
-        print('huh eh tani -_- ->>>>> $steps');
-      }
-    }
-    print("healthKitStepsData ------> $healthKitStepsData");
-    if (mounted) {
-      setState(() {});
-    }
-  }
+//  List healthKitStepsData;
+//  List fitdata = new List();
+//
+//  void healthKit() async {
+//    steps = 0;
+//    print('Start TIme ---------------> $startTime');
+//    List<int> Steps = new List<int>();
+//    healthKitStepsData = await FitKit.read(
+//      DataType.STEP_COUNT,
+//      startTime,
+//      DateTime.now(),
+//    );
+//
+//    if (healthKitStepsData.isEmpty) {
+//      print('healthKitStepsData is Empty');
+//      steps = 0;
+//    }
+//    else {
+//      //print(healthKitStepsData);
+//      for (int i = 0; i < healthKitStepsData.length; i++) {
+////        print('this is I-------> ${i}');
+////        print(healthKitStepsData[i]);
+//        fitdata.insert(i, healthKitStepsData[i]);
+//        // print('FitData $i -----> ${fitdata[i]}');
+//        Steps.add(fitdata[i].value.round());
+//        print('Steps -------> ${Steps[i]}');
+//      }
+//      for (int i = 0; i <= Steps.length - 1; i++) {
+//
+//        steps = Steps[i] + steps;
+//        print('huh eh tani -_- ->>>>> $steps');
+//      }
+//    }
+//    print("healthKitStepsData ------> $healthKitStepsData");
+//    if (mounted) {
+//      setState(() {});
+//    }
+//  }
 
 
   void updatePostion() async {
@@ -335,6 +337,7 @@ class _MapPageState extends State<MapPage> {
       currentPosition = position;
       latlngSegment.add(
           LatLng(currentPosition.latitude, currentPosition.longitude));
+      print(latlngSegment.last);
 //      print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
 
@@ -396,7 +399,6 @@ class _MapPageState extends State<MapPage> {
 //      }
 //    }
     draw();
-    setState(() {});
 
 //    print(
 //        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
@@ -408,7 +410,8 @@ class _MapPageState extends State<MapPage> {
 
 
   Timer time;
-  DateTime startTime = DateTime.now();
+
+//  DateTime startTime = DateTime.now();
 
   initState() {
     super.initState();
@@ -539,6 +542,33 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    top: 1,
+                    child: SizedBox(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.5,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.3,
+                        child: ListView.builder(
+                          itemCount: latlngSegment.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Text(
+                              "${latlngSegment.isEmpty
+                                  ? "List is Empty"
+                                  : latlngSegment[index]}",
+                              style: TextStyle(
+                                color: Color(0xFF0000ff),
+                                fontSize: 20,
+                              ),
+                            );
+                          },
+                        )
+                    ),
+                  ),
                   new Positioned(
                     bottom: 0,
                     left: 0,
@@ -613,16 +643,6 @@ class _MapPageState extends State<MapPage> {
                               )
                             ]),
                           ),
-                          MapItem(
-                              title: "steps",
-                              value: "$steps",
-                              image: "ic_steps2",
-                              isNotFloat: true),
-                          MapItem(
-                              title: "cals",
-                              value: "${(steps * 0.0512).ceil()}",
-                              image: "ic_cal",
-                              isLeft: false)
                         ],
                       ),
                     ),
@@ -662,12 +682,12 @@ class _MapPageState extends State<MapPage> {
                             checkRun = !checkRun;
                             setState(() {});
                             if (checkRun == true) {
-                              startTime = DateTime.now();
-                              time = Timer.periodic(Duration(seconds: 30), (
-                                  Timer t) => healthKit());
+//                              startTime = DateTime.now();
                               updatePostion();
+                              time = Timer.periodic(Duration(seconds: 10), (
+                                  Timer t) => updatePostion());
                             } else if (checkRun == false) {
-                              time.cancel();
+//                              time.cancel();
                               setState(() {
                                 checkRun = false;
                               });
