@@ -236,14 +236,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   GoogleMapController mapController;
-  Set<Polyline> _polyline = {Polyline(
-    polylineId: PolylineId('line1'),
-    visible: true,
-    //latlng is List<LatLng>
-    points: [LatLng(31.229114, 29.956838), LatLng(31.229346, 29.956776)],
-    width: 5,
-    color: Color(0xFF45b6fe),
-  ),};
+  Set<Polyline> _polyline;
   List<LatLng> latlngSegment = List();
 
   Position firstPosition;
@@ -542,33 +535,10 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 1,
-                    child: SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.5,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.3,
-                        child: ListView.builder(
-                          itemCount: latlngSegment.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Text(
-                              "${latlngSegment.isEmpty
-                                  ? "List is Empty"
-                                  : latlngSegment[index]}",
-                              style: TextStyle(
-                                color: Color(0xFF0000ff),
-                                fontSize: 20,
-                              ),
-                            );
-                          },
-                        )
-                    ),
-                  ),
+
+
+
+                  
                   new Positioned(
                     bottom: 0,
                     left: 0,

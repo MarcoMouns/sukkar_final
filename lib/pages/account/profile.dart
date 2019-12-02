@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
+import 'package:health/pages/home/home.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -328,7 +329,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => MainHome()));
+                                            builder: (context) => HomePage()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -339,7 +340,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => MainHome()));
+                                            builder: (context) => HomePage()));
                                   },
                                 )
                               ],

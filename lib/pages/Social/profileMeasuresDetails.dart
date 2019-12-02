@@ -265,14 +265,14 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                         height: 180,
                         child: measurementsCircles(
                             "ic_cal",
-                            calories.toString(),
+                            (steps*0.05).toString(),
                             allTranslations.text("cals"),
-                            calories == 0 ? 0 : calories / goalCalories,
+                            (steps*0.05) == 0 ? 0 : (steps*0.05) / goalCalories,
                             2,
-                            calories == 0 ||(calories / goalCalories) <= 0.3
+                            (steps*0.05) == 0 ||((steps*0.05) / goalCalories) <= 0.3
                                 ? redColor
-                                : (calories / goalCalories) > 0.3 &&
-                                        (calories / goalCalories) < 0.6
+                                : ((steps*0.05) / goalCalories) > 0.3 &&
+                                        ((steps*0.05) / goalCalories) < 0.6
                                     ? yellowColor
                                     : greenColor,
                             false,
