@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/notifications.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/scoped_models/main.dart';
@@ -17,7 +17,7 @@ class Notifications extends StatefulWidget {
 class NotificationsState extends State<Notifications> {
   List<NotificationsBean> articleCategories = List<NotificationsBean>();
 
-  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  //static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   Dio dio = new Dio();
   Response response;
   final String baseUrl = 'http://api.sukar.co/api';
@@ -29,14 +29,14 @@ class NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     getNotifications();
-   flutterLocalNotificationsPlugin =
-        new FlutterLocalNotificationsPlugin();
-   var android = new  AndroidInitializationSettings('@mipmap/ic_logo');
-   var iOS = new IOSInitializationSettings() ; 
-   var initSettings = new InitializationSettings(android, iOS);
-   flutterLocalNotificationsPlugin.initialize(
-       initSettings,
-       onSelectNotification: onSelectNotification );
+  //  flutterLocalNotificationsPlugin =
+  //       new FlutterLocalNotificationsPlugin();
+  //  var android = new  AndroidInitializationSettings('@mipmap/ic_logo');
+  //  var iOS = new IOSInitializationSettings() ; 
+  //  var initSettings = new InitializationSettings(android, iOS);
+  //  flutterLocalNotificationsPlugin.initialize(
+  //      initSettings,
+  //      onSelectNotification: onSelectNotification );
 
   }
 
@@ -52,17 +52,17 @@ class NotificationsState extends State<Notifications> {
     );
   }
 
-  static showNotification(String title,body) async {
-    var andriod = new AndroidNotificationDetails(
-        "channelId", "channelName", "channelDescription",
-        priority: Priority.High, importance: Importance.Max);
-    var iOS = new IOSNotificationDetails();
+  // static showNotification(String title,body) async {
+  //   var andriod = new AndroidNotificationDetails(
+  //       "channelId", "channelName", "channelDescription",
+  //       priority: Priority.High, importance: Importance.Max);
+  //   var iOS = new IOSNotificationDetails();
 
-    var platform = new NotificationDetails(andriod, iOS);
-    await flutterLocalNotificationsPlugin.show(0, title, body, platform,
-        payload: "wawwawawaw");
+  //   var platform = new NotificationDetails(andriod, iOS);
+  //   await flutterLocalNotificationsPlugin.show(0, title, body, platform,
+  //       payload: "wawwawawaw");
   
-  }
+  // }
 
   Future onDidReceiveLocalNotification(
       int id, String title, String body, String payload) {}

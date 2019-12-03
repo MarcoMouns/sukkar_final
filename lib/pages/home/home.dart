@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Social/friends.dart';
@@ -47,7 +47,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 //width of the screen to init the siwiper postion
   var dateSplit;
-  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  //static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 //to know where it's first time or not user to idnitfy swiper postion
   bool _firstPageLoad = true;
@@ -246,12 +246,12 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     setFirebaseImage();
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var android = new AndroidInitializationSettings('@mipmap/ic_logo');
-    var iOS = new IOSInitializationSettings();
-    var initSettings = new InitializationSettings(android, iOS);
-    flutterLocalNotificationsPlugin.initialize(initSettings,
-        onSelectNotification: onSelectNotification);
+    // flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    // var android = new AndroidInitializationSettings('@mipmap/ic_logo');
+    // var iOS = new IOSInitializationSettings();
+    // var initSettings = new InitializationSettings(android, iOS);
+    // flutterLocalNotificationsPlugin.initialize(initSettings,
+    //     onSelectNotification: onSelectNotification);
   }
 
   Future onSelectNotification(String payload) async {
@@ -266,16 +266,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  static showNotification(String title, body) async {
-    var andriod = new AndroidNotificationDetails(
-        "channelId", "channelName", "channelDescription",
-        priority: Priority.High, importance: Importance.Max);
-    var iOS = new IOSNotificationDetails();
+  // static showNotification(String title, body) async {
+  //   var andriod = new AndroidNotificationDetails(
+  //       "channelId", "channelName", "channelDescription",
+  //       priority: Priority.High, importance: Importance.Max);
+  //   var iOS = new IOSNotificationDetails();
 
-    var platform = new NotificationDetails(andriod, iOS);
-    await flutterLocalNotificationsPlugin.show(0, title, body, platform,
-        payload: "");
-  }
+  //   var platform = new NotificationDetails(andriod, iOS);
+  //   await flutterLocalNotificationsPlugin.show(0, title, body, platform,
+  //       payload: "");
+  // }
 
   Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
@@ -474,15 +474,15 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : response.data["Measurements"]["distance_goal"];
 
-    if (cupOfWater >= goalOfWater && goalOfWater != 0) {
-      showNotification(allTranslations.text("dailyGoal_Completed"),
-          allTranslations.text("waterGoal_Completed"));
-    }
+    // if (cupOfWater >= goalOfWater && goalOfWater != 0) {
+    //   showNotification(allTranslations.text("dailyGoal_Completed"),
+    //       allTranslations.text("waterGoal_Completed"));
+    // }
 
-    if (calories >= calGoals && calories != 0) {
-      showNotification(allTranslations.text("dailyGoal_Completed"),
-          allTranslations.text("caloriesGoal_Completed"));
-    }
+    // if (calories >= calGoals && calories != 0) {
+    //   showNotification(allTranslations.text("dailyGoal_Completed"),
+    //       allTranslations.text("caloriesGoal_Completed"));
+    // }
 
     print('@rami HNA KOBAIET 2om AL MAYA');
     print(calGoals);

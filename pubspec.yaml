@@ -33,7 +33,6 @@ dependencies:
   google_maps_flutter: ^0.5.16
   flutter_cupertino_date_picker: 
   cupertino_icons: ^0.1.2
-  flutter_local_notifications: ^0.8.4
   splashscreen: ^1.2.0
   auto_size_text: ^1.0.0
   geolocator: ^5.0.1
