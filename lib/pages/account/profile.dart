@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/main.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
@@ -325,22 +326,19 @@ class _EditProfileState extends State<EditProfile> {
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption1")),
                                   onPressed: () {
-                                    allTranslations.setNewLanguage("en", true);
+                                    allTranslations.setNewLanguage("en");
                                     setState(() {});
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+                                    Navigator.of(context).pop();
                                   },
                                 ),
                                 CupertinoActionSheetAction(
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption2")),
                                   onPressed: () {
-                                    allTranslations.setNewLanguage("ar", true);
+                                    allTranslations.setNewLanguage("ar");
                                     setState(() {});
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()));
+
+                                    Navigator.of(context).pop();
                                   },
                                 )
                               ],
