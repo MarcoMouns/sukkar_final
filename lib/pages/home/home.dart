@@ -677,8 +677,7 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : ((dataHome.steps * 0.05) / stepsGoal) > 1
-            ? 1
-            : ncal == 0 ? 0 : (((dataHome.steps) * 0.05) / (calGoals)),
+            ? 1 : (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
         day_Calories: dataHome.steps == null
             ? 0
@@ -690,8 +689,7 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : (dataHome.steps / stepsGoal) > 1
-            ? 1
-            : ncal == 0 ? 0 : ((dataHome.steps / stepsGoal)),
+            ? 1 : ((dataHome.steps / stepsGoal)),
         context: context,
         steps: dataHome.steps == null
             ? 0
@@ -703,8 +701,7 @@ class _HomePageState extends State<HomePage> {
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
         percent: dataHome.distance == null
-            ? 0
-            : ncal == 0 ? 0 : ((dataHome.distance / distanceGoal)),
+            ? 0: ((dataHome.distance / distanceGoal)) > 1 ? 1 :((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
