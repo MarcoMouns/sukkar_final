@@ -37,18 +37,9 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   print(sharedPreferences.getKeys());
   getCustomerData();
-  runApp(Main());
-}
+  runApp(MyApp());
 
-class Main extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SpLash(),
-    );
-  }
 }
-
 
 class SpLash extends StatefulWidget {
   @override
@@ -56,28 +47,37 @@ class SpLash extends StatefulWidget {
 }
 
 class _SpLashState extends State<SpLash> {
+
+
+
+
+
+
   @override
   void initState() {
     super.initState();
     if (mounted) {
       Timer(Duration(seconds: 3, milliseconds: 300), () {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => MyApp()),
+            MaterialPageRoute(builder: (BuildContext context) => sharedPreferences.get('authUser') == null
+                ? WelcomeScreen()
+                : MainHome(),),
             ModalRoute.withName("langPage"));
       });
     }
 
 
   }
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Color(0xFF0c9ccd),
-        alignment: Alignment.center,
-        child: Image.asset("assets/LOGO.png", scale: 3,),
-
-      ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.blue,
+      child: Image.asset("assets/LOGO.png",scale: 3,),
     );
   }
 }
@@ -129,10 +129,7 @@ class _MyAppState extends State<MyApp> {
             const FallbackCupertinoLocalisationsDelegate(),
           ],
           routes: <String, WidgetBuilder>{
-            '/': (BuildContext context) =>
-                sharedPreferences.get('authUser') == null
-                    ? WelcomeScreen()
-                    : MainHome(),
+            '/': (BuildContext context) => SpLash(),
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),
             '/newUser': (BuildContext context) => NewUser(),
