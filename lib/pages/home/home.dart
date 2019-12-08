@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Social/friends.dart';
+import 'package:health/pages/account/profile.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
@@ -963,7 +964,15 @@ class _HomePageState extends State<HomePage> {
               leading: FittedBox(
                 alignment: Alignment.center,
                 fit: BoxFit.scaleDown,
-                child: CircleAvatar(
+                child: InkWell(
+                  onTap: (){
+                     Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProfile()));
+
+                  },
+                  child: CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(SharedData
                       .customerData['image'] ==
@@ -972,6 +981,7 @@ class _HomePageState extends State<HomePage> {
                       ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
                       : 'http://api.sukar.co${SharedData
                       .customerData['image']}'),
+                ),
                 ),
               ),
                 ),
