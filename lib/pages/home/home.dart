@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       Settings.currentIndex = 0;
     });
-    calculateSteps();
+    //calculateSteps();
     getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
@@ -677,7 +677,8 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : ((dataHome.steps * 0.05) / stepsGoal) > 1
-            ? 1 : (((dataHome.steps) * 0.05) / (calGoals)),
+            ? 1
+            : (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
         day_Calories: dataHome.steps == null
             ? 0
@@ -689,7 +690,8 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : (dataHome.steps / stepsGoal) > 1
-            ? 1 : ((dataHome.steps / stepsGoal)),
+            ? 1
+            : ((dataHome.steps / stepsGoal)),
         context: context,
         steps: dataHome.steps == null
             ? 0
@@ -701,7 +703,10 @@ class _HomePageState extends State<HomePage> {
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
         percent: dataHome.distance == null
-            ? 0: ((dataHome.distance / distanceGoal)) > 1 ? 1 :((dataHome.distance / distanceGoal)),
+            ? 0
+            : ((dataHome.distance / distanceGoal)) > 1
+            ? 1
+            : ((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
@@ -887,30 +892,47 @@ class _HomePageState extends State<HomePage> {
     return loading == true
         ? Loading()
         : Scaffold(
-            appBar: Settings.appBar(
-              context: context,
+        appBar: PreferredSize(
+          preferredSize: Size(MediaQuery
+              .of(context)
+              .size
+              .width, 50),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
               title: InkWell(
                 onTap: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
-                      minTime: DateTime(DateTime.now().year - 1),
-                      maxTime: DateTime(DateTime.now().year + 1),
+                      minTime: DateTime(DateTime
+                          .now()
+                          .year - 1),
+                      maxTime: DateTime(DateTime
+                          .now()
+                          .year + 1),
                       onConfirm: (e) {
-                    print('confirm $e');
-                    setState(() {
-                      date = '${e.year}-${e.month}-${e.day}';
-                      print(date);
+                        print('confirm $e');
+                        setState(() {
+                          date = '${e.year}-${e.month}-${e.day}';
+                          print(date);
 
-                      getHomeFetch();
-                      getMeasurementsForDay(date);
-                      getMeasurements(date);
-                      getValuesSF();
+                          getHomeFetch();
+                          getMeasurementsForDay(date);
+                          getMeasurements(date);
+                          getValuesSF();
 
-                      selectedDate = e;
-                    });
-                  }, currentTime: DateTime.now(), locale: LocaleType.ar);
+                          selectedDate = e;
+                        });
+                      },
+                      currentTime: DateTime.now(),
+                      locale: LocaleType.ar);
                 },
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                       '$date',
@@ -924,6 +946,34 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              actions: <Widget>[
+
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Notifications()));
+                  },
+                  icon: Icon(Icons.notifications_none, color: Colors.black,),
+                ),
+              ],
+              leading: FittedBox(
+                alignment: Alignment.center,
+                fit: BoxFit.scaleDown,
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage(SharedData
+                      .customerData['image'] ==
+                      'Null' ||
+                      SharedData.customerData['image'] == null
+                      ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                      : 'http://api.sukar.co${SharedData
+                      .customerData['image']}'),
+                ),
+              ),
                 ),
               ),
             ),

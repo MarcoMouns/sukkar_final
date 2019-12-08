@@ -20,43 +20,41 @@ class Settings {
   static Widget appBar({Widget title, BuildContext context, MainModel model}) {
     return PreferredSize(
       preferredSize: Size(MediaQuery.of(context).size.width, 40),
-      child: SafeArea(
-        child: Material(
-          elevation: 0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Notifications()));
-                    },
-                    icon: ImageIcon(AssetImage("assets/icons/ic_bell.png")),
-                  ),
-                ],
-              ),
-              title,
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/editProfile');
-                },
-                
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(SharedData
-                                  .customerData['image'] ==
-                              'Null' ||
-                          SharedData.customerData['image'] == null
-                      ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                      : 'http://api.sukar.co${SharedData.customerData['image']}'),
+      child: Material(
+        elevation: 0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Notifications()));
+                  },
+                  icon: ImageIcon(AssetImage("assets/icons/ic_bell.png")),
                 ),
-              )
-            ],
-          ),
+              ],
+            ),
+            title,
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/editProfile');
+              },
+
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(SharedData
+                    .customerData['image'] ==
+                    'Null' ||
+                    SharedData.customerData['image'] == null
+                    ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                    : 'http://api.sukar.co${SharedData.customerData['image']}'),
+              ),
+            )
+          ],
         ),
       ),
     );
