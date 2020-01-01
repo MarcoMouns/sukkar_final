@@ -8,7 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix1;
+import 'package:health/helpers/stepCounterWidget.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart';
 import 'dart:math';
@@ -17,7 +19,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:latlong/latlong.dart' as lm;
-
 
 import '../home.dart';
 
@@ -39,9 +40,9 @@ class ElapsedTime {
 
 class Dependencies {
   final List<ValueChanged<ElapsedTime>> timerListeners =
-  <ValueChanged<ElapsedTime>>[];
+      <ValueChanged<ElapsedTime>>[];
   final TextStyle textStyle =
-  const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
+      const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
   final Stopwatch stopwatch = new Stopwatch();
   final int timerMillisecondsRefreshRate = 30;
 }
@@ -192,12 +193,37 @@ class HundredsState extends State<Hundreds> {
 ///
 class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
-
 }
 
 class _MapPageState extends State<MapPage> {
   ///********************from here this is the stopwatch********************
   ///note: i was too lazy to make this in another class and use it here #panda
+
+  static Pedometer _pedometer;
+  static StreamSubscription<int> _subscription;
+  static String _stepCountValue = '0';
+
+  Future<void> initPlatformState() async {
+    startListening();
+  }
+
+  void startListening() {
+    _pedometer = new Pedometer();
+    _subscription = _pedometer.pedometerStream.listen(_onData,
+        onError: _onError, onDone: _onDone, cancelOnError: true);
+  }
+
+  void stopListening() {
+    _subscription.cancel();
+  }
+
+  void _onData(int stepCountValue) async {
+    setState(() => _stepCountValue = "$stepCountValue");
+  }
+
+  void _onDone() => print("Finished pedometer tracking");
+
+  void _onError(error) => print("Flutter Pedometer Error: $error");
 
   final Dependencies dependencies = new Dependencies();
 
@@ -223,14 +249,14 @@ class _MapPageState extends State<MapPage> {
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-    const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
+        const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
 
   Widget buildButton(String text, VoidCallback callback) {
     TextStyle roundTextStyle =
-    const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
+        const TextStyle(fontSize: 16.0, color: Color(0xFFffffff));
     return new FloatingActionButton(
         child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
@@ -246,12 +272,11 @@ class _MapPageState extends State<MapPage> {
   Response response;
   Dio dio = new Dio();
 
-
   bool flag = true;
   int steps = 0;
   double distance = 0;
 
-  void draw(){
+  void draw() {
     //rint('i am drawing');
     setState(() {
       _polyline.first.points.add(latlngSegment.last);
@@ -278,7 +303,6 @@ class _MapPageState extends State<MapPage> {
 //
 //    return distance;
 //  }
-
 
 //  List healthKitStepsData;
 //  List fitdata = new List();
@@ -319,23 +343,20 @@ class _MapPageState extends State<MapPage> {
 //    }
 //  }
 
-
   void updatePostion() async {
-
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     //print(
-      //  "current user position ---------------------------------------> $position  FROM UPDATE");
+    //  "current user position ---------------------------------------> $position  FROM UPDATE");
     setState(() {
       currentPosition = position;
-      latlngSegment.add(
-          LatLng(currentPosition.latitude, currentPosition.longitude));
+      latlngSegment
+          .add(LatLng(currentPosition.latitude, currentPosition.longitude));
       print(latlngSegment.last);
 //      print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
 
     //int geoListLength = latlngSegment.length;
-
 
 //    if (geoListLength <= 1) {
 //      print(
@@ -401,10 +422,9 @@ class _MapPageState extends State<MapPage> {
     setState(() {});
   }
 
-
   Timer time;
 
-//  DateTime startTime = DateTime.now();
+  DateTime startTime = DateTime.now();
 
   initState() {
     super.initState();
@@ -436,7 +456,6 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -455,278 +474,377 @@ class _MapPageState extends State<MapPage> {
             ? TextDirection.rtl
             : TextDirection.ltr,
         child: Scaffold(
-              body: _isLoading
-                  ? Center(
-                child: CupertinoActivityIndicator(
-                  animating: true,
-                  radius: 15,
-                ),
-              )
-                  : new Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-
-                  new GoogleMap(
-                    // onTap: (LatLng position) {
-                    //   setState(() {
-                    //     destinationPosition = position;
-                    //   });
-                    //   _addPolyline();
-                    //   print(position);
-                    // },
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(31.23079,29.94481),
-                        zoom: 15),
-                    onMapCreated: _onMapCreated,
-                    polylines: _polyline,
-
-
-                    // polylines: Set.from(userPlylines),
-                    // markers: markers[_markerIdCounter].flat,
-                    // markers: Set.from(userMarkers),
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    mapType: MapType.normal,
-                    // tiltGesturesEnabled: true,
-                    // gestureRecognizers: ,
-                    gestureRecognizers: Set()
-                      ..add(Factory<PanGestureRecognizer>(
-                              () => PanGestureRecognizer()))..add(
-                          Factory<ScaleGestureRecognizer>(
-                                  () => ScaleGestureRecognizer()))..add(
-                          Factory<TapGestureRecognizer>(
-                                  () => TapGestureRecognizer()))..add(
-                          Factory<VerticalDragGestureRecognizer>(
-                                  () => VerticalDragGestureRecognizer())),
-                    // gestureRecognizers: Set()
-                    //   ..add(
-                    //     Factory<PanGestureRecognizer>(
-                    //       () => PanGestureRecognizer(),
-                    //     ),
-                    //   )
-                    //   ..add(
-                    //     Factory<VerticalDragGestureRecognizer>(
-                    //       () => VerticalDragGestureRecognizer(),
-                    //     ),
-                    //   ),
-                    compassEnabled: true,
+          body: _isLoading
+              ? Center(
+                  child: CupertinoActivityIndicator(
+                    animating: true,
+                    radius: 15,
                   ),
-                  // Container(
-                  //   width: double.infinity,
-                  //   height: double.infinity,
-                  //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
-                  // ),
+                )
+              : new Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    new GoogleMap(
+                      // onTap: (LatLng position) {
+                      //   setState(() {
+                      //     destinationPosition = position;
+                      //   });
+                      //   _addPolyline();
+                      //   print(position);
+                      // },
+                      initialCameraPosition: CameraPosition(
+                          target: LatLng(31.23079, 29.94481), zoom: 15),
+                      onMapCreated: _onMapCreated,
+                      polylines: _polyline,
 
-                  new Positioned(
-                    top: 50,
-                    left: allTranslations.currentLanguage == "ar" ? 20 : null,
-                    right:
-                    allTranslations.currentLanguage == "ar" ? null : 20,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => MainHome()));
-                      },
-                      child: Container(
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Color(0xFF808080),
+                      // polylines: Set.from(userPlylines),
+                      // markers: markers[_markerIdCounter].flat,
+                      // markers: Set.from(userMarkers),
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      mapType: MapType.normal,
+                      // tiltGesturesEnabled: true,
+                      // gestureRecognizers: ,
+                      gestureRecognizers: Set()
+                        ..add(Factory<PanGestureRecognizer>(
+                            () => PanGestureRecognizer()))
+                        ..add(Factory<ScaleGestureRecognizer>(
+                            () => ScaleGestureRecognizer()))
+                        ..add(Factory<TapGestureRecognizer>(
+                            () => TapGestureRecognizer()))
+                        ..add(Factory<VerticalDragGestureRecognizer>(
+                            () => VerticalDragGestureRecognizer())),
+                      // gestureRecognizers: Set()
+                      //   ..add(
+                      //     Factory<PanGestureRecognizer>(
+                      //       () => PanGestureRecognizer(),
+                      //     ),
+                      //   )
+                      //   ..add(
+                      //     Factory<VerticalDragGestureRecognizer>(
+                      //       () => VerticalDragGestureRecognizer(),
+                      //     ),
+                      //   ),
+                      compassEnabled: true,
+                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   height: double.infinity,
+                    //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
+                    // ),
+
+                    new Positioned(
+                      top: 50,
+                      left: allTranslations.currentLanguage == "ar" ? 20 : null,
+                      right:
+                          allTranslations.currentLanguage == "ar" ? null : 20,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => MainHome()));
+                        },
+                        child: Container(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color(0xFF808080),
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-
-
-                  
-                  new Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.7,
-                      margin: EdgeInsets.only(right: 30, left: 30, bottom: 60),
-                      decoration: BoxDecoration(
-                          color: Color(0xFFffffff),
-                          border: Border.all(color: Color(0xFFe13026)),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(children: [
-                              Stack(children: [
-                                Container(
-                                  margin: EdgeInsets.all(10),
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      border:
-                                      Border.all(color: Color(0xFFe13026)),
-                                      borderRadius:
-                                      BorderRadius.circular(30)),
-                                  child: Center(
-                                    child: SizedBox(
-                                      width:
-                                      MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width *
-                                          0.1,
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Directionality(
-                                          textDirection: TextDirection.ltr,
-                                          child: TimerText(
-                                              dependencies: dependencies),
+                    new Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        margin:
+                            EdgeInsets.only(right: 30, left: 30, bottom: 60),
+                        decoration: BoxDecoration(
+                            color: Color(0xFFffffff),
+                            border: Border.all(color: Color(0xFFe13026)),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(children: [
+                                Stack(children: [
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFe13026)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: TimerText(
+                                                dependencies: dependencies),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  top: 5,
-                                  left: 25,
-                                  child: Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                        color: Color(0xFFffffff),
-                                        border: Border.all(
-                                            color: Color(0xFFffffff), width: 2),
-                                        borderRadius:
-                                        BorderRadius.circular(12.5)),
-                                    child: Image.asset(
-                                        "assets/icons/ic_time.png",
-                                        width: 20,
-                                        height: 20),
-                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    left: 25,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFffffff),
+                                          border: Border.all(
+                                              color: Color(0xFFffffff),
+                                              width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(12.5)),
+                                      child: Image.asset(
+                                          "assets/icons/ic_time.png",
+                                          width: 20,
+                                          height: 20),
+                                    ),
+                                  )
+                                ]),
+                                Text(
+                                  allTranslations.text("time"),
+                                  style: TextStyle(color: Color(0xFF808080)),
                                 )
                               ]),
-                              Text(
-                                allTranslations.text("time"),
-                                style: TextStyle(color: Color(0xFF808080)),
-                              )
-                            ]),
-                          ),
-                        ],
+                            ),
+                            Expanded(
+                              child: Column(children: [
+                                Stack(children: [
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFe13026)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Text("${(int.parse(_stepCountValue)/3).round()}",
+                                             style: TextStyle(fontFamily: "Bebas Neue",color: Color(0xFF45b6fe),fontSize: 20),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    left: 25,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFffffff),
+                                          border: Border.all(
+                                              color: Color(0xFFffffff),
+                                              width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(12.5)),
+                                      child: Image.asset(
+                                          "assets/icons/ic_steps2.png",
+                                          width: 20,
+                                          height: 20),
+                                    ),
+                                  )
+                                ]),
+                                Text(
+                                  allTranslations.text("distance"),
+                                  style: TextStyle(color: Color(0xFF808080)),
+                                )
+                              ]),
+                            ),
+                            Expanded(
+                              child: Column(children: [
+                                Stack(children: [
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Color(0xFFe13026)),
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.1,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Directionality(
+                                            textDirection: TextDirection.ltr,
+                                            child: Text(_stepCountValue,
+                                             style: TextStyle(fontFamily: "Bebas Neue",color: Color(0xFF45b6fe),fontSize: 20),),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 5,
+                                    left: 25,
+                                    child: Container(
+                                      width: 25,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                          color: Color(0xFFffffff),
+                                          border: Border.all(
+                                              color: Color(0xFFffffff),
+                                              width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(12.5)),
+                                      child: Image.asset(
+                                          "assets/icons/ic_steps.png",
+                                          width: 20,
+                                          height: 20),
+                                    ),
+                                  )
+                                ]),
+                                Text(
+                                  allTranslations.text("steps"),
+                                  style: TextStyle(color: Color(0xFF808080)),
+                                )
+                              ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  ///**************************************************
+                    ///**************************************************
 
-                  ///**************************************************
-                  new Positioned(
-                    bottom: 15,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: checkRun
-                                  ? Color(0xFFe13026)
-                                  : Settings.mainColor(),
+                    ///**************************************************
+                    new Positioned(
+                      bottom: 15,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: checkRun
+                                    ? Color(0xFFe13026)
+                                    : Settings.mainColor(),
+                              ),
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 23, left: 23),
+                              child: checkRun == false
+                                  ? Text(
+                                      allTranslations.text("startNow"),
+                                      style: TextStyle(
+                                          color: Color(0xFFffffff),
+                                          fontSize: 14),
+                                    )
+                                  : Text(allTranslations.text("endNow"),
+                                      style: TextStyle(
+                                          color: Color(0xFFffffff),
+                                          fontSize: 14)),
                             ),
-                            padding: EdgeInsets.only(
-                                top: 12, bottom: 12, right: 23, left: 23),
-                            child: checkRun == false
-                                ? Text(allTranslations.text("startNow"),
-                              style: TextStyle(color: Color(0xFFffffff),
-                                  fontSize: 14),)
-                                : Text(allTranslations.text("endNow"),
-                                style: TextStyle(color: Color(0xFFffffff),
-                                    fontSize: 14)),
-                          ),
-                          onTap: () async {
-                            rightButtonPressed();
-                            checkRun = !checkRun;
-                            setState(() {});
-                            if (checkRun == true) {
-//                              startTime = DateTime.now();
-                              updatePostion();
-                              time = Timer.periodic(Duration(seconds: 10), (
-                                  Timer t) => updatePostion());
-                            } else if (checkRun == false) {
-                              draw();
-//                              time.cancel();
-                              setState(() {
-                                checkRun = false;
-                              });
-                              try {
-                                FormData formdata = new FormData();
-                                // get user token
-                                SharedPreferences sharedPreferences =
-                                await SharedPreferences.getInstance();
-                                Map<String, dynamic> authUser = jsonDecode(
-                                    sharedPreferences
-                                        .getString("authUser"));
-                                dio.options.headers = {
-                                  "Authorization":
-                                  "Bearer ${authUser['authToken']}",
-                                };
-                                formdata.add("startLongitude",
-                                    0.0);
-                                formdata.add(
-                                    "endLongitude", 0.0);
-                                formdata.add(
-                                    "startLatitude", 0.0);
-                                formdata.add(
-                                    "endLatitude", 0.0);
-                                formdata.add("date", DateTime.now());
-                                print(
-                                    '******************************************************');
-                                print(DateTime.now());
-                                print(
-                                    '******************************************************');
-                                print(
-                                    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                                formdata.add("distance",
-                                    (0).toInt());
-                                formdata.add("steps", 0);
-                                formdata.add("calories",
-                                    ((steps * 0.0512).ceil()).toInt());
-                                print(
-                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                print(formdata);
-                                print(
-                                    '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                response = await dio.post(
-                                    "http://api.sukar.co/api/mapInformation",
-                                    data: formdata);
-                                if (response.statusCode != 200 &&
-                                    response.statusCode != 201) {
+                            onTap: () async {
+                              rightButtonPressed();
+                              checkRun = !checkRun;
+                              setState(() {});
+                              if (checkRun == true) {
+                                startTime = DateTime.now();
+                                initPlatformState();
+                                updatePostion();
+                                time = Timer.periodic(Duration(seconds: 10),
+                                    (Timer t) => updatePostion());
+                              } else if (checkRun == false) {
+                                draw();
+                                time.cancel();
+                                setState(() {
+                                  checkRun = false;
+                                });
+                                try {
+                                  FormData formdata = new FormData();
+                                  // get user token
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences.getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                        "Bearer ${authUser['authToken']}",
+                                  };
+                                  formdata.add("startLongitude", 0.0);
+                                  formdata.add("endLongitude", 0.0);
+                                  formdata.add("startLatitude", 0.0);
+                                  formdata.add("endLatitude", 0.0);
+                                  formdata.add("date", DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  print(DateTime.now());
+                                  print(
+                                      '******************************************************');
+                                  print(
+                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                                  formdata.add("distance", (0).toInt());
+                                  formdata.add("steps", _stepCountValue);
+                                  formdata.add("calories",
+                                      ((steps * 0.0512).ceil()).toInt());
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  print(formdata);
+                                  print(
+                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                                  response = await dio.post(
+                                      "http://api.sukar.co/api/mapInformation",
+                                      data: formdata);
+                                  if (response.statusCode != 200 &&
+                                      response.statusCode != 201) {
+                                    return false;
+                                  } else {
+                                    print('success -->');
+                                    print('Response = ${response.data}');
+                                    return true;
+                                  }
+                                } on DioError catch (e) {
+                                  print(
+                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                                  print(e.response.data);
                                   return false;
-                                } else {
-                                  print('success -->');
-                                  print('Response = ${response.data}');
-                                  return true;
                                 }
-                              } on DioError catch (e) {
-                                print(
-                                    "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                print(e.response.data);
-                                return false;
                               }
-                            }
-                            return true;
-                          },
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
+                              return true;
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+        )
 //        new Center(
 //          child: Column(
 //            crossAxisAlignment: CrossAxisAlignment.center,
@@ -749,7 +867,7 @@ class _MapPageState extends State<MapPage> {
 //            ],
 //          ),
 //        )
-    );
+        );
   }
 }
 
@@ -762,11 +880,11 @@ class MapItem extends StatelessWidget {
 
   MapItem(
       {Key key,
-        this.title,
-        this.value,
-        this.image,
-        this.isLeft = false,
-        this.isNotFloat = false})
+      this.title,
+      this.value,
+      this.image,
+      this.isLeft = false,
+      this.isNotFloat = false})
       : super(key: key);
 
   @override
@@ -797,7 +915,7 @@ class MapItem extends StatelessWidget {
                   border: Border.all(color: Color(0xFFffffff), width: 2),
                   borderRadius: BorderRadius.circular(12.5)),
               child:
-              Image.asset("assets/icons/$image.png", width: 20, height: 20),
+                  Image.asset("assets/icons/$image.png", width: 20, height: 20),
             ),
           )
         ]),

@@ -29,16 +29,8 @@ import 'Welcome screen.dart';
 
 void main() async {
   // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await allTranslations.init();
 
-  allTranslations.setNewLanguage("ar");
-  allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  print(sharedPreferences.getKeys());
-  getCustomerData();
   runApp(MyApp());
-
 }
 
 class SpLash extends StatefulWidget {
@@ -47,29 +39,33 @@ class SpLash extends StatefulWidget {
 }
 
 class _SpLashState extends State<SpLash> {
-
-
-
-
-
-
   @override
   void initState() {
     super.initState();
+    onStartFunctions();
     if (mounted) {
       Timer(Duration(seconds: 3, milliseconds: 300), () {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => sharedPreferences.get('authUser') == null
-                ? WelcomeScreen()
-                : MainHome(),),
+            MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  sharedPreferences.get('authUser') == null
+                      ? WelcomeScreen()
+                      : MainHome(),
+            ),
             ModalRoute.withName("langPage"));
       });
     }
-
-
   }
 
-
+  onStartFunctions() async {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await allTranslations.init();
+    allTranslations.setNewLanguage("ar");
+    allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print(sharedPreferences.getKeys());
+    getCustomerData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +73,10 @@ class _SpLashState extends State<SpLash> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       color: Colors.blue,
-      child: Image.asset("assets/LOGO.png",scale: 3,),
+      child: Image.asset(
+        "assets/LOGO.png",
+        scale: 3,
+      ),
     );
   }
 }
@@ -94,7 +93,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getAuthentication();
-
   }
 
   void getAuthentication() async {

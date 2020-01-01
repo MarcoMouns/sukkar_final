@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/helpers/stepCounterWidget.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
 import 'package:health/pages/measurement/addsugar.dart';
@@ -117,14 +118,14 @@ class _HomePageState extends State<HomePage> {
 
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      night12,
-      DateTime.now(),
+      dateFrom: selectedDate.subtract(new Duration(days: 1)),
+      dateTo: DateTime.now(),
     );
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
-      night12,
-      DateTime.now(),
+      dateFrom: selectedDate.subtract(new Duration(days: 1)),
+      dateTo: DateTime.now(),
     );
 
     for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
@@ -181,6 +182,9 @@ class _HomePageState extends State<HomePage> {
   int step = 0;
 
   void calculateSteps() async {
+    healthKit();
+    await FitKit.requestPermissions(DataType.values);
+
     int steps = 0;
     List<int> StepsList = new List<int>();
     StepsList = await healthKit();
@@ -224,7 +228,6 @@ class _HomePageState extends State<HomePage> {
         "Authorization": "Bearer ${authUser['authToken']}"
       });
       print('-----------------------omgggggggg-----------> ${response.body}');
-      setState(() {});
     }
   }
 
@@ -247,6 +250,24 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     setFirebaseImage();
+    calculateSteps();
+    
+    const oneSec = const Duration(minutes: 15);
+    new Timer.periodic(oneSec, (Timer t) {
+      dummySelectedDate = DateTime.now();
+      selectedDate = DateTime.now();
+      emptylists();
+      fetchMeals();
+      print(sugerToday);
+      getCustomerData();
+      getMeasurements(date);
+      getHomeFetch();
+      getcal();
+      setFirebaseImage();
+      calculateSteps();
+      setState(() {});
+    });
+
     // flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     // var android = new AndroidInitializationSettings('@mipmap/ic_logo');
     // var iOS = new IOSInitializationSettings();
@@ -474,6 +495,7 @@ class _HomePageState extends State<HomePage> {
     distanceGoal = response.data["Measurements"]["distance_goal"] == null
         ? 0
         : response.data["Measurements"]["distance_goal"];
+    calculateSteps();
 
     // if (cupOfWater >= goalOfWater && goalOfWater != 0) {
     //   showNotification(allTranslations.text("dailyGoal_Completed"),
@@ -678,8 +700,8 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : ((dataHome.steps * 0.05) / stepsGoal) > 1
-            ? 1
-            : (((dataHome.steps) * 0.05) / (calGoals)),
+                ? 1
+                : (((dataHome.steps) * 0.05) / (calGoals)),
         context: context,
         day_Calories: dataHome.steps == null
             ? 0
@@ -691,8 +713,8 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.steps == null
             ? 0
             : (dataHome.steps / stepsGoal) > 1
-            ? 1
-            : ((dataHome.steps / stepsGoal)),
+                ? 1
+                : ((dataHome.steps / stepsGoal)),
         context: context,
         steps: dataHome.steps == null
             ? 0
@@ -706,8 +728,8 @@ class _HomePageState extends State<HomePage> {
         percent: dataHome.distance == null
             ? 0
             : ((dataHome.distance / distanceGoal)) > 1
-            ? 1
-            : ((dataHome.distance / distanceGoal)),
+                ? 1
+                : ((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null
@@ -893,28 +915,21 @@ class _HomePageState extends State<HomePage> {
     return loading == true
         ? Loading()
         : Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size(MediaQuery
-              .of(context)
-              .size
-              .width, 50),
-          child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              centerTitle: true,
-              title: InkWell(
-                onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(DateTime
-                          .now()
-                          .year - 1),
-                      maxTime: DateTime(DateTime
-                          .now()
-                          .year + 1),
-                      onConfirm: (e) {
+            appBar: PreferredSize(
+              preferredSize: Size(MediaQuery.of(context).size.width, 50),
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: AppBar(
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: InkWell(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(DateTime.now().year - 1),
+                          maxTime: DateTime(DateTime.now().year + 1),
+                          onConfirm: (e) {
                         print('confirm $e');
                         setState(() {
                           date = '${e.year}-${e.month}-${e.day}';
@@ -927,63 +942,61 @@ class _HomePageState extends State<HomePage> {
 
                           selectedDate = e;
                         });
-                      },
-                      currentTime: DateTime.now(),
-                      locale: LocaleType.ar);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '$date',
-                      style: TextStyle(color: Colors.grey),
+                      }, currentTime: DateTime.now(), locale: LocaleType.ar);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '$date',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          child: ImageIcon(
+                            AssetImage("assets/icons/ic_calendar.png"),
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: ImageIcon(
-                        AssetImage("assets/icons/ic_calendar.png"),
-                        color: Colors.grey,
+                  ),
+                  actions: <Widget>[
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Notifications()));
+                      },
+                      icon: Icon(
+                        Icons.notifications_none,
+                        color: Colors.black,
                       ),
                     ),
                   ],
-                ),
-              ),
-              actions: <Widget>[
-
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Notifications()));
-                  },
-                  icon: Icon(Icons.notifications_none, color: Colors.black,),
-                ),
-              ],
-              leading: FittedBox(
-                alignment: Alignment.center,
-                fit: BoxFit.scaleDown,
-                child: InkWell(
-                  onTap: (){
-                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditProfile()));
-
-                  },
-                  child: CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(SharedData
-                      .customerData['image'] ==
-                      'Null' ||
-                      SharedData.customerData['image'] == null
-                      ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                      : 'http://api.sukar.co${SharedData
-                      .customerData['image']}'),
-                ),
-                ),
-              ),
+                  leading: FittedBox(
+                    alignment: Alignment.center,
+                    fit: BoxFit.scaleDown,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditProfile()));
+                      },
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(SharedData
+                                        .customerData['image'] ==
+                                    'Null' ||
+                                SharedData.customerData['image'] == null
+                            ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                            : 'http://api.sukar.co${SharedData.customerData['image']}'),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
