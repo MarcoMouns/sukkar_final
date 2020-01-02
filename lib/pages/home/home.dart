@@ -18,6 +18,7 @@ import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
+
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
@@ -115,16 +116,19 @@ class _HomePageState extends State<HomePage> {
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
     List<int> disctance = new List<int>();
-
+    DateTime usedDate= DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
+    print(DateTime(2020,1,2));
+ 
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      dateFrom: selectedDate.subtract(new Duration(days: 1)),
+      dateFrom:usedDate,
       dateTo: DateTime.now(),
     );
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
-      dateFrom: selectedDate.subtract(new Duration(days: 1)),
+      
+      dateFrom:usedDate,
       dateTo: DateTime.now(),
     );
 
