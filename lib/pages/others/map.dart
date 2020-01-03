@@ -644,8 +644,12 @@ class _MapPageState extends State<MapPage> {
                                           fit: BoxFit.scaleDown,
                                           child: Directionality(
                                             textDirection: TextDirection.ltr,
-                                            child: Text("${(int.parse(_stepCountValue)/3).round()}",
-                                             style: TextStyle(fontFamily: "Bebas Neue",color: Color(0xFF45b6fe),fontSize: 20),
+                                            child: Text(
+                                              "${(int.parse(_stepCountValue) / 3).round()}",
+                                              style: TextStyle(
+                                                  fontFamily: "Bebas Neue",
+                                                  color: Color(0xFF45b6fe),
+                                                  fontSize: 20),
                                             ),
                                           ),
                                         ),
@@ -699,8 +703,13 @@ class _MapPageState extends State<MapPage> {
                                           fit: BoxFit.scaleDown,
                                           child: Directionality(
                                             textDirection: TextDirection.ltr,
-                                            child: Text(_stepCountValue,
-                                             style: TextStyle(fontFamily: "Bebas Neue",color: Color(0xFF45b6fe),fontSize: 20),),
+                                            child: Text(
+                                              _stepCountValue,
+                                              style: TextStyle(
+                                                  fontFamily: "Bebas Neue",
+                                                  color: Color(0xFF45b6fe),
+                                                  fontSize: 20),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -771,16 +780,22 @@ class _MapPageState extends State<MapPage> {
                                           fontSize: 14)),
                             ),
                             onTap: () async {
+                              
                               rightButtonPressed();
                               checkRun = !checkRun;
                               setState(() {});
                               if (checkRun == true) {
+                               
+                               
+                                
                                 startTime = DateTime.now();
                                 initPlatformState();
                                 updatePostion();
                                 time = Timer.periodic(Duration(seconds: 10),
                                     (Timer t) => updatePostion());
                               } else if (checkRun == false) {
+                                stopListening();
+                                _stepCountValue = '0';
                                 draw();
                                 time.cancel();
                                 setState(() {

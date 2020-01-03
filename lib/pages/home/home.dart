@@ -116,57 +116,21 @@ class _HomePageState extends State<HomePage> {
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
     List<int> disctance = new List<int>();
-    DateTime usedDate= DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
-    print(DateTime(2020,1,2));
- 
+    DateTime usedDate =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    print(DateTime(2020, 1, 2));
+
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
-      dateFrom:usedDate,
+      dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
-      
-      dateFrom:usedDate,
+      dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
-
-    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
-      fitDistanceData.add(healthKitDistanceData[i]);
-      disctance.add(fitDistanceData[i].value.round());
-    }
-
-    if (disctance.isEmpty) {
-      distance = 0;
-    } else {
-      for (int i = 0; i <= disctance.length - 1; i++) {
-        print('huh eh tani -_- ->>>>> $distance');
-        distance = disctance[i] + distance;
-      }
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
-
-      print('-----------------------omgggggggg----------->');
-      Map userHeader = {
-        "Content-type": "application/json",
-        "Acce0pt": "application/json",
-        "Authorization": "Bearer ${authUser['authToken']}"
-      };
-
-      var response = await http.post("$baseUrl/update-distance", body: {
-        "distance": "$distance",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
-
-      print('-----------------------omgggggggg-----------> ${response.body}');
-      setState(() {});
-    }
-
-    print('------OOOOOMMMMMMGGGGGGG-----------------> $disctance');
 
     if (healthKitStepsData.isEmpty) {
       return Steps;
@@ -202,6 +166,7 @@ class _HomePageState extends State<HomePage> {
 
     if (StepsList.isEmpty) {
       totalSteps = 0;
+      distance = 0;
       print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= StepsList.length - 1; i++) {
@@ -214,6 +179,8 @@ class _HomePageState extends State<HomePage> {
       }
       flag = false;
       step = steps;
+      distance = (step / 3).round();
+
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
@@ -225,8 +192,18 @@ class _HomePageState extends State<HomePage> {
         "Acce0pt": "application/json",
         "Authorization": "Bearer ${authUser['authToken']}"
       };
-      var response =
-          await http.post("http://api.sukar.co/api/update-steps", body: {
+
+      var response = await http.post("$baseUrl/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      print('-----------------------omgggggggg-----------> ${response.body}');
+
+      print('-----------------------omgggggggg----------->');
+
+      await http.post("http://api.sukar.co/api/update-steps", body: {
         "steps": "$step",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -239,7 +216,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       Settings.currentIndex = 0;
     });
-    //calculateSteps();
     getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
@@ -255,7 +231,7 @@ class _HomePageState extends State<HomePage> {
     getcal();
     setFirebaseImage();
     calculateSteps();
-    
+
     const oneSec = const Duration(minutes: 15);
     new Timer.periodic(oneSec, (Timer t) {
       dummySelectedDate = DateTime.now();
