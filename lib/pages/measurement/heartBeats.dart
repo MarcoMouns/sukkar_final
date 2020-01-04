@@ -248,6 +248,7 @@ InkWell(
                                       borderRadius: new BorderRadius.all(
                                           Radius.circular(50)))),
                               child: TextField(
+                                maxLength: 3,
                                 textAlign: TextAlign.center,
                                 controller: _controller,
                                 keyboardType: TextInputType.number,

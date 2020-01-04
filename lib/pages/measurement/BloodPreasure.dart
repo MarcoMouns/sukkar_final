@@ -116,6 +116,7 @@ class _BloodPressureState extends State<BloodPressure> {
                                 alignment: Alignment.bottomRight,
                                 children: <Widget>[
                                   TextFormField(
+                                    maxLength: 3,
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
                                     style: TextStyle(
@@ -179,6 +180,7 @@ class _BloodPressureState extends State<BloodPressure> {
                                     alignment: Alignment.bottomRight,
                                     children: <Widget>[
                                       TextFormField(
+                                        maxLength: 3,
                                         textDirection: TextDirection.ltr,
                                         keyboardType: TextInputType.number,
                                         style: TextStyle(

@@ -178,7 +178,7 @@ class _NewUserState extends State<NewUser> {
                                       Checkbox(
                                         value: isClicked,
                                         onChanged: (bool v){
-                                          policy();
+                                        clicked();
                                         },
                                         checkColor: Colors.white,
                                         activeColor: Colors.blue,

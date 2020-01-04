@@ -425,10 +425,17 @@ class _MapPageState extends State<MapPage> {
   Timer time;
 
   DateTime startTime = DateTime.now();
+  Position position;
+
+  getCurrentLocation() async {
+    position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
 
   initState() {
     super.initState();
     currentPosition = Position(latitude: 0, longitude: 0);
+    getCurrentLocation();
     _getCurrentUserPosition().then((position) {
       print(
           "current user position ---------------------------------------> $position");
@@ -493,7 +500,14 @@ class _MapPageState extends State<MapPage> {
                       //   print(position);
                       // },
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(31.23079, 29.94481), zoom: 15),
+                          target: LatLng(
+                              position.latitude == null
+                                  ? 0.0
+                                  : position.latitude,
+                              position.longitude == null
+                                  ? 0.0
+                                  : position.longitude),
+                          zoom: 15),
                       onMapCreated: _onMapCreated,
                       polylines: _polyline,
 
@@ -780,14 +794,10 @@ class _MapPageState extends State<MapPage> {
                                           fontSize: 14)),
                             ),
                             onTap: () async {
-                              
                               rightButtonPressed();
                               checkRun = !checkRun;
                               setState(() {});
                               if (checkRun == true) {
-                               
-                               
-                                
                                 startTime = DateTime.now();
                                 initPlatformState();
                                 updatePostion();

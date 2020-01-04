@@ -36,6 +36,7 @@ class _CompleteState extends State<Complete> {
   bool _autoValidate = false;
   bool hasPhoto = true;
   bool picdone = false;
+  bool isMatched = true;
 
   Map<String, dynamic> _formData = {
     "image": null,
@@ -384,14 +385,15 @@ class _CompleteState extends State<Complete> {
                                   DatePicker.showDatePicker(context,
                                       showTitleActions: true,
                                       minTime: DateTime(1900, 3, 5),
-                                     
+                                      maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                    _BirthDateController.text = date.toString();
-                                    print('change $date');
-                                  }, onConfirm: (date) {
-                                    _BirthDateController.text = date.toString();
-                                    print('confirm $date');
-                                  },
+                                              _BirthDateController.text = (date.toString()).split(" ")[0];
+                                              print('change $date');
+                                               }, 
+                                      onConfirm: (date) {
+                                              _BirthDateController.text = (date.toString()).split(" ")[0];
+                                              print('confirm $date');
+                                                        },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -422,20 +424,21 @@ class _CompleteState extends State<Complete> {
                                   DatePicker.showDatePicker(context,
                                       showTitleActions: true,
                                       minTime: DateTime(1900, 3, 5),
-                                     
+                                      maxTime: DateTime.now(),
                                       onChanged: (date) {
                                     _injuryDateController.text =
-                                        date.toString();
+                                        date.toString().split(" ")[0];
                                     print('change $date');
                                   }, onConfirm: (date) {
                                     _injuryDateController.text =
-                                        date.toString();
+                                        date.toString().split(" ")[0];
                                     print('confirm $date');
                                   },  
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
                                 child: LogInInput(
+                                  
                                   enabled: false,
                                   controller: _injuryDateController,
                                   autoValidate: _autoValidate,
@@ -477,21 +480,22 @@ class _CompleteState extends State<Complete> {
                                     return null;
                                 },
                               ),
-                              new LogInInput(
-                                enabled: true,
-                                name: "passwordConfirm",
-                                autoValidate: _autoValidate,
-                                controller: _passwrodController,
-                                isPassword: true,
-                                focusNode: _focusNode5,
-                                validator: (String val) {
-                                  if (_passwrodController.text != val) {
-                                    return myLocale.languageCode.contains("en")
-                                        ? "Password don't match."
-                                        : "الرقم السرى غير صحيح";
-                                  }
-                                },
-                              ),
+                              // new LogInInput(
+                              //   enabled: true,
+                              //   name: "passwordConfirm",
+                              //   autoValidate: _autoValidate,
+                              //   controller: _passwrodController,
+                              //   isPassword: true,
+                              //   focusNode: _focusNode5,
+                              //   validator: (String val) {
+                              //     if (_passwrodController.text != val) {
+                              //       isMatched = false;
+                              //       return myLocale.languageCode.contains("en")
+                              //           ? "Password don't match."
+                              //           : "الرقم السرى غير صحيح";
+                              //     }
+                              //   },
+                              // ),
                               new Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -546,7 +550,7 @@ class _CompleteState extends State<Complete> {
                                   color: Settings.mainColor(),
                                   textColor: Colors.white,
                                   onPressed: () async {
-                                    if (hasPhoto && picdone) {
+                                    if (hasPhoto && picdone && isMatched == true) {
                                       uidx = await CreateFirebaseAccount();
                                       _formData['fuid'] = uidx;
                                       CreateCFSaccount(uidx);

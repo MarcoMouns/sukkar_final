@@ -352,6 +352,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     ),
                     onPressed: () {
                       upDateProfile();
+                      SharedData.customerData['userName'] = name;
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => MainHome()));
                     },

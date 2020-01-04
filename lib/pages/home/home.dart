@@ -368,14 +368,13 @@ class _HomePageState extends State<HomePage> {
     loading = false;
     loading1 = false;
     loading2 = false;
-    print('5araaaaaa a7ba tete latete ketere grrrrrrrrrrrrrrrrrrrrrrrrrrr');
     print(SharedData.customerData['fuid']);
     setState(() {});
   }
 
   static Future setFirebaseImage() async {
-    //print(SharedData.customerData['fuid']);
-    //print(SharedData.customerData['image']);
+    print(SharedData.customerData['fuid']);
+    print(SharedData.customerData['image']);
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
@@ -547,7 +546,7 @@ class _HomePageState extends State<HomePage> {
   void incrementWeek() {
     String dummyDate;
     istrue = true;
-    dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
+    dummySelectedDate = dummySelectedDate.add(new Duration(days: 7));
     emptylists();
     setState(() {});
     print(

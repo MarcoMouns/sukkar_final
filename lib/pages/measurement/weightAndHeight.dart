@@ -27,7 +27,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
   double drawingHeigth;
 
   int height;
-  String userWidth ='0';
+  String userWidth = '0';
   Response response;
   Dio dio = new Dio();
 
@@ -139,7 +139,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     List<Widget> labels = List.generate(
       // labelsToDisplay,
       101,
-          (idx) {
+      (idx) {
         // print(idx);
         if (idx == 100) {
           return Row(
@@ -191,22 +191,24 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     );
   }
 
-  void _showDialog(){
+  void _showDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("تنبية"),
-          content: Text("يرجى ادخال الوزن و الطول"),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("تم",style: TextStyle(color: Colors.blue),),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("تنبية"),
+            content: Text("يرجى ادخال الوزن و الطول"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  "تم",
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -234,10 +236,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                       Center(
                         child: Container(
                           height: MediaQuery.of(context).size.height - 200,
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.4,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           child: Directionality(
                             textDirection: TextDirection.ltr,
                             child: Card(
@@ -251,19 +250,17 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                     Expanded(
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            bottom: screenAwareSize(
-                                                8.0, context)),
+                                            bottom:
+                                                screenAwareSize(8.0, context)),
                                         child: LayoutBuilder(
                                             builder: (context, constraints) {
-                                              return HeightPicker(
-                                                widgetHeight: constraints
-                                                    .maxHeight,
-                                                height: height,
-                                                onChange: (val) =>
-                                                    setState(() =>
-                                                    height = val),
-                                              );
-                                            }),
+                                          return HeightPicker(
+                                            widgetHeight: constraints.maxHeight,
+                                            height: height,
+                                            onChange: (val) =>
+                                                setState(() => height = val),
+                                          );
+                                        }),
                                       ),
                                     ),
                                   ],
@@ -284,13 +281,13 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                 SizedBox(
                                   width: 100,
                                   child: TextField(
-                                    onChanged: (value){
+                                    onChanged: (value) {
                                       height = int.parse(value);
-
                                       print("user height $height");
                                     },
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
+                                    maxLength: 3,
                                     style: TextStyle(
                                       color: Colors.blue,
                                       fontSize: 25,
@@ -314,11 +311,11 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  "assets/icons/ic_circle_min.png",
-                                  height: 25,
-                                  width: 25,
-                                ),
+                                // Image.asset(
+                                //   "assets/icons/ic_circle_min.png",
+                                //   height: 25,
+                                //   width: 25,
+                                // ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Stack(
@@ -327,10 +324,11 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                       SizedBox(
                                         width: 100,
                                         child: TextField(
+                                          maxLength: 3,
                                           focusNode: _focusNode2,
                                           textDirection: TextDirection.ltr,
                                           keyboardType: TextInputType.number,
-                                          onChanged:  (String v){
+                                          onChanged: (String v) {
                                             userWidth = v;
                                             print('weight $v');
                                           },
@@ -343,16 +341,27 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                       Text(
                                         allTranslations.text("Weight"),
                                         style:
-                                        TextStyle(color: Colors.blue[400]),
+                                            TextStyle(color: Colors.blue[400]),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Image.asset(
-                                  "assets/icons/ic_circle_add.png",
-                                  height: 25,
-                                  width: 25,
-                                ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     print(userWidth);
+                                //     if (userWidth == null) {
+                                //       userWidth = (1).toString();
+                                //     } else {
+                                //       userWidth =
+                                //           (int.parse(userWidth) + 1).toString();
+                                //     }
+                                //   },
+                                //   child: Image.asset(
+                                //     "assets/icons/ic_circle_add.png",
+                                //     height: 25,
+                                //     width: 25,
+                                //   ),
+                                // )
                               ],
                             ),
                             alignment: Alignment.center,
@@ -379,40 +388,43 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                         allTranslations.text("Add"),
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () async{
+                      onPressed: () async {
                         if (userWidth.isEmpty || height == 90) {
-                        _showDialog();
-                      }
-                        else{
+                          _showDialog();
+                        } else {
                           try {
                             int average_calorie = (66 +
-                                (6.2 * int.parse(userWidth)) + (12.7 * height) -
-                                (6.76 * 25)).toInt();
-                            print('***********************************************');
+                                    (6.2 * int.parse(userWidth)) +
+                                    (12.7 * height) -
+                                    (6.76 * 25))
+                                .toInt();
+                            print(
+                                '***********************************************');
                             print(average_calorie);
-                            print('***********************************************');
+                            print(
+                                '***********************************************');
                             // get user token
                             SharedPreferences sharedPreferences =
-                            await SharedPreferences.getInstance();
+                                await SharedPreferences.getInstance();
                             Map<String, dynamic> authUser = jsonDecode(
                                 sharedPreferences.getString("authUser"));
                             dio.options.headers = {
                               "Authorization":
-                              "Bearer ${authUser['authToken']}",
+                                  "Bearer ${authUser['authToken']}",
                             };
 
                             response = await dio.post(
-                                "http://api.sukar.co/api/users/height-weight",data: {
-                              "_method": 'PUT',
-                              "height": height,
-                              "weight": userWidth.toString(),
-                              "average_calorie": average_calorie,
-                            });
+                                "http://api.sukar.co/api/users/height-weight",
+                                data: {
+                                  "_method": 'PUT',
+                                  "height": height,
+                                  "weight": userWidth.toString(),
+                                  "average_calorie": average_calorie,
+                                });
                             print('Response = ${response.data}');
-                            Navigator.pop(context,true);
+                            Navigator.pop(context, true);
                           } on DioError catch (e) {
-                            print(
-                                "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
+                            print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
                             print(e.response.data);
                             return false;
                           }

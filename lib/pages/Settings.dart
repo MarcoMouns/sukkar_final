@@ -398,6 +398,7 @@ class _BottomSheetState extends State<BottomSheet> {
                               ? Slider(
                             inactiveColor: Colors.grey,
                             value: double.parse(_value.toString()),
+
                             min: widget.min,
                             max: widget.max,
                             divisions: (widget.max - widget.min).toInt(),
@@ -580,16 +581,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
     _listItems.add(
       BottomNavigationBarItem(
-        icon: Settings.currentIndex == 3
-            ? Stack(
-                children: <Widget>[
-                  Image.asset(
-                      "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '' : ''}.png",
-                      width: 25,
-                      height: 25),
-                ],
-              )
-            : Image.asset(
+        icon:  Image.asset(
                 "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
                 height: 25,
                 width: 25,
