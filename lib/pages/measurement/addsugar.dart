@@ -13,7 +13,6 @@ import 'package:health/pages/Settings.dart' as settings;
 
 import '../home.dart';
 
-
 class AddSugar extends StatefulWidget {
   static DateTime date;
   FormData formData = new FormData();
@@ -66,9 +65,9 @@ class _AddSugarState extends State<AddSugar> {
       };
       print(suger);
       print(date);
-        var now = new DateTime.now();
-        var formatter = new intl.DateFormat('hh:mm a');
-        String formatted = formatter.format(now);
+      var now = new DateTime.now();
+      var formatter = new intl.DateFormat('hh:mm a');
+      String formatted = formatter.format(now);
       var response = await dio.post(
           "$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
@@ -147,97 +146,60 @@ class _AddSugarState extends State<AddSugar> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(allTranslations.text("sugar")),
-            leading: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MainHome()));
-              },
-            ),
-            centerTitle: true,
+      textDirection: allTranslations.currentLanguage == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(allTranslations.text("sugar")),
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MainHome()));
+            },
           ),
-          body: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text(
-                          now,
-                          style: TextStyle(color: Colors.red, fontSize: 25.0),
-                        ),
-                        trailing: Image.asset(
-                          "assets/icons/ic_logo_3.png",
-                          color: Colors.blue,
-                          width: 50,
-                          height: 50,
-                        ),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        now,
+                        style: TextStyle(color: Colors.red, fontSize: 25.0),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 30, bottom: 40),
-                        child: Text(
-                          allTranslations.text("measure sugar bla bla bla bla"),
-                          style:
-                          TextStyle(color: Colors.blueGrey, fontSize: 17),
-                        ),
+                      trailing: Image.asset(
+                        "assets/icons/ic_logo_3.png",
+                        color: Colors.blue,
+                        width: 50,
+                        height: 50,
                       ),
-                      Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            InkWell(
-                              child: Center(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  height: 60,
-                                  //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                                  child: Center(
-                                    child: Text(
-                                      allTranslations.text("measure"),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  decoration: ShapeDecoration(
-                                    shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Colors.grey[300], width: 1.5),
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                _showBottomSheet(
-                                    context: context,
-                                    model: model,
-                                    type: 'sugar',
-                                    title: "measure sugar",
-                                    subTitle: "enterTodaySugar",
-                                    imageName: "ic_blood_pressure",
-                                    min: 0.0,
-                                    max: 600.0);
-                              },
-                            ),
-                            Container(
-                              width: 20,
-                            ),
-                            InkWell(
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 30, bottom: 40),
+                      child: Text(
+                        allTranslations.text("measure sugar bla bla bla bla"),
+                        style: TextStyle(color: Colors.blueGrey, fontSize: 17),
+                      ),
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          InkWell(
+                            child: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width / 3,
                                 height: 60,
-
                                 //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
                                 child: Center(
                                   child: Text(
-                                    allTranslations.text("measure2"),
+                                    allTranslations.text("measure"),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -249,31 +211,65 @@ class _AddSugarState extends State<AddSugar> {
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           BlueToothDevice(model)),
-                                // );
-                              },
                             ),
-                          ],
-                        ),
+                            onTap: () {
+                              _showBottomSheet(
+                                  context: context,
+                                  model: model,
+                                  type: 'sugar',
+                                  title: "measure sugar",
+                                  subTitle: "enterTodaySugar",
+                                  imageName: "ic_blood_pressure",
+                                  min: 0.0,
+                                  max: 600.0);
+                            },
+                          ),
+                          Container(
+                            width: 20,
+                          ),
+                          InkWell(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: 60,
+                              child: Center(
+                                child: Text(
+                                  allTranslations.text("measure2"),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              decoration: ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.grey[300], width: 1.5),
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           BlueToothDevice(model)),
+                              // );
+                            },
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Column(
-                          children: listOfSuger(),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Column(
+                        children: listOfSuger(),
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
+      ),
     );
   }
 
@@ -283,93 +279,85 @@ class _AddSugarState extends State<AddSugar> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('نتيجة القياس'),
-          content: 
-          measuresOfDay.first >= 70 && measuresOfDay.first < 90?
-          SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.35,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "السكر لديك معدلاته اقل من الطبيعي",
-                            style: TextStyle(
-                              color: Colors.green,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 10)),
-                          Text("تعرف على اعراض هبوط السكر:"),
-                          Text("1-" + " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
-                          Text("2-" + " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
-                          Text("3-" + " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
-                        ],
+          content: measuresOfDay.first >= 70 && measuresOfDay.first < 90
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "السكر لديك معدلاته اقل من الطبيعي",
+                        style: TextStyle(
+                          color: Colors.green,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    )
-          
-          :measuresOfDay.first >= 90 && measuresOfDay.first <= 200
-              ? Text(
-                  "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
-                  style: TextStyle(color: Colors.green),
-                  textAlign: TextAlign.center,
+                      Padding(padding: EdgeInsets.only(top: 10)),
+                      Text("تعرف على اعراض هبوط السكر:"),
+                      Text("1-" +
+                          " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
+                      Text("2-" +
+                          " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
+                      Text("3-" +
+                          " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
+                    ],
+                  ),
                 )
-              : measuresOfDay.first > 200
-                  ? SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.27,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "انتبه مستوى السكر لديك مرتفع",
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 10)),
-                          Text("عليك إتباع النصائح التالية:"),
-                          Text("1-" + " المحافظة على نظام صحي غذائى."),
-                          Text("2-" + " ممارسة الرياضة بانتظام."),
-                          Text("3-" + " الالتزام بتناول أدوية السكر."),
-                          Text("4-" + " مراجعة عيادة السكري بشكل دوري."),
-                          Text("5-" + " قياس السكر باستمرار."),
-                        ],
-                      ),
+              : measuresOfDay.first >= 90 && measuresOfDay.first <= 200
+                  ? Text(
+                      "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
+                      style: TextStyle(color: Colors.green),
+                      textAlign: TextAlign.center,
                     )
-                  : SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.35,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "انتبه مستوى السكر لديك منخفض",
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                            textAlign: TextAlign.center,
+                  : measuresOfDay.first > 200
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.27,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "انتبه مستوى السكر لديك مرتفع",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 10)),
+                              Text("عليك إتباع النصائح التالية:"),
+                              Text("1-" + " المحافظة على نظام صحي غذائى."),
+                              Text("2-" + " ممارسة الرياضة بانتظام."),
+                              Text("3-" + " الالتزام بتناول أدوية السكر."),
+                              Text("4-" + " مراجعة عيادة السكري بشكل دوري."),
+                              Text("5-" + " قياس السكر باستمرار."),
+                            ],
                           ),
-                          Padding(padding: EdgeInsets.only(top: 10)),
-                          Text("عليك إتباع النصائح التالية:"),
-                          Text("1-" +
-                              " تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
-                          Text("2-" +
-                              " لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة."),
-                          Text("3-" +
-                              " احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط ."),
-                        ],
-                      ),
-                    ),
+                        )
+                      : SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "انتبه مستوى السكر لديك منخفض",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 10)),
+                              Text("عليك إتباع النصائح التالية:"),
+                              Text("1-" +
+                                  " تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
+                              Text("2-" +
+                                  " لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة."),
+                              Text("3-" +
+                                  " احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط ."),
+                            ],
+                          ),
+                        ),
           actions: <Widget>[
             FlatButton(
               child: Text(
@@ -412,10 +400,11 @@ class _AddSugarState extends State<AddSugar> {
                 setState(() {
                   getMeasurementsForDay(dateString);
                 });
+                return value;
               });
         }).then((v) {
       Timer(Duration(seconds: 1), () {
-        _ackAlert(context);
+          _ackAlert(context);
       });
     });
   }

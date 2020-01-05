@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
 
   int distance = 0;
   int steps;
-  int calories;
+  int calories = 0;
   int cupOfWater;
   int heartRate;
   int bloodPresure1;
@@ -107,8 +107,10 @@ class _HomePageState extends State<HomePage> {
 
   List healthKitStepsData;
   List healthKitDistanceData;
+  List healthKitCaloriesData;
   List fitStepsData = new List();
   List fitDistanceData = new List();
+  List fitCaloriesData = new List();
   static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
   static DateTime now = new DateTime.now();
   DateTime night12 = DateTime(now.year, now.month, now.day, t.hour, t.minute);
@@ -116,6 +118,7 @@ class _HomePageState extends State<HomePage> {
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
     List<int> disctance = new List<int>();
+    List<int> homeCalories = new List<int>();
     DateTime usedDate =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     print(DateTime(2020, 1, 2));
@@ -131,6 +134,76 @@ class _HomePageState extends State<HomePage> {
       dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
+
+    healthKitCaloriesData = await FitKit.read(
+      DataType.ENERGY,
+      dateFrom: usedDate,
+      dateTo: DateTime.now(),
+    );
+
+    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
+      fitDistanceData.add(healthKitDistanceData[i]);
+      disctance.add(fitDistanceData[i].value.round());
+    }
+
+    for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
+      fitCaloriesData.add(healthKitCaloriesData[i]);
+      homeCalories.add(fitCaloriesData[i].value.round());
+      print("wowowowowowowo");
+      print(homeCalories);
+    }
+
+    if (homeCalories.isEmpty) {
+      calories = 0;
+    } else {
+      calories = 0;
+      for (int i = 0; i <= homeCalories.length - 1; i++) {
+        print('huh eh tani -_- calories ->>>>> $calories');
+        calories = homeCalories[i] + calories;
+        print("========>>> $calories");
+      }
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var res = await http.post("$baseUrl/measurements?day_Calories=$calories", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+    }
+
+    if (disctance.isEmpty) {
+      distance = 0;
+    } else {
+      for (int i = 0; i <= disctance.length - 1; i++) {
+        print('huh eh tani -_- ->>>>> $distance');
+        distance = disctance[i] + distance;
+      }
+
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+
+      print('-----------------------omgggggggg----------->');
+      Map userHeader = {
+        "Content-type": "application/json",
+        "Acce0pt": "application/json",
+        "Authorization": "Bearer ${authUser['authToken']}"
+      };
+
+      var response = await http.post("$baseUrl/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      print('-----------------------omgggggggg-----------> ${response.body}');
+      setState(() {});
+    }
+
+    print('------OOOOOMMMMMMGGGGGGG-----------------> $disctance');
 
     if (healthKitStepsData.isEmpty) {
       return Steps;
@@ -166,7 +239,6 @@ class _HomePageState extends State<HomePage> {
 
     if (StepsList.isEmpty) {
       totalSteps = 0;
-      distance = 0;
       print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= StepsList.length - 1; i++) {
@@ -179,8 +251,6 @@ class _HomePageState extends State<HomePage> {
       }
       flag = false;
       step = steps;
-      distance = (step / 3).round();
-
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
@@ -192,18 +262,8 @@ class _HomePageState extends State<HomePage> {
         "Acce0pt": "application/json",
         "Authorization": "Bearer ${authUser['authToken']}"
       };
-
-      var response = await http.post("$baseUrl/update-distance", body: {
-        "distance": "$distance",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
-
-      print('-----------------------omgggggggg-----------> ${response.body}');
-
-      print('-----------------------omgggggggg----------->');
-
-      await http.post("http://api.sukar.co/api/update-steps", body: {
+      var response =
+          await http.post("http://api.sukar.co/api/update-steps", body: {
         "steps": "$step",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -219,7 +279,6 @@ class _HomePageState extends State<HomePage> {
     getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
-
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
@@ -368,13 +427,14 @@ class _HomePageState extends State<HomePage> {
     loading = false;
     loading1 = false;
     loading2 = false;
+    print('5araaaaaa a7ba tete latete ketere grrrrrrrrrrrrrrrrrrrrrrrrrrr');
     print(SharedData.customerData['fuid']);
     setState(() {});
   }
 
   static Future setFirebaseImage() async {
-    print(SharedData.customerData['fuid']);
-    print(SharedData.customerData['image']);
+    //print(SharedData.customerData['fuid']);
+    //print(SharedData.customerData['image']);
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
@@ -546,7 +606,7 @@ class _HomePageState extends State<HomePage> {
   void incrementWeek() {
     String dummyDate;
     istrue = true;
-    dummySelectedDate = dummySelectedDate.add(new Duration(days: 7));
+    dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
     emptylists();
     setState(() {});
     print(
@@ -676,18 +736,19 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome.steps == null
+        percent: dataHome.calories  == null
             ? 0
-            : ((dataHome.steps * 0.05) / stepsGoal) > 1
+            : ((dataHome.calories / calGoals) > 1)
                 ? 1
-                : (((dataHome.steps) * 0.05) / (calGoals)),
+                : (dataHome.calories / calGoals),
         context: context,
-        day_Calories: dataHome.steps == null
+        day_Calories: dataHome.calories == null
             ? 0
-            : dataHome.steps == null ? 0 : ((dataHome.steps) * 0.05).toInt(),
+            : dataHome.calories == null ? 0 : (dataHome.calories.toInt()),
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
+
     widgetCircleSteps = MainCircles.steps(
         percent: dataHome.steps == null
             ? 0

@@ -425,18 +425,25 @@ class _MapPageState extends State<MapPage> {
   Timer time;
 
   DateTime startTime = DateTime.now();
-  Position position;
+  Position myPosition = Position(latitude: 0, longitude: 0);
 
   getCurrentLocation() async {
-    position = await Geolocator()
+    myPosition = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {});
   }
 
   initState() {
     super.initState();
     currentPosition = Position(latitude: 0, longitude: 0);
-    getCurrentLocation();
-    _getCurrentUserPosition().then((position) {
+    //myPosition = Position(latitude: 0, longitude: 0);
+    _getCurrentUserPosition().then((position) async {
+      try {
+        myPosition = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      } catch (e) {
+        myPosition = Position(latitude: 0, longitude: 0);
+      }
       print(
           "current user position ---------------------------------------> $position");
       setState(() {
@@ -445,6 +452,7 @@ class _MapPageState extends State<MapPage> {
         currentPosition = position;
         print('myAss is ffalse');
       });
+
       _isLoading = false;
     }).catchError((err) {
       setState(() {});
@@ -501,12 +509,12 @@ class _MapPageState extends State<MapPage> {
                       // },
                       initialCameraPosition: CameraPosition(
                           target: LatLng(
-                              position.latitude == null
+                              myPosition.latitude == null
                                   ? 0.0
-                                  : position.latitude,
-                              position.longitude == null
+                                  : myPosition.latitude,
+                              myPosition.longitude == null
                                   ? 0.0
-                                  : position.longitude),
+                                  : myPosition.longitude),
                           zoom: 15),
                       onMapCreated: _onMapCreated,
                       polylines: _polyline,
@@ -798,14 +806,16 @@ class _MapPageState extends State<MapPage> {
                               checkRun = !checkRun;
                               setState(() {});
                               if (checkRun == true) {
+                                dependencies.stopwatch.reset();
+                               
+                                _stepCountValue = '0';
                                 startTime = DateTime.now();
                                 initPlatformState();
                                 updatePostion();
                                 time = Timer.periodic(Duration(seconds: 10),
                                     (Timer t) => updatePostion());
                               } else if (checkRun == false) {
-                                stopListening();
-                                _stepCountValue = '0';
+                               stopListening();
                                 draw();
                                 time.cancel();
                                 setState(() {

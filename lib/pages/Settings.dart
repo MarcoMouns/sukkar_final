@@ -398,7 +398,6 @@ class _BottomSheetState extends State<BottomSheet> {
                               ? Slider(
                             inactiveColor: Colors.grey,
                             value: double.parse(_value.toString()),
-
                             min: widget.min,
                             max: widget.max,
                             divisions: (widget.max - widget.min).toInt(),
