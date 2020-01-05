@@ -49,21 +49,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
           
 
               
-              InkWell(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  height: 50,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                  child: Text(
-                    "موافق",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                onTap: () => Navigator.of(context).pop(),
-              )
+
             ],
           ),
         ));

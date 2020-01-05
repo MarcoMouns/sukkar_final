@@ -247,6 +247,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         ],
                       ),
                       onTap: () {
+                        //print(document.documentID);
+                        //print(document.data['dId']);
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocInfo(
                           peerId: document.documentID,
                           peerAvatar: document['photoUrl'],

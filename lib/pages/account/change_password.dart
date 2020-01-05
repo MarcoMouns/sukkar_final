@@ -70,7 +70,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               : "تم تغيير الباسورد بنجاح");
           // go to Home  page
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
+              .pushNamedAndRemoveUntil('/', ModalRoute.withName('/'));
         } else {
           setState(() {
             _isLoading = false;

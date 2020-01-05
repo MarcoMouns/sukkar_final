@@ -44,7 +44,7 @@ class _DocInfoState extends State<DocInfo> {
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-
+     print(widget.dId);
     response = await dio.get(
       "http://api.sukar.co/api/doctors/${widget.dId}",
     );

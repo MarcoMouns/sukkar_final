@@ -28,6 +28,7 @@ class _AddSugarState extends State<AddSugar> {
   DateTime date = AddSugar.date;
   String dateString;
   _AddSugarState();
+  String initSuger;
 
   initState() {
     super.initState();
@@ -279,7 +280,7 @@ class _AddSugarState extends State<AddSugar> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('نتيجة القياس'),
-          content: measuresOfDay.first >= 70 && measuresOfDay.first < 90
+          content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
               ? SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   child: Column(
@@ -304,13 +305,13 @@ class _AddSugarState extends State<AddSugar> {
                     ],
                   ),
                 )
-              : measuresOfDay.first >= 90 && measuresOfDay.first <= 200
+              : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
                   ? Text(
                       "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
                       style: TextStyle(color: Colors.green),
                       textAlign: TextAlign.center,
                     )
-                  : measuresOfDay.first > 200
+                  : int.parse(initSuger)> 200
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height * 0.27,
                           child: Column(
@@ -366,6 +367,7 @@ class _AddSugarState extends State<AddSugar> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                initSuger = null;
               },
             ),
           ],
@@ -395,16 +397,19 @@ class _AddSugarState extends State<AddSugar> {
               max: max,
               addSlider: true,
               onSave: (String value) {
+                initSuger = null;
                 _handleSubmitted(context, model, value, type);
-
                 setState(() {
                   getMeasurementsForDay(dateString);
+                  initSuger = value;
                 });
                 return value;
               });
         }).then((v) {
       Timer(Duration(seconds: 1), () {
-          _ackAlert(context);
+          print(initSuger);
+         if(initSuger  != null)
+         { _ackAlert(context);}
       });
     });
   }

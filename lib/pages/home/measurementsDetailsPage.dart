@@ -101,8 +101,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     goalCupOfWater = response.data["Measurements"]["water_cups_goal"];
     goalSteps = response.data["Measurements"]["steps_goal"];
     goalDistance = response.data["Measurements"]["distance_goal"];
-
-
+    
+    print(response.data);
+    print(calories);
     print("==================>>>>>>>");
     print(goalCalories);
     print(goalCupOfWater);
@@ -285,14 +286,14 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                         height: 180,
                         child: measurementsCircles(
                             "ic_cal",
-                            ((steps*0.05).toInt()).toString(),
+                            (calories).toString(),
                             allTranslations.text("cals"),
-                            steps == 0 ? 0 : (steps*0.05) / goalCalories,
+                            calories == 0 ? 0 : (calories) / goalCalories,
                             2,
-                            steps == 0 ||((steps*0.05) / goalCalories) <= 0.3
+                            steps == 0 ||(calories / goalCalories) <= 0.3
                                 ? redColor
-                                : ((steps*0.05) / goalCalories) > 0.3 &&
-                                        ((steps*0.05) / goalCalories) < 0.6
+                                : (calories / goalCalories) > 0.3 &&
+                                        (calories / goalCalories) < 0.6
                                     ? yellowColor
                                     : greenColor,
                             false,

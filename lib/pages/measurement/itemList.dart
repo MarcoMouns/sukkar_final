@@ -26,7 +26,7 @@ class _ItemListState extends State<ItemList> {
   Map<String, dynamic> user;
   List<Foods> _selectedFoods = [];
   FocusNode _focusNode = FocusNode();
-  String filter="";
+  String filter = "";
 
   List<Foods> foods = [];
   List<Medicine> medicines = [];
@@ -49,7 +49,8 @@ class _ItemListState extends State<ItemList> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
 
-    response = await dio.get("$baseUrl/medicine");
+    response =
+        await dio.get("$baseUrl/medicine", options: Options(headers: authUser));
     print(response.data);
     for (int i = 0; i < response.data['medicines'].length; i++) {
       Medicine md = new Medicine();
@@ -218,6 +219,7 @@ class _ItemListState extends State<ItemList> {
                                             widget.mealId);
                                         foods.clear();
                                         getMeals();
+                                        setState(() {});
                                       });
                                     },
                                   )
@@ -236,6 +238,7 @@ class _ItemListState extends State<ItemList> {
                                       });
                                     });
                           });
+                      setState(() {});
                     },
                   ),
                   actions: <Widget>[
@@ -264,9 +267,7 @@ class _ItemListState extends State<ItemList> {
                         child: TextField(
                           onChanged: (String value) {
                             filter = value;
-                            setState(() {
-                              
-                            });
+                            setState(() {});
                           },
                           focusNode: _focusNode,
                           decoration: InputDecoration(
@@ -279,164 +280,185 @@ class _ItemListState extends State<ItemList> {
                       Expanded(
                         child: ListView.builder(
                           itemCount:
-                              
                               widget.isfood ? foods.length : medicines.length,
                           itemBuilder: (context, index) {
                             Widget result;
-                            bool isRight = widget.isfood ? foods[index].titleAr.contains(filter): medicines[index].name.contains(filter);
-                             isRight ?
-                            result =  Container(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        widget.isfood
-                                            ?  foods[index].titleAr
-                                            :  medicines[index].name,
-                                        style: TextStyle(
-                                            fontSize: 18, color: Colors.blueGrey),
-                                      ),
-                                      CircleAvatar(
-                                        radius: 15,
-                                        backgroundColor: Colors.white,
-                                        child: InkWell(
-                                          child: widget.isfood
-                                              ? Image.asset(foods[index]
-                                                          .isselected ==
-                                                      0
-                                                  ? "assets/icons/ic_radio_off.png"
-                                                  : "assets/icons/ic_radio_on.png")
-                                              : Image.asset(medicines[index]
-                                                          .isSelected ==
-                                                      1
-                                                  ? "assets/icons/ic_radio_on.png"
-                                                  : "assets/icons/ic_radio_off.png"),
-                                          onTap: () {
-                                            setState(() {
-                                              if (widget.isfood) {
-                                                if (foods[index].isselected ==
-                                                    0) {
-                                                  foods[index].isselected = 1;
-                                                  _selectedFoods
-                                                      .add(foods[index]);
-                                                } else {
-                                                  foods[index].isselected = 0;
-                                                  _selectedFoods
-                                                      .remove(foods[index]);
-                                                }
+                            bool isRight = widget.isfood
+                                ? foods[index].titleAr.contains(filter)
+                                : medicines[index].name.contains(filter);
+                            isRight
+                                ? result = Container(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(
+                                              widget.isfood
+                                                  ? foods[index].titleAr
+                                                  : medicines[index].name,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.blueGrey),
+                                            ),
+                                            CircleAvatar(
+                                              radius: 15,
+                                              backgroundColor: Colors.white,
+                                              child: InkWell(
+                                                child: widget.isfood
+                                                    ? Image.asset(foods[index]
+                                                                .isselected ==
+                                                            0
+                                                        ? "assets/icons/ic_radio_off.png"
+                                                        : "assets/icons/ic_radio_on.png")
+                                                    : Image.asset(medicines[
+                                                                    index]
+                                                                .isSelected ==
+                                                            1
+                                                        ? "assets/icons/ic_radio_on.png"
+                                                        : "assets/icons/ic_radio_off.png"),
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (widget.isfood) {
+                                                      if (foods[index]
+                                                              .isselected ==
+                                                          0) {
+                                                        foods[index]
+                                                            .isselected = 1;
+                                                        _selectedFoods
+                                                            .add(foods[index]);
+                                                      } else {
+                                                        foods[index]
+                                                            .isselected = 0;
+                                                        _selectedFoods.remove(
+                                                            foods[index]);
+                                                      }
 
-                                                print(
-                                                    "selected food $_selectedFoods");
-                                              } else {
-                                                if (medicines[index].isSelected ==
-                                                    0) {
-                                                  medicines[index].isSelected = 1;
+                                                      print(
+                                                          "selected food $_selectedFoods");
+                                                    } else {
+                                                      if (medicines[index]
+                                                              .isSelected ==
+                                                          0) {
+                                                        medicines[index]
+                                                            .isSelected = 1;
 
-                                                  //TODO:add meal id dialog
-                                                  int meal;
+                                                        //TODO:add meal id dialog
+                                                        int meal;
 
-                                                  showCupertinoModalPopup(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) =>
-                                                            CupertinoActionSheet(
-                                                      title: Text(allTranslations
-                                                          .text("medicineMeal")),
-                                                      actions: <Widget>[
-                                                        CupertinoActionSheetAction(
-                                                          child: Text(
-                                                              allTranslations.text(
-                                                                  "breakfast")),
-                                                          onPressed: () {
-                                                            meal = 1;
-                                                            addTakenMed(
-                                                                medicines[index]
-                                                                    .id,
-                                                                meal);
-                                                            medicines[index]
-                                                                .isSelected = 0;
-                                                            setState(() {});
+                                                        showCupertinoModalPopup(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              CupertinoActionSheet(
+                                                            title: Text(
+                                                                allTranslations
+                                                                    .text(
+                                                                        "medicineMeal")),
+                                                            actions: <Widget>[
+                                                              CupertinoActionSheetAction(
+                                                                child: Text(
+                                                                    allTranslations
+                                                                        .text(
+                                                                            "breakfast")),
+                                                                onPressed: () {
+                                                                  meal = 1;
+                                                                  addTakenMed(
+                                                                      medicines[
+                                                                              index]
+                                                                          .id,
+                                                                      meal);
+                                                                  medicines[
+                                                                          index]
+                                                                      .isSelected = 0;
+                                                                  setState(
+                                                                      () {});
 
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                        CupertinoActionSheetAction(
-                                                          child: Text(
-                                                              allTranslations
-                                                                  .text("lunch")),
-                                                          onPressed: () {
-                                                            meal = 2;
-                                                            addTakenMed(
-                                                                medicines[index]
-                                                                    .id,
-                                                                meal);
-                                                            medicines[index]
-                                                                .isSelected = 0;
-                                                            setState(() {});
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                              ),
+                                                              CupertinoActionSheetAction(
+                                                                child: Text(
+                                                                    allTranslations
+                                                                        .text(
+                                                                            "lunch")),
+                                                                onPressed: () {
+                                                                  meal = 2;
+                                                                  addTakenMed(
+                                                                      medicines[
+                                                                              index]
+                                                                          .id,
+                                                                      meal);
+                                                                  medicines[
+                                                                          index]
+                                                                      .isSelected = 0;
+                                                                  setState(
+                                                                      () {});
 
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                        CupertinoActionSheetAction(
-                                                          child: Text(
-                                                              allTranslations
-                                                                  .text(
-                                                                      "dinner")),
-                                                          onPressed: () {
-                                                            meal = 3;
-                                                            addTakenMed(
-                                                                medicines[index]
-                                                                    .id,
-                                                                meal);
-                                                            medicines[index]
-                                                                .isSelected = 0;
-                                                            setState(() {});
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        ),
-                                                        CupertinoActionSheetAction(
-                                                          child: Text(
-                                                              allTranslations
-                                                                  .text(
-                                                                      "cancel")),
-                                                          onPressed: () {
-                                                            medicines[index]
-                                                                .isSelected = 0;
-                                                            setState(() {});
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                }
-                                              }
-                                            });
-                                          },
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                              ),
+                                                              CupertinoActionSheetAction(
+                                                                child: Text(
+                                                                    allTranslations
+                                                                        .text(
+                                                                            "dinner")),
+                                                                onPressed: () {
+                                                                  meal = 3;
+                                                                  addTakenMed(
+                                                                      medicines[
+                                                                              index]
+                                                                          .id,
+                                                                      meal);
+                                                                  medicines[
+                                                                          index]
+                                                                      .isSelected = 0;
+                                                                  setState(
+                                                                      () {});
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                              ),
+                                                              CupertinoActionSheetAction(
+                                                                child: Text(
+                                                                    allTranslations
+                                                                        .text(
+                                                                            "cancel")),
+                                                                onPressed: () {
+                                                                  medicines[
+                                                                          index]
+                                                                      .isSelected = 0;
+                                                                  setState(
+                                                                      () {});
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                              )
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.grey,
-                                    indent: 2,
-                                    height: 30,
+                                        Divider(
+                                          color: Colors.grey,
+                                          indent: 2,
+                                          height: 30,
+                                        )
+                                      ],
+                                    ),
                                   )
-                                ],
-                              ),
-                            ):result=Container();
+                                : result = Container();
                             return result;
-                          
-                          
-                          
                           },
                         ),
                       ),
@@ -611,7 +633,9 @@ class _BottomSheetState extends State<BottomSheet> {
                           onPressed: () {
                             widget.onSave(
                                 _controllerName.text, _controller.text);
+                                setState(() {});
                             Navigator.of(context).pop();
+                            
                           },
                         )
                       ],

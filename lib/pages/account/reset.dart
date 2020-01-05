@@ -153,6 +153,7 @@ class _ResetState extends State<Reset> {
                                       onSaved: (String val) {
                                         setState(() {
                                           phoneNum = val;
+                                          print(phoneNum);
                                         });
                                       },
                                       validator: (String val) {

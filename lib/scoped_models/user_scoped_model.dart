@@ -268,16 +268,9 @@ mixin UserScopedModel on Model {
       // get user token
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
 
-      print("authUser => $authUser");
-      print("authUserToken => ${authUser['authToken']}");
 
-      dio.options.headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
-      };
+  
 
       response = await dio.post("$baseUrl/auth/send_code_reset_password",
           data: formdata);
@@ -310,19 +303,9 @@ mixin UserScopedModel on Model {
       // formdata.add("rand", data['code']);
       formdata.add("token_id", '1234');
 
-      // get user token
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
 
-      print("authUser => $authUser");
-      print("authUserToken => ${authUser['authToken']}");
 
-      dio.options.headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
-      };
+    
 
       response = await dio.post("$baseUrl/auth/reset_password", data: formdata);
       print(response.data.toString());

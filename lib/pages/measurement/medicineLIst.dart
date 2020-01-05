@@ -41,11 +41,12 @@ class _MedListState extends State<MedList> {
     response = await dio.get("$baseUrl/medicine-today",
         options: Options(headers: headers));
 
+     mealsTakenAr.clear();
     for (int i = 0; i < response.data['medicines'].length; i++) {
       Medicine med = new Medicine();
       String mealAr;
       String mealEn;
-
+      
       med.id = response.data['medicines'][i]['id'];
       med.name = response.data['medicines'][i]['name'];
       med.createdAt = response.data['medicines'][i]['created_at'];
@@ -75,7 +76,6 @@ class _MedListState extends State<MedList> {
     response = await dio.delete("$baseUrl/medicine-today/$id",
         options: Options(headers: headers));
 
-  
     setState(() {});
   }
 
@@ -88,7 +88,6 @@ class _MedListState extends State<MedList> {
   List<Widget> listBuilder() {
     List<Widget> result = new List();
     print("=============++++++");
-
     for (int i = 0; i < medi.length; i++) {
       print("=============++++++)))");
       Widget added;

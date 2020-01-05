@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     DateTime usedDate =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     print(DateTime(2020, 1, 2));
-
+    fitDistanceData.clear();
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
       dateFrom: usedDate,
@@ -144,6 +144,7 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
       fitDistanceData.add(healthKitDistanceData[i]);
       disctance.add(fitDistanceData[i].value.round());
+      print(fitDistanceData);
     }
 
     for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
@@ -176,8 +177,9 @@ class _HomePageState extends State<HomePage> {
     if (disctance.isEmpty) {
       distance = 0;
     } else {
+      distance=0;
       for (int i = 0; i <= disctance.length - 1; i++) {
-        print('huh eh tani -_- ->>>>> $distance');
+        print('huh eh tani -_- ->>>>> this is distance $distance');
         distance = disctance[i] + distance;
       }
 
@@ -223,8 +225,8 @@ class _HomePageState extends State<HomePage> {
   int step = 0;
 
   void calculateSteps() async {
-    healthKit();
-    await FitKit.requestPermissions(DataType.values);
+  
+  
 
     int steps = 0;
     List<int> StepsList = new List<int>();
@@ -765,7 +767,7 @@ class _HomePageState extends State<HomePage> {
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: dataHome.distance == null
+        percent: dataHome.distance == null || dataHome.distance==0
             ? 0
             : ((dataHome.distance / distanceGoal)) > 1
                 ? 1
