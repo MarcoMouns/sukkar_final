@@ -63,7 +63,7 @@ class _BloodPressureState extends State<BloodPressure> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.info_outline),
+                  icon: Icon(Icons.info_outline,color: Colors.green,),
                   onPressed: () {
                     _showBottomSheetBloodPreassure();
                   },
