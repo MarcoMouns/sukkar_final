@@ -1,57 +1,63 @@
-import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'dart:io';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class FirebaseNotifications {
-  FirebaseMessaging _firebaseMessaging;
+// FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     new FlutterLocalNotificationsPlugin();
 
-  void setUpFirebase() {
+// Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+//   if (message.containsKey('data')) {
+//     // Handle data message
+//     final dynamic data = message['data'];
+//   }
 
-    _firebaseMessaging = FirebaseMessaging();
-    
-    firebaseCloudMessaging_Listeners();
+//   if (message.containsKey('notification')) {
+//     // Handle notification message
+//     final dynamic notification = message['notification'];
+//   }
+// }
 
-  }
+// class FirebaseNotifications {
+//   FirebaseMessaging _firebaseMessaging;
 
-  void firebaseCloudMessaging_Listeners() {
-    if (Platform.isIOS) iOS_Permission();
+//   static var initializationSettingsAndroid =
+//       AndroidInitializationSettings('app_icon');
+//   static var initializationSettingsIOS = IOSInitializationSettings();
 
-    _firebaseMessaging.getToken().then((token) {
-      print("this the token:    $token");
-    });
+//   var initializationSettings = InitializationSettings(
+//       initializationSettingsAndroid, initializationSettingsIOS);
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        
-      },
-      onBackgroundMessage:myBackgroundMessageHandler ,
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
-  }
+//   void setUpFirebase() {
+//     _firebaseMessaging = FirebaseMessaging();
 
+//     firebaseCloudMessaging_Listeners();
+//   }
 
-  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
-  if (message.containsKey('data')) {
-    // Handle data message
-    final dynamic data = message['data'];
-  }
+//   void firebaseCloudMessaging_Listeners() {
+//     if (Platform.isIOS) iOS_Permission();
 
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
-  }
-}
+//     _firebaseMessaging.getToken().then((token) {
+//       print("this the token:    $token");
+//     });
 
-  void iOS_Permission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
-}
+//     _firebaseMessaging.configure(
+//       onMessage: (Map<String, dynamic> message) async {},
+//       onBackgroundMessage: myBackgroundMessageHandler,
+//       onResume: (Map<String, dynamic> message) async {
+//         print('on resume $message');
+//       },
+//       onLaunch: (Map<String, dynamic> message) async {
+//         print('on launch $message');
+//       },
+//     );
+//   }
+
+//   void iOS_Permission() {
+//     _firebaseMessaging.requestNotificationPermissions(
+//         IosNotificationSettings(sound: true, badge: true, alert: true));
+//     _firebaseMessaging.onIosSettingsRegistered
+//         .listen((IosNotificationSettings settings) {
+//       print("Settings registered: $settings");
+//     });
+//   }
+// }

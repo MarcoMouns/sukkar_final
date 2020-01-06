@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 //import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
@@ -22,6 +24,7 @@ import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swipedetector/swipedetector.dart';
+import '../../main.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
@@ -35,6 +38,27 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'articlesCategory.dart';
 import 'measurementsDetailsPage.dart';
+
+
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    new FlutterLocalNotificationsPlugin();
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+
+    final dynamic data = message['data'];
+    showNotification("String title", "body");
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    showNotification("String title", "body");
+  }
+}
+
 
 class HomePage extends StatefulWidget {
   final MainModel model;
@@ -278,6 +302,40 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       Settings.currentIndex = 0;
     });
+
+FirebaseMessaging().configure(
+  
+      onMessage: (Map<String, dynamic> message) async {
+        print("oaaaaaaaaaaaanMessage $message");
+        
+          showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title_loc_key']),
+              subtitle: Text(message['notification']['body_loc_key']),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+        //showNotification("title", "body");
+      },
+      onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume $message");
+      },
+    );
+
+
+
     getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());

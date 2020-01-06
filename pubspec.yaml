@@ -61,7 +61,7 @@ dependencies:
   share: ^0.6.2+3
   #flutter_blue: ^0.6.3
   # rxdart: any
-  flutter_local_notifications: ^0.9.1+1
+  flutter_local_notifications: ^0.8.4
   vector_math: ^2.0.8
   fit_kit: ^1.1.0
   pedometer: ^1.0.0
