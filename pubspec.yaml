@@ -54,11 +54,14 @@ dependencies:
   photo_view: ^0.4.2
   fluttertoast: ^3.1.0
   flutter_picker_view: ^1.0.0
+  firebase_messaging: ^6.0.9
+  firebase_core: ^0.4.3+1
   flutter_rating_bar: ^3.0.0
   flutter_spinkit: ^4.0.0
   share: ^0.6.2+3
   #flutter_blue: ^0.6.3
   # rxdart: any
+  flutter_local_notifications: ^0.9.1+1
   vector_math: ^2.0.8
   fit_kit: ^1.1.0
   pedometer: ^1.0.0

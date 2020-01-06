@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/services.dart';
 /// @omar notify
 //import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:health/%20firebase_notification_handler.dart';
+import 'package:health/localed_notifications.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/shared-data.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -32,6 +35,18 @@ void main() async {
 
   runApp(MyApp());
 }
+
+  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+  }
 
 class SpLash extends StatefulWidget {
   @override
@@ -92,8 +107,30 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging().configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage $message");
+        NotificationsManager.instance.showNotification(
+          title: message['title'] ?? message['notification']['title'],
+          body: message['body'] ?? message['notification']['body'],
+          payload: "",
+          context: this.context,
+        );
+      },
+      onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume $message");
+      },
+    );
+    FirebaseMessaging().getToken().then((t) => print("$t"));
+
     getAuthentication();
   }
+
+
 
   void getAuthentication() async {
     sharedPreferences = await SharedPreferences.getInstance();

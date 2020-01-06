@@ -5,6 +5,13 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+
+
+import io.flutter.app.FlutterApplication;
+import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback;
+import io.flutter.plugins.GeneratedPluginRegistrant;
+import io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService;
 public class MainActivity extends FlutterActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -21,5 +28,21 @@ public class MainActivity extends FlutterActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
       }
     });
+  }
+}
+
+
+
+
+public class Application extends FlutterApplication implements PluginRegistrantCallback {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    FlutterFirebaseMessagingService.setPluginRegistrant(this);
+  }
+
+  @Override
+  public void registerWith(PluginRegistry registry) {
+    GeneratedPluginRegistrant.registerWith(registry);
   }
 }
