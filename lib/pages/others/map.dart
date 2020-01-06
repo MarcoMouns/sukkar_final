@@ -262,7 +262,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   GoogleMapController mapController;
-  Set<Polyline> _polyline;
+  Set<Polyline> _polyline = {};
   List<LatLng> latlngSegment = List();
 
   Position firstPosition;
@@ -279,7 +279,14 @@ class _MapPageState extends State<MapPage> {
   void draw() {
     //rint('i am drawing');
     setState(() {
-      _polyline.first.points.add(latlngSegment.last);
+      _polyline.add(Polyline(
+        polylineId: PolylineId('line1'),
+        visible: true,
+        //latlng is List<LatLng>
+        points: latlngSegment,
+        width: 5,
+        color: Color(0xFF45b6fe),
+      ));
     });
   }
 
