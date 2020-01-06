@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/medicine_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../globals.dart';
@@ -14,6 +15,10 @@ import '../home.dart';
 import 'itemList.dart';
 
 class MedList extends StatefulWidget {
+  MainModel model;
+  MedList(MainModel model){
+    this.model = model;
+  }
   @override
   _MedListState createState() => _MedListState();
 }
@@ -166,11 +171,13 @@ class _MedListState extends State<MedList> {
                         ),
                       ),
                       onTap: () {
+                        print("=======");
+                        print(widget.model);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ItemList(
-                                      model: model,
+                                      model: widget.model,
                                       isfood: false,
                                     ))).then((val)=>val?getMedi():null);
                       },

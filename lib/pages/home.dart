@@ -53,7 +53,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => MedList()),
+            builder: (context) => MedList(model)),
       );
     }
     if (item == 2) {

@@ -229,12 +229,14 @@ class _ItemListState extends State<ItemList> {
                                     title: "add medicne",
                                     subtitle: "add Item not in menu",
                                     onSave: (String value) async {
+                                     
                                       widget.model.addNewMedicine({
                                         "name": value,
                                         "user_id": user['id'],
                                       }).then((result) {
                                         medicines.clear();
                                         getMedicine();
+                                        //setState(() {});
                                       });
                                     });
                           });
@@ -630,12 +632,10 @@ class _BottomSheetState extends State<BottomSheet> {
                           child: Text(
                             allTranslations.text("save"),
                           ),
-                          onPressed: () {
-                            widget.onSave(
+                          onPressed: () async {
+                            await widget.onSave(
                                 _controllerName.text, _controller.text);
-                                setState(() {});
                             Navigator.of(context).pop();
-                            
                           },
                         )
                       ],
