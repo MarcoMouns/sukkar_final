@@ -174,6 +174,7 @@ class _MyAppState extends State<MyApp> {
       },
     );
     FirebaseMessaging().getToken().then((t) async {
+      print("=========== My token is ============ > $t");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
       Response res;

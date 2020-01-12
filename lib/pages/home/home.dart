@@ -312,8 +312,8 @@ FirebaseMessaging().configure(
           context: context,
           builder: (context) => AlertDialog(
             content: ListTile(
-              title: Text(message['notification']['title_loc_key']),
-              subtitle: Text(message['notification']['body_loc_key']),
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
             ),
             actions: <Widget>[
               FlatButton(
