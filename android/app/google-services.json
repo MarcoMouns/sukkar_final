@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:558252190222:android:42f4f40c0ff1a1e8",
-        "android_client_info": {
-          "package_name": "com.alexapps.sokar"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "558252190222-d9n4871vq5cehpiehra1llo1a30o2r0a.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDQUQNfpBgvSAyIMdz77-pU4pHdefDoHnM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "558252190222-d9n4871vq5cehpiehra1llo1a30o2r0a.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "558252190222-sgbmussiclugv9rcdrjb3j30vnb50rft.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.alexapps.sokar"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:558252190222:android:ca6fe7703f90646d49aa5f",
         "android_client_info": {
           "package_name": "com.alexapps.sukar"
@@ -51,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "558252190222-k5dqbaj47s0cam8297nv4jloh5up3qf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alexapps.sukar",
+            "certificate_hash": "f2a61729ee1b9368b99e746916a9de4f033fee78"
+          }
+        },
+        {
           "client_id": "558252190222-d9n4871vq5cehpiehra1llo1a30o2r0a.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -68,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "558252190222-sgbmussiclugv9rcdrjb3j30vnb50rft.apps.googleusercontent.com",
+              "client_id": "558252190222-mum4fj06qh7jmi21hn8rvmad91atq3ff.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.alexapps.sokar"
+                "bundle_id": "com.alexapps.sukar"
               }
             }
           ]
