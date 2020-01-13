@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
@@ -58,14 +57,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    ChangeHieghtAnimation();
+    changeHieghtAnimation();
   }
 
   MainModel model;
   MeasurementsBean dataHome;
   List<BannersListBean> banners = List<BannersListBean>();
 
-  void ChangeHieghtAnimation() {
+  void changeHieghtAnimation() {
     istrue = true;
     int r1 = gmin + rnd.nextInt(gmax - gmin);
     int r2 = gmin + rnd.nextInt(gmax - gmin);
@@ -143,21 +142,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     });
   }
 
-  final GlobalKey<AnimatedCircularChartState> _chartKey1 =
-      new GlobalKey<AnimatedCircularChartState>();
-  final GlobalKey<AnimatedCircularChartState> _chartKey2 =
-      new GlobalKey<AnimatedCircularChartState>();
-  final GlobalKey<AnimatedCircularChartState> _chartKey3 =
-      new GlobalKey<AnimatedCircularChartState>();
-  final GlobalKey<AnimatedCircularChartState> _chartKey4 =
-      new GlobalKey<AnimatedCircularChartState>();
 
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (Context) => LandPage()));
+          .push(MaterialPageRoute(builder: (context) => LandPage()));
     });
   }
 
@@ -168,7 +159,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return InkWell(
       onTap: () =>
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (Context) => LandPage())),
+              .push(MaterialPageRoute(builder: (context) => LandPage())),
       child: CustomMultiChildLayout(
         delegate: CirclesDelegate(_chartRadius),
         children: <Widget>[
@@ -177,14 +168,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: MainCircles.diabetes(
               percent: 0.2,
               context: context,
-//                sugar: dataHome['sugar'].toString(),
               sugar: '0',
               raduis: _chartRadius,
               status: '0',
               ontap: () =>
                   Navigator.of(context)
                       .push(
-                      MaterialPageRoute(builder: (Context) => LandPage())),
+                      MaterialPageRoute(builder: (context) => LandPage())),
               footer: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -247,12 +237,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: MainCircles.cal(
                   percent: 0.5,
                   context: context,
-//                day_Calories: dataHome['day_Calories'],
-                  day_Calories: '0',
+                  day_Calories: '100',
                   ontap: () =>
                       Navigator.of(context)
                           .push(
-                          MaterialPageRoute(builder: (Context) => LandPage())),
+                          MaterialPageRoute(builder: (context) => LandPage())),
                   raduis: _chartRadius,
                   footerText:
                   "Cal " + " 100 :" + allTranslations.text("Goal is"))),
@@ -261,13 +250,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: MainCircles.steps(
                 percent: 0.9,
                 context: context,
-//              steps: dataHome['NumberOfSteps'] ?? 0,
-                steps: 0,
+                steps: 100,
                 raduis: _chartRadius,
                 onTap: () =>
                     Navigator.of(context)
                         .push(
-                        MaterialPageRoute(builder: (Context) => LandPage())),
+                        MaterialPageRoute(builder: (context) => LandPage())),
                 footerText: " Step " + "100 :" +
                     allTranslations.text("Goal is")),
           ),
@@ -277,12 +265,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 percent: 0.3,
                 context: context,
                 raduis: _chartRadius,
-//              distance: dataHome['distance'].toString(),
                 distance: '0',
                 onTap: () =>
                     Navigator.of(context)
                         .push(
-                        MaterialPageRoute(builder: (Context) => LandPage())),
+                        MaterialPageRoute(builder: (context) => LandPage())),
                 footerText:
                 " meter " + "200 :" + allTranslations.text("Goal is")),
           )
@@ -523,7 +510,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               scale: 2,
                             ),
                           ),
-                          onTap: () => ChangeHieghtAnimation(),
+                          onTap: () => changeHieghtAnimation(),
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.9,
@@ -1206,7 +1193,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               scale: 2,
                             ),
                           ),
-                          onTap: () => ChangeHieghtAnimation(),
+                          onTap: () => changeHieghtAnimation(),
                         ),
                       ],
                     )),

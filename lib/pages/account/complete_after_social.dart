@@ -198,19 +198,6 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                                       onTap: () => _imagePicker(context),
                                       child: UserImage(_formData['image']),
 
-                                      // CircleAvatar(
-                                      //   backgroundColor: Colors.redAccent,
-                                      //   radius: 50.0,
-                                      //   child: _formData['image'] != null
-                                      //       ? Image.file(
-                                      //           _formData['image'],
-                                      //           width: 100,
-                                      //           height: 100,
-                                      //           fit: BoxFit.fill,
-                                      //         )
-                                      //       : Icon(Icons.person,
-                                      //           size: 50, color: Colors.white),
-                                      // ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -335,9 +322,6 @@ class UserImage extends StatelessWidget {
     if (imageFile != null) {
       userImage = FileImage(imageFile);
     }
-    // else if (imageUrl != null && imageFile == null) {
-    //   userImage = NetworkImage(imageUrl);
-    // }
     return Center(
       child: CircleAvatar(
         backgroundColor: Colors.white,

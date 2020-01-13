@@ -1,14 +1,9 @@
 import 'dart:async';
-// import 'dart:convert';
 import 'dart:ui';
-// import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './arabic.dart';
 import './english.dart';
 
-///
-/// Preferences related
-///
 const String _storageKey = "MyApplication_";
 const List<String> _supportedLanguages = ['en', 'ar'];
 Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -18,9 +13,6 @@ class GlobalTranslations {
   Map<dynamic, dynamic> _localizedValues;
   VoidCallback _onLocaleChangedCallback;
 
-  ///
-  /// Returns the list of supported Locales
-  ///
   Iterable<Locale> supportedLocales() =>
       _supportedLanguages.map<Locale>((lang) => new Locale(lang, ''));
 

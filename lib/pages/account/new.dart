@@ -214,8 +214,6 @@ class _NewUserState extends State<NewUser> {
                                             textColor: Colors.white,
                                             onPressed: () async {
                                               _focusNode.unfocus();
-                                              // await Navigator.of(context)
-                                              //     .pushNamed('/verify');
                                               isClicked==true?
                                               _handleSubmit(context, model):
                                               _showPrivacyPolicy();

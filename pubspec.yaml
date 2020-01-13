@@ -1,12 +1,6 @@
 name: health
-description: A new Flutter project.
+description: A new fitness app
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# Read more about versioning at semver.org.
 version: 0.0.1+1
 
 environment:
@@ -24,32 +18,22 @@ dependencies:
   intl: any
   http: 
   flutter_swiper: 
-  percent_indicator:
   scoped_model: ^1.0.1
-  latlong: ^0.6.1
   image_picker: any
   flutter_image_compress: ^0.6.3
   dio: ^2.1.5
   google_maps_flutter: ^0.5.16
   flutter_cupertino_date_picker: 
   cupertino_icons: ^0.1.2
-  splashscreen: ^1.2.0
   auto_size_text: ^1.0.0
   geolocator: ^5.0.1
-  bloc: any
   flutter_circular_chart: ^0.1.0
   screenshot_share_image: ^0.0.4
   firebase_auth: ^0.14.0+5
   firebase_storage: 3.0.3
   cloud_firestore: any
-  flutter_facebook_login: ^2.0.1
-  google_sign_in: ^4.0.2
   url_launcher: ^5.0.1
-  datetime_picker_formfield: any
-  keyboard_actions:
-  font_awesome_flutter: ^8.4.0
   fl_chart: ^0.0.8
-  swipedetector: ^1.2.0
   cached_network_image: ^2.0.0
   photo_view: ^0.4.2
   fluttertoast: ^3.1.0
@@ -62,18 +46,9 @@ dependencies:
   # flutter_blue: ^0.5.0
   # rxdart: any
 
-  flutter_local_notifications: ^0.9.1+1
   vector_math: ^2.0.8
   fit_kit: ^1.1.0
   pedometer: ^1.0.0
-
-
-
-
-
-
-
-
 
 # The following section is specific to Flutter.
 flutter:
@@ -83,7 +58,3 @@ flutter:
     - assets/icons/
     - assets/lang/
     - assets/
-  # fonts:
-  #   - family: najed
-  #     fonts:
-  #       - asset: "assets/fonts/naj3ed.ttf"

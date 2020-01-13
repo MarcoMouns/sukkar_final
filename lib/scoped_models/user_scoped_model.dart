@@ -207,7 +207,7 @@ mixin UserScopedModel on Model {
       }
       formdata.add("password", userData['password']);
       formdata.add("token_id", '12345');
-      print('formdata = ${formdata}');
+      print('formdata = $formdata');
 
       if (type == "email") {
         response = await dio.post("$baseUrl/auth/email-login", data: formdata);
@@ -266,9 +266,6 @@ mixin UserScopedModel on Model {
       formdata.add("phone", phone);
 
       // get user token
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-
 
   
 

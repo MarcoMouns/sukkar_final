@@ -17,7 +17,7 @@ class Doctor extends StatefulWidget {
 }
 
 class _DoctorState extends State<Doctor> {
-  List<String> _doctors = List();
+
   List<SpecialistsListBean> specialists = List<SpecialistsListBean>();
   List<DataListBean> doctorSpecialists = List<DataListBean>();
   List<DoctorCvListBean> doctorCv = List<DoctorCvListBean>();
@@ -38,7 +38,6 @@ class _DoctorState extends State<Doctor> {
       if (result != null) {
         setState(() {
           specialists = result.specialists;
-          print('fetchSpecialists Result = > ${specialists}');
           defaultSelect = specialists[0].titleAr;
           defaultSelectId = specialists[0].id;
           fetchDoctorSpecialist();
@@ -129,29 +128,6 @@ class _DoctorState extends State<Doctor> {
                   )));
         });
   }
-
-//  void filterSearchResults(String query) {
-//    List<String> dummySearchList = List<String>();
-//    dummySearchList.addAll(duplicateItems);
-//    if(query.isNotEmpty) {
-//      List<String> dummyListData = List<String>();
-//      dummySearchList.forEach((item) {
-//        if(item.contains(query)) {
-//          dummyListData.add(item);
-//        }
-//      });
-//      setState(() {
-//        items.clear();
-//        items.addAll(dummyListData);
-//      });
-//      return;
-//    } else {
-//      setState(() {
-//        items.clear();
-//        items.addAll(duplicateItems);
-//      });
-//    }
-//  }
   @override
   Widget build(BuildContext context) {
     return loading == true
@@ -165,19 +141,6 @@ class _DoctorState extends State<Doctor> {
                         top: MediaQuery.of(context).padding.top),
                     width: MediaQuery.of(context).size.width,
                     child: Column(children: <Widget>[
-//                  Search(hintText: "search for doctor"),
-//                  TextField(
-//                    onChanged: (value) {
-//
-//                    },
-//                    controller: editingController,
-//                    decoration: InputDecoration(
-//                        labelText: "Search",
-//                        hintText: "Search",
-//                        prefixIcon: Icon(Icons.search),
-//                        border: OutlineInputBorder(
-//                            borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-//                  ),
                       SizedBox(
                         height: 45,
                         child: InkWell(
@@ -187,7 +150,6 @@ class _DoctorState extends State<Doctor> {
                             child: Container(
                                 margin: EdgeInsets.only(top: 10),
                                 decoration: ShapeDecoration(
-                                    // color: Colors.grey,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         side: BorderSide(
@@ -315,28 +277,5 @@ class _DoctorState extends State<Doctor> {
                     ],
                   );
                 }));
-
-//      Center(
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.center,
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          children: <Widget>[
-//            Container(
-//              padding: EdgeInsets.all(20),
-//              margin: EdgeInsets.only(bottom: 20),
-//              decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(100)),
-//                  color: Colors.redAccent
-//              ),
-//              child: Icon(
-//                Icons.developer_mode,
-//                size: 60,
-//                color: Colors.white,
-//              ),
-//            ),
-//            Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//          ],
-//        ),
-//      );
   }
 }

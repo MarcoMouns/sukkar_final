@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-//import 'package:health/api_provider.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:health/pages/Settings.dart';
@@ -300,7 +299,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     setState(() {});
     PickerController pickerController = PickerController(count: 1);
     PickerViewPopup.showMode(
-        PickerShowMode.BottomSheet, // AlertDialog or BottomSheet
+        PickerShowMode.BottomSheet,
         controller: pickerController,
         context: context,
         title: Text(

@@ -123,7 +123,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   }
 
   AnimationController _controller;
-  Animation _animation;
   AnimationController _rotateCopntroller;
   Animation<double> _rotateAmimation;
   @override
@@ -137,8 +136,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
         vsync: this,
         duration: const Duration(milliseconds: 175),
       );
-      _animation =
-          Tween(begin: 180 * 0.05, end: 180 * 0.4).animate(_controller);
       _rotateCopntroller = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 175),

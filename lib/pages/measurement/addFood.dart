@@ -4,7 +4,6 @@ import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/Models/meal.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/measurement/itemList.dart';
@@ -28,7 +27,6 @@ class AddFood extends StatefulWidget {
 
 class _AddFoodState extends State<AddFood> {
   String now = "";
-  List<Meal> _meals = List();
   List<Eatcategories> allMeals = List<Eatcategories>();
   List<UserFoods> allMealsFoods = List<UserFoods>();
   List<int> _calories = [];

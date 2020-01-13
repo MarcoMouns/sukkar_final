@@ -135,7 +135,6 @@ mixin FriendsScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio

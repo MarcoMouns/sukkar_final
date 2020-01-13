@@ -187,18 +187,6 @@ class _ChatState extends State<Chat> {
                                             : Colors.white),
                                   ),
                                 ),
-//                                 new Align(
-//                                    child: Text(
-//                                      "10 :35 AM",
-//                                      style: TextStyle(
-//                                          color: index % 2 == 0
-//                                              ? Color.fromRGBO(181, 190, 202, 1)
-//                                              : Color.fromRGBO(14, 14, 14, 1)),
-//                                    ),
-//                                    alignment: index % 2 == 0
-//                                        ? Alignment.centerLeft
-//                                        : Alignment.centerRight,
-//                                  )
                               ],
                             ),
                             alignment:
@@ -221,14 +209,6 @@ class _ChatState extends State<Chat> {
                               horizontal: 10, vertical: 10),
                           child: Row(
                             children: <Widget>[
-//                          Padding(
-//                            padding: EdgeInsets.symmetric(horizontal: 5),
-//                            child: Image.asset(
-//                              "assets/icons/ic_emoticon.png",
-//                              width: 25,
-//                              height: 25,
-//                            ),
-//                          ),
                               Expanded(
                                 child: new TextFormField(
                                   decoration: new InputDecoration(
@@ -252,22 +232,9 @@ class _ChatState extends State<Chat> {
                                     }
                                   },
                                 ),
-//                            TextField(
-//                              focusNode: _focusNode,
-//                              decoration: InputDecoration(
-//                                  border: InputBorder.none,
-//                                  hintText: allTranslations
-//                                      .text("Write message ...")),
-//                            ),
+
                               ),
-//                          Padding(
-//                            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-//                            child: Image.asset(
-//                              "assets/icons/ic_send_button.png",
-//                              width: 25,
-//                              height: 25,
-//                            ),
-//                          ),
+
                               Container(
                                   child: new FlatButton(
                                       child: _isLoading == true

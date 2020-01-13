@@ -125,7 +125,6 @@ class _ItemListState extends State<ItemList> {
     setState(() {});
   }
 
-  List<Medicines> _selectedMedicines = [];
 
   void _saveUserFoods() async {
     bool ok =
@@ -346,8 +345,6 @@ class _ItemListState extends State<ItemList> {
                                                           0) {
                                                         medicines[index]
                                                             .isSelected = 1;
-
-                                                        //TODO:add meal id dialog
                                                         int meal;
 
                                                         showCupertinoModalPopup(
@@ -520,11 +517,6 @@ class _BottomSheetState extends State<BottomSheet> {
   final _controllerName = TextEditingController();
   double _value = 0;
 
-  Map<String, dynamic> _mealData = {
-    "name": null,
-    "categoryId": null,
-    "calories": null,
-  };
 
   @override
   void initState() {

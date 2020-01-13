@@ -139,14 +139,4 @@ class _HeightPickerState extends State<HeightPicker> {
     );
   }
 
-  Widget _drawPersonImage() {
-    double personImageHeight = _sliderPosition + marginBottomAdapted(context);
-    return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          width: 50,
-          height: 50,
-          color: Colors.blue,
-        ));
-  }
 }

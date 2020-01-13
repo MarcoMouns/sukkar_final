@@ -1,30 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health/pages/account/complete_after_social.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import '../../scoped_models/main.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LogIn extends StatefulWidget {
   _LogInState createState() => _LogInState();
 }
 
 class _LogInState extends State<LogIn> {
-//  final GoogleSignIn _googleSignIn = new GoogleSignIn(
-//    scopes: [
-//      'email',
-//      'https://www.googleapis.com/auth/contacts.readonly',
-//    ],
-//  );
-//  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FacebookLogin facebookLogin = FacebookLogin();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -79,8 +64,6 @@ class _LogInState extends State<LogIn> {
           await         Navigator.of(context)
               .pushNamedAndRemoveUntil('/home',
                   (Route<dynamic> route) => false);
-//          Navigator.of(context)
-//              .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
         } else {
           setState(() {
             _isLoading = false;
@@ -95,50 +78,6 @@ class _LogInState extends State<LogIn> {
     }
   }
 
-  _getUserProfileData(
-      MainModel model, BuildContext context, String token) async {
-    Locale myLocale = Localizations.localeOf(context);
-    final graphResponse = await http.get(
-        'https://graph.facebook.com/v3.3/me?fields=name,first_name,last_name,email,gender&access_token=$token');
-    final profile = json.decode(graphResponse.body);
-    print("profile $profile");
-
-    model.socialMediaLogin({
-      "email": profile['email'],
-      "gender": profile['gender'] == "male" ? 1 : 0,
-      "name": "${profile['first_name']} ${profile['last_name']}",
-      "provider": "facebook",
-      "provider_id": profile['id'],
-    }).then((result) async {
-      if (result['success'] == true && result['new'] == true) {
-        // go to register page
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (_, __, ___) {
-              return CompleteAfterSocialLogin(profile);
-            },
-          ),
-        );
-      } else if (result['success'] == true && result['new'] == false) {
-        // Navigator.of(context).pushReplacement(
-        //   PageRouteBuilder(
-        //     pageBuilder: (_, __, ___) {
-        //       return HomePage();
-        //     },
-        //   ),
-        // );
-
-        await Navigator.of(context)
-            .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
-      } else {
-        // show Login failed
-        // and show error message
-        showInSnackBar(myLocale.languageCode.contains("en")
-            ? "Error ${result['error']}"
-            : "خطأ ${result['error']}");
-      }
-    });
-  }
   @override
   void initState() {
     super.initState();
@@ -218,65 +157,7 @@ class _LogInState extends State<LogIn> {
                                           });
                                         },
                                         isActive: activeType == 2),
-                                    new LoginType(
-                                      svg: 'assets/imgs/facebook.svg',
-                                      icon: FontAwesomeIcons.facebookF,
-                                      onPress: () {
-                                        facebookLogin.logInWithReadPermissions([
-                                          'email',
-                                          'public_profile',
-                                          'user_gender',
-                                        ]).then((result) {
-                                          switch (result.status) {
-                                            case FacebookLoginStatus.loggedIn:
-                                              _getUserProfileData(
-                                                  model,
-                                                  context,
-                                                  result.accessToken.token);
-                                              // _showLoggedInUI();
-                                              break;
-                                            case FacebookLoginStatus
-                                                .cancelledByUser:
-                                              // _showCancelledMessage();
-                                              break;
-                                            case FacebookLoginStatus.error:
-                                              // _showErrorOnUI(result.errorMessage);
-                                              print(result.errorMessage);
-                                              break;
-                                          }
-                                        }).catchError((error) {});
-                                      },
-                                    ),
-//                                    new LoginType(
-//                                      svg: 'assets/imgs/twitter.svg',
-//                                      icon: FontAwesomeIcons.twitter,
-//                                      onPress:() => doLogin(),
-////                                      async {
-////                                        final GoogleSignInAccount googleUser =
-////                                            await _googleSignIn.signIn();
-////                                        final GoogleSignInAuthentication
-////                                            googleAuth =
-////                                            await googleUser.authentication;
-////                                        final AuthCredential credential =
-////                                            GoogleAuthProvider.getCredential(
-////                                          accessToken: googleAuth.accessToken,
-////                                          idToken: googleAuth.idToken,
-////                                        );
-////                                        final FirebaseUser user = await _auth
-////                                            .signInWithCredential(credential);
-////                                        assert(user.email != null);
-////                                        assert(user.displayName != null);
-////                                        assert(!user.isAnonymous);
-////                                        assert(await user.getIdToken() != null);
-////
-////                                        final FirebaseUser currentUser =
-////                                            await _auth.currentUser();
-////                                        assert(user.uid == currentUser.uid);
-////                                        await Navigator.of(context)
-////                                            .pushNamedAndRemoveUntil('/home',
-////                                                ModalRoute.withName('/home'));
-////                                      },
-//                                    )
+
                                   ],
                                 ),
                               ),

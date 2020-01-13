@@ -29,21 +29,4 @@ class MainModel extends Model
   void changeDirection(lang) async {
     notifyListeners();
   }
-// Locale _appLocale = Locale('ar');
-
-// Locale get appLocal => _appLocale ?? Locale("ar");
-
-// void changeDirection() {
-//   if (_appLocale == Locale("ar")) {
-//     _appLocale = Locale("en");
-//   } else {
-//     _appLocale = Locale("ar");
-//   }
-//   notifyListeners();
-// }
-
-// void appLanguage(String lang) {
-//   _appLocale = Locale(lang);
-//   notifyListeners();
-// }
 }

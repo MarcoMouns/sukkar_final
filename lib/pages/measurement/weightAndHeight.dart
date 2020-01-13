@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/height/card_title.dart';
-import 'package:health/height/height_card.dart';
 import 'package:health/height/height_picker.dart';
 import 'package:health/height/widget_utils.dart';
 import 'package:health/languages/all_translations.dart';
@@ -20,7 +18,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
   FocusNode _focusNode1 = FocusNode();
   FocusNode _focusNode2 = FocusNode();
 
-  //---------------
 
   double screenHeiget;
 
@@ -40,18 +37,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     });
   }
 
-  double get _pixelsPerUnit {
-    return drawingHeigth / 101;
-  }
-
-//
-//  double get _sliderPosition {
-//    double halfOfBottomLabel = 11.5;
-//    int unitsFromBottom = userHeight - 90;
-//    return halfOfBottomLabel + unitsFromBottom * _pixelsPerUnit;
-//  }
-
-  //-----------
 
   TextEditingController _heightController;
   void initState() {
@@ -59,58 +44,12 @@ class _WeightAndHeightState extends State<WeightAndHeight>
     height = height ?? 170;
     _heightController = TextEditingController();
     _heightController.addListener(() {
-//_range=ratio*double.parse(_heightController.text)+90;
       setState(() {});
     });
   }
 
-//  Widget _drawSlider() {
-//    return Positioned(
-//      child: Stack(
-//        overflow: Overflow.visible,
-//        children: <Widget>[
-//          Row(
-//            // mainAxisAlignment: MainAxisAlignment.end,
-//            children: <Widget>[
-//              SizedBox(
-//                width: 5,
-//              ),
-//              Container(
-//                width: 75,
-//                height: 1,
-//                color: Colors.blue,
-//              ),
-//              Container(
-//                width: 20,
-//                height: 20,
-//                decoration: BoxDecoration(
-//                  color: Colors.blue,
-//                  borderRadius: BorderRadius.circular(10),
-//                ),
-//              ),
-//            ],
-//          ),
-//          Positioned(
-//            right: 110,
-//            bottom: 0.0,
-//            child: Text(
-//              "$userHeight",
-//              style: TextStyle(
-//                color: Colors.blue,
-//              ),
-//            ),
-//          ),
-//        ],
-//      ),
-//      left: 0.0,
-//      right: 0.0,
-//      bottom: _sliderPosition,
-//    );
-//  }
-
   Widget isEven() {
     return Container(
-      // alignment: Alignment.centerRight,
       width: 40,
       height: 3,
       color: Colors.grey,
@@ -119,7 +58,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
 
   Widget isOdd() {
     return Container(
-      // alignment: Alignment.centerRight,
       width: 25,
       height: 3,
       color: Colors.grey,
@@ -128,68 +66,12 @@ class _WeightAndHeightState extends State<WeightAndHeight>
 
   Widget isOther() {
     return Container(
-      // alignment: Alignment.centerRight,
       width: 15,
       height: 3,
       color: Colors.grey,
     );
   }
 
-  Widget _drawLabels() {
-    List<Widget> labels = List.generate(
-      // labelsToDisplay,
-      101,
-      (idx) {
-        // print(idx);
-        if (idx == 100) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              isEven(),
-            ],
-          );
-        } else if (idx % 10 == 0) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              isEven(),
-            ],
-          );
-        } else if (idx % 5 == 0) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              isOdd(),
-            ],
-          );
-        } else {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              isOther(),
-            ],
-          );
-        }
-      },
-    );
-
-    return Align(
-      alignment: Alignment.centerRight,
-      child: IgnorePointer(
-        child: Padding(
-          padding: EdgeInsets.only(
-            right: 0.0,
-            bottom: 20,
-            top: 20,
-          ),
-          child: Column(
-            children: labels,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-        ),
-      ),
-    );
-  }
 
   void _showDialog() {
     showDialog(
@@ -311,11 +193,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                // Image.asset(
-                                //   "assets/icons/ic_circle_min.png",
-                                //   height: 25,
-                                //   width: 25,
-                                // ),
+
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Stack(
@@ -346,22 +224,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                     ],
                                   ),
                                 ),
-                                // InkWell(
-                                //   onTap: () {
-                                //     print(userWidth);
-                                //     if (userWidth == null) {
-                                //       userWidth = (1).toString();
-                                //     } else {
-                                //       userWidth =
-                                //           (int.parse(userWidth) + 1).toString();
-                                //     }
-                                //   },
-                                //   child: Image.asset(
-                                //     "assets/icons/ic_circle_add.png",
-                                //     height: 25,
-                                //     width: 25,
-                                //   ),
-                                // )
                               ],
                             ),
                             alignment: Alignment.center,
@@ -398,11 +260,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                     (12.7 * height) -
                                     (6.76 * 25))
                                 .toInt();
-                            print(
-                                '***********************************************');
-                            print(average_calorie);
-                            print(
-                                '***********************************************');
                             // get user token
                             SharedPreferences sharedPreferences =
                                 await SharedPreferences.getInstance();

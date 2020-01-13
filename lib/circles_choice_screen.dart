@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/main.dart';
 import 'package:health/pages/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -324,7 +323,6 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
 
       if(response.statusCode==201){
         print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-//        _successShowDialog();
       }
       else{
         print('shiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit');
@@ -337,27 +335,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
 
   }
 
-  Future _successShowDialog(){
-    return showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: Text("تم بنجاح"),
-            content:
-            Text("من فضلك انقر زر التحديث فى الصفحة الرئيسية لتحميل الدوائر الجديدة"),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text("تم",style: TextStyle(color: Colors.blue),),
-              )
-            ],
-
-
-
-          );
-        }
-    );
-  }
+  
 
   Future _errorShowDialog(){
     return showDialog(
@@ -425,18 +403,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     }
                     setState(() {});
                   },
-//                  trailing: Container(
-//                    width: 50,
-//                    height: 50,
-//                    alignment: Alignment.center,
-//                    decoration: BoxDecoration(
-//                        shape: BoxShape.circle, color: Colors.red),
-//                    child: Icon(
-//                      Icons.check,
-//                      color: Colors.white,
-//                      size: 30,
-//                    ),
-//                  ),
+
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,

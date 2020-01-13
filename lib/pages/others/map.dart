@@ -1,25 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix1;
-import 'package:health/helpers/stepCounterWidget.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vector_math/vector_math.dart';
-import 'dart:math';
 import '../../languages/all_translations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-
-import 'package:latlong/latlong.dart' as lm;
-
 import '../home.dart';
 
 ///********************from here this is the stopwatch********************
@@ -179,7 +170,6 @@ class HundredsState extends State<Hundreds> {
 
   @override
   Widget build(BuildContext context) {
-    String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
     return new Text('',
         style: dependencies.textStyle.copyWith(
           color: Color(0xFF45b6fe),
@@ -191,6 +181,7 @@ class HundredsState extends State<Hundreds> {
 ///********************END of stopwatch*******************************
 ///
 ///
+
 class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
 }
@@ -277,12 +268,10 @@ class _MapPageState extends State<MapPage> {
   double distance = 0;
 
   void draw() {
-    //rint('i am drawing');
     setState(() {
       _polyline.add(Polyline(
         polylineId: PolylineId('line1'),
         visible: true,
-        //latlng is List<LatLng>
         points: latlngSegment,
         width: 5,
         color: Color(0xFF45b6fe),
@@ -290,147 +279,19 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-//  double getDistance({double long1, double long2, double lat1, double lat2}) {
-//    long1 = -long1 * degrees2Radians;
-//    long2 = -long2 * degrees2Radians;
-//
-//    lat1 = lat1 * degrees2Radians;
-//    lat2 = lat2 * degrees2Radians;
-//
-//    double Mlat = (lat1 - lat2) * degrees2Radians;
-//    double Mlong = (long1 - long2) * degrees2Radians;
-//
-//    double earthRadius = 6371e3;
-//
-//    var a = (sin(Mlat / 2) * sin(Mlat / 2)) +
-//        (cos(lat1) * cos(lat2)) * sin(Mlong / 2) * sin(Mlong / 2);
-//    var c = atan2(sqrt(a), sqrt(1 - a));
-//
-//    var distance = earthRadius * c;
-//
-//    return distance;
-//  }
-
-//  List healthKitStepsData;
-//  List fitdata = new List();
-//
-//  void healthKit() async {
-//    steps = 0;
-//    print('Start TIme ---------------> $startTime');
-//    List<int> Steps = new List<int>();
-//    healthKitStepsData = await FitKit.read(
-//      DataType.STEP_COUNT,
-//      startTime,
-//      DateTime.now(),
-//    );
-//
-//    if (healthKitStepsData.isEmpty) {
-//      print('healthKitStepsData is Empty');
-//      steps = 0;
-//    }
-//    else {
-//      //print(healthKitStepsData);
-//      for (int i = 0; i < healthKitStepsData.length; i++) {
-////        print('this is I-------> ${i}');
-////        print(healthKitStepsData[i]);
-//        fitdata.insert(i, healthKitStepsData[i]);
-//        // print('FitData $i -----> ${fitdata[i]}');
-//        Steps.add(fitdata[i].value.round());
-//        print('Steps -------> ${Steps[i]}');
-//      }
-//      for (int i = 0; i <= Steps.length - 1; i++) {
-//
-//        steps = Steps[i] + steps;
-//        print('huh eh tani -_- ->>>>> $steps');
-//      }
-//    }
-//    print("healthKitStepsData ------> $healthKitStepsData");
-//    if (mounted) {
-//      setState(() {});
-//    }
-//  }
 
   void updatePostion() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-    //print(
-    //  "current user position ---------------------------------------> $position  FROM UPDATE");
     setState(() {
       currentPosition = position;
       latlngSegment
           .add(LatLng(currentPosition.latitude, currentPosition.longitude));
       print(latlngSegment.last);
-//      print(LatLng(currentPosition.latitude, currentPosition.longitude));
     });
-
-    //int geoListLength = latlngSegment.length;
-
-//    if (geoListLength <= 1) {
-//      print(
-//          'LAT1 ---------------------------> ${latlngSegment.first.latitude}');
-//      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-//      print('Long1 ---------------------------> ${latlngSegment.first
-//          .longitude}');
-//      print(
-//          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-//
-//      distance = getDistance(
-//        lat1: latlngSegment.first.latitude,
-//        lat2: latlngSegment.last.latitude,
-//        long1: latlngSegment.first.longitude,
-//        long2: latlngSegment.last.longitude,
-//      );
-//      steps = (((distance * 100) * 0.65) + steps).toInt();
-//    }
-//    else {
-//      print('LAT1 ---------------------------> ${latlngSegment
-//          .elementAt(geoListLength - 2)
-//          .latitude}');
-//      print('LAT2 ---------------------------> ${latlngSegment.last.latitude}');
-//      print('Long1 ---------------------------> ${latlngSegment
-//          .elementAt(geoListLength - 2)
-//          .longitude}');
-//      print(
-//          'Long2 ---------------------------> ${latlngSegment.last.longitude}');
-//
-//      distance = getDistance(
-//        lat1: latlngSegment
-//            .elementAt(geoListLength - 2)
-//            .latitude,
-//        lat2: latlngSegment.last.latitude,
-//        long1: latlngSegment
-//            .elementAt(geoListLength - 2)
-//            .longitude,
-//        long2: latlngSegment.last.longitude,
-//      ) + distance;
-//
-//      if (latlngSegment
-//          .elementAt(geoListLength - 2)
-//          .longitude == latlngSegment.last.longitude) {
-//        print('DISTANCE ---------------------------------> ${distance * 100}');
-//        print('Before steps ---------------------------------> $steps');
-//        steps = steps;
-//        print('Before steps ---------------------------------> $steps');
-//      }
-//      else {
-//        print('DISTANCE ---------------------------------> ${distance * 100}');
-//        print('Before steps ---------------------------------> $steps');
-//        steps = (((distance * 100) * 0.65) + steps).toInt();
-//        print('After steps ---------------------------------> $steps');
-//      }
-//    }
-    //draw();
-
-//    print(
-//        'mine,mine,mine,mine,mine,mine,mine,mine,MIIIIIIIIIIIIIIIIIIIINE,mine,mine,mine,mine,');
-    //Timer.periodic(Duration(seconds: 10), (timer) {
-    //  checkRun ? updatePostion() : null;
-    //});
     setState(() {});
   }
-
   Timer time;
-
   DateTime startTime = DateTime.now();
   Position myPosition = Position(latitude: 0, longitude: 0);
 
@@ -443,7 +304,6 @@ class _MapPageState extends State<MapPage> {
   initState() {
     super.initState();
     currentPosition = Position(latitude: 0, longitude: 0);
-    //myPosition = Position(latitude: 0, longitude: 0);
     _getCurrentUserPosition().then((position) async {
       try {
         myPosition = await Geolocator()
@@ -454,10 +314,8 @@ class _MapPageState extends State<MapPage> {
       print(
           "current user position ---------------------------------------> $position");
       setState(() {
-        print('myAss is true');
         firstPosition = position;
         currentPosition = position;
-        print('myAss is ffalse');
       });
 
       _isLoading = false;
@@ -507,13 +365,6 @@ class _MapPageState extends State<MapPage> {
                   fit: StackFit.expand,
                   children: <Widget>[
                     new GoogleMap(
-                      // onTap: (LatLng position) {
-                      //   setState(() {
-                      //     destinationPosition = position;
-                      //   });
-                      //   _addPolyline();
-                      //   print(position);
-                      // },
                       initialCameraPosition: CameraPosition(
                           target: LatLng(
                               myPosition.latitude == null
@@ -525,15 +376,9 @@ class _MapPageState extends State<MapPage> {
                           zoom: 15),
                       onMapCreated: _onMapCreated,
                       polylines: _polyline,
-
-                      // polylines: Set.from(userPlylines),
-                      // markers: markers[_markerIdCounter].flat,
-                      // markers: Set.from(userMarkers),
                       myLocationEnabled: true,
                       myLocationButtonEnabled: true,
                       mapType: MapType.normal,
-                      // tiltGesturesEnabled: true,
-                      // gestureRecognizers: ,
                       gestureRecognizers: Set()
                         ..add(Factory<PanGestureRecognizer>(
                             () => PanGestureRecognizer()))
@@ -543,24 +388,9 @@ class _MapPageState extends State<MapPage> {
                             () => TapGestureRecognizer()))
                         ..add(Factory<VerticalDragGestureRecognizer>(
                             () => VerticalDragGestureRecognizer())),
-                      // gestureRecognizers: Set()
-                      //   ..add(
-                      //     Factory<PanGestureRecognizer>(
-                      //       () => PanGestureRecognizer(),
-                      //     ),
-                      //   )
-                      //   ..add(
-                      //     Factory<VerticalDragGestureRecognizer>(
-                      //       () => VerticalDragGestureRecognizer(),
-                      //     ),
-                      //   ),
                       compassEnabled: true,
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   height: double.infinity,
-                    //   child:Image.asset("assets/imgs/fakeMap.jpeg",fit: BoxFit.cover,),
-                    // ),
+
 
                     new Positioned(
                       top: 50,
@@ -887,28 +717,7 @@ class _MapPageState extends State<MapPage> {
                   ],
                 ),
         )
-//        new Center(
-//          child: Column(
-//            crossAxisAlignment: CrossAxisAlignment.center,
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Container(
-//                padding: EdgeInsets.all(20),
-//                margin: EdgeInsets.only(bottom: 20),
-//                decoration: BoxDecoration(
-//                  borderRadius: BorderRadius.all(Radius.circular(100)),
-//                  color: Colors.redAccent
-//                ),
-//                child: Icon(
-//                  Icons.developer_mode,
-//                  size: 60,
-//                  color: Colors.white,
-//                ),
-//              ),
-//              Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//            ],
-//          ),
-//        )
+
         );
   }
 }

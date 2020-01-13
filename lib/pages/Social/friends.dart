@@ -9,8 +9,6 @@ import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../shared-data.dart';
 import '../Settings.dart';
 
 var name;
@@ -39,7 +37,7 @@ class FriendsPage extends StatefulWidget {
   final MainModel model;
   bool fullScreen;
 
-  FriendsPage(this.model,this.fullScreen);
+  FriendsPage(this.model, this.fullScreen);
 
   @override
   _FriendsPageState createState() => _FriendsPageState();
@@ -67,37 +65,23 @@ class _FriendsPageState extends State<FriendsPage>
     getAll();
   }
 
-
   getAll() {
     widget.model.getFollowers().then((result) {
       if (result != null) {
         setState(() {
           followers = result.data;
-          print('******@@@@@@@@@@@!!!!!!!!!!!!! hi');
-          print(
-              '############################# Result followers= > ${followers}');
-//          setState(() {
-//            loading = false;
-//          });
         });
       } else {}
     });
     setState(() {});
-    print('************************************');
     widget.model.getFollowing().then((result) {
-      print('#########################################');
-      print(' Result following = > ${result.data[0].name}');
       setState(() {});
       if (result != null) {
         setState(() {
           following = result.data;
-//          setState(() {
-//            loading = false;
-//          });
         });
         following = result.data;
         setState(() {});
-        print('FROM THE FOLLOWING SETSTAT');
       } else {}
     }).catchError((err) {
       print(err);
@@ -138,7 +122,6 @@ class _FriendsPageState extends State<FriendsPage>
                                 check = true;
                               });
                               FormData formdata = new FormData();
-                              // get user token
                               SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
                               Map<String, dynamic> authUser = jsonDecode(
@@ -147,25 +130,18 @@ class _FriendsPageState extends State<FriendsPage>
                                 "Authorization":
                                     "Bearer ${authUser['authToken']}",
                               };
-                              print(
-                                  "SharedData.customerData ====> ${SharedData.customerData['id']}");
-                              formdata.forEach((e, r) {
-                                print('{${e} : ${r}}');
-                              });
+                              formdata.forEach((e, r) {});
 
                               response = await dio.get(
                                   "http://api.sukar.co/api/auth/searchCode/$value");
-                              print('Respnsee --- > ${response.data}');
 
                               if (response.data.isEmpty) {
                                 setState(() {
                                   check = true;
-                                  print('====== Null ======');
                                 });
                               } else {
                                 setState(() {
                                   check = false;
-                                  print('====== check ======');
                                 });
                               }
                               setState(() {
@@ -173,8 +149,6 @@ class _FriendsPageState extends State<FriendsPage>
                                 image = response.data['image'].toString();
                                 state = response.data['state'];
                                 id = response.data['id'];
-//                                print(image);
-//                                print(state);
                               });
                               if (response.statusCode != 200 &&
                                   response.statusCode != 201) {
@@ -183,10 +157,7 @@ class _FriendsPageState extends State<FriendsPage>
                                 return true;
                               }
                             } on DioError catch (e) {
-                              print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
                               print(e);
-                              print('*****************************************************************');
-                              print(e.response.data);
                               return false;
                             }
                           },
@@ -211,11 +182,11 @@ class _FriendsPageState extends State<FriendsPage>
                         ),
                       ),
                     ),
-widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()=>Navigator.of(context).pop()):Container(),
-//                     Padding(
-//                       padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 6),
-//                       child: Image.asset("assets/icons/ic_add_friends.png"),
-//                     ),
+                    widget.fullScreen
+                        ? IconButton(
+                            icon: Icon(Icons.arrow_forward_ios),
+                            onPressed: () => Navigator.of(context).pop())
+                        : Container(),
                   ],
                 ),
               ),
@@ -230,11 +201,8 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                     : Column(
                         children: <Widget>[
                           Container(
-//        color: index % 2 == 0 ? Colors.white : Colors.grey[100],
                             child: ListTile(
                               onTap: () {
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => Chat(isDoctor: false)));
                                 FocusScope.of(context)
                                     .requestFocus(new FocusNode());
                               },
@@ -248,7 +216,7 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                             ? NetworkImage(
                                                 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                             : NetworkImage(
-                                                'http://api.sukar.co/${image}'))),
+                                                'http://api.sukar.co/$image'))),
                               ),
                               title: Text(
                                 name,
@@ -287,9 +255,7 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                       print(
                                           'nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                                       print('Response = ${response3.data}');
-                                      setState(() {
-
-                                      });
+                                      setState(() {});
                                     } on DioError catch (e) {
                                       print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                       print(e.response.data);
@@ -372,10 +338,7 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                           ? Colors.white
                                                           : Colors.grey[100],
                                                       child: ListTile(
-                                                        onTap: () {
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => Chat(isDoctor: false)));
-                                                        },
+                                                        onTap: () {},
                                                         leading: new Container(
                                                           width: 40,
                                                           height: 40,
@@ -421,7 +384,9 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                                       .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                    return ProfileMeasurementDetails(following[index].id);
+                                                                    return ProfileMeasurementDetails(
+                                                                        following[index]
+                                                                            .id);
                                                                   }));
                                                                 }),
                                                             following[index]
@@ -440,9 +405,6 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                                     onPressed:
                                                                         () async {
                                                                       try {
-                                                                        print(
-                                                                            'AAAAAAAAAAAAAAAA&&&&&&&&&&AAAAAAAAAAAA');
-                                                                        // get user token
                                                                         SharedPreferences
                                                                             sharedPreferences =
                                                                             await SharedPreferences.getInstance();
@@ -455,29 +417,13 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                                           "Authorization":
                                                                               "Bearer ${authUser['authToken']}",
                                                                         };
-                                                                        print(
-                                                                            'KABL AL POST');
                                                                         response =
                                                                             await dio.post("http://api.sukar.co/api/unfollow/${following[index].id}");
-                                                                        print(
-                                                                            'Response = ${response.data}');
-                                                                        print(
-                                                                            'BEFORE THE GET ALL');
                                                                         setState(
                                                                             () {});
-                                                                        print(
-                                                                            'abl al GETALL');
-                                                                        //getAll();
-                                                                        print(
-                                                                            'ba3d al GETALL');
 
-                                                                        print(
-                                                                            'after THE GET ALL');
                                                                         following
                                                                             .removeAt(index);
-                                                                        following.isEmpty
-                                                                            ? print('a7ba tete')
-                                                                            : print('somaksommak');
                                                                         setState(
                                                                             () {});
                                                                       } on DioError catch (e) {
@@ -527,9 +473,6 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                                         getAll();
                                                                         following
                                                                             .removeAt(index);
-                                                                        following.isEmpty
-                                                                            ? print('FAAAAAAAAADDDDDDDEEEEEEEe')
-                                                                            : print(following);
                                                                         setState(
                                                                             () {});
                                                                       } on DioError catch (e) {
@@ -572,10 +515,7 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                           ? Colors.white
                                                           : Colors.grey[100],
                                                       child: ListTile(
-                                                        onTap: () {
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => Chat(isDoctor: false)));
-                                                        },
+                                                        onTap: () {},
                                                         leading: new Container(
                                                           width: 40,
                                                           height: 40,
@@ -621,7 +561,9 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
                                                                       .push(MaterialPageRoute(
                                                                           builder:
                                                                               (context) {
-                                                                    return ProfileMeasurementDetails(followers[index].id);
+                                                                    return ProfileMeasurementDetails(
+                                                                        followers[index]
+                                                                            .id);
                                                                   }));
                                                                 }),
                                                             followers[index]
@@ -733,30 +675,6 @@ widget.fullScreen? IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: ()
               ],
             ),
           ),
-        )
-//          Center(
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: <Widget>[
-//                Container(
-//                  padding: EdgeInsets.all(20),
-//                  margin: EdgeInsets.only(bottom: 20),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(100)),
-//                      color: Colors.redAccent
-//                  ),
-//                  child: Icon(
-//                    Icons.developer_mode,
-//                    size: 60,
-//                    color: Colors.white,
-//                  ),
-//                ),
-//                Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//              ],
-//            ),
-//          )
-
-        );
+        ));
   }
 }

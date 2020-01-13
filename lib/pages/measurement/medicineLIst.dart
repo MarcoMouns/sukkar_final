@@ -9,8 +9,6 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../globals.dart';
 import '../home.dart';
 import 'itemList.dart';
 

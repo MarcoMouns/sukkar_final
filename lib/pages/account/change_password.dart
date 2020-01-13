@@ -113,25 +113,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                         Expanded(
                           child: ListView(
                             children: <Widget>[
-                              // LogInInput(
-                              //   enabled: true,
-                              //   name: "Code",
-                              //   keyboard: TextInputType.text,
-                              //   autoValidate: _autoValidate,
-                              //   focusNode: _focusNode1,
-                              //   onSaved: (String val) {
-                              //     setState(() {
-                              //       _formData['userName'] = val;
-                              //     });
-                              //   },
-                              //   validator: (String val) {
-                              //     if (val.isEmpty) {
-                              //       return myLocale.languageCode.contains("en")
-                              //           ? "Code is required."
-                              //           : " الكود مطلوب";
-                              //     }
-                              //   },
-                              // ),
                               Center(
                                 child: Text(myLocale.languageCode.contains("en")
                                     ? "Change Password"
@@ -176,7 +157,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                         ),
                         Container(
-                          //margin: MediaQuery.of(context).viewInsets,
                           padding: EdgeInsets.symmetric(
                               vertical: 0.0, horizontal: 30.0),
                           child: _isLoading

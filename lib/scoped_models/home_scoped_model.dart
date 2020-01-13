@@ -26,7 +26,6 @@ mixin HomeScopedModel on Model {
       response = await dio.get(
         "$baseUrl/measurements/date?date=$date",
       );
-//      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;

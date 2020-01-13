@@ -16,7 +16,6 @@ getCustomerData() async {
   if (sharedPreferences.get("authUser") != null) {
     SharedData.customerData = json.decode(sharedPreferences.get("authUser"));
     print('get share = ${SharedData.customerData}');
-//    print('get userName = ${SharedData.customerData['image']}');
   } else {
     SharedData.customerData = null;
   }

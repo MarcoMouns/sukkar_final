@@ -40,15 +40,12 @@ class ApiProvider{
       _specoalists = ( json["specialists"] as List ).map((i)=>
       SpecialityDoc.fromJson(i)).toList();
 
-      print('HERE WE END THE BTICH');
 
       print('55555555555555555555555555555555=====>${_specoalists[1].titleAr}');
       return _specoalists;
     } catch (e) {
       print(e);
     }
-
-    //print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
 
   }
 }

@@ -7,7 +7,6 @@ import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../scoped_models/main.dart';
 import '../../languages/all_translations.dart';
-// import 'package:intl/intl.dart';
 
 class ResetPassVerifyCode extends StatefulWidget {
   final String phone;
@@ -23,14 +22,12 @@ class _ResetPassVerifyCodeState extends State<ResetPassVerifyCode> {
   int minutes;
   int seconds;
   int endDate;
-  // DateFormat format = DateFormat("mm:ss");
   bool stop = false;
 
   final FocusNode _focusNode = FocusNode();
 
   String code;
   bool _isLoading = false;
-  bool _startTimer = false;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -133,8 +130,6 @@ class _ResetPassVerifyCodeState extends State<ResetPassVerifyCode> {
                       children: <Widget>[
                         Expanded(
                           child: ListView(
-                            //    crossAxisAlignment: CrossAxisAlignment.start,
-                            //      mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
@@ -185,15 +180,6 @@ class _ResetPassVerifyCodeState extends State<ResetPassVerifyCode> {
                                     padding: const EdgeInsets.all(20.0),
                                     child: Row(
                                       children: <Widget>[
-                                        // InkWell(
-                                        //   child: Text(
-                                        //       allTranslations.text("edit"),
-                                        //       style: TextStyle(
-                                        //           fontSize: Platform.isIOS
-                                        //               ? 30.0
-                                        //               : 20,
-                                        //           color: Colors.grey)),
-                                        // ),
                                         Expanded(
                                           child: Center(
                                               child: Text(
@@ -293,8 +279,6 @@ class _ResetPassVerifyCodeState extends State<ResetPassVerifyCode> {
                                     textColor: Colors.white,
                                     onPressed: () async {
                                       _focusNode.unfocus();
-                                      // await Navigator.of(context)
-                                      //     .pushNamed('/complete');
                                       _handleSubmit(context, model);
                                     },
                                     child: Container(

@@ -38,7 +38,6 @@ class _BloodPressureState extends State<BloodPressure> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
     return Directionality(
         textDirection: allTranslations.currentLanguage == "ar"
             ? TextDirection.rtl
@@ -168,11 +167,6 @@ class _BloodPressureState extends State<BloodPressure> {
                           SizedBox(
                             width: 20,
                           ),
-//                          _inputText(
-//                              allTranslations.text("Systolic"),
-//                              allTranslations.text("danger"),
-//                              Colors.red,
-//                              myFocusNode2),
                           new Expanded(
                               child: Column(
                                 children: <Widget>[
@@ -243,7 +237,6 @@ class _BloodPressureState extends State<BloodPressure> {
                           myFocusNode2.unfocus();
                           myFocusNode3.unfocus();
                           if (!_formKey.currentState.validate()) {
-//                            _isLoading = false;
                             return;
                           }
                           _formKey.currentState.save();
@@ -263,202 +256,15 @@ class _BloodPressureState extends State<BloodPressure> {
                         },
                       ),
                     ),
-//                  Container(
-//                    height: 65,
-//                    margin: EdgeInsets.all(3),
-//                    decoration: new ShapeDecoration(
-//                        color: Colors.white,
-//                        shadows: [
-//                          BoxShadow(
-//                              color: Colors.grey,
-//                              spreadRadius: 0.5,
-//                              blurRadius: 2)
-//                        ],
-//                        shape: new RoundedRectangleBorder(
-//                            borderRadius: new BorderRadius.all(
-//                                Radius.elliptical(100, 100)))),
-//                    child:new  Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: <Widget>[
-//                        Container(
-//                            margin: EdgeInsets.only(right: 10),
-//                            child: InkWell(
-//                              child: Text(allTranslations.text("Add")),
-//                              onTap: () {
-//                                myFocusNode1.unfocus();
-//                                myFocusNode2.unfocus();
-//                                myFocusNode3.unfocus();
-//                                Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (context) => ItemList(
-//                                            isfood: false,
-//                                          )),
-//                                );
-//                              },
-//                            ),
-//                            padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-//                            decoration: new ShapeDecoration(
-//                                color: Colors.white,
-//                                shadows: [
-//                                  BoxShadow(
-//                                      color: Colors.red,
-//                                      spreadRadius: 0.5,
-//                                      blurRadius: 0)
-//                                ],
-//                                shape: new RoundedRectangleBorder(
-//                                    borderRadius: new BorderRadius.all(
-//                                        Radius.circular(10))))),
-//                        Padding(
-//                          padding: EdgeInsets.all(5),
-//                          child: Row(
-//                            children: <Widget>[
-//                              Text(
-//                                allTranslations.text("medicne"),
-//                                style: TextStyle(
-//                                    color: Colors.blueGrey, fontSize: 22),
-//                              ),
-//                              SizedBox(
-//                                width: 10,
-//                              ),
-//                              Image.asset(
-//                                "assets/icons/ic_med.png",
-//                                width: 40,
-//                                height: 40,
-//                              ),
-//                              Align(
-//                                alignment: Alignment.topRight,
-//                                child: Column(
-//                                  children: <Widget>[
-//                                    SizedBox(
-//                                      height: 10,
-//                                    ),
-//                                    CircleAvatar(
-//                                      backgroundColor: Colors.red,
-//                                      radius: 10,
-//                                      child: Text(
-//                                        "4",
-//                                        style: TextStyle(
-//                                            decorationColor: Colors.red),
-//                                      ),
-//                                    )
-//                                  ],
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                        )
-//                      ],
-//                    ),
-//                  ),
-//                  new Padding(
-//                    padding: EdgeInsets.only(top: 30),
-//                    child: Container(
-//                      decoration: new ShapeDecoration(
-//                          color: Color.fromRGBO(218, 218, 218, 1),
-//                          shape: new RoundedRectangleBorder(
-//                              borderRadius: new BorderRadius.all(
-//                                  Radius.elliptical(10, 10)))),
-//                      padding: EdgeInsets.all(7),
-//                      child: TextField(
-//                        focusNode: myFocusNode3,
-//                        maxLines: 6,
-//                        keyboardType: TextInputType.multiline,
-//                        decoration: InputDecoration(
-//                            hintText: allTranslations.text("notes..."),
-//                            filled: true,
-//                            border: InputBorder.none,
-//                            fillColor: Color.fromRGBO(218, 218, 218, 1)),
-//                      ),
-//                    ),
-//                  )
+
                   ],
                 ),
               ),
             ),
-//              new Center(
-//                child: Column(
-//                  crossAxisAlignment: CrossAxisAlignment.center,
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: <Widget>[
-//                    Container(
-//                      padding: EdgeInsets.all(20),
-//                      margin: EdgeInsets.only(bottom: 20),
-//                      decoration: BoxDecoration(
-//                          borderRadius: BorderRadius.all(Radius.circular(100)),
-//                          color: Colors.redAccent
-//                      ),
-//                      child: Icon(
-//                        Icons.developer_mode,
-//                        size: 60,
-//                        color: Colors.white,
-//                      ),
-//                    ),
-//                    Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//                  ],
-//                ),
-//              )
           ),
         ));
   }
 
-  Widget _inputText(
-      String input, String state, Color color, FocusNode focusNode) {
-
-    return new Expanded(
-        child: Column(
-      children: <Widget>[
-        Stack(
-          alignment: Alignment.bottomRight,
-          children: <Widget>[
-            TextFormField(
-              focusNode: focusNode,
-              textDirection: TextDirection.ltr,
-              keyboardType: TextInputType.number,
-              style: TextStyle(
-                color: color,
-                fontSize: 25,
-              ),
-              onSaved: (String value) {
-                print('value => $value');
-              },
-            ),
-            Text(
-              "mmHg",
-              style: TextStyle(color: color),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 6,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(2.3),
-              color: color,
-              child: Text(
-                state,
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Text(
-                input,
-                style: TextStyle(color: Colors.blueGrey),
-              ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 30,
-        ),
-      ],
-    ));
-  }
 
   void _showBottomSheetBloodPreassure() {
     showModalBottomSheet<void>(

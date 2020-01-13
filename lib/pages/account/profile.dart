@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/main.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
-import 'package:health/pages/home/home.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -14,9 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../circles_choice_screen.dart';
 import '../../languages/all_translations.dart';
 import 'dart:convert';
-
 import '../../shared-data.dart';
-import '../home.dart';
 import 'aboutApp.dart';
 import 'contacts.dart';
 import 'edit_profile.dart';

@@ -5,12 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-/// @omar notify
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:health/%20firebase_notification_handler.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/shared-data.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -33,38 +28,27 @@ import './pages/others/offers.dart';
 import 'Welcome screen.dart';
 
 void main() async {
-  // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
   runApp(MyApp());
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    new FlutterLocalNotificationsPlugin();
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
     // Handle data message
 
     final dynamic data = message['data'];
-    showNotification("String title", "body");
+
   }
 
   if (message.containsKey('notification')) {
     // Handle notification message
     final dynamic notification = message['notification'];
-    showNotification("String title", "body");
+
   }
 }
 
-showNotification(String title, body) async {
-  var andriod = new AndroidNotificationDetails(
-      "channelId", "channelName", "channelDescription",
-      priority: Priority.High, importance: Importance.Max);
-  var iOS = new IOSNotificationDetails();
-  var platform = new NotificationDetails(andriod, iOS);
-  await flutterLocalNotificationsPlugin.show(0, title, body, platform,
-      payload: "wawwawawaw");
-}
+
 
 class SpLash extends StatefulWidget {
   @override
@@ -123,25 +107,10 @@ class _MyAppState extends State<MyApp> {
   String one = "";
   String two = "";
   SharedPreferences sharedPreferences;
-  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
 
   @override
   void initState() {
     super.initState();
-    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    // If you have skipped STEP 3 then change app_icon to @mipmap/ic_launcher
-
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var android = new AndroidInitializationSettings('@mipmap/ic_logo');
-    var iOS = new IOSInitializationSettings();
-    var initSettings = new InitializationSettings(android, iOS);
-
-    flutterLocalNotificationsPlugin.initialize(initSettings,
-        onSelectNotification: onSelectNotification);
-
-    //showNotification("title", "body");
 
     FirebaseMessaging().configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -163,7 +132,6 @@ class _MyAppState extends State<MyApp> {
             ],
           ),
         );
-        showNotification("title", "body");
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
@@ -208,25 +176,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-// Method 1
-  Future _showNotificationWithSound() async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        sound: 'slow_spring_board',
-        importance: Importance.Max,
-        priority: Priority.High);
-    var iOSPlatformChannelSpecifics =
-        new IOSNotificationDetails(sound: "slow_spring_board.aiff");
-    var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'New Post',
-      'How to Show Notification in Flutter',
-      platformChannelSpecifics,
-      payload: 'Custom_Sound',
-    );
-  }
 
   void getAuthentication() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -238,7 +187,7 @@ class _MyAppState extends State<MyApp> {
     return ScopedModel<MainModel>(
         model: model,
         child: MaterialApp(
-          //debugShowMaterialGrid: true,
+
           showSemanticsDebugger: false,
           theme: ThemeData(
             canvasColor: Colors.white,
@@ -247,7 +196,6 @@ class _MyAppState extends State<MyApp> {
             accentColor: Colors.white,
             bottomAppBarColor: Colors.white,
             secondaryHeaderColor: Colors.white,
-            //  fontFamily: 'najed'
           ),
           title: allTranslations.text("app_title"),
           debugShowCheckedModeBanner: false,
@@ -264,9 +212,7 @@ class _MyAppState extends State<MyApp> {
             '/landPage': (BuildContext context) => LandPage(),
             '/logIn': (BuildContext context) => LogIn(),
             '/newUser': (BuildContext context) => NewUser(),
-            // '/verify': (BuildContext context) => Verify(),
             '/reset': (BuildContext context) => Reset(),
-            // '/complete': (BuildContext context) => Complete(),
             '/home': (BuildContext context) => MainHome(),
             '/editProfile': (BuildContext context) => EditProfile(),
             '/map': (BuildContext context) => MapPage(),

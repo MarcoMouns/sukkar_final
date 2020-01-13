@@ -10,7 +10,6 @@ mixin ArticlesScopedModel on Model {
   Response response;
   Dio dio = new Dio();
    fetchUserArticles() async {
-//    print('ss');
     try {
       SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();

@@ -12,7 +12,6 @@ final String baseUrl = 'http://api.sukar.co/api';
 mixin MealScopedModel on Model {
   Response response;
   Dio dio = new Dio();
-  // FoodsModel foodsModel = FoodsModel();
 
   Future<MealModel> fetchMeals() async {
     try {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:async' as prefix0;
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,11 +7,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
-import 'package:health/helpers/stepCounterWidget.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
 import 'package:health/pages/measurement/addsugar.dart';
@@ -20,45 +16,24 @@ import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
-
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swipedetector/swipedetector.dart';
-import '../../main.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'package:health/pages/home/articleDetails.dart';
-import 'package:flutter/foundation.dart';
 import 'package:health/pages/Settings.dart';
 import '../../languages/all_translations.dart';
-import 'package:health/pages/Settings.dart' as settings;
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
-import 'articlesCategory.dart';
 import 'measurementsDetailsPage.dart';
 
-
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    new FlutterLocalNotificationsPlugin();
-
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
-  if (message.containsKey('data')) {
-    // Handle data message
+  if (message.containsKey('data')) {}
 
-    final dynamic data = message['data'];
-    showNotification("String title", "body");
-  }
-
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
-    showNotification("String title", "body");
-  }
+  if (message.containsKey('notification')) {}
 }
-
 
 class HomePage extends StatefulWidget {
   final MainModel model;
@@ -123,12 +98,13 @@ class _HomePageState extends State<HomePage> {
   int goalOfWater;
   int stepsGoal;
   int distanceGoal;
-
-  init(BuildContext context) {
-    _scrollController = ScrollController(
-        initialScrollOffset: MediaQuery.of(context).size.width - 130);
-  }
-
+  int calTarget = 0;
+  bool circleCalorie = true;
+  bool circleSteps = true;
+  bool circleDistance = true;
+  bool circleWater = false;
+  bool circleHeart = false;
+  bool circleBlood = false;
   List healthKitStepsData;
   List healthKitDistanceData;
   List healthKitCaloriesData;
@@ -138,6 +114,38 @@ class _HomePageState extends State<HomePage> {
   static TimeOfDay t = TimeOfDay(hour: 1, minute: 0);
   static DateTime now = new DateTime.now();
   DateTime night12 = DateTime(now.year, now.month, now.day, t.hour, t.minute);
+  int totalSteps = 0;
+  bool flag = true;
+  int step = 0;
+  List<Widget> coCircles = new List<Widget>();
+  Widget widgetCircleCalorie;
+  Widget widgetCircleSteps;
+  Widget widgetCircleDistance;
+  Widget widgetCircleWater;
+  Widget widgetCircleHeart;
+  Widget widgetCircleBlood;
+  Color greenColor = Color.fromRGBO(229, 246, 211, 1);
+  Color redColor = Color.fromRGBO(253, 238, 238, 1);
+  Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
+
+  init(BuildContext context) {
+    _scrollController = ScrollController(
+        initialScrollOffset: MediaQuery.of(context).size.width - 130);
+  }
+
+  getHomeData() {
+    getMeasurementsForDay(date);
+    calculateSteps();
+    dummySelectedDate = DateTime.now();
+    selectedDate = DateTime.now();
+    emptylists();
+    fetchMeals();
+    getCustomerData();
+    getMeasurements(date);
+    getHomeFetch();
+    getcal();
+    setFirebaseImage();
+  }
 
   Future<List<int>> healthKit() async {
     List<int> Steps = new List<int>();
@@ -191,7 +199,7 @@ class _HomePageState extends State<HomePage> {
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-      var res = await http.post("$baseUrl/measurements?day_Calories=$calories", body: {
+      await http.post("$baseUrl/measurements?day_Calories=$calories", body: {
         "distance": "$distance",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -201,7 +209,7 @@ class _HomePageState extends State<HomePage> {
     if (disctance.isEmpty) {
       distance = 0;
     } else {
-      distance=0;
+      distance = 0;
       for (int i = 0; i <= disctance.length - 1; i++) {
         print('huh eh tani -_- ->>>>> this is distance $distance');
         distance = disctance[i] + distance;
@@ -213,11 +221,6 @@ class _HomePageState extends State<HomePage> {
           jsonDecode(sharedPreferences.getString("authUser"));
 
       print('-----------------------omgggggggg----------->');
-      Map userHeader = {
-        "Content-type": "application/json",
-        "Acce0pt": "application/json",
-        "Authorization": "Bearer ${authUser['authToken']}"
-      };
 
       var response = await http.post("$baseUrl/update-distance", body: {
         "distance": "$distance",
@@ -244,31 +247,15 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  int totalSteps = 0;
-  bool flag = true;
-  int step = 0;
-
   void calculateSteps() async {
-  
-  
-
     int steps = 0;
     List<int> StepsList = new List<int>();
     StepsList = await healthKit();
-    print("=====================================================");
-    print("=====================================================");
-    print("=====================================================");
-    print(healthKitStepsData);
-    print("=====================================================");
-    print("=====================================================");
-    print("=====================================================");
 
     if (StepsList.isEmpty) {
       totalSteps = 0;
-      print('a7na hna men al zerooooooooooooooooo');
     } else {
       for (int i = 0; i <= StepsList.length - 1; i++) {
-        print('huh eh tani -_- ->>>>> $steps');
         steps = StepsList[i] + steps;
       }
       if (flag == true) {
@@ -282,12 +269,6 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
 
-      print('-----------------------omgggggggg----------->');
-      Map userHeader = {
-        "Content-type": "application/json",
-        "Acce0pt": "application/json",
-        "Authorization": "Bearer ${authUser['authToken']}"
-      };
       var response =
           await http.post("http://api.sukar.co/api/update-steps", body: {
         "steps": "$step",
@@ -299,16 +280,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
+    getHomeData();
     setState(() {
       Settings.currentIndex = 0;
     });
 
-FirebaseMessaging().configure(
-  
+    FirebaseMessaging().configure(
       onMessage: (Map<String, dynamic> message) async {
         print("oaaaaaaaaaaaanMessage $message");
-        
-          showDialog(
+
+        showDialog(
           context: context,
           builder: (context) => AlertDialog(
             content: ListTile(
@@ -323,7 +304,6 @@ FirebaseMessaging().configure(
             ],
           ),
         );
-        //showNotification("title", "body");
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
@@ -333,46 +313,11 @@ FirebaseMessaging().configure(
         print("onResume $message");
       },
     );
-
-
-
-    getMeasurementsForDay(date);
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
-    dummySelectedDate = DateTime.now();
-    selectedDate = DateTime.now();
-    emptylists();
-    fetchMeals();
-    print(sugerToday);
-    getCustomerData();
-    getMeasurements(date);
-    getHomeFetch();
-    getcal();
-    setFirebaseImage();
-    calculateSteps();
 
     const oneSec = const Duration(minutes: 15);
-    new Timer.periodic(oneSec, (Timer t) {
-      dummySelectedDate = DateTime.now();
-      selectedDate = DateTime.now();
-      emptylists();
-      fetchMeals();
-      print(sugerToday);
-      getCustomerData();
-      getMeasurements(date);
-      getHomeFetch();
-      getcal();
-      setFirebaseImage();
-      calculateSteps();
-      setState(() {});
-    });
-
-    // flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    // var android = new AndroidInitializationSettings('@mipmap/ic_logo');
-    // var iOS = new IOSInitializationSettings();
-    // var initSettings = new InitializationSettings(android, iOS);
-    // flutterLocalNotificationsPlugin.initialize(initSettings,
-    //     onSelectNotification: onSelectNotification);
+    new Timer.periodic(oneSec, (Timer t) => getHomeData());
   }
 
   Future onSelectNotification(String payload) async {
@@ -386,17 +331,6 @@ FirebaseMessaging().configure(
       },
     );
   }
-
-  // static showNotification(String title, body) async {
-  //   var andriod = new AndroidNotificationDetails(
-  //       "channelId", "channelName", "channelDescription",
-  //       priority: Priority.High, importance: Importance.Max);
-  //   var iOS = new IOSNotificationDetails();
-
-  //   var platform = new NotificationDetails(andriod, iOS);
-  //   await flutterLocalNotificationsPlugin.show(0, title, body, platform,
-  //       payload: "");
-  // }
 
   Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
@@ -422,17 +356,7 @@ FirebaseMessaging().configure(
       Rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-    // print(a);
   }
-
-  int calTarget = 0;
-  bool circleCalorie = true;
-  bool circleSteps = true;
-  bool circleDistance = true;
-  bool circleWater = false;
-  bool circleHeart = false;
-  bool circleBlood = false;
 
   getValuesSF() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -443,10 +367,6 @@ FirebaseMessaging().configure(
     };
     response =
         await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
-
-    print('hna al respnese bta3 me ea baaaaaaaaaaaaaaaaah');
-    print('=>>>>>>>>>>>$response');
-
     circleBlood = response.data['user']['circles']['blood'];
     circleHeart = response.data['user']['circles']['heart'];
     circleSteps = response.data['user']['circles']['steps'];
@@ -472,36 +392,22 @@ FirebaseMessaging().configure(
     if (Rcalories > ncal && ncal != 0) {
       calTarget = Rcalories - ncal;
     }
-
-    print('HEEEEEEEEEEEEEEEEERRRRRREEEEEEEEEEEE');
-
-    print('BLood => $circleBlood');
-    print('heart => $circleHeart');
-    print('water => $circleWater');
-    print('cal => $circleCalorie');
-    print('distance => $circleDistance');
-
     initialCircles(169.0285);
     initListOfCircles();
     setState(() {});
     loading = false;
     loading1 = false;
     loading2 = false;
-    print('5araaaaaa a7ba tete latete ketere grrrrrrrrrrrrrrrrrrrrrrrrrrr');
-    print(SharedData.customerData['fuid']);
     setState(() {});
   }
 
   static Future setFirebaseImage() async {
-    //print(SharedData.customerData['fuid']);
-    //print(SharedData.customerData['image']);
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
         .updateData({
       'photoUrl': SharedData.customerData['image'],
     });
-    print('EEEEEEEEEEEEEEEEEEEEEEEEEEEEENNNNNNNNND');
   }
 
   int ncal = 1;
@@ -511,9 +417,6 @@ FirebaseMessaging().configure(
     if (ncal == null || ncal == 0) {
       ncal = 0;
     }
-    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
-    print(ncal);
-    print('YOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYOYO');
     setState(() {});
   }
 
@@ -524,7 +427,6 @@ FirebaseMessaging().configure(
   Future sendWorkingHours() async {
     Response response;
 
-    // try {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
@@ -546,8 +448,6 @@ FirebaseMessaging().configure(
 
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
-
-    // try {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
@@ -594,22 +494,6 @@ FirebaseMessaging().configure(
     distanceGoal = response.data["Measurements"]["distance_goal"] == null
         ? 0
         : response.data["Measurements"]["distance_goal"];
-    calculateSteps();
-
-    // if (cupOfWater >= goalOfWater && goalOfWater != 0) {
-    //   showNotification(allTranslations.text("dailyGoal_Completed"),
-    //       allTranslations.text("waterGoal_Completed"));
-    // }
-
-    // if (calories >= calGoals && calories != 0) {
-    //   showNotification(allTranslations.text("dailyGoal_Completed"),
-    //       allTranslations.text("caloriesGoal_Completed"));
-    // }
-
-    print('@rami HNA KOBAIET 2om AL MAYA');
-    print(calGoals);
-    print(calories);
-    setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -642,15 +526,13 @@ FirebaseMessaging().configure(
       }
 
       datesOfMeasures = date;
-      print(datesOfMeasures);
       measuresData = suger;
       print(measuresData);
+      print(datesOfMeasures);
       setState(() {});
     } catch (e) {
       print("error =====================");
     }
-
-    print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
   }
 
@@ -666,7 +548,7 @@ FirebaseMessaging().configure(
   void incrementWeek() {
     String dummyDate;
     istrue = true;
-    dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
+    dummySelectedDate = dummySelectedDate.add(new Duration(days: 7));
     emptylists();
     setState(() {});
     print(
@@ -682,10 +564,10 @@ FirebaseMessaging().configure(
             '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
         print(date);
         getMeasurements(dummyDate);
-
         selectedDate = selectedDate;
       });
     });
+    setState(() {});
   }
 
   void decrementWeek() {
@@ -709,6 +591,7 @@ FirebaseMessaging().configure(
         selectedDate = selectedDate;
       });
     });
+    setState(() {});
   }
 
   getHomeFetch() {
@@ -724,22 +607,11 @@ FirebaseMessaging().configure(
         print('*****************************************************');
         if (result != null) {
           setState(() {
-            // Measurements
-
             dataHome = result.measurements;
-            print(sugerToday);
-
-            print(dataHome.sugar);
-            getMeasurementsForDay(date);
-            print(dataHome.sugar);
-            // Sugar Charts
             Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
               setState(() {
-                // Articles banner
-
                 banners = result.banners;
                 loading1 = false;
-                getMeasurementsForDay(date);
               });
             });
           });
@@ -750,25 +622,6 @@ FirebaseMessaging().configure(
     setState(() {});
   }
 
-  //------------------ END STEP COUNTER -------------//
-
-  void _handleSubmitted(
-      BuildContext context, MainModel model, var value, String type) {
-    model.addMeasurements(type, value).then((result) async {
-//      print(result);
-    });
-  }
-
-  List<Widget> coCircles = new List<Widget>();
-  Widget widgetCircleCalorie;
-  Widget widgetCircleSteps;
-  Widget widgetCircleDistance;
-  Widget widgetCircleWater;
-  Widget widgetCircleHeart;
-  Widget widgetCircleBlood;
-  Color greenColor = Color.fromRGBO(229, 246, 211, 1);
-  Color redColor = Color.fromRGBO(253, 238, 238, 1);
-  Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
 
   void initListOfCircles() {
     coCircles.clear();
@@ -796,7 +649,7 @@ FirebaseMessaging().configure(
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome.calories  == null
+        percent: dataHome.calories == 0 || dataHome.calories == null
             ? 0
             : ((dataHome.calories / calGoals) > 1)
                 ? 1
@@ -810,13 +663,13 @@ FirebaseMessaging().configure(
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
 
     widgetCircleSteps = MainCircles.steps(
-        percent: dataHome.steps == null
+        percent: dataHome.steps == 0 || dataHome.steps == null
             ? 0
             : (dataHome.steps / stepsGoal) > 1
                 ? 1
                 : ((dataHome.steps / stepsGoal)),
         context: context,
-        steps: dataHome.steps == null
+        steps: dataHome.steps == null || dataHome.steps == 0
             ? 0
             : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
@@ -825,9 +678,9 @@ FirebaseMessaging().configure(
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: dataHome.distance == null || dataHome.distance==0
+        percent: dataHome.distance == null || dataHome.distance == 0.0
             ? 0
-            : ((dataHome.distance / distanceGoal)) > 1
+            : ((dataHome.distance / distanceGoal)).toDouble() > 1.0
                 ? 1
                 : ((dataHome.distance / distanceGoal)),
         context: context,
@@ -934,11 +787,6 @@ FirebaseMessaging().configure(
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
                                     FriendsPage(model, true)));
-//                            widget.pageController.animateToPage(3,
-//                                duration: Duration(
-//                                  milliseconds: 10,
-//                                ),
-//                                curve: Curves.bounceIn);
                           },
                           child: Stack(
                             alignment: Alignment.centerLeft,
@@ -1138,9 +986,6 @@ FirebaseMessaging().configure(
                                   ),
                                   InkWell(
                                     onTap: () {
-//                                          widget.pageController.animateToPage(0,
-//                                              curve: Curves.bounceIn,
-//                                              duration: Duration(milliseconds: 10));
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) => MapPage()));
@@ -1396,13 +1241,7 @@ FirebaseMessaging().configure(
                                                               CrossAxisAlignment
                                                                   .end,
                                                           children: <Widget>[
-                                                            SwipeDetector(
-                                                              onSwipeRight: () {
-                                                                incrementWeek();
-                                                              },
-                                                              onSwipeLeft: () {
-                                                                decrementWeek();
-                                                              },
+                                                            GestureDetector(
                                                               child: Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
@@ -1844,7 +1683,7 @@ FirebaseMessaging().configure(
       list2.add(Column(
         children: <Widget>[
           Text(
-            val == 0 ? "" : "${val}",
+            val == 0 ? "" : "$val",
             style: TextStyle(
                 color: barColor,
                 fontSize: MediaQuery.of(context).size.width * 15 / 720),
@@ -1871,9 +1710,7 @@ FirebaseMessaging().configure(
 
 class CirclesDelegate extends MultiChildLayoutDelegate {
   final double raduis;
-
   CirclesDelegate(this.raduis);
-
   @override
   void performLayout(Size size) {
     if (hasChild(1)) {

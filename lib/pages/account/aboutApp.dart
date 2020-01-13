@@ -31,6 +31,7 @@ class AboutAppState extends State<AboutApp> {
   }
 
   initState() {
+    super.initState();
     getAbout();
   }
 

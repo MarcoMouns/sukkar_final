@@ -122,50 +122,58 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                       style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
                   ),
-                  InkWell(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Column(
-                        children: <Widget>[
-                          Image.asset(
-                            "assets/icons/youtube.png",
-                            width: 50,
-                            height: 50,
-                          ),
-                          Text(
-                            allTranslations.text("Check video"),
-                            style: TextStyle(fontSize: 12, color: Colors.blue),
+                  Container(
+                    child: video != null
+                        ? InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Column(
+                                children: <Widget>[
+                                  Image.asset(
+                                    "assets/icons/youtube.png",
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    allTranslations.text("Check video"),
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.blue),
+                                  )
+                                ],
+                              ),
+                            ),
+                            onTap: () async {
+                              var url = '$video';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
                           )
-                        ],
-                      ),
-                    ),
-                    onTap: () async {
-                      var url = '$video';
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
+                        : Container(),
                   ),
-                  InkWell(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        allTranslations.text("simple Pdf"),
-                        style: TextStyle(color: Colors.blue),
-                        textAlign: TextAlign.center,
+                  Container(
+                    child: file != null ? InkWell(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          allTranslations.text("simple Pdf"),
+                          style: TextStyle(color: Colors.blue),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                    onTap: () async {
-                      var url = '$file';
-                      if (await canLaunch(url)) {
-                        await launch(url);
-                      } else {
-                        throw 'Could not launch $url';
-                      }
-                    },
+                      onTap: () async {
+                        var url = '$file';
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ):Container(),
                   ),
+                
                 ],
               ),
       ),

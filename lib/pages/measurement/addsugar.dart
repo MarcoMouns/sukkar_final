@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/bluetooth/bluetoothDevice.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
@@ -72,9 +71,6 @@ class _AddSugarState extends State<AddSugar> {
       var response = await dio.post(
           "$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
-      print("$baseUrl/measurements/sugar?sugar=$suger&date=$date");
-      //print(response.data);
-      getMeasurementsForDay(dateString);
     } catch (e) {
       print("error =====================");
     }

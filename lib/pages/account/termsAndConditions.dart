@@ -29,6 +29,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
   }
 
   initState() {
+    super.initState();
     getTerms();
   }
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
-import 'package:health/pages/home/measurementsDetailsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../measurementsPageCircles.dart';
 import '../home/MainCircle/Circles.dart';

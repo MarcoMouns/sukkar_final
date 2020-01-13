@@ -30,7 +30,7 @@ mixin MeasurementsScopedModel on Model {
       formdata.add(type.toString(), value);
       formdata.add("date", formatted);
       formdata.forEach((e, r) {
-        print('{${e} : ${r}}');
+        print('{$e : $r}');
       });
 
       response = await dio.post("$baseUrl/measurements", data: formdata);

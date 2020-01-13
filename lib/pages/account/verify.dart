@@ -23,14 +23,12 @@ class _VerifyState extends State<Verify> {
   int minutes;
   int seconds;
   int endDate;
-  // DateFormat format = DateFormat("mm:ss");
   bool stop = false;
 
   final FocusNode _focusNode = FocusNode();
 
   String code;
   bool _isLoading = false;
-  bool _startTimer = false;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -60,7 +58,6 @@ class _VerifyState extends State<Verify> {
         setState(() {
           _isLoading = false;
         });
-        // go to check code page
         Navigator.of(context).pushReplacement(
             PageRouteBuilder(pageBuilder: (_, __, ___) {
               return Complete(widget.phone);
@@ -69,13 +66,9 @@ class _VerifyState extends State<Verify> {
         setState(() {
           _isLoading = false;
         });
-        // show error
         showInSnackBar("ERROR");
       }
 
-//      Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) {
-//        return Complete(widget.phone);
-//      }));
     });
   }
 
@@ -140,8 +133,6 @@ class _VerifyState extends State<Verify> {
                         children: <Widget>[
                           Expanded(
                             child: ListView(
-                              //    crossAxisAlignment: CrossAxisAlignment.start,
-                              //      mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(20.0),
@@ -306,8 +297,6 @@ class _VerifyState extends State<Verify> {
                                       textColor: Colors.white,
                                       onPressed: () async {
                                         _focusNode.unfocus();
-                                        // await Navigator.of(context)
-                                        //     .pushNamed('/complete');
                                         _handleSubmit(context, model);
                                       },
                                       child: Container(

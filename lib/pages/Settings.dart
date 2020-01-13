@@ -107,7 +107,6 @@ class _LogInInputState extends State<LogInInput> {
         autovalidate: widget.autoValidate,
         enabled: widget.enabled,
         controller: widget.controller,
-        //onFieldSubmitted: widget.onFieldSubmitted,
         decoration:
             new InputDecoration(labelText: allTranslations.text(widget.name)),
         keyboardType: widget.keyboard,
@@ -156,8 +155,6 @@ class _LoginTypeState extends State<LoginType> {
                         color: Colors.red,
                         size: 25.0,
                       )
-//                  : SvgPicture.asset(widget.svg,
-//                      color: Colors.white, width: 25.0),
                 ),
           ),
         ),
@@ -322,7 +319,6 @@ class _BottomSheetState extends State<BottomSheet> {
           _value = int.parse(_controller.text);
         }
         if (_controller.text.contains(".")) {
-          // _controller.text.replaceAll(".", "");
 
         }
 
@@ -419,7 +415,6 @@ class _BottomSheetState extends State<BottomSheet> {
                             ),
                             onPressed: () {
                               widget.onSave(_controller.text);
-                              var formData =  _value;
                               Navigator.of(context).pop();
                             },
                           )
@@ -604,13 +599,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    double bottomNavigationHeight = kBottomNavigationBarHeight;
-    try {
-      bottomNavigationHeight =
-          widget.pageController.page > 1 ? 65 : widget.pageController.page * 65;
-    } catch (e) {
-      bottomNavigationHeight = 65.0;
-    }
 
     _getDate();
     return Container(

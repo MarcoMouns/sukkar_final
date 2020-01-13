@@ -63,9 +63,6 @@ mixin DoctorScopedModel on Model {
       response = await dio.get(
         "$baseUrl/doctors?specialist_id=$id",
       );
-      print('${baseUrl}');
-      print('/doctors?specialist_id=${id}');
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -74,12 +71,7 @@ mixin DoctorScopedModel on Model {
       notifyListeners();
       return DoctorSpecialists.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return null;
     }
@@ -136,7 +128,7 @@ mixin DoctorScopedModel on Model {
       formData.add("user_recieve", userRecieve);
       formData.add("body", message);
       formData.forEach((e, r) {
-        print('{${e} : ${r}}');
+
       });
 
       response = await dio.post("$baseUrl/sendMessage", data: formData);

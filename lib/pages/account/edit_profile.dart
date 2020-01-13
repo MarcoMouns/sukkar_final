@@ -58,7 +58,6 @@ class EditProfileUserState extends State<EditProfileUser> {
       };
       response =
           await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
-      //print(response.data);
       email = response.data['user']['email'];
       name = response.data['user']['name'];
 
@@ -90,12 +89,6 @@ class EditProfileUserState extends State<EditProfileUser> {
 
       FormData formdata = new FormData();
 
-      // var body = {
-      //   "image":profilePicture,
-      //   "email":email,
-      //   "name":name,
-      //   "password":"111111",
-      // };
       formdata.add('name', name);
       formdata.add('email', email);
       formdata.add('password', password);

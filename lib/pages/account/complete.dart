@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../../helpers/color_transform.dart';
@@ -164,9 +163,8 @@ class _CompleteState extends State<Complete> {
 
   Future<Null> CreateCFSaccount(String uid) async {
     if (!_formKey.currentState.validate() ||
-//        _formData['image'] == null ||
         _formData['phone'] == null) {
-      _autoValidate = true; // Start validating on every change.
+      _autoValidate = true; 
       print(_formData);
 
       showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
@@ -175,12 +173,6 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = true;
       });
-      print(
-          '************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
-      print(_formData['userName']);
-      print(img);
-      print(
-          '************************************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*');
       Firestore.instance.collection('users').document(uid).setData({
         'nickname': _formData['userName'],
         'id': uid,
@@ -190,11 +182,8 @@ class _CompleteState extends State<Complete> {
       });
 
       prefs = await SharedPreferences.getInstance();
-
-      // Write data to local
       await prefs.setString('Rid', uid);
       await prefs.setString('Rnickname', _formData['userName']);
-      //await prefs.setString('RphotoUrl', _formData['image']);
     }
   }
 
@@ -234,21 +223,12 @@ class _CompleteState extends State<Complete> {
             _isLoading = false;
           });
 
-          // show registration success
           await Navigator.of(context).pushNamedAndRemoveUntil(
               '/home', (Route<dynamic> route) => false);
-//          showInSnackBar(myLocale.languageCode.contains("en")
-//              ? "Registratin Completed successfully"
-//              : "تم التسجيل بنجاح");
-          // go to Home  page
-//          Navigator.of(context)
-//              .pushNamedAndRemoveUntil('/home', ModalRoute.withName('/home'));
         } else {
           setState(() {
             _isLoading = false;
           });
-          // show registration failed
-          // and show error message
           showInSnackBar(myLocale.languageCode.contains("en")
               ? "The email has already been taken."
               : "البريد الالكترونى موجود مسبقا");
@@ -299,20 +279,6 @@ class _CompleteState extends State<Complete> {
                                     InkWell(
                                       onTap: () => _imagePicker(context),
                                       child: UserImage(_formData['image']),
-
-                                      // CircleAvatar(
-                                      //   backgroundColor: Colors.redAccent,
-                                      //   radius: 50.0,
-                                      //   child: _formData['image'] != null
-                                      //       ? Image.file(
-                                      //           _formData['image'],
-                                      //           width: 100,
-                                      //           height: 100,
-                                      //           fit: BoxFit.fill,
-                                      //         )
-                                      //       : Icon(Icons.person,
-                                      //           size: 50, color: Colors.white),
-                                      // ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -480,22 +446,6 @@ class _CompleteState extends State<Complete> {
                                     return null;
                                 },
                               ),
-                              // new LogInInput(
-                              //   enabled: true,
-                              //   name: "passwordConfirm",
-                              //   autoValidate: _autoValidate,
-                              //   controller: _passwrodController,
-                              //   isPassword: true,
-                              //   focusNode: _focusNode5,
-                              //   validator: (String val) {
-                              //     if (_passwrodController.text != val) {
-                              //       isMatched = false;
-                              //       return myLocale.languageCode.contains("en")
-                              //           ? "Password don't match."
-                              //           : "الرقم السرى غير صحيح";
-                              //     }
-                              //   },
-                              // ),
                               new Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -585,57 +535,6 @@ class _CompleteState extends State<Complete> {
         ));
   }
 
-  _showPrivacyPolicy(MainModel model) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              allTranslations.text("Privacy policy"),
-            ),
-            content: SingleChildScrollView(
-                child: GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return TermsAndConditions();
-                }));
-              },
-              child: Text(
-                "قراءة الشروط و الاحكام",
-                style: TextStyle(color: Colors.blue),
-              ),
-            )),
-            actions: <Widget>[
-              InkWell(
-                child: Text(
-                  allTranslations.text("Agree"),
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () async {
-//                  Navigator.of(context).pop();
-                  uidx = await CreateFirebaseAccount();
-                  _formData['fuid'] = uidx;
-                  CreateCFSaccount(uidx);
-                  _handleSubmitted(
-                    context,
-                    model,
-                  );
-                },
-              ),
-              InkWell(
-                child: Text(
-                  allTranslations.text("disagree"),
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        });
-  }
 }
 
 class UserImage extends StatelessWidget {
@@ -648,9 +547,6 @@ class UserImage extends StatelessWidget {
     if (imageFile != null) {
       userImage = FileImage(imageFile);
     }
-    // else if (imageUrl != null && imageFile == null) {
-    //   userImage = NetworkImage(imageUrl);
-    // }
     return Center(
         child: Stack(
       alignment: Alignment.center,
