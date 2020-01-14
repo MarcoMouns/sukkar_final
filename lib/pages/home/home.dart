@@ -49,8 +49,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 //width of the screen to init the siwiper postion
   var dateSplit;
-  //static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  StreamSubscription iosSubscription;
 //to know where it's first time or not user to idnitfy swiper postion
   bool _firstPageLoad = true;
 //scrollController to init the swiper postion
@@ -264,21 +265,38 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
-    getHomeData();
-    setState(() {
-      Settings.currentIndex = 0;
+    FirebaseMessaging().getToken().then((t) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Dio dio = new Dio();
+      Map<String, dynamic> authUser = jsonDecode(prefs.getString("authUser"));
+
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      print("Bearer ${authUser['authToken']}");
+
+      var res = await dio.post(
+          "http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
+          options: Options(headers: headers));
+          print(res.data);
     });
 
-    FirebaseMessaging().configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("oaaaaaaaaaaaanMessage $message");
+    if (Platform.isIOS) {
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+        // save the token  OR subscribe to a topic here
+      });
 
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    }
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
+              title: Text(message['aps']['alert']['title-loc-key']),
+              subtitle: Text(message['aps']['alert']['loc-key']),
             ),
             actions: <Widget>[
               FlatButton(
@@ -289,31 +307,25 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch $message");
+        print("onLaunch: $message");
+        // TODO optional
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume $message");
+        print("onResume: $message");
+        // TODO optional
       },
     );
+    getHomeData();
+    setState(() {
+      Settings.currentIndex = 0;
+    });
+
     super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
 
     const oneSec = const Duration(minutes: 15);
     new Timer.periodic(oneSec, (Timer t) => getHomeData());
-  }
-
-  Future onSelectNotification(String payload) async {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return new AlertDialog(
-          title: Text("PayLoad"),
-          content: Text("Payload : $payload"),
-        );
-      },
-    );
   }
 
   Future<void> fetchMeals() async {
@@ -354,12 +366,10 @@ class _HomePageState extends State<HomePage> {
     circleCalorie = response.data['user']['circles']['calorie'];
     circleDistance = response.data['user']['circles']['distance'];
 
-
     ncal = response.data['user']['average_calorie'];
     if (ncal == null) {
       ncal = 0;
     }
-
 
     if (Rcalories > ncal && ncal != 0) {
       calTarget = Rcalories - ncal;
@@ -414,7 +424,6 @@ class _HomePageState extends State<HomePage> {
 
       response2 = await dio.put("$baseUrl/doctors/update-work-hours?minutes=15",
           options: Options(headers: headers));
-
     }
   }
 
@@ -576,7 +585,6 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {});
   }
-
 
   void initListOfCircles() {
     coCircles.clear();
