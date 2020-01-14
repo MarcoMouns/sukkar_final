@@ -58,15 +58,8 @@ class _BarChartsState extends State<BarCharts>
         loading = false;
       });
       if (response.statusCode != 200 && response.statusCode != 201) {
-        print('eror');
       }
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return false;
     }
   }
@@ -145,36 +138,8 @@ class _BarChartsState extends State<BarCharts>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _barChart(context, colors[0], acturalHeight),
-//          _barChart(context, colors[1], 2),
-//          _barChart(context, colors[2], 3),
+
         ]);
   }
 }
 
-// class BetterCharts extends CustomPainter {
-//   Color color;
-//   BetterCharts({this.color});
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     //   Rect r=c.fromCircle(radius: 50,center: Offset(0, 0));
-//     Paint paint = Paint();
-//     paint.style = PaintingStyle.fill;
-//     paint.color = color;
-//     //paint.strokeCap = StrokeCap.round;
-
-//     paint.strokeWidth = size.width;
-// //canvas.draw
-//     canvas.drawLine(Offset(size.width / 2, size.height ),
-//         Offset(size.width / 2,size.height> size.width/2?size.width/2:0), paint);
-//         canvas.drawCircle(Offset(size.width / 2, size.width / 2,),size.height>size.width?size.width/2:0, paint);
-//     //  canvas.drawLine(
-//     //      Offset(size.width / 2, size.height - size.width / 2),
-//     //      Offset(size.width / 2, size.height - size.width / 2),
-//     //      paint..strokeCap = StrokeCap.round);
-//   }
-
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return false;
-//   }
-// }

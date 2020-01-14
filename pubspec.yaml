@@ -20,10 +20,8 @@ dependencies:
   flutter_swiper: 
   scoped_model: ^1.0.1
   image_picker: any
-  flutter_image_compress: ^0.6.3
   dio: ^2.1.5
   google_maps_flutter: ^0.5.16
-  flutter_cupertino_date_picker: 
   cupertino_icons: ^0.1.2
   auto_size_text: ^1.0.0
   geolocator: ^5.0.1

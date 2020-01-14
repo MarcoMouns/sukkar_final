@@ -165,7 +165,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                   child: TextField(
                                     onChanged: (value) {
                                       height = int.parse(value);
-                                      print("user height $height");
                                     },
                                     textDirection: TextDirection.ltr,
                                     keyboardType: TextInputType.number,
@@ -208,7 +207,6 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                           keyboardType: TextInputType.number,
                                           onChanged: (String v) {
                                             userWidth = v;
-                                            print('weight $v');
                                           },
                                           style: TextStyle(
                                             color: Colors.blue,
@@ -278,11 +276,8 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                                   "weight": userWidth.toString(),
                                   "average_calorie": average_calorie,
                                 });
-                            print('Response = ${response.data}');
                             Navigator.pop(context, true);
                           } on DioError catch (e) {
-                            print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                            print(e.response.data);
                             return false;
                           }
                         }

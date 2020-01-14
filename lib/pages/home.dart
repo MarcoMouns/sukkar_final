@@ -31,13 +31,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   Color _plusColor = Settings.mainColor();
   bool initOpen = true;
 
-//your stuff
-
-  /*
-   *
-   * Modifications
-   */
-
   AnimationController animationController;
   AnimationController animationController2;
 
@@ -75,7 +68,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       );
     }
     if (item == 5) {
-      // Navigator.of(context).pop();
 
       showDialog(
           barrierDismissible: true,
@@ -214,7 +206,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                       }
                       setState(() {});
                       if (i == 4) {
-                        print('zatona');
                         _plusColor = Colors.white;
                         setState(() {});
                         showOverlay(context, model);

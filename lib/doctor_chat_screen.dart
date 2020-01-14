@@ -31,7 +31,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   bool isDoctor = false;
 
   Future getData() async {
-    var document = await Firestore.instance
+    var document = Firestore.instance
         .document('users/${SharedData.customerData['fuid']}');
     document.get().then((document) {
       isDoctor = document['isDoctor'];
@@ -146,7 +146,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 color: greyColor2,
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
                 shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), onPressed: () {},
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -279,7 +279,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 color: greyColor2,
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
                 shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), onPressed: () {},
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -294,7 +294,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     }
   }
 
-  void DropDownMenu() {
+  void dropDownMenu() {
     arrowFlip = true;
     setState(() {});
     PickerController pickerController = PickerController(count: 1);
@@ -407,7 +407,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                   ],
                 ),
               ),
-              onTap: () => DropDownMenu(),
+              onTap: () => dropDownMenu(),
             ),
           ),
           Container(

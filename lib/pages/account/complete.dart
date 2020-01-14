@@ -28,9 +28,8 @@ class _CompleteState extends State<Complete> {
   FocusNode _focusNode6 = FocusNode();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  TextEditingController _passwrodController = TextEditingController();
   TextEditingController _injuryDateController = TextEditingController();
-  TextEditingController _BirthDateController = TextEditingController();
+  TextEditingController _birthDateController = TextEditingController();
   bool _isLoading = false;
   bool _autoValidate = false;
   bool hasPhoto = true;
@@ -68,9 +67,6 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _formData['image'] = image;
         img = image.path;
-        print('********************************');
-        print(img);
-        print('********************************');
       });
       picdone = true;
       Navigator.pop(context);
@@ -140,7 +136,7 @@ class _CompleteState extends State<Complete> {
   SharedPreferences prefs;
   String uidx;
 
-  Future<String> CreateFirebaseAccount() async {
+  Future<String> createFirebaseAccount() async {
     _formKey.currentState.save();
     setState(() {
       _isLoading = true;
@@ -197,10 +193,8 @@ class _CompleteState extends State<Complete> {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
     });
     if (!_formKey.currentState.validate() ||
-//        _formData['image'] == null ||
         _formData['phone'] == null) {
-      _autoValidate = true; // Start validating on every change.
-      print(_formData);
+      _autoValidate = true;
 
       showInSnackBar(myLocale.languageCode.contains("en")
           ? "Please fix errors before submit"
@@ -210,13 +204,6 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = true;
       });
-      //_formData['image'];
-      print(img);
-      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111');
-      print(_formData['fuid']);
-      print(_formData['image']);
-      print("booooooooooooooos fo2");
-      print("form data => $_formData");
       model.userRegister(_formData).then((result) async {
         if (result == true) {
           setState(() {
@@ -312,7 +299,6 @@ class _CompleteState extends State<Complete> {
                                 onSaved: (String val) {
                                   setState(() {
                                     _formData['userName'] = val;
-                                    print(val);
                                   });
                                 },
                                 validator: (String val) {
@@ -353,19 +339,17 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                              _BirthDateController.text = (date.toString()).split(" ")[0];
-                                              print('change $date');
+                                              _birthDateController.text = (date.toString()).split(" ")[0];
                                                }, 
                                       onConfirm: (date) {
-                                              _BirthDateController.text = (date.toString()).split(" ")[0];
-                                              print('confirm $date');
+                                              _birthDateController.text = (date.toString()).split(" ")[0];
                                                         },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
                                 child: LogInInput(
                                   enabled: false,
-                                  controller: _BirthDateController,
+                                  controller: _birthDateController,
                                   autoValidate: _autoValidate,
                                   name: "birthDate",
                                   keyboard: TextInputType.datetime,
@@ -394,11 +378,9 @@ class _CompleteState extends State<Complete> {
                                       onChanged: (date) {
                                     _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                    print('change $date');
                                   }, onConfirm: (date) {
                                     _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                    print('confirm $date');
                                   },  
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
@@ -501,7 +483,7 @@ class _CompleteState extends State<Complete> {
                                   textColor: Colors.white,
                                   onPressed: () async {
                                     if (hasPhoto && picdone && isMatched == true) {
-                                      uidx = await CreateFirebaseAccount();
+                                      uidx = await createFirebaseAccount();
                                       _formData['fuid'] = uidx;
                                       CreateCFSaccount(uidx);
                                       _handleSubmitted(

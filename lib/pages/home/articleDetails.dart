@@ -48,9 +48,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
         });
       } else {}
     }).catchError((err) {
-      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       print(err);
-      print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     });
   }
 

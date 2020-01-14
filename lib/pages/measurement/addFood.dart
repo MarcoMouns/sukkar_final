@@ -40,7 +40,6 @@ class _AddFoodState extends State<AddFood> {
 
 
   _mealsWidget(MainModel model) {
-//    print('All Meals = > ${allMeals.length}');
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) => SizedBox(
         width: 10,
@@ -48,7 +47,6 @@ class _AddFoodState extends State<AddFood> {
       scrollDirection: Axis.horizontal,
       itemCount: allMeals.length,
       itemBuilder: (BuildContext context, int index) {
-        print('All allMeals[index] = > ${allMeals[index]}');
         return InkWell(
           onTap: () => _pressOnMeals(model, allMeals[index].id),
           child: Column(
@@ -120,12 +118,10 @@ class _AddFoodState extends State<AddFood> {
       print(err);
     });
     await widget.model.fetchAllMealsFoods().then((result) {
-      print('Result fetch => $result');
       if (result != null) {
         setState(() {
           allMealsFoods = result.userFoods;
           _calories = result.userFoods.map((meal) => meal.calories).toList();
-          print('******************************_calories = > $_calories');
           addIntToSF();
           getValuesSF();
           loading = false;
@@ -137,16 +133,12 @@ class _AddFoodState extends State<AddFood> {
   }
 
   addIntToSF() async {
-    print(_calories);
     if(_calories.length==0){
       Rcalories=0;
     }
     else{
       Rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
-    // print(a);
   }
 
   getValuesSF() async {
@@ -156,22 +148,12 @@ class _AddFoodState extends State<AddFood> {
       ncal=0;
     }
 
-    print(ncal);
-
-    print(Rcalories);
-
     int calTarget=0;
 
     if(Rcalories>ncal && ncal!=0){
       calTarget=Rcalories-ncal;
     }
     prefs.setInt('calTarget', calTarget);
-    int x;
-    x= prefs.getInt('calTarget');
-
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
-    print(x);
-    print('++++++++++++++++++++++++++++++++++++++++++++++++++');
 
   }
 

@@ -37,13 +37,11 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
     // Handle data message
 
-    final dynamic data = message['data'];
 
   }
 
   if (message.containsKey('notification')) {
     // Handle notification message
-    final dynamic notification = message['notification'];
 
   }
 }
@@ -79,8 +77,6 @@ class _SpLashState extends State<SpLash> {
     await allTranslations.init();
     allTranslations.setNewLanguage("ar");
     allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print(sharedPreferences.getKeys());
     getCustomerData();
   }
 
@@ -142,23 +138,18 @@ class _MyAppState extends State<MyApp> {
       },
     );
     FirebaseMessaging().getToken().then((t) async {
-      print("=========== My token is ============ > $t");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
-      Response res;
-      print("${prefs.get('authUser')} =======...fjdBLKg.acHn aLSBhflxvyhn");
       Map<String, dynamic> authUser = jsonDecode(prefs.getString("authUser"));
 
-      print("${authUser['authToken']} 77777777777777");
 
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
 
-      res = await dio.post("http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
+    await dio.post("http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
 
-      print("${res.data} ===========svhan;lsvdjclualmvxfkzlc");
     });
 
     getAuthentication();

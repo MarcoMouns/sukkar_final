@@ -62,15 +62,13 @@ class EditProfileUserState extends State<EditProfileUser> {
       name = response.data['user']['name'];
 
       nameCtrl.text = name;
-      print(email);
       isLoading = false;
 
       setState(() {});
     } catch (e) {
-      print("error =====================");
+      print("error ===================== $e");
     }
 
-    print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
   }
 
@@ -118,10 +116,6 @@ class EditProfileUserState extends State<EditProfileUser> {
       String a7a = jsonEncode(userUpdateJson);
       sharedPreferences.setString("authUser", a7a);
       userUpdateJson = jsonDecode(sharedPreferences.getString("authUser"));
-      print('som malaf al JSON -> $userUpdateJson');
-      print(SharedData.customerData['image']);
-      print('88888888888888888888888888888888888888888888');
-      print(response);
 
       print(email);
       isLoading = false;
@@ -129,10 +123,8 @@ class EditProfileUserState extends State<EditProfileUser> {
       setState(() {});
     } catch (e) {
       isLoading = false;
-      print("error =====================");
     }
 
-    print('++++++++++++++++++++++++++++++++++from here we end the GETCAL');
     return response;
   }
 
@@ -141,9 +133,6 @@ class EditProfileUserState extends State<EditProfileUser> {
       setState(() {
         profilePicture = image;
         img = image.path;
-        print('********************************');
-        print(img);
-        print('********************************');
       });
       picdone = true;
       Navigator.pop(context);

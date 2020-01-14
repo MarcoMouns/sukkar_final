@@ -41,14 +41,10 @@ class _AddSleepState extends State<AddSleep> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      var response = await dio.post(
+      await dio.post(
           "$baseUrl/measurements/sleeping?startHour=${from.hour}&startMin=${from.minute}&endHour=${to.hour}&endMin=${to.minute}",
           options: Options(headers: headers));
-
-      print(response.data);
-    } catch (e) {
-      print("error =====================");
-    }
+    } catch (e) {}
 
     return response;
   }
@@ -66,25 +62,23 @@ class _AddSleepState extends State<AddSleep> {
       };
       response = await dio.get("$baseUrl/measurements",
           options: Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================");
 
       DateTime from = DateTime(
           DateTime.now().year,
           DateTime.now().month,
           DateTime.now().day,
-          int.parse((response.data["Measurements"]["sleepStartTime"]).split(":")[0]),
-          int.parse((response.data["Measurements"]["sleepStartTime"]).split(":")[1]));
-      //print("==================================" + from.toString());
-      print("==================================");
+          int.parse(
+              (response.data["Measurements"]["sleepStartTime"]).split(":")[0]),
+          int.parse(
+              (response.data["Measurements"]["sleepStartTime"]).split(":")[1]));
       DateTime to = DateTime(
           DateTime.now().year,
           DateTime.now().month,
           DateTime.now().day,
-          int.parse((response.data["Measurements"]["SleepEndTime"]).split(":")[0]),
-          int.parse((response.data["Measurements"]["SleepEndTime"]).split(":")[1]));
-      //print("==================================" + to.toString());
-      print("==================================");
+          int.parse(
+              (response.data["Measurements"]["SleepEndTime"]).split(":")[0]),
+          int.parse(
+              (response.data["Measurements"]["SleepEndTime"]).split(":")[1]));
       DateTime duration =
           to.subtract(Duration(hours: from.hour, minutes: from.minute));
       _sleepingTime.add(SleepTime(
@@ -93,13 +87,8 @@ class _AddSleepState extends State<AddSleep> {
           time:
               "${allTranslations.text("from")} ${from.hour.toString()}:${from.minute.toString()} ${allTranslations.text("to")} ${to.hour.toString()}:${to.minute.toString()}"));
 
-      print("==================================" + duration.toString());
-      print("==================================");
-
       setState(() {});
-    } catch (e) {
-      print("error =====================");
-    }
+    } catch (e) {}
 
     return response;
   }
@@ -118,14 +107,9 @@ class _AddSleepState extends State<AddSleep> {
       response = await dio.delete(
           "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================");
-      print("response=$response.data.toString()");
 
       setState(() {});
-    } catch (e) {
-      print("error =====================");
-    }
+    } catch (e) {}
 
     return response;
   }

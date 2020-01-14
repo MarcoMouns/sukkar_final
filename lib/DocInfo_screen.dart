@@ -48,10 +48,6 @@ class _DocInfoState extends State<DocInfo> {
     response = await dio.get(
       "http://api.sukar.co/api/doctors/${widget.dId}",
     );
-
-    print('*********************************************');
-    print(response);
-    print('*********************************************');
     isLoading=false;
     setState(() {
 

@@ -153,7 +153,6 @@ class _HomePageState extends State<HomePage> {
     List<int> homeCalories = new List<int>();
     DateTime usedDate =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    print(DateTime(2020, 1, 2));
     fitDistanceData.clear();
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
@@ -176,14 +175,11 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
       fitDistanceData.add(healthKitDistanceData[i]);
       disctance.add(fitDistanceData[i].value.round());
-      print(fitDistanceData);
     }
 
     for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
       fitCaloriesData.add(healthKitCaloriesData[i]);
       homeCalories.add(fitCaloriesData[i].value.round());
-      print("wowowowowowowo");
-      print(homeCalories);
     }
 
     if (homeCalories.isEmpty) {
@@ -191,9 +187,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       calories = 0;
       for (int i = 0; i <= homeCalories.length - 1; i++) {
-        print('huh eh tani -_- calories ->>>>> $calories');
         calories = homeCalories[i] + calories;
-        print("========>>> $calories");
       }
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -211,7 +205,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       distance = 0;
       for (int i = 0; i <= disctance.length - 1; i++) {
-        print('huh eh tani -_- ->>>>> this is distance $distance');
         distance = disctance[i] + distance;
       }
 
@@ -220,28 +213,21 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
 
-      print('-----------------------omgggggggg----------->');
-
       var response = await http.post("$baseUrl/update-distance", body: {
         "distance": "$distance",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
       });
 
-      print('-----------------------omgggggggg-----------> ${response.body}');
       setState(() {});
     }
-
-    print('------OOOOOMMMMMMGGGGGGG-----------------> $disctance');
 
     if (healthKitStepsData.isEmpty) {
       return Steps;
     } else {
       for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
         fitStepsData.add(healthKitStepsData[i]);
-        print("Fit data ===> ${healthKitStepsData[i]}");
         Steps.add(fitStepsData[i].value.round());
-        print(fitStepsData[i].value.round());
       }
       return Steps;
     }
@@ -260,7 +246,6 @@ class _HomePageState extends State<HomePage> {
       }
       if (flag == true) {
         totalSteps = steps;
-        print(totalSteps);
       }
       flag = false;
       step = steps;
@@ -275,7 +260,6 @@ class _HomePageState extends State<HomePage> {
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
       });
-      print('-----------------------omgggggggg-----------> ${response.body}');
     }
   }
 
@@ -334,11 +318,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
-      print('Result fetch => $result');
       if (result != null) {
         setState(() {
           _calories = result.userFoods.map((meal) => meal.calories).toList();
-          print('******************************_calories = > $_calories');
           addIntToSF();
           getValuesSF();
         });
@@ -349,13 +331,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   addIntToSF() async {
-    print(_calories);
     if (_calories.length == 0) {
       Rcalories = 0;
     } else {
       Rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
   }
 
   getValuesSF() async {
@@ -374,20 +354,12 @@ class _HomePageState extends State<HomePage> {
     circleCalorie = response.data['user']['circles']['calorie'];
     circleDistance = response.data['user']['circles']['distance'];
 
-    print('BLood => $circleBlood');
-    print('heart => $circleHeart');
-    print('water => $circleWater');
-    print('cal => $circleCalorie');
-    print('distance => $circleDistance');
 
     ncal = response.data['user']['average_calorie'];
     if (ncal == null) {
       ncal = 0;
     }
 
-    print(ncal);
-
-    print(Rcalories);
 
     if (Rcalories > ncal && ncal != 0) {
       calTarget = Rcalories - ncal;
@@ -442,7 +414,7 @@ class _HomePageState extends State<HomePage> {
 
       response2 = await dio.put("$baseUrl/doctors/update-work-hours?minutes=15",
           options: Options(headers: headers));
-      print('Response2 ---------------> ${response2.data}');
+
     }
   }
 
@@ -457,7 +429,6 @@ class _HomePageState extends State<HomePage> {
     response = await dio.get("$baseUrl/measurements?date=$date",
         options: Options(headers: headers));
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
-    print("=================================================fffffffffff");
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
 
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
@@ -527,11 +498,10 @@ class _HomePageState extends State<HomePage> {
 
       datesOfMeasures = date;
       measuresData = suger;
-      print(measuresData);
-      print(datesOfMeasures);
+
       setState(() {});
     } catch (e) {
-      print("error =====================");
+      print("error =====================  $e");
     }
     return response;
   }
@@ -551,18 +521,12 @@ class _HomePageState extends State<HomePage> {
     dummySelectedDate = dummySelectedDate.add(new Duration(days: 7));
     emptylists();
     setState(() {});
-    print(
-        "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     Future.delayed(Duration(milliseconds: initOpen ? 300 : 300), () {
       initOpen = false;
       istrue = false;
-      print(
-          "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
-
       setState(() {
         dummyDate =
             '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
-        print(date);
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
@@ -576,17 +540,12 @@ class _HomePageState extends State<HomePage> {
     dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
     emptylists();
     setState(() {});
-    print(
-        "waaaaaaa&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
     Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       initOpen = false;
       istrue = false;
-      print(
-          "waaaaaaa++++++++++++++++++++++++++___________________________________________________________");
       setState(() {
         dummyDate =
             '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
-        print(date);
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
@@ -601,10 +560,6 @@ class _HomePageState extends State<HomePage> {
     });
     widget.model.fetchHome(date).then(
       (result) {
-        print('*****************************************************');
-        print('HERE is the start of Result');
-        print(result == null ? 'fffff' : 'yyyy');
-        print('*****************************************************');
         if (result != null) {
           setState(() {
             dataHome = result.measurements;
@@ -878,10 +833,8 @@ class _HomePageState extends State<HomePage> {
                           minTime: DateTime(DateTime.now().year - 1),
                           maxTime: DateTime(DateTime.now().year + 1),
                           onConfirm: (e) {
-                        print('confirm $e');
                         setState(() {
                           date = '${e.year}-${e.month}-${e.day}';
-                          print(date);
 
                           getHomeFetch();
                           getMeasurementsForDay(date);

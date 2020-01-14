@@ -20,8 +20,6 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
       );
 
       terms = response.data['terms'];
-      print("=======================================================");
-      print(terms);
       isloading = false;
 
 

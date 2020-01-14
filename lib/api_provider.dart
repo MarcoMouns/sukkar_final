@@ -29,19 +29,12 @@ class ApiProvider{
 
       response = await dio.get("$baseUrl/specialists",
           options: Options(headers: headers));
-      print(response);
-
       Map<String , dynamic> json = response.data;
-
-      print('**************HERE WE START THE BTICH****************');
-
       List<SpecialityDoc>_specoalists = List<SpecialityDoc>();
-
       _specoalists = ( json["specialists"] as List ).map((i)=>
       SpecialityDoc.fromJson(i)).toList();
 
 
-      print('55555555555555555555555555555555=====>${_specoalists[1].titleAr}');
       return _specoalists;
     } catch (e) {
       print(e);

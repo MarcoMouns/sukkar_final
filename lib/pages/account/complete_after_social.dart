@@ -17,7 +17,6 @@ class CompleteAfterSocialLogin extends StatefulWidget {
 }
 
 class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
-  dynamic _gender = 'male';
   FocusNode _focusNode1 = FocusNode();
   FocusNode _focusNode2 = FocusNode();
   FocusNode _focusNode3 = FocusNode();
@@ -239,11 +238,9 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                                       onChanged: (date) {
                                     _injuryDateController.text =
                                         date.toString();
-                                    print('change $date');
                                   }, onConfirm: (date) {
                                     _injuryDateController.text =
                                         date.toString();
-                                    print('confirm $date');
                                   },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);

@@ -63,12 +63,10 @@ class _AddSugarState extends State<AddSugar> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      print(suger);
-      print(date);
       var now = new DateTime.now();
       var formatter = new intl.DateFormat('hh:mm a');
       String formatted = formatter.format(now);
-      var response = await dio.post(
+      await dio.post(
           "$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
     } catch (e) {
@@ -91,9 +89,6 @@ class _AddSugarState extends State<AddSugar> {
       };
       response = await dio.get("$baseUrl/measurements?date=$date",
           options: Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================");
-      print("response=$response.data.toString()");
 
       if (measuresOfDay.isNotEmpty) {
         measuresOfDay.clear();
@@ -102,10 +97,8 @@ class _AddSugarState extends State<AddSugar> {
       for (var i = 0; i < 3; i++) {
         measuresOfDay.add(response.data["Measurements"]["sugar"][i]["sugar"]);
         timeOfMeasures.add(response.data["Measurements"]["sugar"][i]["time"]);
-        print(measuresOfDay);
       }
 
-      print(measuresOfDay);
       setState(() {});
     } catch (e) {
       print("error =====================");
@@ -128,9 +121,6 @@ class _AddSugarState extends State<AddSugar> {
       response = await dio.delete(
           "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
-      print("response=$response.data.toString()");
-      print("==================================");
-      print("response=$response.data.toString()");
 
       setState(() {});
     } catch (e) {
@@ -307,7 +297,7 @@ class _AddSugarState extends State<AddSugar> {
                       style: TextStyle(color: Colors.green),
                       textAlign: TextAlign.center,
                     )
-                  : int.parse(initSuger)> 200
+                  : int.parse(initSuger) > 200
                       ? SizedBox(
                           height: MediaQuery.of(context).size.height * 0.27,
                           child: Column(
@@ -403,9 +393,10 @@ class _AddSugarState extends State<AddSugar> {
               });
         }).then((v) {
       Timer(Duration(seconds: 1), () {
-          print(initSuger);
-         if(initSuger  != null)
-         { _ackAlert(context);}
+        print(initSuger);
+        if (initSuger != null) {
+          _ackAlert(context);
+        }
       });
     });
   }

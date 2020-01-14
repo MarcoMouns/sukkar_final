@@ -29,10 +29,6 @@ class _HeartBeatsState extends State<HeartBeats> {
   _getDummySleepingTime() {
     heartBeats = List();
     heartBeats.add(HeartBeat(count: "80/100", date:  intl.DateFormat("dd MMM",allTranslations.locale.languageCode).format(DateTime.now())));
-    // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    // _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    /// _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
-    //  _sleepingTime.add(SleepTime(duration: "hours", time: "7aba w shoia"));
   }
 
   @override
@@ -62,28 +58,6 @@ class _HeartBeatsState extends State<HeartBeats> {
             centerTitle: true,
           ),
           body:
-//          new Center(
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: <Widget>[
-//                Container(
-//                  padding: EdgeInsets.all(20),
-//                  margin: EdgeInsets.only(bottom: 20),
-//                  decoration: BoxDecoration(
-//                      borderRadius: BorderRadius.all(Radius.circular(100)),
-//                      color: Colors.redAccent
-//                  ),
-//                  child: Icon(
-//                    Icons.developer_mode,
-//                    size: 60,
-//                    color: Colors.white,
-//                  ),
-//                ),
-//                Text('Under Development',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),)
-//              ],
-//            ),
-//          )
           new Padding(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -154,58 +128,10 @@ InkWell(
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (
           context) => MainHome())),
 )
-//                      new Padding(
-//                        padding: EdgeInsets.only(top: 20),
-//                        child: Column(
-//                            children: heartBeats.map((heartBeat) {
-//                          return Column(
-//                            children: <Widget>[
-//                              ListTile(
-//                                title: Text(
-//                                  heartBeat.count,
-//                                  style: TextStyle(
-//                                      color: Colors.blue[300], fontSize: 20),
-//                                ),
-//                                subtitle: Text(
-//                                  heartBeat.date,
-//                                  style: TextStyle(
-//                                      fontSize: 13, color: Colors.blueGrey),
-//                                ),
-//                                trailing: InkWell(
-//                                  child:
-//                                   ImageIcon(AssetImage("assets/icons/ic_trash.png"),color: Colors.red,),
-//                                  onTap: () {
-//                                    heartBeats.remove(heartBeat);
-//                                    setState(() {});
-//                                  },
-//                                ),
-//                              ),
-//                              Divider(
-//                                height: 16,
-//                                color: Colors.blueGrey,
-//                              )
-//                            ],
-//                          );
-//                        }).toList()),
-//                      )
                     ],
                   ),
                 ),
-//                Container(
-//                  width: MediaQuery.of(context).size.width / 1.5,
-//                  child: FlatButton(
-//                    color: Color(0xff009DDC),
-//                    child: Text(
-//                      allTranslations.text("save"),
-//                      style: TextStyle(color: Colors.white, fontSize: 16),
-//                    ),
-//                    shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.circular(30)),
-//                    onPressed: () {
-//                      Navigator.pop(context);
-//                    },
-//                  ),
-//                )
+
               ],
             ),
           ),

@@ -57,7 +57,6 @@ class _ChangePasswordState extends State<ChangePassword> {
       setState(() {
         _isLoading = true;
       });
-      print("form data => $_formData");
       model.changePassword(_formData).then((result) {
         if (result == true) {
           setState(() {

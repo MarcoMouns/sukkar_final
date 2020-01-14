@@ -25,9 +25,6 @@ class _ArticleCategoryState extends State<ArticleCategory> {
         setState(() {
           Settings.currentIndex = 1;
           articleCategory = result.articleCategory.data;
-          print('Result = > ${articleCategory[0].image}');
-          print('Result = > ${articleCategory[0].titleAr}');
-          print('Result = > ${articleCategory[0].titleEn}');
         });
       } else {}
     }).catchError((err) {

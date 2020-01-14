@@ -42,9 +42,6 @@ class _ItemListState extends State<ItemList> {
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
 
-    print("authUser => $authUser");
-    print("authUserToken => ${authUser['authToken']}");
-
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
@@ -109,32 +106,26 @@ class _ItemListState extends State<ItemList> {
   }
 
   Future<Void> addNewFood(String ar, String en, int cal, int mealID) async {
-    Response response;
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.post(
+    await dio.post(
         "$baseUrl/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
         options: Options(headers: headers));
-    print(response.data);
 
     setState(() {});
   }
-
 
   void _saveUserFoods() async {
     bool ok =
         await widget.model.addSelectedFoods(_selectedFoods, widget.mealId);
     if (ok) {
       Navigator.pop(context, true);
-      print("Selected foods added successfully");
     } else {
       // Show Error
-      print("Selected foods not added");
     }
   }
 
@@ -151,8 +142,6 @@ class _ItemListState extends State<ItemList> {
       setState(() {
         user = jsonDecode(storage.getString("authUser"));
       });
-
-      print("user 8888888888 $user");
     });
   }
 
@@ -207,9 +196,6 @@ class _ItemListState extends State<ItemList> {
                                           'eat_category_id': widget.mealId,
                                           'isselected': 0,
                                         });
-                                        print(
-                                            "------------- ${foodItem.titleAr}");
-                                        print("]]]]]]]]]]]]]]> $foods");
                                         foods.add(foodItem);
                                         addNewFood(
                                             foodItem.titleAr,
@@ -228,7 +214,6 @@ class _ItemListState extends State<ItemList> {
                                     title: "add medicne",
                                     subtitle: "add Item not in menu",
                                     onSave: (String value) async {
-                                     
                                       widget.model.addNewMedicine({
                                         "name": value,
                                         "user_id": user['id'],
@@ -516,7 +501,6 @@ class _BottomSheetState extends State<BottomSheet> {
   final _controller = TextEditingController();
   final _controllerName = TextEditingController();
   double _value = 0;
-
 
   @override
   void initState() {

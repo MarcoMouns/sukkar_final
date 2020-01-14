@@ -102,25 +102,11 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     goalSteps = response.data["Measurements"]["steps_goal"];
     goalDistance = response.data["Measurements"]["distance_goal"];
     
-    print(response.data);
-    print(calories);
-    print("==================>>>>>>>");
-    print(goalCalories);
-    print(goalCupOfWater);
-    print(goalSteps);
-    print(goalDistance);
-    print("==================>>>>>>>");
-
-
-    print("=================================================fffffffffff");
-    print(response.data);
     isLoading = false;
     if (mounted) setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
-
-  //_MeasurementDetailsState();
 
   initState() {
     getMeasurementsForDay(dateString);

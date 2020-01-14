@@ -123,7 +123,6 @@ class _BloodPressureState extends State<BloodPressure> {
                                       fontSize: 25,
                                     ),
                                     onSaved: (String value) {
-                                      print('value => $value');
                                       DiastolicPressure = value;
                                     },
                                   ),
@@ -182,7 +181,6 @@ class _BloodPressureState extends State<BloodPressure> {
                                           fontSize: 25,
                                         ),
                                         onSaved: (String value) {
-                                          print('value => $value');
                                           SystolicPressure = value;
                                         },
                                       ),

@@ -37,7 +37,6 @@ class _EditProfileState extends State<EditProfile> {
 
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
-    print(authUser['authToken']);
 
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
@@ -49,8 +48,6 @@ class _EditProfileState extends State<EditProfile> {
 
     weight = response.data['user']['weight'];
     hight = response.data['user']['hight'];
-    print(weight);
-    print(hight);
     setState(() {});
   }
 
@@ -236,7 +233,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         onTap: () async {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => editGoalsScreen()));
+                              builder: (context) => EditGoalsScreen()));
                         },
                       ),
                       Divider(

@@ -24,7 +24,6 @@ mixin ArticlesScopedModel on Model {
       response = await dio.get(
         "$baseUrl/articles",
       );
-      print(".................................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -33,12 +32,6 @@ mixin ArticlesScopedModel on Model {
       notifyListeners();
       return Articles.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       print(e);
       notifyListeners();
       return null;

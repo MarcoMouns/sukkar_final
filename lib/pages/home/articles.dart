@@ -24,7 +24,6 @@ class _ArticlesPageState extends State<ArticlesPage> with SingleTickerProviderSt
       if (result != null) {
         setState(() {
           articleCategories = result.articles.data;
-//          print('Result = > ${articleCategory[0].image}');
         });
       } else {}
     }).catchError((err) {

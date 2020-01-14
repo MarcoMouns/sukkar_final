@@ -674,22 +674,10 @@ class _MapPageState extends State<MapPage> {
                                   formdata.add("startLatitude", 0.0);
                                   formdata.add("endLatitude", 0.0);
                                   formdata.add("date", DateTime.now());
-                                  print(
-                                      '******************************************************');
-                                  print(DateTime.now());
-                                  print(
-                                      '******************************************************');
-                                  print(
-                                      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                                   formdata.add("distance", (0).toInt());
                                   formdata.add("steps", _stepCountValue);
                                   formdata.add("calories",
                                       ((steps * 0.0512).ceil()).toInt());
-                                  print(
-                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                                  print(formdata);
-                                  print(
-                                      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                                   response = await dio.post(
                                       "http://api.sukar.co/api/mapInformation",
                                       data: formdata);
@@ -702,8 +690,6 @@ class _MapPageState extends State<MapPage> {
                                     return true;
                                   }
                                 } on DioError catch (e) {
-                                  print(
-                                      "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
                                   print(e.response.data);
                                   return false;
                                 }

@@ -28,7 +28,6 @@ mixin ArticlesCategoriesScopedModel on Model {
       response = await dio.get(
         "$baseUrl/articles-category",
       );
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -37,10 +36,6 @@ mixin ArticlesCategoriesScopedModel on Model {
       notifyListeners();
       return ArticleCategory.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return null;
     }

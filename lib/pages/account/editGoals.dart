@@ -8,12 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home.dart';
 
-class editGoalsScreen extends StatefulWidget {
+class EditGoalsScreen extends StatefulWidget {
   @override
-  editGoalsScreenState createState() => editGoalsScreenState();
+  EditGoalsScreenState createState() => EditGoalsScreenState();
 }
 
-class editGoalsScreenState extends State<editGoalsScreen> {
+class EditGoalsScreenState extends State<EditGoalsScreen> {
   int waterGoal = 0;
   int calGoal = 0;
   int stepsGoal = 0;
@@ -41,16 +41,10 @@ class editGoalsScreenState extends State<editGoalsScreen> {
     distanceGoal = response.data['goals']['distance_goal'];
     calGoal = response.data['goals']['calorie_goal'];
     stepsGoal = response.data['goals']['steps_goal'];
-    print(isAutoMatic); 
     isAutoMatic = response.data['isAutomatically'];
     
     isdisabled = !isAutoMatic;
     iconRemainingName = isAutoMatic? "_gray" : "";
-   
-    
-    print(isAutoMatic); 
-
-    print(response.data);
     setState(() {});
     isLoading = false;
     return response;
@@ -69,8 +63,6 @@ class editGoalsScreenState extends State<editGoalsScreen> {
     response = await dio.post(
         "$baseUrl/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal&isAutomatically=$isAuto",
         options: Options(headers: headers));
-
-    print(response.data);
 
     return response;
   }
@@ -233,9 +225,6 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                          isAutoMatic = !isAutoMatic;
                         isdisabled = !isdisabled;
                         iconRemainingName = isAutoMatic ? "_gray" : "";
-                        print(isAutoMatic);
-                        print("=======");
-                        print(value);
                         setState(() {
                           
                         });
@@ -245,7 +234,6 @@ class editGoalsScreenState extends State<editGoalsScreen> {
                   onTap: () {
                     setState(() {
                       isAutoMatic = !isAutoMatic;
-                      print("=====================");
                     });
                   },
                 ),

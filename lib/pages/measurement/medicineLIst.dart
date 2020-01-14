@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/medicine_model.dart';
@@ -58,10 +57,6 @@ class _MedListState extends State<MedList> {
       medi.add(med);
       mealsTakenAr.add(mealAr);
       mealsTakenEn.add(mealEn);
-
-      print(i);
-      print(mealsTakenAr);
-      print(med.name);
     }
     
     loading = false;
@@ -90,9 +85,7 @@ class _MedListState extends State<MedList> {
 
   List<Widget> listBuilder() {
     List<Widget> result = new List();
-    print("=============++++++");
     for (int i = 0; i < medi.length; i++) {
-      print("=============++++++)))");
       Widget added;
       added = ListTile(
         title: Text(
@@ -116,7 +109,6 @@ class _MedListState extends State<MedList> {
         ),
       );
       
-      print(added);
       result.add(added);
       result.add(Divider(
         height: 16,
@@ -169,8 +161,6 @@ class _MedListState extends State<MedList> {
                         ),
                       ),
                       onTap: () {
-                        print("=======");
-                        print(widget.model);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

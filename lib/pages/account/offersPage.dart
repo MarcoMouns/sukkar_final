@@ -21,8 +21,6 @@ class _OffersScreenState extends State<OffersScreen> {
   getOffers() async {
     response = await dio.get("$baseUrl/ads");
     for (int i = 0; i < response.data["ads"].length; i++) {
-      print(response.data["ads"][i]["image"]);
-      print(response.data["ads"][i]["text"]);
       ads.add(response.data["ads"][i]["image"].toString());
       adTexts.add(response.data["ads"][i]["text"].toString());
     }

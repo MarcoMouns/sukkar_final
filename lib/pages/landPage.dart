@@ -37,11 +37,10 @@ class _LandPageState extends State<LandPage> {
     List<String> msgs1 = new List();
    
     response = await dio.get("$baseUrl/opening-texts");
-    print(response.data);
+
 
     for(int i=0; i < response.data.length;i++){
       msgs1.add(response.data['text_${i+1}']);
-      print(response.data['text_${i+1}']);
     }
     msgs = msgs1;
     
