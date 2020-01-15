@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "558252190222-kd6ttfr8gs2hpgq59lr11h03oailj6n8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alexapps.sukar",
+            "certificate_hash": "05a1b5bb95d29dbaca6f3ef65ab6e7f9094e7f86"
+          }
+        },
+        {
           "client_id": "558252190222-k5dqbaj47s0cam8297nv4jloh5up3qf0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
