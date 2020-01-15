@@ -210,7 +210,13 @@ Map<String, String> arabicLang = {
   "showOffers":"عرض العروض",
   "offers":"الدعاية و العروض",
   "noOffers":"لا يوجد اعلانات او عروض",
-  "ad":"اعلان"
+  "ad":"اعلان",
+  "doctorinfo":"معلومات عن الطبيب",
+  "aboutDoctor":"عن الطبيب",
+  "doctorSpecailty":"التخصص",
+  "workinghistory":"الاماكن التي شغلها",
+  "workingsince":"امارس مهنتي منذ",
+  "joinData":"مشترك منذ"
 
 
 

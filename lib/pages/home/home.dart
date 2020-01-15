@@ -135,6 +135,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() {
+    getValuesSF();
     getMeasurementsForDay(date);
     calculateSteps();
     dummySelectedDate = DateTime.now();
@@ -278,12 +279,11 @@ class _HomePageState extends State<HomePage> {
       var res = await dio.post(
           "http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
-          print(res.data);
+      print(res.data);
     });
 
     if (Platform.isIOS) {
       iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-        // save the token  OR subscribe to a topic here
       });
 
       _fcm.requestNotificationPermissions(IosNotificationSettings());
@@ -291,21 +291,21 @@ class _HomePageState extends State<HomePage> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['aps']['alert']['title-loc-key']),
-              subtitle: Text(message['aps']['alert']['loc-key']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     content: ListTile(
+        //       title: Text(message['notification']['title']==null ?"":message['notification']['title']),
+        //       subtitle: Text(message['notification']['body']==null ?"":message['notification']['body']),
+        //     ),
+        //     actions: <Widget>[
+        //       FlatButton(
+        //         child: Text('Ok'),
+        //         onPressed: () => Navigator.of(context).pop(),
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");

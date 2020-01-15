@@ -196,7 +196,13 @@ Map<String, String> englishLang = {
   "showOffers":"Show Offers",
   "offers":"Offers",
   "noOffers":"there is no offers",
-  "ad":"ads"
+  "ad":"ads",
+  "doctorinfo":"Doctor info",
+  "aboutDoctor":"About Doctor",
+  "doctorSpecailty":"Specailty",
+  "workinghistory":"Working history",
+  "workingsince":"working since",
+  "joinData":"join Sukar"
 
 
   

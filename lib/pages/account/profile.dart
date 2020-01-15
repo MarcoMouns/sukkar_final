@@ -208,17 +208,6 @@ class _EditProfileState extends State<EditProfile> {
                       Divider(
                         height: 0,
                       ),
-                      ListTile(
-                        title: Text(
-                          allTranslations.text("notifications"),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        trailing: Switch(
-                          activeColor: Colors.green,
-                          value: true,
-                          onChanged: (val) {},
-                        ),
-                      ),
                       Divider(
                         height: 0,
                       ),

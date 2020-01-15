@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/notifications.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/languages/all_translations.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,39 +71,44 @@ class NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return new ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-        return Scaffold(
-            appBar: AppBar(),
-            body: loading == true
-                ? Loading()
-                : new ListView.builder(
-                    itemCount: length,
-                    itemBuilder: (context, index) {
-                      FontWeight fontWeight =
-                          index % 2 == 0 ? FontWeight.bold : null;
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.red,
-                          child: Icon(
-                            Icons.notifications,
-                            color: Colors.white,
+        return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+          child: Scaffold(
+              appBar: AppBar(),
+              body: loading == true
+                  ? Loading()
+                  : new ListView.builder(
+                      itemCount: length,
+                      itemBuilder: (context, index) {
+                        FontWeight fontWeight =
+                            index % 2 == 0 ? FontWeight.bold : null;
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.red,
+                            child: Icon(
+                              Icons.notifications,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        title: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Text(data[index]['title'],
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: fontWeight)),
-                          ],
-                        ),
-                        subtitle: Text(
-                          data[index]['body'],
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: fontWeight),
-                        ),
-                      );
-                    }));
+                          title: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(data[index]['title'],
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: fontWeight)),
+                            ],
+                          ),
+                          subtitle: Text(
+                            data[index]['body'],
+                            style: TextStyle(
+                                color: Colors.black, fontWeight: fontWeight),
+                          ),
+                        );
+                      })),
+        );
       },
     );
   }

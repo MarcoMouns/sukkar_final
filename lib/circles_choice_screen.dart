@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'languages/all_translations.dart';
 
 class CirclesChoiceScreen extends StatefulWidget {
@@ -292,6 +296,8 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
   }
 
   void sendData() async {
+    Response response;
+    Dio dio = new Dio();
     FormData _formData = new FormData();
     _formData.add("_method", "PUT");
     _formData.add("calorie", calorie);
@@ -301,6 +307,30 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
     _formData.add("heart", heart);
     _formData.add("blood", blood);
 
+    SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+    jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+
+    try{
+      response = await dio.post(
+          "http://api.sukar.co/api/users/circles",
+          data: _formData,
+          options: Options(headers: headers));
+
+      if(response.statusCode==201){
+        print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      }
+      else{
+        print('shiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit');
+      }
+    }
+    catch(e){
+      print(e);
+    }
 
 
   }
