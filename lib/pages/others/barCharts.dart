@@ -78,7 +78,6 @@ class _BarChartsState extends State<BarCharts>
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.end,
       children:  listMyWidgets(),
-//
     );
   }
 

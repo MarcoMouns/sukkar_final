@@ -28,15 +28,12 @@ import './pages/others/offers.dart';
 import 'Welcome screen.dart';
 
 void main() async {
-
   runApp(MyApp());
 }
-
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
     // Handle data message
-
 
   }
 
@@ -45,8 +42,6 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
 
   }
 }
-
-
 
 class SpLash extends StatefulWidget {
   @override
@@ -75,8 +70,7 @@ class _SpLashState extends State<SpLash> {
   onStartFunctions() async {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await allTranslations.init();
-    allTranslations.setNewLanguage("ar");
-    allTranslations.onLocaleChangedCallback = Settings.onLocaleChanged;
+    allTranslations.getPreferredLanguage();
     getCustomerData();
   }
 
@@ -142,14 +136,13 @@ class _MyAppState extends State<MyApp> {
       Dio dio = new Dio();
       Map<String, dynamic> authUser = jsonDecode(prefs.getString("authUser"));
 
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
 
-    var headers = {
-      "Authorization": "Bearer ${authUser['authToken']}",
-    };
-
-    await dio.post("http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
+      await dio.post(
+          "http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
-
     });
 
     getAuthentication();
@@ -167,7 +160,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-
   void getAuthentication() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
@@ -178,7 +170,6 @@ class _MyAppState extends State<MyApp> {
     return ScopedModel<MainModel>(
         model: model,
         child: MaterialApp(
-
           showSemanticsDebugger: false,
           theme: ThemeData(
             canvasColor: Colors.white,

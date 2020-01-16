@@ -73,14 +73,6 @@ class GlobalTranslations {
     }
     _locale = Locale(language, "");
 
-    // Load the language strings
-    // print("---------------------- ");
-    // String jsonContent =
-    //     await rootBundle.loadString("assets/lang/${_locale.languageCode}.json");
-    // print("---------------------- $jsonContent");
-
-    // _localizedValues = json.decode(jsonContent);
-
     if (_locale.languageCode.contains("ar")) {
       _localizedValues = arabicLang;
     } else {

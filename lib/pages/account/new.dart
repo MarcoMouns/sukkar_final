@@ -195,10 +195,6 @@ class _NewUserState extends State<NewUser> {
                                     ),
                                   onTap: () => policy(),
                                   ),
-                                  
-                                 
-
-                                //Padding(padding: EdgeInsets.only(top: 15)),
                                 Center(
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(

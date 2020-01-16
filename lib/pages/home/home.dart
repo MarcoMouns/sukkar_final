@@ -47,6 +47,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  bool fitKitPermissions;
 //width of the screen to init the siwiper postion
   var dateSplit;
   final Firestore _db = Firestore.instance;
@@ -149,7 +151,22 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
   }
 
+    Future<void> hasPermissions() async {
+    try {
+      fitKitPermissions = await FitKit.hasPermissions([DataType.DISTANCE,DataType.STEP_COUNT,DataType.ENERGY]);
+    } catch (e) {
+      fitKitPermissions = false;
+
+    }
+
+    if (!mounted) return;
+
+    setState(() {});
+  }
+
   Future<List<int>> healthKit() async {
+    await FitKit.hasPermissions([DataType.DISTANCE,DataType.STEP_COUNT,DataType.ENERGY]);
+    // await hasPermissions();
     List<int> Steps = new List<int>();
     List<int> disctance = new List<int>();
     List<int> homeCalories = new List<int>();
@@ -309,11 +326,9 @@ class _HomePageState extends State<HomePage> {
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        // TODO optional
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        // TODO optional
       },
     );
     getHomeData();
@@ -808,9 +823,9 @@ class _HomePageState extends State<HomePage> {
       _firstPageLoad = false;
     }
 
-    // get free pixels free to render widgets on it
-    // 40 appbar heigth
-    //56 bottom navigation bar heigth
+    //   get free pixels free to render widgets on it
+    //   40 appbar heigth
+    //   56 bottom navigation bar heigth
     //   MediaQuery.of(context).padding.top is the height of status bar
     double _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
@@ -930,7 +945,6 @@ class _HomePageState extends State<HomePage> {
                                   Container(),
                                   InkWell(
                                     onTap: () {
-                                      //cIndex = 1;
                                     },
                                     child: Image.asset(
                                       "assets/icons/ic_arrow_l.png",

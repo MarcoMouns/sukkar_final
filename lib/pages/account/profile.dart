@@ -306,8 +306,10 @@ class _EditProfileState extends State<EditProfile> {
                                 CupertinoActionSheetAction(
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption1")),
-                                  onPressed: () {
-                                    allTranslations.setNewLanguage("en");
+                                  onPressed: () async {
+                                    allTranslations.setNewLanguage("en",true);
+                                    // SharedPreferences preferences = await SharedPreferences.getInstance();
+                                    // preferences.setString("selectedlang", "en");
                                     setState(() {});
                                     Navigator.of(context).pop();
                                   },
@@ -315,8 +317,10 @@ class _EditProfileState extends State<EditProfile> {
                                 CupertinoActionSheetAction(
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption2")),
-                                  onPressed: () {
-                                    allTranslations.setNewLanguage("ar");
+                                  onPressed: () async {
+                                    allTranslations.setNewLanguage("ar",true);
+                                    // SharedPreferences preferences = await SharedPreferences.getInstance();
+                                    // preferences.setString("selectedlang", "ar");
                                     setState(() {});
 
                                     Navigator.of(context).pop();
