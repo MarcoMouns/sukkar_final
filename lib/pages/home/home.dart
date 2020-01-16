@@ -26,7 +26,7 @@ import '../../languages/all_translations.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:screenshot_share_image/screenshot_share_image.dart';
+//import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'measurementsDetailsPage.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -735,8 +735,8 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey[300],
                           size: 15,
                         ),
-                        onTap: () =>
-                            ScreenshotShareImage.takeScreenshotShareImage(),
+                        onTap: () =>null
+                           // ScreenshotShareImage.takeScreenshotShareImage(),
                       )),
                       Expanded(
                         child: InkWell(

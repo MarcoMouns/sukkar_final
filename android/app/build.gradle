@@ -58,6 +58,7 @@ android {
             //proguardFiles "${background_geolocation.projectDir}/proguard-rules.pro"
         }
     }
+
 }
 
 flutter {
