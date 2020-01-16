@@ -141,7 +141,7 @@ class _MyAppState extends State<MyApp> {
       };
 
       await dio.post(
-          "http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
+          "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
     });
 

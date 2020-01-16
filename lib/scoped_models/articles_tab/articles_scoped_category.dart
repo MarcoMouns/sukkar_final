@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:health/Models/article_tab/article_category.dart';
 import 'package:health/Models/article_tab/article_detail_category.dart';
 import 'package:health/Models/article_tab/article_details.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
 
 mixin ArticlesCategoriesScopedModel on Model {
   Response response;
@@ -26,7 +26,7 @@ mixin ArticlesCategoriesScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/articles-category",
+        "${Settings.baseApilink}/articles-category",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -54,7 +54,7 @@ mixin ArticlesCategoriesScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/get_articles?category_id=$id",
+        "${Settings.baseApilink}/get_articles?category_id=$id",
       );
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -85,9 +85,9 @@ mixin ArticlesCategoriesScopedModel on Model {
         "Authorization": "Bearer ${authUser['authToken']}",
         // "token":"11215"
       };
-      print("$baseUrl/articles/$id");
+      print("${Settings.baseApilink}/articles/$id");
       response = await dio.get(
-        "$baseUrl/articles/$id",
+        "${Settings.baseApilink}/articles/$id",
       );
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {

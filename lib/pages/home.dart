@@ -1,5 +1,3 @@
-// import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/Settings.dart' as settings;
@@ -143,8 +141,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   int cIndex = 0;
   PageController _Pcontroller = PageController(initialPage: 3, keepPage: false);
-  PageController _P2controller = PageController(
-      initialPage: 0, keepPage: false);
 
   Widget navPages(int index, MainModel model) {
     if (index == 0) {

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/Models/sleepTime.dart';
 import 'package:health/languages/all_translations.dart';
-import 'package:health/scoped_models/measurements.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,7 +42,7 @@ class _AddSleepState extends State<AddSleep> {
       };
 
       await dio.post(
-          "$baseUrl/measurements/sleeping?startHour=${from.hour}&startMin=${from.minute}&endHour=${to.hour}&endMin=${to.minute}",
+          "${Settings.baseApilink}/measurements/sleeping?startHour=${from.hour}&startMin=${from.minute}&endHour=${to.hour}&endMin=${to.minute}",
           options: Options(headers: headers));
     } catch (e) {}
 
@@ -60,7 +60,7 @@ class _AddSleepState extends State<AddSleep> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      response = await dio.get("$baseUrl/measurements",
+      response = await dio.get("${Settings.baseApilink}/measurements",
           options: Options(headers: headers));
 
       DateTime from = DateTime(
@@ -105,7 +105,7 @@ class _AddSleepState extends State<AddSleep> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       response = await dio.delete(
-          "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
+          "${Settings.baseApilink}/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
 
       setState(() {});

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/others/adDetails.dart';
 
 class OffersScreen extends StatefulWidget {
@@ -12,14 +13,14 @@ class OffersScreen extends StatefulWidget {
 class _OffersScreenState extends State<OffersScreen> {
   Response response;
   Dio dio = new Dio();
-  final String baseUrl = 'http://api.sukar.co/api';
+
   bool isLoading = true;
   List<String> ads = new List();
   List<String> adTexts = new List();
   List<Widget> adsCards = new List();
 
   getOffers() async {
-    response = await dio.get("$baseUrl/ads");
+    response = await dio.get("${Settings.baseApilink}/ads");
     for (int i = 0; i < response.data["ads"].length; i++) {
       ads.add(response.data["ads"][i]["image"].toString());
       adTexts.add(response.data["ads"][i]["text"].toString());

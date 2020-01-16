@@ -38,7 +38,7 @@ class EditProfileUserState extends State<EditProfileUser> {
   TextEditingController nameCtrl = TextEditingController();
 
   String img;
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
   initState() {
     getUserInfo();
@@ -57,7 +57,7 @@ class EditProfileUserState extends State<EditProfileUser> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       response =
-          await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+          await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
       email = response.data['user']['email'];
       name = response.data['user']['name'];
 
@@ -102,7 +102,7 @@ class EditProfileUserState extends State<EditProfileUser> {
         );
       }
 
-      response = await dio.post("$baseUrl/users/info",
+      response = await dio.post("${Settings.baseApilink}/users/info",
           data: formdata,
           options: Options(
             headers: headers,

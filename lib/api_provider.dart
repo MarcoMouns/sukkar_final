@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'doctor_chat_model.dart';
 
 class ApiProvider{
-  static const String apiBase = "api.sukar.co/api";
-  final String baseUrl = 'http://api.sukar.co/api';
-  //
+
+
   static const String specialistsEndPoint = "specialists";
 
   Response response;
@@ -27,7 +27,7 @@ class ApiProvider{
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      response = await dio.get("$baseUrl/specialists",
+      response = await dio.get("${Settings.baseApilink}/specialists",
           options: Options(headers: headers));
       Map<String , dynamic> json = response.data;
       List<SpecialityDoc>_specoalists = List<SpecialityDoc>();

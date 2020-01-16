@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 
-final String baseUrl = 'http://api.sukar.co/api';
+
 
 mixin MedicineScopedModel on Model {
   Response response;
@@ -33,7 +34,7 @@ mixin MedicineScopedModel on Model {
       
       };
 
-      response = await dio.post("$baseUrl/medicine", data: formdata);
+      response = await dio.post("${Settings.baseApilink}/medicine", data: formdata);
       print(response.data.toString());
 
 

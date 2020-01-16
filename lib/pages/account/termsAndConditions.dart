@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 
 class TermsAndConditions extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
   void getTerms() async {
  
       response = await dio.get(
-        "http://api.sukar.co/api/terms",
+        "${Settings.baseApilink}/terms",
       );
 
       terms = response.data['terms'];

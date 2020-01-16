@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart' as settings;
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -34,7 +35,6 @@ class _ItemListState extends State<ItemList> {
   Dio dio = new Dio();
   Response response;
 
-  final String baseUrl = 'http://api.sukar.co/api';
 
   Future<Void> getMedicine() async {
     // get user token
@@ -47,7 +47,7 @@ class _ItemListState extends State<ItemList> {
     };
 
     response =
-        await dio.get("$baseUrl/medicine", options: Options(headers: authUser));
+        await dio.get("${Settings.baseApilink}/medicine", options: Options(headers: authUser));
     print(response.data);
     for (int i = 0; i < response.data['medicines'].length; i++) {
       Medicine md = new Medicine();
@@ -69,7 +69,7 @@ class _ItemListState extends State<ItemList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/foods?category=${widget.mealId}",
+    response = await dio.get("${Settings.baseApilink}/foods?category=${widget.mealId}",
         options: Options(headers: headers));
 
     for (int i = 0; i < response.data['foods'].length; i++) {
@@ -98,7 +98,7 @@ class _ItemListState extends State<ItemList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.post("$baseUrl/medicine/$id?category=$mealID",
+    response = await dio.post("${Settings.baseApilink}/medicine/$id?category=$mealID",
         options: Options(headers: headers));
     print(response.data);
 
@@ -113,7 +113,7 @@ class _ItemListState extends State<ItemList> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     await dio.post(
-        "$baseUrl/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
+        "${Settings.baseApilink}/add-new-food?title_ar=$ar&title_en=$en&calories=$cal&eat_category_id=$mealID",
         options: Options(headers: headers));
 
     setState(() {});

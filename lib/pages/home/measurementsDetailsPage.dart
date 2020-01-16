@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../measurementsPageCircles.dart';
 import 'MainCircle/Circles.dart';
@@ -57,7 +58,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
 
   Dio dio = new Dio();
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
@@ -69,7 +70,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/measurements?date=$date",
+    response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
         options: Options(headers: headers));
     sugerToday = response.data["Measurements"]["sugar"] == null
         ? 0

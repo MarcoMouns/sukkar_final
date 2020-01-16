@@ -679,7 +679,7 @@ class _MapPageState extends State<MapPage> {
                                   formdata.add("calories",
                                       ((steps * 0.0512).ceil()).toInt());
                                   response = await dio.post(
-                                      "http://api.sukar.co/api/mapInformation",
+                                      "${Settings.baseApilink}/mapInformation",
                                       data: formdata);
                                   if (response.statusCode != 200 &&
                                       response.statusCode != 201) {

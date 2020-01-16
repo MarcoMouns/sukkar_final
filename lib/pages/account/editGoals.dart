@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home.dart';
@@ -24,7 +25,7 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
   String iconRemainingName = "_gray";
   Dio dio = new Dio();
 
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
   Future<Response> getCurrentGoals() async {
     Response response;
@@ -35,7 +36,7 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/measurements/goals",
+    response = await dio.get("${Settings.baseApilink}/measurements/goals",
         options: Options(headers: headers));
     waterGoal = response.data['goals']['water_cups_goal'];
     distanceGoal = response.data['goals']['distance_goal'];
@@ -61,7 +62,7 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response = await dio.post(
-        "$baseUrl/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal&isAutomatically=$isAuto",
+        "${Settings.baseApilink}/measurements/goals?steps_goal=$stepsGoal&calorie_goal=$calGoal&distance_goal=$distanceGoal&water_cups_goal=$waterGoal&isAutomatically=$isAuto",
         options: Options(headers: headers));
 
     return response;

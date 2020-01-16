@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Contacts extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ContactsState extends State<Contacts> {
   void getSocialLinks() async {
  try{
       response = await dio.get(
-      "http://api.sukar.co/api/social",
+      "${Settings.baseApilink}/social",
     );
 
     snapChat = response.data['snapchat'];

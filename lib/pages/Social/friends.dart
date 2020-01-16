@@ -133,7 +133,7 @@ class _FriendsPageState extends State<FriendsPage>
                               formdata.forEach((e, r) {});
 
                               response = await dio.get(
-                                  "http://api.sukar.co/api/auth/searchCode/$value");
+                                  "${Settings.baseApilink}/auth/searchCode/$value");
 
                               if (response.data.isEmpty) {
                                 setState(() {
@@ -246,7 +246,7 @@ class _FriendsPageState extends State<FriendsPage>
                                       };
 
                                       response3 = await dio3.post(
-                                          "http://api.sukar.co/api/follow/$id");
+                                          "${Settings.baseApilink}/follow/$id");
                                       getAll();
                                       check = true;
                                       hiController.clear();
@@ -418,7 +418,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                               "Bearer ${authUser['authToken']}",
                                                                         };
                                                                         response =
-                                                                            await dio.post("http://api.sukar.co/api/unfollow/${following[index].id}");
+                                                                            await dio.post("${Settings.baseApilink}/unfollow/${following[index].id}");
                                                                         setState(
                                                                             () {});
 
@@ -467,7 +467,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         };
 
                                                                         response =
-                                                                            await dio.post("http://api.sukar.co/api/unfollow/${following[index].id}");
+                                                                            await dio.post("${Settings.baseApilink}/unfollow/${following[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                         getAll();
@@ -596,7 +596,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                               "Bearer ${authUser['authToken']}",
                                                                         };
                                                                         response2 =
-                                                                            await dio2.post("http://api.sukar.co/api/unfollow/${followers[index].id}");
+                                                                            await dio2.post("${Settings.baseApilink}/unfollow/${followers[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                       } on DioError catch (e) {
@@ -638,7 +638,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         };
 
                                                                         response2 =
-                                                                            await dio2.post("http://api.sukar.co/api/follow/${followers[index].id}");
+                                                                            await dio2.post("${Settings.baseApilink}/follow/${followers[index].id}");
                                                                         print(
                                                                             'Response = ${response.data}');
                                                                       } on DioError catch (e) {

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/Models/home_model.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
+
 
 mixin HomeScopedModel on Model {
   Response response;
@@ -24,7 +25,7 @@ mixin HomeScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/measurements/date?date=$date",
+        "${Settings.baseApilink}/measurements/date?date=$date",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();

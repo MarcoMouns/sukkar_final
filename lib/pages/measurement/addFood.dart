@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/measurement/itemList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
@@ -35,7 +36,7 @@ class _AddFoodState extends State<AddFood> {
   Dio dio = new Dio();
   Response response;
 
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
 
 
@@ -99,7 +100,7 @@ class _AddFoodState extends State<AddFood> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.delete("$baseUrl/food-today/$id",
+    response = await dio.delete("${Settings.baseApilink}/food-today/$id",
         options: Options(headers: headers));
 
   

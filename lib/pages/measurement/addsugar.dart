@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
@@ -67,7 +68,7 @@ class _AddSugarState extends State<AddSugar> {
       var formatter = new intl.DateFormat('hh:mm a');
       String formatted = formatter.format(now);
       await dio.post(
-          "$baseUrl/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
+          "${Settings.baseApilink}/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
     } catch (e) {
       print("error =====================");
@@ -87,7 +88,7 @@ class _AddSugarState extends State<AddSugar> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      response = await dio.get("$baseUrl/measurements?date=$date",
+      response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
           options: Options(headers: headers));
 
       if (measuresOfDay.isNotEmpty) {
@@ -119,7 +120,7 @@ class _AddSugarState extends State<AddSugar> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       response = await dio.delete(
-          "$baseUrl/measurements/sugar?date=$date&sugar=$val&time=$time",
+          "${Settings.baseApilink}/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
 
       setState(() {});

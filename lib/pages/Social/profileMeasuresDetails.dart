@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../measurementsPageCircles.dart';
@@ -45,7 +46,6 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
 
   Dio dio = new Dio();
-  final String baseUrl = 'http://api.sukar.co/api';
 
   int id = ProfileMeasurementDetails.friendId;
 
@@ -60,7 +60,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/friends/$id",
+    response = await dio.get("${Settings.baseApilink}/friends/$id",
         options: Options(headers: headers));
     print(response.data);
     res = response;

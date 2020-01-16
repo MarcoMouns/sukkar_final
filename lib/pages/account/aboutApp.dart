@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 
 class AboutApp extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class AboutAppState extends State<AboutApp> {
   void getAbout() async {
  
       response = await dio.get(
-        "http://api.sukar.co/api/about",
+        "${Settings.baseApilink}/about",
       );
 
       about = response.data['about'];

@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/Models/articles.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
+
 
 mixin ArticlesScopedModel on Model {
   Response response;
@@ -22,7 +23,7 @@ mixin ArticlesScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/articles",
+        "${Settings.baseApilink}/articles",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();

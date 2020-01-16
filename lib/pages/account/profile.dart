@@ -43,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
     };
 
     response = await dio.get(
-      "http://api.sukar.co/api/auth/me",
+      "${Settings.baseApilink}/auth/me",
     );
 
     weight = response.data['user']['weight'];

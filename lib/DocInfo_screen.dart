@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'chat.dart';
@@ -47,7 +48,7 @@ class _DocInfoState extends State<DocInfo> {
     };
      print(widget.dId);
     response = await dio.get(
-      "http://api.sukar.co/api/doctors/${widget.dId}",
+      "${Settings.baseApilink}/doctors/${widget.dId}",
     );
     isLoading=false;
     setState(() {

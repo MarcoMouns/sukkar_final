@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/notifications.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +20,7 @@ class NotificationsState extends State<Notifications> {
 
   Dio dio = new Dio();
   Response response;
-  final String baseUrl = 'http://api.sukar.co/api';
+
   var data;
   var length;
   bool loading;
@@ -57,7 +58,7 @@ class NotificationsState extends State<Notifications> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response = await dio.get(
-      "$baseUrl/notifications",
+      "${Settings.baseApilink}/notifications",
     );
 
     data = response.data['notifications']['data'];

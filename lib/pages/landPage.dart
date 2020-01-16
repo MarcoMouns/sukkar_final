@@ -30,13 +30,13 @@ class _LandPageState extends State<LandPage> {
 
   Dio dio = new Dio();
 
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
   Future<Void> getMessages() async {
     Response response;
     List<String> msgs1 = new List();
    
-    response = await dio.get("$baseUrl/opening-texts");
+    response = await dio.get("${Settings.baseApilink}/opening-texts");
 
 
     for(int i=0; i < response.data.length;i++){

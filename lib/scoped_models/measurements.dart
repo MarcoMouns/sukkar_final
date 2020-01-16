@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
 
 mixin MeasurementsScopedModel on Model {
   Response response;
@@ -33,7 +33,7 @@ mixin MeasurementsScopedModel on Model {
         print('{$e : $r}');
       });
 
-      response = await dio.post("$baseUrl/measurements", data: formdata);
+      response = await dio.post("${Settings.baseApilink}/measurements", data: formdata);
       print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {

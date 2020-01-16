@@ -9,7 +9,7 @@ import '../languages/all_translations.dart';
 
 class Settings {
   static String googleApi = 'AIzaSyCBlmohZdkR7SPHIsQDzIMhKNc_wLaimDs';
-
+  static String baseApilink ='http://api.sukar.co/api';
   static int currentIndex = 0;
   static Function navigationTapped;
 

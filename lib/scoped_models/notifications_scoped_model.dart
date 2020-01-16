@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:health/Models/notifications.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
 
 mixin NotificationsScopedModel on Model {
   Response response;
@@ -24,7 +24,7 @@ mixin NotificationsScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/notifications",
+        "${Settings.baseApilink}/notifications",
       );
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {

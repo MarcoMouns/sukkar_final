@@ -6,6 +6,7 @@ import 'package:health/height/height_picker.dart';
 import 'package:health/height/widget_utils.dart';
 import 'package:health/languages/all_translations.dart';
 import "package:after_layout/after_layout.dart";
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightAndHeight extends StatefulWidget {
@@ -269,7 +270,7 @@ class _WeightAndHeightState extends State<WeightAndHeight>
                             };
 
                             response = await dio.post(
-                                "http://api.sukar.co/api/users/height-weight",
+                                "${Settings.baseApilink}/users/height-weight",
                                 data: {
                                   "_method": 'PUT',
                                   "height": height,

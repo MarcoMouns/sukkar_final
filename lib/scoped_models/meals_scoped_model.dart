@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../Models/foods_model.dart';
 import '../Models/meals.dart';
 import '../Models/all_meals_foods.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
 
 mixin MealScopedModel on Model {
   Response response;
@@ -16,7 +16,7 @@ mixin MealScopedModel on Model {
   Future<MealModel> fetchMeals() async {
     try {
       response = await dio.get(
-        "$baseUrl/eatCategories",
+        "${Settings.baseApilink}/eatCategories",
       );
       print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -52,7 +52,7 @@ mixin MealScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/foods",
+        "${Settings.baseApilink}/foods",
       );
       print("................foods.................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -86,7 +86,7 @@ mixin MealScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/userFoods",
+        "${Settings.baseApilink}/userFoods",
       );
       print(".................................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -148,7 +148,7 @@ mixin MealScopedModel on Model {
       print("+++++++++++++++++++++++++++++ fromdate $formdata");
       
       for(int i= 0 ; i<foods.length; i++){
-      response = await dio.post("$baseUrl/eat/${foods[i].id}");
+      response = await dio.post("${Settings.baseApilink}/eat/${foods[i].id}");
       print(".................................. ${response.data.toString()}");
       }
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -194,7 +194,7 @@ mixin MealScopedModel on Model {
         // "token":"11215"
       };
 
-      response = await dio.post("$baseUrl/Userfoodtaken", data: formdata);
+      response = await dio.post("${Settings.baseApilink}/Userfoodtaken", data: formdata);
       print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();

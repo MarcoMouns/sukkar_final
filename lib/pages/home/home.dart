@@ -47,16 +47,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   bool fitKitPermissions;
-//width of the screen to init the siwiper postion
+
   var dateSplit;
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-//to know where it's first time or not user to idnitfy swiper postion
+
   bool _firstPageLoad = true;
-//scrollController to init the swiper postion
+
   ScrollController _scrollController;
   Response response;
   MeasurementsBean dataHome;
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   bool istrue = false;
   List newList = [];
   List<int> _calories = [];
-  int Rcalories;
+  int rcalories;
   DateTime selectedDate = DateTime.now();
   DateTime dummySelectedDate = DateTime.now();
 
@@ -151,23 +150,10 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
   }
 
-    Future<void> hasPermissions() async {
-    try {
-      fitKitPermissions = await FitKit.hasPermissions([DataType.DISTANCE,DataType.STEP_COUNT,DataType.ENERGY]);
-    } catch (e) {
-      fitKitPermissions = false;
-
-    }
-
-    if (!mounted) return;
-
-    setState(() {});
-  }
-
   Future<List<int>> healthKit() async {
-    await FitKit.hasPermissions([DataType.DISTANCE,DataType.STEP_COUNT,DataType.ENERGY]);
-    // await hasPermissions();
-    List<int> Steps = new List<int>();
+    await FitKit.hasPermissions(
+        [DataType.DISTANCE, DataType.STEP_COUNT, DataType.ENERGY]);
+    List<int> steps = new List<int>();
     List<int> disctance = new List<int>();
     List<int> homeCalories = new List<int>();
     DateTime usedDate =
@@ -212,7 +198,7 @@ class _HomePageState extends State<HomePage> {
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-      await http.post("$baseUrl/measurements?day_Calories=$calories", body: {
+      await http.post("${Settings.baseApilink}/measurements?day_Calories=$calories", body: {
         "distance": "$distance",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -226,42 +212,39 @@ class _HomePageState extends State<HomePage> {
       for (int i = 0; i <= disctance.length - 1; i++) {
         distance = disctance[i] + distance;
       }
-
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
 
-      var response = await http.post("$baseUrl/update-distance", body: {
+      await http.post("${Settings.baseApilink}/update-distance", body: {
         "distance": "$distance",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
       });
-
       setState(() {});
     }
 
     if (healthKitStepsData.isEmpty) {
-      return Steps;
+      return steps;
     } else {
       for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
         fitStepsData.add(healthKitStepsData[i]);
-        Steps.add(fitStepsData[i].value.round());
+        steps.add(fitStepsData[i].value.round());
       }
-      return Steps;
+      return steps;
     }
   }
 
   void calculateSteps() async {
     int steps = 0;
-    List<int> StepsList = new List<int>();
-    StepsList = await healthKit();
-
-    if (StepsList.isEmpty) {
+    List<int> stepsList = new List<int>();
+    stepsList = await healthKit();
+    if (stepsList.isEmpty) {
       totalSteps = 0;
     } else {
-      for (int i = 0; i <= StepsList.length - 1; i++) {
-        steps = StepsList[i] + steps;
+      for (int i = 0; i <= stepsList.length - 1; i++) {
+        steps = stepsList[i] + steps;
       }
       if (flag == true) {
         totalSteps = steps;
@@ -272,9 +255,7 @@ class _HomePageState extends State<HomePage> {
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-
-      var response =
-          await http.post("http://api.sukar.co/api/update-steps", body: {
+          await http.post("${Settings.baseApilink}/update-steps", body: {
         "steps": "$step",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -294,35 +275,19 @@ class _HomePageState extends State<HomePage> {
       print("Bearer ${authUser['authToken']}");
 
       var res = await dio.post(
-          "http://api.sukar.co/api/auth/user/update-token?firebase_token=$t",
+          "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
       print(res.data);
     });
 
     if (Platform.isIOS) {
-      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-      });
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {});
 
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     content: ListTile(
-        //       title: Text(message['notification']['title']==null ?"":message['notification']['title']),
-        //       subtitle: Text(message['notification']['body']==null ?"":message['notification']['body']),
-        //     ),
-        //     actions: <Widget>[
-        //       FlatButton(
-        //         child: Text('Ok'),
-        //         onPressed: () => Navigator.of(context).pop(),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -359,9 +324,9 @@ class _HomePageState extends State<HomePage> {
 
   addIntToSF() async {
     if (_calories.length == 0) {
-      Rcalories = 0;
+      rcalories = 0;
     } else {
-      Rcalories = _calories.reduce((a, b) => a + b).toInt();
+      rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
   }
 
@@ -373,7 +338,7 @@ class _HomePageState extends State<HomePage> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response =
-        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+        await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
     circleBlood = response.data['user']['circles']['blood'];
     circleHeart = response.data['user']['circles']['heart'];
     circleSteps = response.data['user']['circles']['steps'];
@@ -386,8 +351,8 @@ class _HomePageState extends State<HomePage> {
       ncal = 0;
     }
 
-    if (Rcalories > ncal && ncal != 0) {
-      calTarget = Rcalories - ncal;
+    if (rcalories > ncal && ncal != 0) {
+      calTarget = rcalories - ncal;
     }
     initialCircles(169.0285);
     initListOfCircles();
@@ -419,7 +384,7 @@ class _HomePageState extends State<HomePage> {
 
   Dio dio = new Dio();
 
-  final String baseUrl = 'http://api.sukar.co/api';
+
 
   Future sendWorkingHours() async {
     Response response;
@@ -431,13 +396,13 @@ class _HomePageState extends State<HomePage> {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response =
-        await dio.get("$baseUrl/auth/me", options: Options(headers: headers));
+        await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
 
     int isDoctor = response.data["user"]["state"];
     if (isDoctor == 2) {
       Response response2;
 
-      response2 = await dio.put("$baseUrl/doctors/update-work-hours?minutes=15",
+      response2 = await dio.put("${Settings.baseApilink}/doctors/update-work-hours?minutes=15",
           options: Options(headers: headers));
     }
   }
@@ -450,7 +415,7 @@ class _HomePageState extends State<HomePage> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/measurements?date=$date",
+    response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
         options: Options(headers: headers));
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
@@ -504,7 +469,7 @@ class _HomePageState extends State<HomePage> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      response = await dio.get("$baseUrl/measurements/sugarReads?date=$date1",
+      response = await dio.get("${Settings.baseApilink}/measurements/sugarReads?date=$date1",
           options: Options(headers: headers));
 
       List<dynamic> date = new List();
@@ -822,16 +787,10 @@ class _HomePageState extends State<HomePage> {
       init(context);
       _firstPageLoad = false;
     }
-
-    //   get free pixels free to render widgets on it
-    //   40 appbar heigth
-    //   56 bottom navigation bar heigth
-    //   MediaQuery.of(context).padding.top is the height of status bar
     double _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         40 -
         56;
-    //check if the width or height ratio is bigger so no overlaying occur
     double _chartRadius =
         (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
                     MediaQuery.of(context).size.width - 30
@@ -944,8 +903,7 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   Container(),
                                   InkWell(
-                                    onTap: () {
-                                    },
+                                    onTap: () {},
                                     child: Image.asset(
                                       "assets/icons/ic_arrow_l.png",
                                       width: 15,
@@ -1547,7 +1505,7 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
-  Future<void> exitt() {
+  exitt() {
     exit(0);
   }
 

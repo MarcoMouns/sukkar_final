@@ -5,11 +5,12 @@ import 'package:health/Models/friends_tab/getFollowers.dart';
 import 'package:health/Models/friends_tab/getFollowing.dart';
 import 'package:health/Models/friends_tab/getMeasureFriends.dart';
 import 'package:health/Models/friends_tab/searchFriends.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-final String baseUrl = 'http://api.sukar.co/api';
+
 
 mixin FriendsScopedModel on Model {
   Response response;
@@ -27,7 +28,7 @@ mixin FriendsScopedModel on Model {
       };
 
       response = await dio.get(
-          "http://api.sukar.co/api/auth/searchCode/$value");
+          "${Settings.baseApilink}/auth/searchCode/$value");
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -56,7 +57,7 @@ mixin FriendsScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/followers",
+        "${Settings.baseApilink}/followers",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -85,7 +86,7 @@ mixin FriendsScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/following",
+        "${Settings.baseApilink}/following",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -113,7 +114,7 @@ mixin FriendsScopedModel on Model {
       };
 
       response = await dio
-          .post("$baseUrl/get_friend_information", data: {'user_id': user_id});
+          .post("${Settings.baseApilink}/get_friend_information", data: {'user_id': user_id});
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;

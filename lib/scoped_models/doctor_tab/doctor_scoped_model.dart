@@ -4,10 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:health/Models/doctor_tab/doctor_chat.dart';
 import 'package:health/Models/doctor_tab/doctor_specialists.dart';
 import 'package:health/Models/doctor_tab/specialists.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-final String baseUrl = 'http://api.sukar.co/api';
+
 
 mixin DoctorScopedModel on Model {
   Response response;
@@ -26,7 +27,7 @@ mixin DoctorScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/specialists",
+        "${Settings.baseApilink}/specialists",
       );
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -56,7 +57,7 @@ mixin DoctorScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/doctors?specialist_id=$id",
+        "${Settings.baseApilink}/doctors?specialist_id=$id",
       );
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -85,9 +86,9 @@ mixin DoctorScopedModel on Model {
       };
 
       response = await dio.get(
-        "$baseUrl/chat/$userId",
+        "${Settings.baseApilink}/chat/$userId",
       );
-      print('$baseUrl/chat/$userId');
+      print('${Settings.baseApilink}/chat/$userId');
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -121,7 +122,7 @@ mixin DoctorScopedModel on Model {
 
       });
 
-      response = await dio.post("$baseUrl/sendMessage", data: formData);
+      response = await dio.post("${Settings.baseApilink}/sendMessage", data: formData);
       print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {

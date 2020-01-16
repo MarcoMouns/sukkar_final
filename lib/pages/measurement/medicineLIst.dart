@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/medicine_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../home.dart';
@@ -30,7 +31,6 @@ class _MedListState extends State<MedList> {
   Dio dio = new Dio();
   Response response;
 
-  final String baseUrl = 'http://api.sukar.co/api';
 
   Future<Void> getMedi() async {
     medi.clear();
@@ -40,7 +40,7 @@ class _MedListState extends State<MedList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("$baseUrl/medicine-today",
+    response = await dio.get("${Settings.baseApilink}/medicine-today",
         options: Options(headers: headers));
 
      mealsTakenAr.clear();
@@ -71,7 +71,7 @@ class _MedListState extends State<MedList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.delete("$baseUrl/medicine-today/$id",
+    response = await dio.delete("${Settings.baseApilink}/medicine-today/$id",
         options: Options(headers: headers));
 
     setState(() {});

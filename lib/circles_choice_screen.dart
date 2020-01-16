@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -317,7 +318,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
 
     try{
       response = await dio.post(
-          "http://api.sukar.co/api/users/circles",
+          "${Settings.baseApilink}/users/circles",
           data: _formData,
           options: Options(headers: headers));
 
