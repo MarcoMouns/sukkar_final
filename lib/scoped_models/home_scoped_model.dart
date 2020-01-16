@@ -38,9 +38,6 @@ mixin HomeScopedModel on Model {
       print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
       print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return null;
     }

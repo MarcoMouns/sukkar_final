@@ -151,8 +151,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<int>> healthKit() async {
-    await FitKit.hasPermissions(
+ var r =    await FitKit.hasPermissions(
         [DataType.DISTANCE, DataType.STEP_COUNT, DataType.ENERGY]);
+
     List<int> steps = new List<int>();
     List<int> disctance = new List<int>();
     List<int> homeCalories = new List<int>();
@@ -164,18 +165,31 @@ class _HomePageState extends State<HomePage> {
       dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
+    print("===================================");
+    print(r);
+    print(healthKitStepsData);
+    print("===================================");
+    
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
       dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
+    print("===================================");
+    print(r);
+    print(healthKitDistanceData);
+    print("===================================");
 
     healthKitCaloriesData = await FitKit.read(
       DataType.ENERGY,
       dateFrom: usedDate,
       dateTo: DateTime.now(),
     );
+    print("===================================");
+    print(r);
+    print(healthKitCaloriesData);
+    print("===================================");
 
     for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
       fitDistanceData.add(healthKitDistanceData[i]);

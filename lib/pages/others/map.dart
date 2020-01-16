@@ -190,17 +190,20 @@ class _MapPageState extends State<MapPage> {
   ///********************from here this is the stopwatch********************
   ///note: i was too lazy to make this in another class and use it here #panda
 
-  static Pedometer _pedometer;
-  static StreamSubscription<int> _subscription;
-  static String _stepCountValue = '0';
+  Pedometer pedometer;
+  StreamSubscription<int> _subscription;
+  String _stepCountValue = '0';
+  int initVal = 0;
+  int stepsThisRun = 0;
 
   Future<void> initPlatformState() async {
     startListening();
   }
 
   void startListening() {
-    _pedometer = new Pedometer();
-    _subscription = _pedometer.pedometerStream.listen(_onData,
+    pedometer = new Pedometer();
+
+    _subscription = pedometer.pedometerStream.listen(_onData,
         onError: _onError, onDone: _onDone, cancelOnError: true);
   }
 
@@ -209,7 +212,17 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _onData(int stepCountValue) async {
-    setState(() => _stepCountValue = "$stepCountValue");
+    if (initVal == 0) {
+      stepsThisRun = 0;
+    } else {
+      print("-----------");
+      print(stepCountValue - initVal);
+      print("-----------");
+      stepsThisRun += stepCountValue - initVal;
+    }
+
+    setState(() => _stepCountValue = "$stepsThisRun");
+    initVal = stepCountValue;
   }
 
   void _onDone() => print("Finished pedometer tracking");
@@ -279,7 +292,6 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-
   void updatePostion() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
@@ -291,6 +303,7 @@ class _MapPageState extends State<MapPage> {
     });
     setState(() {});
   }
+
   Timer time;
   DateTime startTime = DateTime.now();
   Position myPosition = Position(latitude: 0, longitude: 0);
@@ -390,7 +403,6 @@ class _MapPageState extends State<MapPage> {
                             () => VerticalDragGestureRecognizer())),
                       compassEnabled: true,
                     ),
-
 
                     new Positioned(
                       top: 50,
@@ -644,15 +656,16 @@ class _MapPageState extends State<MapPage> {
                               setState(() {});
                               if (checkRun == true) {
                                 dependencies.stopwatch.reset();
-                               
+                                startListening();
                                 _stepCountValue = '0';
+                                stepsThisRun = 0;
                                 startTime = DateTime.now();
                                 initPlatformState();
                                 updatePostion();
                                 time = Timer.periodic(Duration(seconds: 10),
                                     (Timer t) => updatePostion());
                               } else if (checkRun == false) {
-                               stopListening();
+                                stopListening();
                                 draw();
                                 time.cancel();
                                 setState(() {
@@ -702,9 +715,7 @@ class _MapPageState extends State<MapPage> {
                     )
                   ],
                 ),
-        )
-
-        );
+        ));
   }
 }
 
