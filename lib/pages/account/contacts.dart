@@ -45,83 +45,88 @@ class _ContactsState extends State<Contacts> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(allTranslations.text("contacts")),
-      ),
-      body: loading == true ? ListView( children: <Widget>[
-        Loading()
-      ], ) :ListView(
-        children: <Widget>[
-          ListTile(
-            title: Text(
-              allTranslations.text("twitter"),
-              style: TextStyle(color: Colors.grey),
+    return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(allTranslations.text("contacts")),
+        ),
+        body: loading == true ? ListView( children: <Widget>[
+          Loading()
+        ], ) :ListView(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                allTranslations.text("twitter"),
+                style: TextStyle(color: Colors.grey),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.redAccent,
+              ),
+              onTap: () {
+               var url = twitter;
+                launch(url);
+              },
             ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.redAccent,
+            Divider(
+              height: 0,
             ),
-            onTap: () {
-             var url = twitter;
-              launch(url);
-            },
-          ),
-          Divider(
-            height: 0,
-          ),
-          ListTile(
-            title: Text(
-              allTranslations.text("Snapchat"),
-              style: TextStyle(color: Colors.grey),
+            ListTile(
+              title: Text(
+                allTranslations.text("Snapchat"),
+                style: TextStyle(color: Colors.grey),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.redAccent,
+              ),
+              onTap: () {
+                var url = snapChat;
+                launch(url);
+              },
             ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.redAccent,
+            Divider(
+              height: 0,
             ),
-            onTap: () {
-              var url = snapChat;
-              launch(url);
-            },
-          ),
-          Divider(
-            height: 0,
-          ),
-          ListTile(
-            title: Text(
-              allTranslations.text("instagram"),
-              style: TextStyle(color: Colors.grey),
+            ListTile(
+              title: Text(
+                allTranslations.text("instagram"),
+                style: TextStyle(color: Colors.grey),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.redAccent,
+              ),
+              onTap: () {
+                var url = instagram;
+                launch(url);
+              },
             ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.redAccent,
+            Divider(
+              height: 0,
             ),
-            onTap: () {
-              var url = instagram;
-              launch(url);
-            },
-          ),
-          Divider(
-            height: 0,
-          ),
-          ListTile(
-            title: Text(
-              allTranslations.text("facebook"),
-              style: TextStyle(color: Colors.grey),
+            ListTile(
+              title: Text(
+                allTranslations.text("facebook"),
+                style: TextStyle(color: Colors.grey),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.redAccent,
+              ),
+              onTap: () {
+                var url = facebook;
+                launch(url);
+              },
             ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.redAccent,
+            Divider(
+              height: 0,
             ),
-            onTap: () {
-              var url = facebook;
-              launch(url);
-            },
-          ),
-          Divider(
-            height: 0,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

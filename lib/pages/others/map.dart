@@ -215,9 +215,6 @@ class _MapPageState extends State<MapPage> {
     if (initVal == 0) {
       stepsThisRun = 0;
     } else {
-      print("-----------");
-      print(stepCountValue - initVal);
-      print("-----------");
       stepsThisRun += stepCountValue - initVal;
     }
 

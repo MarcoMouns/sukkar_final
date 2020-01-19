@@ -83,29 +83,30 @@ class NotificationsState extends State<Notifications> {
                   : new ListView.builder(
                       itemCount: length,
                       itemBuilder: (context, index) {
-                        FontWeight fontWeight =
-                            index % 2 == 0 ? FontWeight.bold : null;
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: Icon(
-                              Icons.notifications,
-                              color: Colors.white,
+                        return Container(
+                          color: index % 2 == 0 ? Colors.grey[350] : Colors.white,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.red,
+                              child: Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          title: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Text(data[index]['title'],
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: fontWeight)),
-                            ],
-                          ),
-                          subtitle: Text(
-                            data[index]['body'],
-                            style: TextStyle(
-                                color: Colors.black, fontWeight: fontWeight),
+                            title: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Text(data[index]['title'],
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            subtitle: Text(
+                              data[index]['body'],
+                              style: TextStyle(
+                                  color: Colors.black),
+                            ),
                           ),
                         );
                       })),

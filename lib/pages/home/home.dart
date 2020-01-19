@@ -17,6 +17,7 @@ import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
@@ -26,7 +27,6 @@ import '../../languages/all_translations.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-//import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'measurementsDetailsPage.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -67,6 +67,10 @@ class _HomePageState extends State<HomePage> {
   bool loading1;
   bool loading2;
   bool initOpen = true;
+  Icon icNotifications = Icon(
+    Icons.notifications_none,
+    color: Colors.black,
+  );
 
   List<dynamic> datesOfMeasures = [" ", " ", " ", " ", " ", " ", " "];
   List<dynamic> measuresData = [
@@ -151,7 +155,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<int>> healthKit() async {
- var r =    await FitKit.hasPermissions(
+    var r = await FitKit.hasPermissions(
         [DataType.DISTANCE, DataType.STEP_COUNT, DataType.ENERGY]);
 
     List<int> steps = new List<int>();
@@ -169,7 +173,6 @@ class _HomePageState extends State<HomePage> {
     print(r);
     print(healthKitStepsData);
     print("===================================");
-    
 
     healthKitDistanceData = await FitKit.read(
       DataType.DISTANCE,
@@ -212,11 +215,14 @@ class _HomePageState extends State<HomePage> {
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-      await http.post("${Settings.baseApilink}/measurements?day_Calories=$calories", body: {
-        "distance": "$distance",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
+      await http.post(
+          "${Settings.baseApilink}/measurements?day_Calories=$calories",
+          body: {
+            "distance": "$distance",
+          },
+          headers: {
+            "Authorization": "Bearer ${authUser['authToken']}"
+          });
     }
 
     if (disctance.isEmpty) {
@@ -269,7 +275,7 @@ class _HomePageState extends State<HomePage> {
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
           jsonDecode(sharedPreferences.getString("authUser"));
-          await http.post("${Settings.baseApilink}/update-steps", body: {
+      await http.post("${Settings.baseApilink}/update-steps", body: {
         "steps": "$step",
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
@@ -302,6 +308,11 @@ class _HomePageState extends State<HomePage> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        icNotifications = Icon(
+          Icons.notifications,
+          color: Colors.red,
+        );
+        setState(() {});
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -351,8 +362,8 @@ class _HomePageState extends State<HomePage> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response =
-        await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
+    response = await dio.get("${Settings.baseApilink}/auth/me",
+        options: Options(headers: headers));
     circleBlood = response.data['user']['circles']['blood'];
     circleHeart = response.data['user']['circles']['heart'];
     circleSteps = response.data['user']['circles']['steps'];
@@ -398,8 +409,6 @@ class _HomePageState extends State<HomePage> {
 
   Dio dio = new Dio();
 
-
-
   Future sendWorkingHours() async {
     Response response;
 
@@ -409,14 +418,15 @@ class _HomePageState extends State<HomePage> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response =
-        await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
+    response = await dio.get("${Settings.baseApilink}/auth/me",
+        options: Options(headers: headers));
 
     int isDoctor = response.data["user"]["state"];
     if (isDoctor == 2) {
       Response response2;
 
-      response2 = await dio.put("${Settings.baseApilink}/doctors/update-work-hours?minutes=15",
+      response2 = await dio.put(
+          "${Settings.baseApilink}/doctors/update-work-hours?minutes=15",
           options: Options(headers: headers));
     }
   }
@@ -483,7 +493,8 @@ class _HomePageState extends State<HomePage> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      response = await dio.get("${Settings.baseApilink}/measurements/sugarReads?date=$date1",
+      response = await dio.get(
+          "${Settings.baseApilink}/measurements/sugarReads?date=$date1",
           options: Options(headers: headers));
 
       List<dynamic> date = new List();
@@ -735,8 +746,8 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey[300],
                           size: 15,
                         ),
-                        onTap: () =>null
-                           // ScreenshotShareImage.takeScreenshotShareImage(),
+                        onTap: () =>
+                            ScreenshotShareImage.takeScreenshotShareImage(),
                       )),
                       Expanded(
                         child: InkWell(
@@ -862,15 +873,17 @@ class _HomePageState extends State<HomePage> {
                   actions: <Widget>[
                     IconButton(
                       onPressed: () {
+                        icNotifications = Icon(
+                          Icons.notifications_none,
+                          color: Colors.black,
+                        );
+                        setState(() {});
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Notifications()));
                       },
-                      icon: Icon(
-                        Icons.notifications_none,
-                        color: Colors.black,
-                      ),
+                      icon: icNotifications,
                     ),
                   ],
                   leading: FittedBox(

@@ -34,24 +34,29 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(allTranslations.text("Terms")),
-          centerTitle: true,
-        ),
-        body: isloading == true ? Loading():Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            children: <Widget>[
-              
-               Text(terms,style:TextStyle(fontSize: 20)),
-              
-          
-
-              
-
-            ],
+        return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(allTranslations.text("Terms")),
+            centerTitle: true,
           ),
-        ));
+          body: isloading == true ? Loading():Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ListView(
+              children: <Widget>[
+                
+                 Text(terms,style:TextStyle(fontSize: 20)),
+                
+            
+
+                
+
+              ],
+            ),
+          )),
+    );
   }
 }
