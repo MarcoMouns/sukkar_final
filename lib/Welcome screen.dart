@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
 import 'package:health/scoped_models/main.dart';
-//import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'languages/all_translations.dart';
 import 'pages/Settings.dart';
 import 'pages/landPage.dart';
@@ -138,7 +137,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       frYHieght = r8.toDouble();
 
       setState(() {
-        // Here you can write your code for open new view
       });
     });
   }
@@ -191,7 +189,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           size: 15,
                         ),
                         onTap: null
-                            //ScreenshotShareImage.takeScreenshotShareImage(),
                       )),
                   Expanded(
                     child: InkWell(

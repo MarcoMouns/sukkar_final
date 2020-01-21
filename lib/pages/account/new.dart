@@ -16,15 +16,18 @@ class NewUser extends StatefulWidget {
 class _NewUserState extends State<NewUser> {
   FocusNode _focusNode = FocusNode();
   String phoneNum;
+  String name;
+  String password;
   bool _isLoading = false;
   bool isClicked = false;
-  void clicked(){
-    isClicked=true;
+  void clicked() {
+    isClicked = true;
     setState(() {});
   }
 
-  void policy(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TermsAndConditions()));
+  void policy() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => TermsAndConditions()));
     clicked();
   }
 
@@ -36,14 +39,17 @@ class _NewUserState extends State<NewUser> {
             title: Text(
               allTranslations.text("Privacy policy"),
             ),
-            content: Text("اقراء الشروط و الاحكام" , style: TextStyle(color: Colors.black),),
+            content: Text(
+              "اقراء الشروط و الاحكام",
+              style: TextStyle(color: Colors.black),
+            ),
             actions: <Widget>[
               InkWell(
                 child: Text(
                   allTranslations.text("Agree"),
                   style: TextStyle(color: Colors.blue),
                 ),
-                onTap: () async{
+                onTap: () async {
                   Navigator.of(context).pop();
                 },
               ),
@@ -71,7 +77,7 @@ class _NewUserState extends State<NewUser> {
     setState(() {
       _isLoading = true;
     });
-    model.addPhoneNumber(phoneNum).then((result) {
+    model.addPhoneNumber(phoneNum, name, password).then((result) {
       if (result == true) {
         setState(() {
           _isLoading = false;
@@ -121,8 +127,7 @@ class _NewUserState extends State<NewUser> {
                       padding: Platform.isIOS
                           ? EdgeInsets.only(top: 50.0)
                           : EdgeInsets.only(top: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(40.0),
@@ -146,91 +151,120 @@ class _NewUserState extends State<NewUser> {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          LogInInput(
+                            enabled: true,
+                            name: "username",
+                            keyboard: TextInputType.text,
+                            autoValidate: false,
+                            onSaved: (String val) {
+                              setState(() {
+                                name = val;
+                              });
+                            },
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return myLocale.languageCode.contains("en")
+                                    ? "userName is required."
+                                    : "اسم المستخدم مطلوب";
+                              }
+                            },
+                          ),
+                          LogInInput(
+                            enabled: true,
+                            autoValidate: false,
+                            name: "mobilePhone",
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return myLocale.languageCode.contains("en")
+                                    ? "Phone number is required"
+                                    : "رقم الجوال مطلوب";
+                              }
+                            },
+                            onSaved: (String val) {
+                              setState(() {
+                                phoneNum = val;
+                              });
+                            },
+                            focusNode: _focusNode,
+                            keyboard: TextInputType.numberWithOptions(
+                                decimal: false, signed: false),
+                          ),
+                          LogInInput(
+                            enabled: true,
+                            autoValidate: false,
+                            name: "password",
+                            isPassword: true,
+                            onSaved: (String val) {
+                              setState(() {
+                                password = val;
+                              });
+                            },
+                            validator: (String val) {
+                              if (val.toString().length < 6)
+                                return myLocale.languageCode.contains("en")
+                                    ? "Password must contain at least 6 char"
+                                    : "الرقم السرى يجب ان يحتوى على 6 حروف على الاقل";
+                              else
+                                return null;
+                            },
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Checkbox(
+                                value: isClicked,
+                                onChanged: (bool v) {
+                                  clicked();
+                                },
+                                checkColor: Colors.white,
+                                activeColor: Colors.blue,
+                              ),
+                              Text(
+                                "الموافقة على الشروط و الاحكام ",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            child: Row(
                               children: <Widget>[
-                                LogInInput(
-                                  enabled: true,
-                                  autoValidate: true,
-                                  name: "mobilePhone",
-                                  validator: (String val) {
-                                    if (val.isEmpty) {
-                                      return myLocale.languageCode
-                                              .contains("en")
-                                          ? "Phone number is required"
-                                          : "رقم الجوال مطلوب";
-                                    }
-                                  },
-                                  onSaved: (String val) {
-                                    setState(() {
-                                      phoneNum = val;
-                                    });
-                                  },
-                                  focusNode: _focusNode,
-                                  keyboard: TextInputType.numberWithOptions(
-                                      decimal: false, signed: false),
-                                ),
-                               // Padding(padding: EdgeInsets.only(top: 15)),
-                                 Row(
-                                    children: <Widget>[
-                                      Checkbox(
-                                        value: isClicked,
-                                        onChanged: (bool v){
-                                        clicked();
-                                        },
-                                        checkColor: Colors.white,
-                                        activeColor: Colors.blue,
-                                      ),
-                                      Text("الموافقة على الشروط و الاحكام ",style: TextStyle(fontSize: 13),),
-                                      
-                                    ],
-                                  ),
-                                  InkWell(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text("  للإطلاع على الشروط و الاحكام انقر هنا  ", style: TextStyle(color: Colors.blueAccent),)
-                                      ],
-                                    ),
-                                  onTap: () => policy(),
-                                  ),
-                                Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 30.0),
-                                    child: _isLoading
-                                        ? CupertinoActivityIndicator(
-                                            animating: true,
-                                            radius: 15,
-                                          )
-                                        : RaisedButton(
-                                            elevation: 0.0,
-                                            color: Settings.mainColor(),
-                                            textColor: Colors.white,
-                                            onPressed: () async {
-                                              _focusNode.unfocus();
-                                              isClicked==true?
-                                              _handleSubmit(context, model):
-                                              _showPrivacyPolicy();
-                                            },
-                                            child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                width: double.infinity,
-                                                child: Text(
-                                                  allTranslations
-                                                      .text("sendCode"),
-                                                  style:
-                                                      TextStyle(fontSize: 18.0),
-                                                  textAlign: TextAlign.center,
-                                                )),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        20.0))),
-                                  ),
-                                ),
+                                Text(
+                                  "  للإطلاع على الشروط و الاحكام انقر هنا  ",
+                                  style: TextStyle(color: Colors.blueAccent),
+                                )
                               ],
+                            ),
+                            onTap: () => policy(),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 30.0),
+                              child: _isLoading
+                                  ? CupertinoActivityIndicator(
+                                      animating: true,
+                                      radius: 15,
+                                    )
+                                  : RaisedButton(
+                                      elevation: 0.0,
+                                      color: Settings.mainColor(),
+                                      textColor: Colors.white,
+                                      onPressed: () async {
+                                        _focusNode.unfocus();
+                                        isClicked == true
+                                            ? _handleSubmit(context, model)
+                                            : _showPrivacyPolicy();
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.all(10.0),
+                                          width: double.infinity,
+                                          child: Text(
+                                            allTranslations.text("sendCode"),
+                                            style: TextStyle(fontSize: 18.0),
+                                            textAlign: TextAlign.center,
+                                          )),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0))),
                             ),
                           )
                         ],

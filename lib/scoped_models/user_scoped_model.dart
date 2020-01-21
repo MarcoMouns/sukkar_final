@@ -13,10 +13,12 @@ mixin UserScopedModel on Model {
   Dio dio = new Dio();
 
   // add phone number
-  Future<bool> addPhoneNumber(String phone) async {
+  Future<bool> addPhoneNumber(String phone , String name , String password) async {
     try {
       FormData formdata = new FormData();
       formdata.add("phone", phone);
+      formdata.add("name", name);
+      formdata.add("password", password);
 
       response =
           await dio.post("${Settings.baseApilink}/auth/sendGeneratedCode", data: formdata);

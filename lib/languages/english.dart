@@ -202,7 +202,8 @@ Map<String, String> englishLang = {
   "doctorSpecailty":"Specailty",
   "workinghistory":"Working history",
   "workingsince":"working since",
-  "joinData":"join Sukar"
+  "joinData":"join Sukar",
+  "skip":"تخطي"
 
 
   

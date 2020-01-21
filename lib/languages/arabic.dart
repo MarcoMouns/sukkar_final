@@ -216,7 +216,8 @@ Map<String, String> arabicLang = {
   "doctorSpecailty":"التخصص",
   "workinghistory":"الاماكن التي شغلها",
   "workingsince":"امارس مهنتي منذ",
-  "joinData":"مشترك منذ"
+  "joinData":"مشترك منذ",
+  "skip":"تخطي"
 
 
 

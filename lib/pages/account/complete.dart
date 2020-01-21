@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -136,6 +137,16 @@ class _CompleteState extends State<Complete> {
   SharedPreferences prefs;
   String uidx;
 
+  static const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  String randomString(int strlen) {
+    Random rnd = new Random(new DateTime.now().millisecondsSinceEpoch);
+    String result = "";
+    for (var i = 0; i < strlen; i++) {
+      result += chars[rnd.nextInt(chars.length)];
+    }
+    return result;
+  }
+
   Future<String> createFirebaseAccount() async {
     _formKey.currentState.save();
     setState(() {
@@ -144,8 +155,10 @@ class _CompleteState extends State<Complete> {
     try {
       final FirebaseUser user =
           (await _firebaseAuth.createUserWithEmailAndPassword(
-        email: _formData['email'],
-        password: _formData['password'],
+        email: _formData['email'] == null || _formData['email'] ==""
+            ? "a${randomString(9)}@gmail.com"
+            : _formData['email'],
+        password: "11112222",
       ))
               .user;
       return user.uid;
@@ -158,9 +171,8 @@ class _CompleteState extends State<Complete> {
   }
 
   Future<Null> CreateCFSaccount(String uid) async {
-    if (!_formKey.currentState.validate() ||
-        _formData['phone'] == null) {
-      _autoValidate = true; 
+    if (!_formKey.currentState.validate() || _formData['phone'] == null) {
+      _autoValidate = true;
       print(_formData);
 
       showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
@@ -189,11 +201,11 @@ class _CompleteState extends State<Complete> {
   ) {
     Locale myLocale = Localizations.localeOf(context);
 //    final FormState form = _formKey.currentState;
+    print(_formData);
     setState(() {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
     });
-    if (!_formKey.currentState.validate() ||
-        _formData['phone'] == null) {
+    if (!_formKey.currentState.validate() || _formData['phone'] == null) {
       _autoValidate = true;
 
       showInSnackBar(myLocale.languageCode.contains("en")
@@ -280,35 +292,6 @@ class _CompleteState extends State<Complete> {
                                   ],
                                 ),
                               ),
-                              hasPhoto
-                                  ? Container()
-                                  : Container(
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Text(
-                                        "please add a picture",
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                              new LogInInput(
-                                enabled: true,
-                                name: "username",
-                                keyboard: TextInputType.text,
-                                autoValidate: _autoValidate,
-                                focusNode: _focusNode1,
-                                onSaved: (String val) {
-                                  setState(() {
-                                    _formData['userName'] = val;
-                                  });
-                                },
-                                validator: (String val) {
-                                  if (val.isEmpty) {
-                                    return myLocale.languageCode.contains("en")
-                                        ? "userName is required."
-                                        : "اسم المستخدم مطلوب";
-                                  }
-                                },
-                              ),
                               new LogInInput(
                                 enabled: true,
                                 name: "email",
@@ -321,15 +304,18 @@ class _CompleteState extends State<Complete> {
                                   });
                                 },
                                 validator: (String val) {
-                                  Pattern pattern =
-                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                  RegExp regex = new RegExp(pattern);
-                                  if (!regex.hasMatch(val))
-                                    return myLocale.languageCode.contains("en")
-                                        ? "Not Valid Email."
-                                        : "البريد الالكترونى غير صحيح.";
-                                  else
-                                    return null;
+                                  if (val.isNotEmpty) {
+                                    Pattern pattern =
+                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                    RegExp regex = new RegExp(pattern);
+                                    if (!regex.hasMatch(val))
+                                      return myLocale.languageCode
+                                              .contains("en")
+                                          ? "Not Valid Email."
+                                          : "البريد الالكترونى غير صحيح.";
+                                    else
+                                      return null;
+                                  }
                                 },
                               ),
                               new InkWell(
@@ -339,11 +325,12 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                              _birthDateController.text = (date.toString()).split(" ")[0];
-                                               }, 
-                                      onConfirm: (date) {
-                                              _birthDateController.text = (date.toString()).split(" ")[0];
-                                                        },
+                                    _birthDateController.text =
+                                        (date.toString()).split(" ")[0];
+                                  }, onConfirm: (date) {
+                                    _birthDateController.text =
+                                        (date.toString()).split(" ")[0];
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -359,14 +346,7 @@ class _CompleteState extends State<Complete> {
                                       _formData['birthDate'] = val;
                                     });
                                   },
-                                  validator: (String val) {
-                                    if (val.isEmpty) {
-                                      return myLocale.languageCode
-                                              .contains("en")
-                                          ? "Birthdate is required."
-                                          : " تاريخ الميلاد مطلوب";
-                                    }
-                                  },
+                                  validator: (String val) {},
                                 ),
                               ),
                               new InkWell(
@@ -381,12 +361,11 @@ class _CompleteState extends State<Complete> {
                                   }, onConfirm: (date) {
                                     _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                  },  
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
                                 child: LogInInput(
-                                  
                                   enabled: false,
                                   controller: _injuryDateController,
                                   autoValidate: _autoValidate,
@@ -398,35 +377,8 @@ class _CompleteState extends State<Complete> {
                                       _formData['injuredDate'] = val;
                                     });
                                   },
-                                  validator: (String val) {
-                                    if (val.isEmpty) {
-                                      return myLocale.languageCode
-                                              .contains("en")
-                                          ? "injury Date is required."
-                                          : " تاريخ الاصابة مطلوب";
-                                    }
-                                  },
+                                  validator: (String val) {},
                                 ),
-                              ),
-                              new LogInInput(
-                                enabled: true,
-                                autoValidate: _autoValidate,
-                                name: "password",
-                                isPassword: true,
-                                focusNode: _focusNode4,
-                                onSaved: (String val) {
-                                  setState(() {
-                                    _formData['password'] = val;
-                                  });
-                                },
-                                validator: (String val) {
-                                  if (val.toString().length < 6)
-                                    return myLocale.languageCode.contains("en")
-                                        ? "Password must contain at least 6 char"
-                                        : "الرقم السرى يجب ان يحتوى على 6 حروف على الاقل";
-                                  else
-                                    return null;
-                                },
                               ),
                               new Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -477,35 +429,66 @@ class _CompleteState extends State<Complete> {
                                   animating: true,
                                   radius: 15,
                                 )
-                              : RaisedButton(
-                                  elevation: 0.0,
-                                  color: Settings.mainColor(),
-                                  textColor: Colors.white,
-                                  onPressed: () async {
-                                    if (hasPhoto && picdone && isMatched == true) {
-                                      uidx = await createFirebaseAccount();
-                                      _formData['fuid'] = uidx;
-                                      CreateCFSaccount(uidx);
-                                      _handleSubmitted(
-                                        context,
-                                        model,
-                                      );
-                                    } else {
-                                      hasPhoto = false;
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.all(0.0),
-                                      width: double.infinity,
-                                      child: Text(
-                                        allTranslations.text("verify"),
-                                        style: TextStyle(fontSize: 18.0),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20.0))),
+                              : Column(
+                                  children: <Widget>[
+                                    RaisedButton(
+                                        elevation: 0.0,
+                                        color: Settings.mainColor(),
+                                        textColor: Colors.white,
+                                        onPressed: () async {
+                                          if (hasPhoto &&
+                                              picdone &&
+                                              isMatched == true) {
+                                            uidx =
+                                                await createFirebaseAccount();
+                                            _formData['fuid'] = uidx;
+                                            CreateCFSaccount(uidx);
+                                            _handleSubmitted(
+                                              context,
+                                              model,
+                                            );
+                                          } else {
+                                            hasPhoto = false;
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(0.0),
+                                            width: double.infinity,
+                                            child: Text(
+                                              allTranslations.text("verify"),
+                                              style: TextStyle(fontSize: 18.0),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0))),
+                                    RaisedButton(
+                                        elevation: 0.0,
+                                        color: Settings.mainColor(),
+                                        textColor: Colors.white,
+                                        onPressed: () async {
+                                          uidx = await createFirebaseAccount();
+                                          _formData['fuid'] = uidx;
+                                          CreateCFSaccount(uidx);
+                                          _handleSubmitted(
+                                            context,
+                                            model,
+                                          );
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(0.0),
+                                            width: double.infinity,
+                                            child: Text(
+                                              allTranslations.text("skip"),
+                                              style: TextStyle(fontSize: 18.0),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0))),
+                                  ],
+                                ),
                         ),
                       ],
                     ),
@@ -516,7 +499,6 @@ class _CompleteState extends State<Complete> {
           ),
         ));
   }
-
 }
 
 class UserImage extends StatelessWidget {

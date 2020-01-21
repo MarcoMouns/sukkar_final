@@ -394,6 +394,7 @@ class _HomePageState extends State<HomePage> {
         .document(SharedData.customerData['fuid'])
         .updateData({
       'photoUrl': SharedData.customerData['image'],
+      'nickname': SharedData.customerData['userName']
     });
   }
 
