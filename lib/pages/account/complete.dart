@@ -433,7 +433,7 @@ class _CompleteState extends State<Complete> {
                                   children: <Widget>[
                                     RaisedButton(
                                         elevation: 0.0,
-                                        color: Settings.mainColor(),
+                                        color: Colors.grey,
                                         textColor: Colors.white,
                                         onPressed: () async {
                                           if (hasPhoto &&

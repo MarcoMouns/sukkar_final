@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/home.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,10 +37,12 @@ class EditProfileUserState extends State<EditProfileUser> {
   String email;
   String name;
   String password;
+  dynamic gender;
   TextEditingController nameCtrl = TextEditingController();
+  TextEditingController _injuryDateController = TextEditingController();
+  TextEditingController _birthDateController = TextEditingController();
 
   String img;
-
 
   initState() {
     getUserInfo();
@@ -56,11 +60,10 @@ class EditProfileUserState extends State<EditProfileUser> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      response =
-          await dio.get("${Settings.baseApilink}/auth/me", options: Options(headers: headers));
+      response = await dio.get("${Settings.baseApilink}/auth/me",
+          options: Options(headers: headers));
       email = response.data['user']['email'];
       name = response.data['user']['name'];
-
       nameCtrl.text = name;
       isLoading = false;
 
@@ -90,6 +93,10 @@ class EditProfileUserState extends State<EditProfileUser> {
       formdata.add('name', name);
       formdata.add('email', email);
       formdata.add('password', password);
+      formdata.add('gender', gender);
+      formdata.add('phone', phone);
+      formdata.add('birth_date', _birthDateController.text);
+      formdata.add('injuredDate', _injuryDateController.text);
       formdata.add('_method', "PUT");
 
       if (profilePicture != null) {
@@ -107,6 +114,8 @@ class EditProfileUserState extends State<EditProfileUser> {
           options: Options(
             headers: headers,
           ));
+          
+      print(response.data);
       SharedData.customerData['userName'] = response.data['user']['name'];
       SharedData.customerData['image'] = response.data['user']['image'];
       Map<String, dynamic> userUpdateJson;
@@ -265,48 +274,63 @@ class EditProfileUserState extends State<EditProfileUser> {
                       }
                     },
                   ),
-                  //////////////////////////////////////////
-                  ///      Email
-
                   TextFormField(
-                    onChanged: (val) {
-                      email = val;
-                    },
-                    initialValue: email,
-                    decoration: InputDecoration(
-                        labelText: myLocale.languageCode.contains("en")
-                            ? "Email"
-                            : "البريد الالكتروني"),
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (String val) {
-                      setState(() {
+                      onChanged: (val) {
                         email = val;
-                      });
-                    },
-                    validator: (String val) {
-                      Pattern pattern =
-                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                      RegExp regex = new RegExp(pattern);
-                      if (!regex.hasMatch(val) && firstLoad == false)
-                        return myLocale.languageCode.contains("en")
-                            ? "Not Valid Email."
-                            : "البريد الالكترونى غير صحيح.";
-                      else
-                        return null;
-                    },
-                  ),
-                  //////////////////////////////////////////
-                  ///      Mobile Number
+                      },
+                      initialValue: email,
+                      decoration: InputDecoration(
+                          labelText: myLocale.languageCode.contains("en")
+                              ? "Email"
+                              : "البريد الالكتروني"),
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (String val) {
+                        setState(() {
+                          email = val;
+                        });
+                      },
+                      validator: (String val) {
+                        if (val.isEmpty) {
+                          return myLocale.languageCode.contains("en")
+                              ? "Phone number is required"
+                              : "رقم الجوال مطلوب";
+                        }
+                        Pattern pattern =
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                        RegExp regex = new RegExp(pattern);
+                        if (!regex.hasMatch(val))
+                          return myLocale.languageCode.contains("en")
+                              ? "Not Valid Email."
+                              : "البريد الالكترونى غير صحيح.";
+                        else
+                          return null;
+                      }),
+                  TextFormField(
+                      onChanged: (val) {
+                        phone = val;
+                      },
+                      initialValue: email,
+                      decoration: InputDecoration(
+                          labelText: myLocale.languageCode.contains("en")
+                              ? "phone"
+                              : "رقم الهاتف"),
+                      keyboardType: TextInputType.number,
+                      onSaved: (String val) {
+                        setState(() {
+                          phone = val;
+                        });
+                      },
+                      validator: (String val) {}),
                   TextFormField(
                     obscureText: true,
                     onChanged: (val) {
                       password = val;
                     },
                     validator: (String val) {
-                      if (val.isEmpty) {
+                      if (val.length < 8) {
                         return myLocale.languageCode.contains("en")
-                            ? "Phone number is required"
-                            : "رقم الجوال مطلوب";
+                            ? "invalid password"
+                            : "كلمة مرور غبر صالحة";
                       }
                     },
                     onSaved: (String val) {
@@ -323,7 +347,97 @@ class EditProfileUserState extends State<EditProfileUser> {
                   SizedBox(
                     height: 10,
                   ),
-
+                  new InkWell(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(1900, 3, 5),
+                          maxTime: DateTime.now(), onChanged: (date) {
+                        _birthDateController.text =
+                            (date.toString()).split(" ")[0];
+                      }, onConfirm: (date) {
+                        _birthDateController.text =
+                            (date.toString()).split(" ")[0];
+                      }, currentTime: DateTime.now(), locale: LocaleType.en);
+                    },
+                    child: LogInInput(
+                      enabled: false,
+                      controller: _birthDateController,
+                      name: "birthDate",
+                      keyboard: TextInputType.datetime,
+                      autoValidate: false,
+                      onSaved: (String val) {
+                        setState(() {
+                          _birthDateController.text = val;
+                        });
+                      },
+                      validator: (String val) {},
+                    ),
+                  ),
+                  new InkWell(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(1900, 3, 5),
+                          maxTime: DateTime.now(), onChanged: (date) {
+                        _injuryDateController.text =
+                            date.toString().split(" ")[0];
+                      }, onConfirm: (date) {
+                        _injuryDateController.text =
+                            date.toString().split(" ")[0];
+                      }, currentTime: DateTime.now(), locale: LocaleType.en);
+                    },
+                    child: LogInInput(
+                      autoValidate: false,
+                      enabled: false,
+                      controller: _injuryDateController,
+                      name: "injuryDate",
+                      keyboard: TextInputType.datetime,
+                      onSaved: (String val) {
+                        setState(() {
+                          _injuryDateController.text = val;
+                        });
+                      },
+                      validator: (String val) {},
+                    ),
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                          child: Row(
+                        children: <Widget>[
+                          Radio(
+                            activeColor: Colors.redAccent,
+                            onChanged: (val) {
+                              setState(() {
+                                gender = val;
+                              });
+                            },
+                            value: 'male',
+                            groupValue: gender,
+                          ),
+                          Text(allTranslations.text("male"))
+                        ],
+                      )),
+                      Expanded(
+                          child: Row(
+                        children: <Widget>[
+                          Radio(
+                            activeColor: Colors.redAccent,
+                            onChanged: (val) {
+                              setState(() {
+                                gender = val;
+                              });
+                            },
+                            value: 'female',
+                            groupValue: gender,
+                          ),
+                          Text(allTranslations.text("female"))
+                        ],
+                      ))
+                    ],
+                  ),
                   FlatButton(
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -332,8 +446,8 @@ class EditProfileUserState extends State<EditProfileUser> {
                       allTranslations.text("save"),
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      upDateProfile();
+                    onPressed: () async {
+                      await upDateProfile();
                       SharedData.customerData['userName'] = name;
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => MainHome()));
