@@ -266,7 +266,7 @@ class _AddSugarState extends State<AddSugar> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('نتيجة القياس'),
+          title: Text('نتيجة القياس' ,textAlign: TextAlign.center,),
           content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
               ? SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,

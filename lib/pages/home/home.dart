@@ -618,7 +618,7 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome.calories == 0 || dataHome.calories == null
+        percent: dataHome == null || dataHome.calories == 0 || dataHome.calories == null
             ? 0
             : ((dataHome.calories / calGoals) > 1)
                 ? 1

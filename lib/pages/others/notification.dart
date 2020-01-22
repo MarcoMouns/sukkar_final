@@ -83,31 +83,42 @@ class NotificationsState extends State<Notifications> {
                   : new ListView.builder(
                       itemCount: length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          color: index % 2 == 0 ? Colors.grey[350] : Colors.white,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: Colors.red,
-                              child: Icon(
-                                Icons.notifications,
-                                color: Colors.white,
+                        return Column(
+                          children: <Widget>[
+                            Container(height: 1, width: MediaQuery.of(context).size.width , color: Colors.grey[250],),
+                            Container(
+                              color: index % 2 == 0 ? Color(0xfff5f5f5) : Colors.white,
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.red,
+                                      child: Icon(
+                                        Icons.notifications,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    title: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Text(data[index]['title'],
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
+                                    subtitle: Text(
+                                      data[index]['body'],
+                                      style: TextStyle(
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                
+                                ],
                               ),
                             ),
-                            title: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Text(data[index]['title'],
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            subtitle: Text(
-                              data[index]['body'],
-                              style: TextStyle(
-                                  color: Colors.black),
-                            ),
-                          ),
+                            
+                          ],
                         );
                       })),
         );
