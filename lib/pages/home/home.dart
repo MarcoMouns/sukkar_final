@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> {
   bool circleWater = false;
   bool circleHeart = false;
   bool circleBlood = false;
+  bool isnotified = true;
   List healthKitStepsData;
   List healthKitDistanceData;
   List healthKitCaloriesData;
@@ -134,12 +135,35 @@ class _HomePageState extends State<HomePage> {
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
 
+  Widget ifRegUser = Positioned(
+    right: 0,
+    child: new Container(
+      padding: EdgeInsets.all(1),
+      decoration: new BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      constraints: BoxConstraints(
+        minWidth: 12,
+        minHeight: 12,
+      ),
+      child: new Text(
+        '!',
+        style: new TextStyle(
+          color: Colors.white,
+          fontSize: 8,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ),
+  );
+
   init(BuildContext context) {
     _scrollController = ScrollController(
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
-  getHomeData() {
+  getHomeData() async {
     getValuesSF();
     getMeasurementsForDay(date);
     calculateSteps();
@@ -152,6 +176,12 @@ class _HomePageState extends State<HomePage> {
     getHomeFetch();
     getcal();
     setFirebaseImage();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    if (authUser['email'] == 'null' || authUser['image'] == 'null') {
+      ifRegUser = Container();
+    }
   }
 
   Future<List<int>> healthKit() async {
@@ -355,6 +385,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  readNotifications() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+    var headers = {
+      "Authorization": "Bearer ${authUser['authToken']}",
+    };
+    response = await dio.post("${Settings.baseApilink}/user/notified",
+        options: Options(headers: headers));
+    print(response);    
+
+  }
+
   getValuesSF() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
@@ -370,7 +413,13 @@ class _HomePageState extends State<HomePage> {
     circleWater = response.data['user']['circles']['water'];
     circleCalorie = response.data['user']['circles']['calorie'];
     circleDistance = response.data['user']['circles']['distance'];
-
+    isnotified = response.data['user']['is_notified'];
+    if (isnotified == false) {
+      icNotifications = icNotifications = Icon(
+        Icons.notifications,
+        color: Colors.red,
+      );
+    }
     ncal = response.data['user']['average_calorie'];
     if (ncal == null) {
       ncal = 0;
@@ -618,7 +667,9 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome == null || dataHome.calories == 0 || dataHome.calories == null
+        percent: dataHome == null ||
+                dataHome.calories == 0 ||
+                dataHome.calories == null
             ? 0
             : ((dataHome.calories / calGoals) > 1)
                 ? 1
@@ -873,11 +924,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                   actions: <Widget>[
                     IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         icNotifications = Icon(
                           Icons.notifications_none,
                           color: Colors.black,
                         );
+                       try{ await readNotifications();}
+                       catch(e){
+                         print(e.response);
+                       }
                         setState(() {});
                         Navigator.push(
                             context,
@@ -897,14 +952,19 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                                 builder: (context) => EditProfile()));
                       },
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(SharedData
-                                        .customerData['image'] ==
-                                    'Null' ||
-                                SharedData.customerData['image'] == null
-                            ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
-                            : 'http://api.sukar.co${SharedData.customerData['image']}'),
+                      child: Stack(
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundImage: NetworkImage(SharedData
+                                            .customerData['image'] ==
+                                        'Null' ||
+                                    SharedData.customerData['image'] == null
+                                ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                                : 'http://api.sukar.co${SharedData.customerData['image']}'),
+                          ),
+                          ifRegUser
+                        ],
                       ),
                     ),
                   ),

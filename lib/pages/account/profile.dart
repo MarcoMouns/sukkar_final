@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:health/main.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
@@ -307,7 +308,7 @@ class _EditProfileState extends State<EditProfile> {
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption1")),
                                   onPressed: () async {
-                                    allTranslations.setNewLanguage("en",true);
+                                    allTranslations.setNewLanguage("en", true);
                                     // SharedPreferences preferences = await SharedPreferences.getInstance();
                                     // preferences.setString("selectedlang", "en");
                                     setState(() {});
@@ -318,7 +319,7 @@ class _EditProfileState extends State<EditProfile> {
                                   child: Text(allTranslations
                                       .text("chooseLanguageOption2")),
                                   onPressed: () async {
-                                    allTranslations.setNewLanguage("ar",true);
+                                    allTranslations.setNewLanguage("ar", true);
                                     // SharedPreferences preferences = await SharedPreferences.getInstance();
                                     // preferences.setString("selectedlang", "ar");
                                     setState(() {});
@@ -434,7 +435,10 @@ class _EditProfileState extends State<EditProfile> {
                                         await SharedPreferences.getInstance();
                                     sharedPreferences.remove('authUser');
                                     sharedPreferences.clear();
-                                    exit(0);
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(builder: (context) {
+                                      return SpLash();
+                                    }));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
