@@ -179,7 +179,9 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
-    if (authUser['email'] == 'null' || authUser['image'] == 'null') {
+    print(authUser['email']);
+    print(authUser['image']);
+    if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
   }
@@ -394,8 +396,7 @@ class _HomePageState extends State<HomePage> {
     };
     response = await dio.post("${Settings.baseApilink}/user/notified",
         options: Options(headers: headers));
-    print(response);    
-
+    print(response);
   }
 
   getValuesSF() async {
@@ -796,7 +797,7 @@ class _HomePageState extends State<HomePage> {
                         child: ImageIcon(
                           AssetImage("assets/icons/ic_camera.png"),
                           color: Colors.grey[300],
-                          size: 15,
+                          size: 8,
                         ),
                         onTap: () =>
                             ScreenshotShareImage.takeScreenshotShareImage(),
@@ -814,7 +815,7 @@ class _HomePageState extends State<HomePage> {
                             children: <Widget>[
                               Positioned(
                                 child: CircleAvatar(
-                                  radius: 6,
+                                  radius: 5,
                                   backgroundImage:
                                       AssetImage("assets/imgs/profile.jpg"),
                                 ),
@@ -822,7 +823,7 @@ class _HomePageState extends State<HomePage> {
                               Positioned(
                                 left: 8.5,
                                 child: CircleAvatar(
-                                  radius: 6,
+                                  radius: 5,
                                   backgroundImage:
                                       AssetImage("assets/imgs/profile.jpg"),
                                 ),
@@ -831,7 +832,7 @@ class _HomePageState extends State<HomePage> {
                                 left: 16,
                                 child: Icon(
                                   Icons.add,
-                                  size: 13,
+                                  size: 10,
                                 ),
                               )
                             ],
@@ -929,10 +930,11 @@ class _HomePageState extends State<HomePage> {
                           Icons.notifications_none,
                           color: Colors.black,
                         );
-                       try{ await readNotifications();}
-                       catch(e){
-                         print(e.response);
-                       }
+                        try {
+                          await readNotifications();
+                        } catch (e) {
+                          print(e.response);
+                        }
                         setState(() {});
                         Navigator.push(
                             context,

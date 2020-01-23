@@ -37,7 +37,10 @@ class EditProfileUserState extends State<EditProfileUser> {
   String email;
   String name;
   String password;
+  String injuryDate;
+  String birthDate;
   dynamic gender;
+
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController _injuryDateController = TextEditingController();
   TextEditingController _birthDateController = TextEditingController();
@@ -55,10 +58,10 @@ class EditProfileUserState extends State<EditProfileUser> {
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
+      Map<String, dynamic> authUser1 =
           jsonDecode(sharedPreferences.getString("authUser"));
       var headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
+        "Authorization": "Bearer ${authUser1['authToken']}",
       };
       response = await dio.get("${Settings.baseApilink}/auth/me",
           options: Options(headers: headers));
@@ -77,31 +80,47 @@ class EditProfileUserState extends State<EditProfileUser> {
 
   Future<Response> upDateProfile() async {
     Response response;
-
     isLoading = true;
+    setState(() {});
     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
+      Map<String, dynamic> authUser2 =
           jsonDecode(sharedPreferences.getString("authUser"));
       var headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
+        "Authorization": "Bearer ${authUser2['authToken']}",
       };
-
+      
       FormData formdata = new FormData();
+      if (name != null) {
+        formdata.add('name', name);
+      }
 
-      formdata.add('name', name);
-      formdata.add('email', email);
-      formdata.add('password', password);
-      formdata.add('gender', gender);
-      formdata.add('phone', phone);
-      formdata.add('birth_date', _birthDateController.text);
-      formdata.add('injuredDate', _injuryDateController.text);
-      formdata.add('_method', "PUT");
+      if (email != null) {
+        formdata.add('email', email);
+      }
 
+      if (password != null) {
+        formdata.add('password', password);
+      }
+
+      if (gender != null) {
+        formdata.add('gender', gender);
+      }
+
+      if (phone != null) {
+        formdata.add('phone', phone);
+      }
+
+      if (birthDate != null) {
+        formdata.add('birth_date', birthDate);
+      }
+      if (injuryDate != null) {
+        formdata.add('injuredDate', injuryDate);
+      }
       if (profilePicture != null) {
         formdata.add(
-          "image",
+          'image',
           UploadFileInfo(
             profilePicture,
             basename(profilePicture.path),
@@ -109,22 +128,41 @@ class EditProfileUserState extends State<EditProfileUser> {
         );
       }
 
+      formdata.add('_method', "PUT");
+      print(formdata.toString());
+
+      print("loook hereee");
       response = await dio.post("${Settings.baseApilink}/users/info",
           data: formdata,
           options: Options(
             headers: headers,
           ));
-          
+      print("loook hereee");
       print(response.data);
-      SharedData.customerData['userName'] = response.data['user']['name'];
-      SharedData.customerData['image'] = response.data['user']['image'];
-      Map<String, dynamic> userUpdateJson;
-      userUpdateJson = jsonDecode(sharedPreferences.getString("authUser"));
-      userUpdateJson['image'] = SharedData.customerData['image'];
-      userUpdateJson['phone'] = 19999;
-      String a7a = jsonEncode(userUpdateJson);
-      sharedPreferences.setString("authUser", a7a);
-      userUpdateJson = jsonDecode(sharedPreferences.getString("authUser"));
+      print("loook hereee");
+
+      sharedPreferences = await SharedPreferences.getInstance();
+      String authUser = jsonEncode({
+        "authToken": authUser2['authToken'],
+        "id": response.data['user']['id'],
+        "search_code": response.data['user']['search_code'],
+        "userName": response.data['user']['name'],
+        "phone": response.data['user']['phone'],
+        "email": response.data['user']['email'],
+        "birthDate": response.data['user']['birth_date'],
+        "injuredDate": response.data['user']['injuredDate'],
+        "state": response.data['user']['state'],
+        "image": response.data['user']['image'],
+        "gender": response.data['user']['gender'],
+        "height": response.data['user']['hight'],
+        "weight": response.data['user']['weight'],
+        "fuid": response.data['user']['fuid'],
+        "average_calorie": response.data['user']['average_calorie'],
+        "verified": response.data['user']['type'],
+        "fcmToken": response.data['user']['token_id'],
+      });
+
+      sharedPreferences.setString("authUser", authUser);
 
       print(email);
       isLoading = false;
@@ -353,10 +391,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                           showTitleActions: true,
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
-                        _birthDateController.text =
+                        birthDate =
                             (date.toString()).split(" ")[0];
                       }, onConfirm: (date) {
-                        _birthDateController.text =
+                        birthDate =
                             (date.toString()).split(" ")[0];
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     },
@@ -368,7 +406,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       autoValidate: false,
                       onSaved: (String val) {
                         setState(() {
-                          _birthDateController.text = val;
+                          birthDate = val;
                         });
                       },
                       validator: (String val) {},
@@ -380,10 +418,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                           showTitleActions: true,
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
-                        _injuryDateController.text =
+                        injuryDate =
                             date.toString().split(" ")[0];
                       }, onConfirm: (date) {
-                        _injuryDateController.text =
+                        injuryDate=
                             date.toString().split(" ")[0];
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     },
@@ -395,7 +433,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       keyboard: TextInputType.datetime,
                       onSaved: (String val) {
                         setState(() {
-                          _injuryDateController.text = val;
+                          injuryDate= val;
                         });
                       },
                       validator: (String val) {},
@@ -411,10 +449,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                             activeColor: Colors.redAccent,
                             onChanged: (val) {
                               setState(() {
-                                gender = val;
+                                gender = 1;
                               });
                             },
-                            value: 'male',
+                            value: 1,
                             groupValue: gender,
                           ),
                           Text(allTranslations.text("male"))
@@ -427,10 +465,10 @@ class EditProfileUserState extends State<EditProfileUser> {
                             activeColor: Colors.redAccent,
                             onChanged: (val) {
                               setState(() {
-                                gender = val;
+                                gender = 0;
                               });
                             },
-                            value: 'female',
+                            value: 0,
                             groupValue: gender,
                           ),
                           Text(allTranslations.text("female"))
@@ -447,8 +485,13 @@ class EditProfileUserState extends State<EditProfileUser> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      await upDateProfile();
+                      try {
+                        await upDateProfile();
+                      } catch (e) {
+                        print(e);
+                      }
                       SharedData.customerData['userName'] = name;
+                      await getCustomerData();
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) => MainHome()));
                     },

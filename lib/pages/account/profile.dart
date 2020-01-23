@@ -5,6 +5,7 @@ import 'package:health/main.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
+import 'package:health/pages/home.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
@@ -309,10 +310,10 @@ class _EditProfileState extends State<EditProfile> {
                                       .text("chooseLanguageOption1")),
                                   onPressed: () async {
                                     allTranslations.setNewLanguage("en", true);
-                                    // SharedPreferences preferences = await SharedPreferences.getInstance();
-                                    // preferences.setString("selectedlang", "en");
                                     setState(() {});
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => MainHome()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -320,11 +321,10 @@ class _EditProfileState extends State<EditProfile> {
                                       .text("chooseLanguageOption2")),
                                   onPressed: () async {
                                     allTranslations.setNewLanguage("ar", true);
-                                    // SharedPreferences preferences = await SharedPreferences.getInstance();
-                                    // preferences.setString("selectedlang", "ar");
                                     setState(() {});
-
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => MainHome()));
                                   },
                                 )
                               ],

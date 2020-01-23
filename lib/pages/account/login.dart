@@ -162,6 +162,7 @@ class _LogInState extends State<LogIn> {
                                 ),
                               ),
                               LogInInput(
+                                keyboard: activeType == 1? TextInputType.number :  TextInputType.emailAddress,
                                 autoValidate: _autoValidate,
                                 controller: _emailOrPhoneController,
                                 onSaved: (String value) {
