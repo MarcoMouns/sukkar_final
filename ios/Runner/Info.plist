@@ -8,14 +8,6 @@
 	<string>سكر</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string></string>
-	</array>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
@@ -67,7 +59,7 @@
 	<key>FacebookDisplayName</key>
 	<string>Sukar app</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string>fitness</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -78,31 +70,27 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string></string>
+	<string>upload profile photo</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string></string>
+	<string>to record steps and health info</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>to record steps</string>
+	<string>to record steps and health info</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string></string>
-	<key>NSHumanReadableCopyright</key>
-	<string></string>
+	<string>get healthy info</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Always/When in use description</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>map usage</string>
 	<key>NSLocationUsageDescription</key>
-	<string></string>
+	<string>map usage</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>When in use description</string>
-	<key>NSMainStoryboardFile</key>
-	<string></string>
+	<string>map usage</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>upload profile photo</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Motion usage description</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string></string>
+	<string>upload profile photo</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
