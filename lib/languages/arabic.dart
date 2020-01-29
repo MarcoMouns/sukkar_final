@@ -218,13 +218,13 @@ Map<String, String> arabicLang = {
   "workingsince":"امارس مهنتي منذ",
   "joinData":"مشترك منذ",
   "skip":"تخطي",
-  "bloodpresure1":"من 120 - 129",
-  "bloodpresure11":"من 80 - 84",
+  "bloodpresure1":"من 110 - 129",
+  "bloodpresure11":"من 75 - 84",
   "bloodpresure2":"من 130 - 139",
   "bloodpresure22":"من 85 - 89",
   "bloodpresure3":" اكثر من 140",
   "bloodpresure33":" اكثر من 90",
-  "prehigh":"قبل المرتفع"
+  "prehigh":"ما قبل المرتفع"
 
 
 
