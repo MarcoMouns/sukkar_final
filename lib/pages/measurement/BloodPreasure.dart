@@ -62,7 +62,7 @@ class _BloodPressureState extends State<BloodPressure> {
               ),
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.info_outline,color: Colors.green,),
+                  icon: Icon(Icons.info_outline,color: Colors.white,),
                   onPressed: () {
                     _showBottomSheetBloodPreassure();
                   },
@@ -288,9 +288,9 @@ class _BloodPressureState extends State<BloodPressure> {
                         allTranslations.text("blood preassure"),
                         style: TextStyle(color: Colors.red, fontSize: 20),
                       ),
-                      _bottomSheetItem(Colors.blue),
-                      _bottomSheetItem(Colors.orange),
-                      _bottomSheetItem(Colors.red),
+                      _bottomSheetItem(Colors.green,"bloodpresure1","bloodpresure11","normal"),
+                      _bottomSheetItem(Colors.orange,"bloodpresure2","bloodpresure22","prehigh"),
+                      _bottomSheetItem(Colors.red,"bloodpresure3","bloodpresure33","high"),
                     ],
                   ),
                 )
@@ -300,57 +300,62 @@ class _BloodPressureState extends State<BloodPressure> {
         });
   }
 
-  Widget _bottomSheetItem(Color color) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(5.3),
-            decoration: ShapeDecoration(
-                color: color,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4))),
-            child: Text(
-              allTranslations.text("normal"),
-              style: TextStyle(color: Colors.white),
+  Widget _bottomSheetItem(Color color,String range1 , String range2 , String status) {
+    return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+          child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(5.3),
+              decoration: ShapeDecoration(
+                  color: color,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+              child: Text(
+                allTranslations.text(status),
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "${allTranslations.text("maore than")} 10",
-                style: TextStyle(color: Colors.grey),
-              ),
-              Text(
-                "${allTranslations.text("maore than")} 20",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                allTranslations.text("Diastolic"),
-                style: TextStyle(fontSize: 25),
-              ),
-              Text(
-                allTranslations.text("Systolic"),
-                style: TextStyle(fontSize: 25),
-              ),
-            ],
-          ),
-          Divider(
-            color: Colors.grey,
-            indent: 2,
-          )
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  allTranslations.text(range1),
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Text(
+                  allTranslations.text(range2),
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  allTranslations.text("Diastolic"),
+                  style: TextStyle(fontSize: 25),
+                ),
+                Text(
+                  allTranslations.text("Systolic"),
+                  style: TextStyle(fontSize: 25),
+                ),
+              ],
+            ),
+            Divider(
+              color: Colors.grey,
+              indent: 2,
+            )
+          ],
+        ),
       ),
     );
   }

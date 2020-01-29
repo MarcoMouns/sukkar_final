@@ -1059,7 +1059,7 @@ class _HomePageState extends State<HomePage> {
                                                                       banners[index]
                                                                           .image,
                                                                       banners[index]
-                                                                          .text)));
+                                                                          .text== null ? "": banners[index].text )));
                                                         },
                                                         child: new Container(
                                                           decoration: ShapeDecoration(

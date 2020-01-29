@@ -265,99 +265,105 @@ class _AddSugarState extends State<AddSugar> {
     return await showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('نتيجة القياس' ,textAlign: TextAlign.center,),
-          content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
-              ? SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "السكر لديك معدلاته اقل من الطبيعي",
-                        style: TextStyle(
-                          color: Colors.green,
+        
+        return Directionality(
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+                  child: AlertDialog(
+            title: Text('نتيجة القياس' ,textAlign: TextAlign.center,),
+            content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "السكر لديك معدلاته اقل من الطبيعي",
+                          style: TextStyle(
+                            color: Colors.green,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
+                        Padding(padding: EdgeInsets.only(top: 10)),
+                        Text("تعرف على اعراض هبوط السكر:"),
+                        Text("1-" +
+                            " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
+                        Text("2-" +
+                            " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
+                        Text("3-" +
+                            " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
+                      ],
+                    ),
+                  )
+                : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
+                    ? Text(
+                        "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
+                        style: TextStyle(color: Colors.green),
                         textAlign: TextAlign.center,
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 10)),
-                      Text("تعرف على اعراض هبوط السكر:"),
-                      Text("1-" +
-                          " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
-                      Text("2-" +
-                          " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
-                      Text("3-" +
-                          " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
-                    ],
-                  ),
-                )
-              : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
-                  ? Text(
-                      "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
-                      style: TextStyle(color: Colors.green),
-                      textAlign: TextAlign.center,
-                    )
-                  : int.parse(initSuger) > 200
-                      ? SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.27,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "انتبه مستوى السكر لديك مرتفع",
-                                style: TextStyle(
-                                  color: Colors.red,
+                      )
+                    : int.parse(initSuger) > 200
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "انتبه مستوى السكر لديك مرتفع",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(padding: EdgeInsets.only(top: 10)),
-                              Text("عليك إتباع النصائح التالية:"),
-                              Text("1-" + " المحافظة على نظام صحي غذائى."),
-                              Text("2-" + " ممارسة الرياضة بانتظام."),
-                              Text("3-" + " الالتزام بتناول أدوية السكر."),
-                              Text("4-" + " مراجعة عيادة السكري بشكل دوري."),
-                              Text("5-" + " قياس السكر باستمرار."),
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.35,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "انتبه مستوى السكر لديك منخفض",
-                                style: TextStyle(
-                                  color: Colors.red,
+                                Padding(padding: EdgeInsets.only(top: 10)),
+                                Text("عليك إتباع النصائح التالية:"),
+                                Text("1-" + " المحافظة على نظام صحي غذائى."),
+                                Text("2-" + " ممارسة الرياضة بانتظام."),
+                                Text("3-" + " الالتزام بتناول أدوية السكر."),
+                                Text("4-" + " مراجعة عيادة السكري بشكل دوري."),
+                                Text("5-" + " قياس السكر باستمرار."),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "انتبه مستوى السكر لديك منخفض",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(padding: EdgeInsets.only(top: 10)),
-                              Text("عليك إتباع النصائح التالية:"),
-                              Text("1-" +
-                                  " تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
-                              Text("2-" +
-                                  " لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة."),
-                              Text("3-" +
-                                  " احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط ."),
-                            ],
+                                Padding(padding: EdgeInsets.only(top: 10)),
+                                Text("عليك إتباع النصائح التالية:"),
+                                Text("1-" +
+                                    " تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
+                                Text("2-" +
+                                    " لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة."),
+                                Text("3-" +
+                                    " احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط ."),
+                              ],
+                            ),
                           ),
-                        ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                'Ok',
-                style: TextStyle(color: Colors.blue),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Ok',
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  initSuger = null;
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                initSuger = null;
-              },
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
