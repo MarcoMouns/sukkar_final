@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,19 +23,46 @@ class DoctorChatScreen extends StatefulWidget {
 
 class _DoctorChatScreenState extends State<DoctorChatScreen> {
   bool arrowFlip = false;
-  bool isLoading=true;
+  bool isLoading = true;
   int specialityId = 0;
-  int indexSpeciality =0;
-  double starRating=3;
+  int indexSpeciality = 0;
+  double starRating = 3;
   String specialityName = "عيون";
   List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
   bool isDoctor = false;
+  List<DocumentSnapshot> userDocument = List<DocumentSnapshot>();
 
-  Future getData() async {
-    var document = Firestore.instance
-        .document('users/${SharedData.customerData['fuid']}');
+  Future getFirebaseUserData() async {
+    var document =
+    Firestore.instance.document('users/${SharedData.customerData['fuid']}');
     document.get().then((document) {
+      print(SharedData.customerData['fuid']);
       isDoctor = document['isDoctor'];
+      setState(() {});
+      getAllUsers();
+    });
+  }
+
+  getAllUsers() async {
+    Response response = await Dio().get(
+        'http://api.sukar.co/api/chat_with?fuid=${SharedData
+            .customerData['fuid']}');
+    patients = response.data['chat_with'];
+    Firestore.instance.collection('users').getDocuments().then((value) {
+      if (isDoctor) {
+        for (int i = 0; i < value.documents.length; i++) {
+          patients.forEach((patient) {
+            if (patient == value.documents[i].documentID) {
+              userDocument.add(value.documents[i]);
+            }
+          });
+        }
+      }
+      else {
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLL');
+        userDocument = value.documents;
+      }
+      isLoading = false;
       setState(() {});
     });
   }
@@ -43,11 +71,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     _specoalists = await ApiProvider().getSpecialists();
     if (mounted) setState(() {});
     print('1111111111111111111==========>${_specoalists[1].titleEn}');
-    isLoading=false;
-    specialityId=_specoalists[0].id;
-    setState(() {
-
-    });
+    specialityId = _specoalists[0].id;
+    setState(() {});
   }
 
   @override
@@ -57,14 +82,17 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     setState(() {
       Settings.currentIndex = 3;
     });
-    getData();
+    getFirebaseUserData();
     _initData();
   }
 
+  List patients = List();
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if(isDoctor){
+    if (isDoctor) {
       if (document['id'] == SharedData.customerData['fuid'] ||
-          document['isDoctor'] == isDoctor) {
+          document['isDoctor'] == isDoctor ||
+          document['id'] == SharedData.customerData['fuid']) {
         return Container();
       } else {
         return Column(
@@ -80,20 +108,28 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
-                            child:  Material(
+                            margin: EdgeInsets.only(
+                                bottom:
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom +
+                                    15),
+                            child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 1.0,
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(themeColor),
-                                  ),
-                                  width: 50.0,
-                                  height: 50.0,
-                                  padding: EdgeInsets.all(15.0),
-                                ),
+                                placeholder: (context, url) =>
+                                    Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(
+                                            themeColor),
+                                      ),
+                                      width: 50.0,
+                                      height: 50.0,
+                                      padding: EdgeInsets.all(15.0),
+                                    ),
                                 imageUrl:
                                 'http://api.sukar.co${document['photoUrl']}',
                                 width: 50.0,
@@ -105,7 +141,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                 size: 50.0,
                                 color: greyColor,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -114,10 +151,12 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             child: Container(
                               child: Text(
                                 '${document['nickname']}',
-                                style: TextStyle(color: primaryColor, height: 0),
+                                style: TextStyle(
+                                    color: primaryColor, height: 0),
                               ),
                               alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                              margin:
+                              EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                             ),
                           ),
                         ],
@@ -145,8 +184,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 ),
                 color: greyColor2,
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-                shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), onPressed: () {},
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                onPressed: () {},
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -157,8 +197,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           ],
         );
       }
-    }
-    else{
+    } else {
       if (document['id'] == SharedData.customerData['fuid'] ||
           document['isDoctor'] == isDoctor ||
           document['specialistId'] != specialityId) {
@@ -177,20 +216,27 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 15),
-                            child:  Material(
+                            margin: EdgeInsets.only(
+                                bottom:
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 15),
+                            child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                placeholder: (context, url) => Container(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 1.0,
-                                    valueColor:
-                                    AlwaysStoppedAnimation<Color>(themeColor),
-                                  ),
-                                  width: 50.0,
-                                  height: 50.0,
-                                  padding: EdgeInsets.all(15.0),
-                                ),
+                                placeholder: (context, url) =>
+                                    Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(
+                                            themeColor),
+                                      ),
+                                      width: 50.0,
+                                      height: 50.0,
+                                      padding: EdgeInsets.all(15.0),
+                                    ),
                                 imageUrl:
                                 'http://api.sukar.co${document['photoUrl']}',
                                 width: 50.0,
@@ -202,7 +248,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                 size: 50.0,
                                 color: greyColor,
                               ),
-                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -215,10 +262,12 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                   Container(
                                     child: Text(
                                       '${document['nickname']}',
-                                      style: TextStyle(color: primaryColor, height: 0),
+                                      style: TextStyle(
+                                          color: primaryColor, height: 0),
                                     ),
                                     alignment: Alignment.centerLeft,
-                                    margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                                    margin: EdgeInsets.fromLTRB(
+                                        10.0, 0.0, 0.0, 5.0),
                                   ),
                                   Padding(padding: EdgeInsets.only(top: 5)),
                                   Text(
@@ -248,11 +297,13 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                       onTap: () {
                         //print(document.documentID);
                         //print(document.data['dId']);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DocInfo(
-                          peerId: document.documentID,
-                          peerAvatar: document['photoUrl'],
-                          dId: document['dId'],
-                        ),
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              DocInfo(
+                                peerId: document.documentID,
+                                peerAvatar: document['photoUrl'],
+                                dId: document['dId'],
+                              ),
                         ));
                       },
                     ),
@@ -278,8 +329,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 ),
                 color: greyColor2,
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
-                shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)), onPressed: () {},
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                onPressed: () {},
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -287,7 +339,6 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               child: Divider(),
             )
-
           ],
         );
       }
@@ -298,8 +349,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     arrowFlip = true;
     setState(() {});
     PickerController pickerController = PickerController(count: 1);
-    PickerViewPopup.showMode(
-        PickerShowMode.BottomSheet,
+    PickerViewPopup.showMode(PickerShowMode.BottomSheet,
         controller: pickerController,
         context: context,
         title: Text(
@@ -340,7 +390,6 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           return _specoalists.length;
         },
         itemBuilder: (section, row) {
-
           return Text(
             '${_specoalists[row].titleAr}',
             style: TextStyle(fontSize: 12),
@@ -352,8 +401,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: isLoading?
-      Center(
+      body: isLoading
+          ? Center(
         child: SpinKitWave(
           size: 30,
           itemBuilder: (_, int index) {
@@ -364,8 +413,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             );
           },
         ),
-      ):
-      Column(
+      )
+          : Column(
         children: <Widget>[
           isDoctor == true
               ? Container()
@@ -374,11 +423,15 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             child: GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(top: 10),
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.8,
                 padding: EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,8 +452,12 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                       child: Row(
                         children: <Widget>[
                           Text("$specialityName"),
-                          Padding(padding: EdgeInsets.only(right: 8)),
-                          Image.asset('assets/icons/ic_doctor.png',scale: 4,),
+                          Padding(
+                              padding: EdgeInsets.only(right: 8)),
+                          Image.asset(
+                            'assets/icons/ic_doctor.png',
+                            scale: 4,
+                          ),
                         ],
                       ),
                     )
@@ -411,25 +468,16 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: StreamBuilder(
-              stream: Firestore.instance.collection('users').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.7,
+            child: ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) =>
-                        buildItem(context, snapshot.data.documents[index]),
-                    itemCount: snapshot.data.documents.length,
-                  );
-                }
+              itemBuilder: (context, index) {
+                return buildItem(context, userDocument[index]);
               },
+              itemCount: userDocument.length,
             ),
           ),
         ],
@@ -437,4 +485,3 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     );
   }
 }
-

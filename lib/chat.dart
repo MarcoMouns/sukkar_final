@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -142,8 +143,11 @@ class ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void onSendMessage(String content, int type) {
+  void onSendMessage(String content, int type) async {
     if (content.trim() != '') {
+      Response response = await Dio().post(
+          'http://api.sukar.co/api/chat_with?fuid=$peerId&chatWith=$id');
+      print('al Response al GAMEL-------------> $response');
       textEditingController.clear();
 
       var documentReference = Firestore.instance
