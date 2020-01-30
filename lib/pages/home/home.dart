@@ -439,11 +439,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   static Future setFirebaseImage() async {
+    print("my image link = ${SharedData.customerData['image']}");
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
         .updateData({
-      'photoUrl': SharedData.customerData['image'],
+      'photoUrl': SharedData.customerData['image'] == "Null"
+          ? "http://api.sukar.co/storage/default-profile.png"
+          : SharedData.customerData['image'],
       'nickname': SharedData.customerData['userName']
     });
   }
@@ -962,7 +965,7 @@ class _HomePageState extends State<HomePage> {
                                             .customerData['image'] ==
                                         'Null' ||
                                     SharedData.customerData['image'] == null
-                                ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
+                                ? 'http://api.sukar.co/storage/default-profile.png'
                                 : 'http://api.sukar.co${SharedData.customerData['image']}'),
                           ),
                           ifRegUser
@@ -1054,12 +1057,16 @@ class _HomePageState extends State<HomePage> {
                                                     ? GestureDetector(
                                                         onTap: () {
                                                           Navigator.of(context).push(MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  AdDetailsScreen(
-                                                                      banners[index]
-                                                                          .image,
-                                                                      banners[index]
-                                                                          .text== null ? "": banners[index].text )));
+                                                              builder: (context) => AdDetailsScreen(
+                                                                  banners[index]
+                                                                      .image,
+                                                                  banners[index]
+                                                                              .text ==
+                                                                          null
+                                                                      ? ""
+                                                                      : banners[
+                                                                              index]
+                                                                          .text)));
                                                         },
                                                         child: new Container(
                                                           decoration: ShapeDecoration(
