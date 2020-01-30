@@ -238,7 +238,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                       padding: EdgeInsets.all(15.0),
                                     ),
                                 imageUrl:
-                                'http://api.sukar.co${document['photoUrl']}',
+                                document['photoUrl'],
                                 width: 50.0,
                                 height: 50.0,
                                 fit: BoxFit.cover,

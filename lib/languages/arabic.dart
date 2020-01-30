@@ -224,7 +224,8 @@ Map<String, String> arabicLang = {
   "bloodpresure22":"من 85 - 89",
   "bloodpresure3":" اكثر من 140",
   "bloodpresure33":" اكثر من 90",
-  "prehigh":"ما قبل المرتفع"
+  "prehigh":"ما قبل المرتفع",
+  "ok":"حسنا"
 
 
 

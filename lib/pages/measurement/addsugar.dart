@@ -354,7 +354,7 @@ class _AddSugarState extends State<AddSugar> {
             actions: <Widget>[
               FlatButton(
                 child: Text(
-                  'Ok',
+                   allTranslations.text("ok"),
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () {

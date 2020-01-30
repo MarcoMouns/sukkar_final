@@ -203,14 +203,15 @@ Map<String, String> englishLang = {
   "workinghistory":"Working history",
   "workingsince":"working since",
   "joinData":"join Sukar",
-  "skip":"تخطي",
+  "skip":"Skip",
   "bloodpresure1":"From 110 - 129",
   "bloodpresure11":"From 75 - 84",
   "bloodpresure2":"From 130 - 139",
   "bloodpresure22":"From 85 - 89",
   "bloodpresure3":"More than 140",
   "bloodpresure33":"More than 90",
-  "prehigh":"prehigh"
+  "prehigh":"prehigh",
+  "ok":"ok"
 
 
 
