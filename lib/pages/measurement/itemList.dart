@@ -42,12 +42,12 @@ class _ItemListState extends State<ItemList> {
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
 
-    dio.options.headers = {
+ var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-
     response =
-        await dio.get("${Settings.baseApilink}/medicine", options: Options(headers: authUser));
+        await dio.get("${Settings.baseApilink}/medicine", options: Options(headers: headers));
+
     print(response.data);
     for (int i = 0; i < response.data['medicines'].length; i++) {
       Medicine md = new Medicine();
