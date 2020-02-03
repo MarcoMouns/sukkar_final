@@ -882,7 +882,7 @@ class _HomePageState extends State<HomePage> {
         ? Loading()
         : Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 50),
+              preferredSize: Size(MediaQuery.of(context).size.width, 40),
               child: Directionality(
                 textDirection: TextDirection.ltr,
                 child: AppBar(

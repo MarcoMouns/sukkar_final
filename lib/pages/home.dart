@@ -187,6 +187,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       child: ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
           return new Scaffold(
+appBar: PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
             key: _scaffoldKey,
             backgroundColor: Colors.white,
             body: navPages(cIndex, model),
