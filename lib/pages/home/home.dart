@@ -16,6 +16,7 @@ import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
+import 'package:pedometer/pedometer.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   int distance = 0;
-  int steps;
+  int steps=0;
   int calories = 0;
   int cupOfWater;
   int heartRate;
@@ -134,6 +135,9 @@ class _HomePageState extends State<HomePage> {
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
+  Pedometer _pedometer;
+  StreamSubscription<int> _subscription;
+  String _stepCountValue = '0';
 
   Widget ifRegUser = Positioned(
     right: 0,
@@ -163,10 +167,48 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
+
+
+
+  ////////////////////////////////////////////////////////////////////
+  /// Step Counter functions
+  
+  // Platform messages are asynchronous, so we initialize in an async method.
+  int initVal;
+  Future<void> initPlatformState() async {
+    startListening();
+  }
+
+  void onData(int stepCountValue) {
+    print(stepCountValue);
+  }
+
+  void startListening() {
+    _pedometer = new Pedometer();
+    _subscription = _pedometer.pedometerStream.listen(_onData,
+        onError: _onError, onDone: _onDone, cancelOnError: true);
+  }
+
+  void stopListening() {
+    _subscription.cancel();
+  }
+
+  void _onData(int stepCountValue) async {
+    setState(() => _stepCountValue = "${steps += stepCountValue - initVal}");
+  }
+
+  void _onDone() => print("Finished pedometer tracking");
+
+  void _onError(error) => print("Flutter Pedometer Error: $error");
+
+
+  ////////////////////////////////////////////////////////////////////
+  
   getHomeData() async {
+    initPlatformState();
     getValuesSF();
     getMeasurementsForDay(date);
-    calculateSteps();
+    healthData();
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
@@ -186,134 +228,135 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<List<int>> healthKit() async {
-    // var r = await FitKit.hasPermissions(
-    //     [DataType.DISTANCE, DataType.STEP_COUNT, DataType.ENERGY]);
+   healthData()async{
+     
+   }
 
-    List<int> steps = new List<int>();
-    List<int> disctance = new List<int>();
-    List<int> homeCalories = new List<int>();
-    DateTime usedDate =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    fitDistanceData.clear();
-    healthKitStepsData = await FitKit.read(
-      DataType.STEP_COUNT,
-      dateFrom: usedDate,
-      dateTo: DateTime.now(),
-    );
-    print("===================================");
+    //  healthData() async {
 
-    print(healthKitStepsData);
-    print("===================================");
+    // List<int> disctance = new List<int>();
+    // List<int> homeCalories = new List<int>();
+    // DateTime usedDate =
+    //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    // fitDistanceData.clear();
+    // healthKitStepsData = await FitKit.read(
+    //   DataType.STEP_COUNT,
+    //   dateFrom: usedDate,
+    //   dateTo: DateTime.now(),
+    // );
+    // print("===================================");
 
-    healthKitDistanceData = await FitKit.read(
-      DataType.DISTANCE,
-      dateFrom: usedDate,
-      dateTo: DateTime.now(),
-    );
-    print("===================================");
+    // print(healthKitStepsData);
+    // print("===================================");
 
-    print(healthKitDistanceData);
-    print("===================================");
+    // healthKitDistanceData = await FitKit.read(
+    //   DataType.DISTANCE,
+    //   dateFrom: usedDate,
+    //   dateTo: DateTime.now(),
+    // );
+    // print("===================================");
 
-    healthKitCaloriesData = await FitKit.read(
-      DataType.ENERGY,
-      dateFrom: usedDate,
-      dateTo: DateTime.now(),
-    );
-    print("===================================");
+    // print(healthKitDistanceData);
+    // print("===================================");
 
-    print(healthKitCaloriesData);
-    print("===================================");
+    // healthKitCaloriesData = await FitKit.read(
+    //   DataType.ENERGY,
+    //   dateFrom: usedDate,
+    //   dateTo: DateTime.now(),
+    // );
+    // print("===================================");
 
-    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
-      fitDistanceData.add(healthKitDistanceData[i]);
-      disctance.add(fitDistanceData[i].value.round());
-    }
+    // print(healthKitCaloriesData);
+    // print("===================================");
 
-    for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
-      fitCaloriesData.add(healthKitCaloriesData[i]);
-      homeCalories.add(fitCaloriesData[i].value.round());
-    }
+    // for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
+    //   fitDistanceData.add(healthKitDistanceData[i]);
+    //   disctance.add(fitDistanceData[i].value.round());
+    // }
 
-    if (homeCalories.isEmpty) {
-      calories = 0;
-    } else {
-      calories = 0;
-      for (int i = 0; i <= homeCalories.length - 1; i++) {
-        calories = homeCalories[i] + calories;
-      }
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
-      await http.post(
-          "${Settings.baseApilink}/measurements?day_Calories=$calories",
-          body: {
-            "distance": "$distance",
-          },
-          headers: {
-            "Authorization": "Bearer ${authUser['authToken']}"
-          });
-    }
+    // for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
+    //   fitCaloriesData.add(healthKitCaloriesData[i]);
+    //   homeCalories.add(fitCaloriesData[i].value.round());
+    // }
 
-    if (disctance.isEmpty) {
-      distance = 0;
-    } else {
-      distance = 0;
-      for (int i = 0; i <= disctance.length - 1; i++) {
-        distance = disctance[i] + distance;
-      }
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+    // if (homeCalories.isEmpty) {
+    //   calories = 0;
+    // } else {
+    //   calories = 0;
+    //   for (int i = 0; i <= homeCalories.length - 1; i++) {
+    //     calories = homeCalories[i] + calories;
+    //   }
+    //   SharedPreferences sharedPreferences =
+    //       await SharedPreferences.getInstance();
+    //   Map<String, dynamic> authUser =
+    //       jsonDecode(sharedPreferences.getString("authUser"));
+    //   await http.post(
+    //       "${Settings.baseApilink}/measurements?day_Calories=$calories",
+    //       body: {
+    //         "distance": "$distance",
+    //       },
+    //       headers: {
+    //         "Authorization": "Bearer ${authUser['authToken']}"
+    //       });
+    // }
 
-      await http.post("${Settings.baseApilink}/update-distance", body: {
-        "distance": "$distance",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
-      setState(() {});
-    }
+    // if (disctance.isEmpty) {
+    //   distance = 0;
+    // } else {
+    //   distance = 0;
+    //   for (int i = 0; i <= disctance.length - 1; i++) {
+    //     distance = disctance[i] + distance;
+    //   }
+    //   SharedPreferences sharedPreferences =
+    //       await SharedPreferences.getInstance();
+    //   Map<String, dynamic> authUser =
+    //       jsonDecode(sharedPreferences.getString("authUser"));
 
-    if (healthKitStepsData.isEmpty) {
-      return steps;
-    } else {
-      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
-        fitStepsData.add(healthKitStepsData[i]);
-        steps.add(fitStepsData[i].value.round());
-      }
-      return steps;
-    }
-  }
+    //   await http.post("${Settings.baseApilink}/update-distance", body: {
+    //     "distance": "$distance",
+    //   }, headers: {
+    //     "Authorization": "Bearer ${authUser['authToken']}"
+    //   });
+    //   setState(() {});
+    // }
 
-  void calculateSteps() async {
-    int steps = 0;
-    List<int> stepsList = new List<int>();
-    stepsList = await healthKit();
-    if (stepsList.isEmpty) {
-      totalSteps = 0;
-    } else {
-      for (int i = 0; i <= stepsList.length - 1; i++) {
-        steps = stepsList[i] + steps;
-      }
-      if (flag == true) {
-        totalSteps = steps;
-      }
-      flag = false;
-      step = steps;
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
-      await http.post("${Settings.baseApilink}/update-steps", body: {
-        "steps": "$step",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
-    }
-  }
+    // if (healthKitStepsData.isEmpty) {
+    //   return steps;
+    // } else {
+    //   for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+    //     fitStepsData.add(healthKitStepsData[i]);
+    //     steps.add(fitStepsData[i].value.round());
+    //   }
+    //   return steps;
+    // }
+  // }
+
+  // void calculateSteps() async {
+  //   int steps = 0;
+  //   List<int> stepsList = new List<int>();
+  //   stepsList = await healthKit();
+  //   if (stepsList.isEmpty) {
+  //     totalSteps = 0;
+  //   } else {
+  //     for (int i = 0; i <= stepsList.length - 1; i++) {
+  //       steps = stepsList[i] + steps;
+  //     }
+  //     if (flag == true) {
+  //       totalSteps = steps;
+  //     }
+  //     flag = false;
+  //     step = steps;
+  //     SharedPreferences sharedPreferences =
+  //         await SharedPreferences.getInstance();
+  //     Map<String, dynamic> authUser =
+  //         jsonDecode(sharedPreferences.getString("authUser"));
+  //     await http.post("${Settings.baseApilink}/update-steps", body: {
+  //       "steps": "$step",
+  //     }, headers: {
+  //       "Authorization": "Bearer ${authUser['authToken']}"
+  //     });
+  //   }
+  // }
 
   initState() {
     FirebaseMessaging().getToken().then((t) async {
