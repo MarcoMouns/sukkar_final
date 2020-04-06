@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Welcome%20screen.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../languages/all_translations.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -13,45 +14,32 @@ class LandPage extends StatefulWidget {
 }
 
 class _LandPageState extends State<LandPage> {
-
   List<String> msgs = new List();
 
-  
   @override
   void initState() {
     super.initState();
-    for(int i =0 ; i < 6 ; i++ ){
+    for (int i = 0; i < 6; i++) {
       msgs.add("");
     }
     getMessages();
-
   }
 
-
   Dio dio = new Dio();
-
-
 
   Future<Void> getMessages() async {
     Response response;
     List<String> msgs1 = new List();
-   
+
     response = await dio.get("${Settings.baseApilink}/opening-texts");
 
-
-    for(int i=0; i < response.data.length;i++){
-      msgs1.add(response.data['text_${i+1}']);
+    for (int i = 0; i < response.data.length; i++) {
+      msgs1.add(response.data['text_${i + 1}']);
     }
     msgs = msgs1;
-    
+
     setState(() {});
-  
-
-
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +63,7 @@ class _LandPageState extends State<LandPage> {
                       return LandPageSliderItem(
                         image: "assets/imgs/slider$index.png",
                         title: "landPage_title",
-                        subtitle: msgs[index]== null ? "": msgs[index] ,
+                        subtitle: msgs[index] == null ? "" : msgs[index],
                       );
                     },
                     itemCount: 6,
@@ -91,6 +79,11 @@ class _LandPageState extends State<LandPage> {
                         color: Settings.mainColor(),
                         textColor: Colors.white,
                         onPressed: () async {
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          var date =
+                              '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+                          pref.setString("lastMeasureDate", date);
                           await Navigator.of(context).pushNamed('/logIn');
                         },
                         child: Container(
@@ -126,8 +119,9 @@ class _LandPageState extends State<LandPage> {
                         child: Center(
                           child: FlatButton(
                             onPressed: () async {
-                              await Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) => WelcomeScreen()));
+                              await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomeScreen()));
                             },
                             child: Text(
                               allTranslations.text("landPage_notNow"),
@@ -187,7 +181,7 @@ class LandPageHeader extends StatelessWidget {
                     color: Settings.mainColor(),
                   )),
               subtitle: Text(
-                subtitle == null ? " ": subtitle,
+                subtitle == null ? " " : subtitle,
                 style: TextStyle(color: Colors.redAccent),
               ),
             ),

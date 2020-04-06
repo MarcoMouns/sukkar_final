@@ -26,7 +26,11 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 //Project background_geolocation = project(':flutter_background_geolocation')
 //apply from: "${background_geolocation.projectDir}/background_geolocation.gradle"
-
+   def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion = 28
 
@@ -37,7 +41,7 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
- compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.alexapps.sukar"
@@ -50,14 +54,19 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-            //proguardFiles "${background_geolocation.projectDir}/proguard-rules.pro"
-        }
-    }
+   signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
+   buildTypes {
+       release {
+           signingConfig signingConfigs.release
+       }
+   }
 
 }
 

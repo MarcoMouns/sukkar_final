@@ -6,6 +6,7 @@ import 'package:health/pages/account/verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import '../../languages/all_translations.dart';
 
@@ -249,6 +250,12 @@ class _NewUserState extends State<NewUser> {
                                       color: Settings.mainColor(),
                                       textColor: Colors.white,
                                       onPressed: () async {
+                                        SharedPreferences pref =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var date =
+                                            '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+                                        pref.setString("lastMeasureDate", date);
                                         _focusNode.unfocus();
                                         isClicked == true
                                             ? _handleSubmit(context, model)
