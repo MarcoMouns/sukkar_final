@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
   Pedometer _pedometer;
   StreamSubscription<int> _subscription;
-  String _stepCountValue = '0';
+
 
   Widget ifRegUser = Positioned(
     right: 0,
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     steps += stepCountValue - initVal;
-    setState(() => _stepCountValue = "${steps += stepCountValue - initVal}");
+    setState(() => steps += stepCountValue - initVal);
     initVal = stepCountValue;
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
@@ -236,8 +236,8 @@ class _HomePageState extends State<HomePage> {
     if(steps==null||steps==0){
       steps = sharedPreferences.getInt("daySteps") == null ?0:sharedPreferences.getInt("daySteps");
     }
-    distance = steps ~/ 3;
-    calories = steps ~/ 20;
+    distance = (steps / 3).toInt();
+    calories = (steps / 20).toInt();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
