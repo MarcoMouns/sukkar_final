@@ -400,7 +400,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+           automaticallyImplyLeading: false,
+      ),
       body: isLoading
           ? Center(
         child: SpinKitWave(

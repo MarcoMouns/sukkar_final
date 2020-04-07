@@ -88,7 +88,8 @@ class _AddSugarState extends State<AddSugar> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
+      response = await dio.get(
+          "${Settings.baseApilink}/measurements?date=$date",
           options: Options(headers: headers));
 
       if (measuresOfDay.isNotEmpty) {
@@ -184,7 +185,6 @@ class _AddSugarState extends State<AddSugar> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width / 3,
                                 height: 60,
-                                //padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
                                 child: Center(
                                   child: Text(
                                     allTranslations.text("measure"),
@@ -265,13 +265,15 @@ class _AddSugarState extends State<AddSugar> {
     return await showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        
         return Directionality(
-        textDirection: allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
-                  child: AlertDialog(
-            title: Text('نتيجة القياس' ,textAlign: TextAlign.center,),
+          textDirection: allTranslations.currentLanguage == "ar"
+              ? TextDirection.rtl
+              : TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(
+              allTranslations.text("sugerDialogTitle"),
+              textAlign: TextAlign.center,
+            ),
             content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.35,
@@ -280,26 +282,20 @@ class _AddSugarState extends State<AddSugar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "السكر لديك معدلاته اقل من الطبيعي",
+                          allTranslations.text("low1SugermgsTitle"),
                           style: TextStyle(
                             color: Colors.green,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         Padding(padding: EdgeInsets.only(top: 10)),
-                        Text("تعرف على اعراض هبوط السكر:"),
-                        Text("1-" +
-                            " تعرف على اعراض هبوط السكر مثل(الدوخة ,التعرق , الخفقان, الدوار , الجوع الشديد , الرعشة"),
-                        Text("2-" +
-                            " لا تقم بممارسة اي مجهود رياضي الا بعد تناول وجبة خفيفة"),
-                        Text("3-" +
-                            " احمل معك قطعة من الحلوى تناولها في حال الاحساس بأعراض الهبوط"),
+                        Text(allTranslations.text("low1Sugermgsbody")),
                       ],
                     ),
                   )
                 : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
                     ? Text(
-                        "مستوى السكر لديك بالمعدل الطبيعي واصل اهتمامك قياس السكر",
+                        allTranslations.text("normalSugermsg"),
                         style: TextStyle(color: Colors.green),
                         textAlign: TextAlign.center,
                       )
@@ -311,19 +307,14 @@ class _AddSugarState extends State<AddSugar> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "انتبه مستوى السكر لديك مرتفع",
+                                  allTranslations.text("highSugermsgTitle"),
                                   style: TextStyle(
                                     color: Colors.red,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 10)),
-                                Text("عليك إتباع النصائح التالية:"),
-                                Text("1-" + " المحافظة على نظام صحي غذائى."),
-                                Text("2-" + " ممارسة الرياضة بانتظام."),
-                                Text("3-" + " الالتزام بتناول أدوية السكر."),
-                                Text("4-" + " مراجعة عيادة السكري بشكل دوري."),
-                                Text("5-" + " قياس السكر باستمرار."),
+                                Text(allTranslations.text("highSugerBody")),
                               ],
                             ),
                           )
@@ -334,27 +325,21 @@ class _AddSugarState extends State<AddSugar> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "انتبه مستوى السكر لديك منخفض",
+                                  allTranslations.text("lowSugermsgTitle"),
                                   style: TextStyle(
                                     color: Colors.red,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
                                 Padding(padding: EdgeInsets.only(top: 10)),
-                                Text("عليك إتباع النصائح التالية:"),
-                                Text("1-" +
-                                    " تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ) "),
-                                Text("2-" +
-                                    " لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة."),
-                                Text("3-" +
-                                    " احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط ."),
+                                Text(allTranslations.text("lowSugermsgbody")),
                               ],
                             ),
                           ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
-                   allTranslations.text("ok"),
+                  allTranslations.text("ok"),
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () {
