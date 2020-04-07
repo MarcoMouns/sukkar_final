@@ -184,19 +184,19 @@ class _HomePageState extends State<HomePage> {
 
   void _onData(int stepCountValue) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-      String coDate = pref.getString("lastMeasureDate");
-      if (coDate != date) {
-        pref.setString("lastMeasureDate", date);
-        steps = 0;
-        pref.setInt("daySteps", steps);
-      }
-      initVal = initVal == null ? 0 : initVal;
-      steps += stepCountValue - initVal;
-      initVal = stepCountValue;
-      pref = await SharedPreferences.getInstance();
-      pref.setInt("lastSavedSteps", initVal);
+    String coDate = pref.getString("lastMeasureDate");
+    if (coDate != date) {
+      pref.setString("lastMeasureDate", date);
+      steps = 0;
       pref.setInt("daySteps", steps);
-      healthData();
+    }
+    initVal = initVal == null ? 0 : initVal;
+    steps += stepCountValue - initVal;
+    initVal = stepCountValue;
+    pref = await SharedPreferences.getInstance();
+    pref.setInt("lastSavedSteps", initVal);
+    pref.setInt("daySteps", steps);
+    healthData();
   }
 
   void _onDone() => print("Finished pedometer tracking");
@@ -714,7 +714,7 @@ class _HomePageState extends State<HomePage> {
     return loading == true
         ? Loading()
         : CustomMultiChildLayout(
-            delegate: CirclesDelegate(_chartRadius),
+            delegate: CirclesDelegate(_chartRadius - 30),
             children: <Widget>[
               new LayoutId(
                 id: 1,
