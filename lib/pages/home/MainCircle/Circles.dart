@@ -75,8 +75,8 @@ abstract class MainCircles {
         title: text,
         percent: percent,
         time: "",
-        color: int.parse(text) <= 60 ?
-             Color.fromRGBO(254, 252, 232, 1)
+        color: int.parse(text) <= 60
+            ? Color.fromRGBO(254, 252, 232, 1)
             : int.parse(text) > 60 && int.parse(text) <= 160
                 ? Color.fromRGBO(229, 246, 211, 1)
                 : Color.fromRGBO(253, 238, 238, 1),
@@ -240,10 +240,10 @@ abstract class MainCircles {
         },
         time: "",
         color: int.parse(heart) <= 60
-                                ? Color.fromRGBO(254, 252, 232, 1)
-                                : int.parse(heart) > 60 && int.parse(heart) <= 100
-                                    ? Color.fromRGBO(229, 246, 211, 1)
-                                    : Color.fromRGBO(253, 238, 238, 1),
+            ? Color.fromRGBO(254, 252, 232, 1)
+            : int.parse(heart) > 60 && int.parse(heart) <= 100
+                ? Color.fromRGBO(229, 246, 211, 1)
+                : Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
@@ -282,12 +282,15 @@ abstract class MainCircles {
           onTap();
         },
         time: "",
-        color: (int.parse(blood.split("/")[0]) >= 90 && int.parse(blood.split("/")[0]) <= 140) &&
-                                    (int.parse(blood.split("/")[1])>= 60 && int.parse(blood.split("/")[1]) <= 90)
-                                ? Color.fromRGBO(229, 246, 211, 1)
-                                : (int.parse(blood.split("/")[0]) < 90 && int.parse(blood.split("/")[1]) <60)
-                                    ? Color.fromRGBO(254, 252, 232, 1)
-                                    : Color.fromRGBO(253, 238, 238, 1),
+        color: (int.parse(blood.split("/")[0]) >= 90 &&
+                    int.parse(blood.split("/")[0]) <= 140) &&
+                (int.parse(blood.split("/")[1]) >= 60 &&
+                    int.parse(blood.split("/")[1]) <= 90)
+            ? Color.fromRGBO(229, 246, 211, 1)
+            : (int.parse(blood.split("/")[0]) < 90 &&
+                    int.parse(blood.split("/")[1]) < 60)
+                ? Color.fromRGBO(254, 252, 232, 1)
+                : Color.fromRGBO(253, 238, 238, 1),
         mainAxisAlignment: MainAxisAlignment.start);
   }
 

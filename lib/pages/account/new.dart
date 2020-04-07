@@ -253,9 +253,7 @@ class _NewUserState extends State<NewUser> {
                                         SharedPreferences pref =
                                             await SharedPreferences
                                                 .getInstance();
-                                        var date =
-                                            '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
-                                        pref.setString("lastMeasureDate", date);
+
                                         _focusNode.unfocus();
                                         isClicked == true
                                             ? _handleSubmit(context, model)

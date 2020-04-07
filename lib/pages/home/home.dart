@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
   bool istrue = false;
   List newList = [];
   List<int> _calories = [];
-  int rcalories;
+  int rcalories = 0;
   DateTime selectedDate = DateTime.now();
   DateTime dummySelectedDate = DateTime.now();
 
@@ -100,10 +100,10 @@ class _HomePageState extends State<HomePage> {
   int heartRate;
   int bloodPresure1;
   int bloodPresure2;
-  int calGoals;
-  int goalOfWater;
-  int stepsGoal;
-  int distanceGoal;
+  int calGoals = 1;
+  int goalOfWater = 15;
+  int stepsGoal = 1;
+  int distanceGoal = 1;
   int calTarget = 0;
   bool circleCalorie = true;
   bool circleSteps = true;
@@ -130,7 +130,6 @@ class _HomePageState extends State<HomePage> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
   Pedometer _pedometer;
   StreamSubscription<int> _subscription;
-
 
   Widget ifRegUser = Positioned(
     right: 0,
@@ -184,19 +183,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onData(int stepCountValue) async {
-    String coDate = pref.getString("lastMeasureDate");
-    if (coDate != date) {
-      pref.setString("lastMeasureDate", date);
-      steps = 0;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+      String coDate = pref.getString("lastMeasureDate");
+      if (coDate != date) {
+        pref.setString("lastMeasureDate", date);
+        steps = 0;
+        pref.setInt("daySteps", steps);
+      }
+      initVal = initVal == null ? 0 : initVal;
+      steps += stepCountValue - initVal;
+      initVal = stepCountValue;
+      pref = await SharedPreferences.getInstance();
+      pref.setInt("lastSavedSteps", initVal);
       pref.setInt("daySteps", steps);
-    }
-
-    steps += stepCountValue - initVal;
-    setState(() => steps += stepCountValue - initVal);
-    initVal = stepCountValue;
-    pref = await SharedPreferences.getInstance();
-    pref.setInt("lastSavedSteps", initVal);
-    pref.setInt("daySteps", steps);
+      healthData();
   }
 
   void _onDone() => print("Finished pedometer tracking");
@@ -233,8 +233,10 @@ class _HomePageState extends State<HomePage> {
   healthData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     initVal = sharedPreferences.getInt("lastSavedSteps");
-    if(steps==null||steps==0){
-      steps = sharedPreferences.getInt("daySteps") == null ?0:sharedPreferences.getInt("daySteps");
+    if (steps == null || steps == 0) {
+      steps = sharedPreferences.getInt("daySteps") == null
+          ? 0
+          : sharedPreferences.getInt("daySteps");
     }
     distance = (steps / 3).toInt();
     calories = (steps / 20).toInt();
@@ -255,14 +257,11 @@ class _HomePageState extends State<HomePage> {
       "Authorization": "Bearer ${authUser['authToken']}"
     });
 
-    await http.post(
-        "${Settings.baseApilink}/measurements?day_Calories=$calories",
-        body: {
-          "distance": "$distance",
-        },
-        headers: {
-          "Authorization": "Bearer ${authUser['authToken']}"
-        });
+    await http.post("${Settings.baseApilink}/update-distance", body: {
+      "distance": "$distance",
+    }, headers: {
+      "Authorization": "Bearer ${authUser['authToken']}"
+    });
   }
 
   initState() {
@@ -638,26 +637,32 @@ class _HomePageState extends State<HomePage> {
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
 
     widgetCircleSteps = MainCircles.steps(
-        percent: dataHome.steps == 0 || dataHome.steps == null
+        percent: dataHome == null
             ? 0
-            : (dataHome.steps / stepsGoal) > 1
-                ? 1
-                : ((dataHome.steps / stepsGoal)),
+            : dataHome.steps == 0 || dataHome.steps == null
+                ? 0
+                : (dataHome.steps / stepsGoal) > 1
+                    ? 1
+                    : ((dataHome.steps / stepsGoal)),
         context: context,
-        steps: dataHome.steps == null || dataHome.steps == 0
+        steps: dataHome == null
             ? 0
-            : dataHome.steps == null ? 0 : dataHome.steps,
+            : dataHome.steps == null || dataHome.steps == 0
+                ? 0
+                : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: dataHome.distance == null || dataHome.distance == 0.0
+        percent: dataHome == null
             ? 0
-            : ((dataHome.distance / distanceGoal)).toDouble() > 1.0
-                ? 1
-                : ((dataHome.distance / distanceGoal)),
+            : dataHome.distance == null || dataHome.distance == 0.0
+                ? 0
+                : ((dataHome.distance / distanceGoal)).toDouble() > 1.0
+                    ? 1
+                    : ((dataHome.distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: dataHome == null

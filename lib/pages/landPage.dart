@@ -107,6 +107,11 @@ class _LandPageState extends State<LandPage> {
                       Expanded(
                         child: FlatButton(
                           onPressed: () async {
+                            SharedPreferences pref =
+                                await SharedPreferences.getInstance();
+                            var date =
+                                '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+                            pref.setString("lastMeasureDate", date);
                             await Navigator.of(context).pushNamed('/newUser');
                           },
                           child: Text(
