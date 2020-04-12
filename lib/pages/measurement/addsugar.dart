@@ -134,131 +134,140 @@ class _AddSugarState extends State<AddSugar> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: allTranslations.currentLanguage == "ar"
-          ? TextDirection.rtl
-          : TextDirection.ltr,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(allTranslations.text("sugar")),
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => MainHome()));
-            },
-          ),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(
-                        now,
-                        style: TextStyle(color: Colors.red, fontSize: 25.0),
-                      ),
-                      trailing: Image.asset(
-                        "assets/icons/ic_logo_3.png",
-                        color: Colors.blue,
-                        width: 50,
-                        height: 50,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 40),
-                      child: Text(
-                        allTranslations.text("measure sugar bla bla bla bla"),
-                        style: TextStyle(color: Colors.blueGrey, fontSize: 17),
-                      ),
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          InkWell(
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 3,
-                                height: 60,
-                                child: Center(
-                                  child: Text(
-                                    allTranslations.text("measure"),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                decoration: ShapeDecoration(
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Colors.grey[300], width: 1.5),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              _showBottomSheet(
-                                  context: context,
-                                  model: model,
-                                  type: 'sugar',
-                                  title: "measure sugar",
-                                  subTitle: "enterTodaySugar",
-                                  imageName: "ic_blood_pressure",
-                                  min: 0.0,
-                                  max: 600.0);
-                            },
-                          ),
-                          Container(
-                            width: 20,
-                          ),
-                          InkWell(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              height: 60,
-                              child: Center(
-                                child: Text(
-                                  allTranslations.text("measure2"),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      color: Colors.grey[300], width: 1.5),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              //  Navigator.push(
-                              //    context,
-                              //    MaterialPageRoute(
-                              //        builder: (context) =>
-                              //            BlueToothDevice(model)),
-                              //  );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Column(
-                        children: listOfSuger(),
-                      ),
-                    )
-                  ],
-                ),
+    return WillPopScope(
+        onWillPop: () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => MainHome()));
+        },
+        child: Directionality(
+          textDirection: allTranslations.currentLanguage == "ar"
+              ? TextDirection.rtl
+              : TextDirection.ltr,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(allTranslations.text("sugar")),
+              leading: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MainHome()));
+                },
               ),
-            ],
+              centerTitle: true,
+            ),
+            body: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ListView(
+                      children: <Widget>[
+                        ListTile(
+                          title: Text(
+                            now,
+                            style: TextStyle(color: Colors.red, fontSize: 25.0),
+                          ),
+                          trailing: Image.asset(
+                            "assets/icons/ic_logo_3.png",
+                            color: Colors.blue,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30, bottom: 40),
+                          child: Text(
+                            allTranslations
+                                .text("measure sugar bla bla bla bla"),
+                            style:
+                                TextStyle(color: Colors.blueGrey, fontSize: 17),
+                          ),
+                        ),
+                        Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              InkWell(
+                                child: Center(
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    height: 60,
+                                    child: Center(
+                                      child: Text(
+                                        allTranslations.text("measure"),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.grey[300],
+                                            width: 1.5),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  _showBottomSheet(
+                                      context: context,
+                                      model: model,
+                                      type: 'sugar',
+                                      title: "measure sugar",
+                                      subTitle: "enterTodaySugar",
+                                      imageName: "ic_blood_pressure",
+                                      min: 0.0,
+                                      max: 600.0);
+                                },
+                              ),
+                              Container(
+                                width: 20,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  height: 60,
+                                  child: Center(
+                                    child: Text(
+                                      allTranslations.text("measure2"),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          color: Colors.grey[300], width: 1.5),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  //  Navigator.push(
+                                  //    context,
+                                  //    MaterialPageRoute(
+                                  //        builder: (context) =>
+                                  //            BlueToothDevice(model)),
+                                  //  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Column(
+                            children: listOfSuger(),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Future<void> _ackAlert(BuildContext context) async {
