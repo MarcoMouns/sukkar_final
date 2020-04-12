@@ -35,18 +35,17 @@ class _ItemListState extends State<ItemList> {
   Dio dio = new Dio();
   Response response;
 
-
   Future<Void> getMedicine() async {
     // get user token
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
 
- var headers = {
+    var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response =
-        await dio.get("${Settings.baseApilink}/medicine", options: Options(headers: headers));
+    response = await dio.get("${Settings.baseApilink}/medicine",
+        options: Options(headers: headers));
 
     print(response.data);
     for (int i = 0; i < response.data['medicines'].length; i++) {
@@ -69,7 +68,8 @@ class _ItemListState extends State<ItemList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.get("${Settings.baseApilink}/foods?category=${widget.mealId}",
+    response = await dio.get(
+        "${Settings.baseApilink}/foods?category=${widget.mealId}",
         options: Options(headers: headers));
 
     for (int i = 0; i < response.data['foods'].length; i++) {
@@ -98,7 +98,8 @@ class _ItemListState extends State<ItemList> {
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-    response = await dio.post("${Settings.baseApilink}/medicine/$id?category=$mealID",
+    response = await dio.post(
+        "${Settings.baseApilink}/medicine/$id?category=$mealID",
         options: Options(headers: headers));
     print(response.data);
 
@@ -424,7 +425,11 @@ class _ItemListState extends State<ItemList> {
                                                               )
                                                             ],
                                                           ),
-                                                        );
+                                                        ).then((onValue) {
+                                                          medicines[index]
+                                                              .isSelected = 0;
+                                                          setState(() {});
+                                                        });
                                                       }
                                                     }
                                                   });

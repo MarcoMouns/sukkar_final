@@ -42,6 +42,9 @@ class EditProfileUserState extends State<EditProfileUser> {
   dynamic gender;
 
   TextEditingController nameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
+
   TextEditingController _injuryDateController = TextEditingController();
   TextEditingController _birthDateController = TextEditingController();
 
@@ -65,9 +68,24 @@ class EditProfileUserState extends State<EditProfileUser> {
       };
       response = await dio.get("${Settings.baseApilink}/auth/me",
           options: Options(headers: headers));
-      email = response.data['user']['email'];
+      print(response.data);
+      email = response.data['user']['email'] == null
+          ? "--"
+          : response.data['user']['email'];
       name = response.data['user']['name'];
+      birthDate = response.data['user']['birth_date'] == null
+          ? "--"
+          : response.data['user']['birth_date'];
+      injuryDate = response.data['user']['injuredDate'] == null
+          ? "--"
+          : response.data['user']['injuredDate'];
+      phone = response.data['user']['phone'];
+      gender = response.data['user']['gender'];
       nameCtrl.text = name;
+      emailCtrl.text = email;
+      phoneCtrl.text = phone;
+      _injuryDateController.text = injuryDate;
+      _birthDateController.text = birthDate;
       isLoading = false;
 
       setState(() {});
@@ -90,7 +108,7 @@ class EditProfileUserState extends State<EditProfileUser> {
       var headers = {
         "Authorization": "Bearer ${authUser2['authToken']}",
       };
-      
+
       FormData formdata = new FormData();
       if (name != null) {
         formdata.add('name', name);
@@ -347,7 +365,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       onChanged: (val) {
                         phone = val;
                       },
-                      initialValue: email,
+                      initialValue: phone,
                       decoration: InputDecoration(
                           labelText: myLocale.languageCode.contains("en")
                               ? "phone"
@@ -391,16 +409,20 @@ class EditProfileUserState extends State<EditProfileUser> {
                           showTitleActions: true,
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
-                        birthDate =
-                            (date.toString()).split(" ")[0];
+                        setState(() {
+                          birthDate = (date.toString()).split(" ")[0];
+                           _birthDateController.text = birthDate;
+                        });
                       }, onConfirm: (date) {
-                        birthDate =
-                            (date.toString()).split(" ")[0];
+                        setState(() {
+                          birthDate = (date.toString()).split(" ")[0];
+                          _birthDateController.text = birthDate;
+                        });
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     },
                     child: LogInInput(
-                      enabled: false,
                       controller: _birthDateController,
+                      enabled: false,
                       name: "birthDate",
                       keyboard: TextInputType.datetime,
                       autoValidate: false,
@@ -418,22 +440,23 @@ class EditProfileUserState extends State<EditProfileUser> {
                           showTitleActions: true,
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
-                        injuryDate =
-                            date.toString().split(" ")[0];
+                        injuryDate = date.toString().split(" ")[0];
+                       _injuryDateController.text = birthDate;
+
                       }, onConfirm: (date) {
-                        injuryDate=
-                            date.toString().split(" ")[0];
+                        injuryDate = date.toString().split(" ")[0];
+                        _injuryDateController.text = birthDate;
                       }, currentTime: DateTime.now(), locale: LocaleType.en);
                     },
                     child: LogInInput(
+                      controller: _injuryDateController,
                       autoValidate: false,
                       enabled: false,
-                      controller: _injuryDateController,
                       name: "injuryDate",
                       keyboard: TextInputType.datetime,
                       onSaved: (String val) {
                         setState(() {
-                          injuryDate= val;
+                          injuryDate = val;
                         });
                       },
                       validator: (String val) {},
