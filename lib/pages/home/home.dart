@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage> {
           : sharedPreferences.getInt("daySteps");
     }
     distance = (steps * 0.68).toInt();
-    calories = (steps / 20).toInt();
+    calories = (steps *0.228).toInt();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
