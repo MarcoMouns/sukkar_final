@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
       pref.setString("lastMeasureDate", date);
       steps = 0;
       pref.setInt("daySteps", steps);
-      initVal = stepCountValue;
+  
     }
     else{
     initVal = initVal == null ? 0 : initVal;
