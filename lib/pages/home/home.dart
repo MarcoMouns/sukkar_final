@@ -190,12 +190,15 @@ class _HomePageState extends State<HomePage> {
       pref.setString("lastMeasureDate", date);
       steps = 0;
       pref.setInt("daySteps", steps);
-  
+      initVal = stepCountValue;
+    } else {
+      initVal = initVal == null ? 0 : initVal;
     }
-    else{
-    initVal = initVal == null ? 0 : initVal;
+    if (stepCountValue - initVal > 0) {
+      steps += stepCountValue - initVal;
+    } else {
+      steps = 0;
     }
-    steps += stepCountValue - initVal;
     initVal = stepCountValue;
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
@@ -234,7 +237,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   healthData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     initVal = sharedPreferences.getInt("lastSavedSteps");
@@ -244,7 +246,7 @@ class _HomePageState extends State<HomePage> {
           : sharedPreferences.getInt("daySteps");
     }
     distance = (steps * 0.68).toInt();
-    calories = (steps *0.228).toInt();
+    calories = (steps * 0.228).toInt();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
