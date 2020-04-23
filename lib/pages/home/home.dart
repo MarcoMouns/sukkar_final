@@ -194,10 +194,10 @@ class _HomePageState extends State<HomePage> {
     } else {
       initVal = initVal == null ? 0 : initVal;
     }
-    if (stepCountValue - initVal > 0) {
-      steps += stepCountValue - initVal;
-    } else {
+    if (stepCountValue - initVal < 0) {
       steps = 0;
+    } else {
+      steps += stepCountValue - initVal;
     }
     initVal = stepCountValue;
     pref = await SharedPreferences.getInstance();
