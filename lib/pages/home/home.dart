@@ -184,8 +184,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onData(int stepCountValue) async {
+    print("hi");
     SharedPreferences pref = await SharedPreferences.getInstance();
     String coDate = pref.getString("lastMeasureDate");
+    print(coDate);
     if (coDate != date) {
       pref.setString("lastMeasureDate", date);
       steps = 0;
