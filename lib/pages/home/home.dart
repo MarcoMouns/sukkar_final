@@ -169,10 +169,6 @@ class _HomePageState extends State<HomePage> {
     startListening();
   }
 
-  void onData(int stepCountValue) {
-    print(stepCountValue);
-  }
-
   void startListening() {
     _pedometer = new Pedometer();
     _subscription = _pedometer.pedometerStream.listen(_onData,
@@ -185,23 +181,27 @@ class _HomePageState extends State<HomePage> {
 
   void _onData(int stepCountValue) async {
     print("hi");
+    print(date);
     SharedPreferences pref = await SharedPreferences.getInstance();
     String coDate = pref.getString("lastMeasureDate");
     print(coDate);
+    print(initVal);
+    print(stepCountValue);
+    print(steps);
+
     if (coDate != date) {
+      print("in if");
       pref.setString("lastMeasureDate", date);
       steps = 0;
-      pref.setInt("daySteps", steps);
       initVal = stepCountValue;
-    } else {
-      initVal = initVal == null ? 0 : initVal;
-    }
-    if (stepCountValue - initVal < 0) {
-      steps = 0;
+      setState(() {});
+      pref.setInt("daySteps", steps);
     } else {
       steps += stepCountValue - initVal;
+      initVal = stepCountValue;
+      setState(() {});
     }
-    initVal = stepCountValue;
+
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
     pref.setInt("daySteps", steps);
@@ -216,6 +216,8 @@ class _HomePageState extends State<HomePage> {
 
   getHomeData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    steps = sharedPreferences.getInt('daySteps') ?? 0;
+    initVal = sharedPreferences.getInt('lastSavedSteps') ?? 0;
     await healthData();
     initPlatformState();
     getValuesSF();

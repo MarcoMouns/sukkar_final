@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -5,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Welcome%20screen.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../languages/all_translations.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -15,7 +17,8 @@ class LandPage extends StatefulWidget {
 
 class _LandPageState extends State<LandPage> {
   List<String> msgs = new List();
-
+  Pedometer _pedometer;
+  StreamSubscription<int> _subscription;
   @override
   void initState() {
     super.initState();
@@ -24,6 +27,44 @@ class _LandPageState extends State<LandPage> {
     }
     getMessages();
   }
+  ////////////////////////////////////////////////////////////////////
+  /// Step Counter functions
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  int initVal = 0;
+  Future<void> initPlatformState() async {
+    startListening();
+  }
+
+  void onData(int stepCountValue) {
+    print(stepCountValue);
+  }
+
+  void startListening() {
+    _pedometer = new Pedometer();
+    _subscription = _pedometer.pedometerStream.listen(_onData,
+        onError: _onError, onDone: _onDone, cancelOnError: true);
+  }
+
+  void stopListening() {
+    _subscription.cancel();
+  }
+
+  void _onData(int stepCountValue) async {
+    print("hi");
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    initVal = stepCountValue;
+    pref = await SharedPreferences.getInstance();
+    pref.setInt("lastSavedSteps", initVal);
+    pref.setInt("daySteps", 0);
+  }
+
+  void _onDone() => print("Finished pedometer tracking");
+
+  void _onError(error) => print("Flutter Pedometer Error: $error");
+
+  ////////////////////////////////////////////////////////////////////
 
   Dio dio = new Dio();
 
@@ -81,9 +122,10 @@ class _LandPageState extends State<LandPage> {
                         onPressed: () async {
                           SharedPreferences pref =
                               await SharedPreferences.getInstance();
-                          var date =
-                              '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+                          String date = 'no date';
                           pref.setString("lastMeasureDate", date);
+                          pref.setInt("lastSavedSteps", initVal);
+                          pref.setInt("daySteps", 0);
                           await Navigator.of(context).pushNamed('/logIn');
                         },
                         child: Container(
@@ -109,9 +151,10 @@ class _LandPageState extends State<LandPage> {
                           onPressed: () async {
                             SharedPreferences pref =
                                 await SharedPreferences.getInstance();
-                            var date =
-                                '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+                            String date = 'no date';
                             pref.setString("lastMeasureDate", date);
+                            pref.setInt("lastSavedSteps", initVal);
+                            pref.setInt("daySteps", 0);
                             await Navigator.of(context).pushNamed('/newUser');
                           },
                           child: Text(
