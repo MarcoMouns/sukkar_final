@@ -131,6 +131,8 @@ class _HomePageState extends State<HomePage> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
   Pedometer _pedometer;
   StreamSubscription<int> _subscription;
+ 
+
 
   Widget ifRegUser = Positioned(
     right: 0,
