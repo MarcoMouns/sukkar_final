@@ -197,6 +197,14 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
       pref.setInt("daySteps", steps);
     } else {
+      if (stepCountValue < initVal || stepCountValue == 0) {
+        // when mobile restart the stepconut value will be reset
+        // this block to handle this case
+        steps = pref.getInt("daySteps") ?? 0;
+        steps += stepCountValue;
+        initVal = 0;
+        setState(() {});
+      }
       steps += stepCountValue - initVal;
       initVal = stepCountValue;
       setState(() {});
