@@ -824,14 +824,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              new LayoutId(id: 2, child: coCircles[0]),
+              new LayoutId(
+                  id: 2,
+                  child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[0])),
               new LayoutId(
                 id: 3,
-                child: coCircles[1],
+                child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[1]),
               ),
               new LayoutId(
                 id: 4,
-                child: coCircles[2],
+                child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[2]),
               )
             ],
           );
