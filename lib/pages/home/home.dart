@@ -730,90 +730,90 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               new LayoutId(
                 id: 1,
-                child: MainCircles.diabetes(
-                  percent: sugerToday == 0 || sugerToday == null
-                      ? 1 / 600
-                      : ((sugerToday / 600)),
-                  context: context,
-                  time: timeOfLastMeasure,
-                  sugar: sugerToday == 0
-                      ? '0'
-                      : sugerToday == null ? '0' : sugerToday.toString(),
-                  raduis: _chartRadius,
-                  status: sugerToday == 0 || sugerToday == null
-                      ? allTranslations.text("sugarNull")
-                      : (sugerToday < 69)
-                          ? allTranslations.text("low")
-                          : (sugerToday >= 70 && sugerToday <= 89)
-                              ? allTranslations.text("LowNormal")
-                              : (sugerToday >= 90 && sugerToday <= 200)
-                                  ? allTranslations.text("normal")
-                                  : allTranslations.text("high"),
-                  ontap: () {
-                    Navigator.of(context).push(
-                      new MaterialPageRoute(
-                          builder: (_) => new AddSugar(selectedDate)),
-                    );
-                  },
-                  footer: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SizedBox(
-                        height: _chartRadius / 10,
-                        width: _chartRadius / 5,
-                      ),
-                      Expanded(
+                child: SafeArea(
+
+                  child: MainCircles.diabetes(
+                    percent: sugerToday == 0 || sugerToday == null
+                        ? 1 / 600
+                        : ((sugerToday / 600)),
+                    context: context,
+                    time: timeOfLastMeasure,
+                    sugar: sugerToday == 0
+                        ? '0'
+                        : sugerToday == null ? '0' : sugerToday.toString(),
+                    raduis: _chartRadius,
+                    status: sugerToday == 0 || sugerToday == null
+                        ? allTranslations.text("sugarNull")
+                        : (sugerToday < 69)
+                            ? allTranslations.text("low")
+                            : (sugerToday >= 70 && sugerToday <= 89)
+                                ? allTranslations.text("LowNormal")
+                                : (sugerToday >= 90 && sugerToday <= 200)
+                                    ? allTranslations.text("normal")
+                                    : allTranslations.text("high"),
+                    ontap: () {
+                      Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (_) => new AddSugar(selectedDate)),
+                      );
+                    },
+                    footer: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                            SizedBox(width: 30,),
+                        Expanded(
+                            child: InkWell(
+                          child: ImageIcon(
+                            AssetImage("assets/icons/ic_camera.png"),
+                            color: Colors.grey[300],
+                            size: 8,
+                          ),
+                          onTap: () =>
+                              ScreenshotShareImage.takeScreenshotShareImage(),
+                        )),
+                        Expanded(
                           child: InkWell(
-                        child: ImageIcon(
-                          AssetImage("assets/icons/ic_camera.png"),
-                          color: Colors.grey[300],
-                          size: 8,
-                        ),
-                        onTap: () =>
-                            ScreenshotShareImage.takeScreenshotShareImage(),
-                      )),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    FriendsPage(model, true)));
-                          },
-                          child: Stack(
-                            alignment: Alignment.centerLeft,
-                            overflow: Overflow.visible,
-                            children: <Widget>[
-                              Positioned(
-                                child: CircleAvatar(
-                                  radius: 5,
-                                  backgroundImage:
-                                      AssetImage("assets/imgs/profile.jpg"),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      FriendsPage(model, true)));
+                            },
+                            child: Stack(
+                              alignment: Alignment.centerLeft,
+                              overflow: Overflow.visible,
+                              children: <Widget>[
+                                Positioned(
+                                  child: CircleAvatar(
+                                    radius: 5,
+                                    backgroundImage:
+                                        AssetImage("assets/imgs/profile.jpg"),
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                left: 8.5,
-                                child: CircleAvatar(
-                                  radius: 3,
-                                  backgroundImage:
-                                      AssetImage("assets/imgs/profile.jpg"),
+                                Positioned(
+                                  left: 8.5,
+                                  child: CircleAvatar(
+                                    radius: 3,
+                                    backgroundImage:
+                                        AssetImage("assets/imgs/profile.jpg"),
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                left: 16,
-                                child: Icon(
-                                  Icons.add,
-                                  size: 5,
-                                ),
-                              )
-                            ],
+                                Positioned(
+                                  left: 16,
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 5,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: _chartRadius / 5,
-                      ),
-                    ],
+                        SizedBox(
+                          width: _chartRadius / 5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -843,10 +843,10 @@ class _HomePageState extends State<HomePage> {
         40 -
         56;
     double _chartRadius =
-        (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
-                    MediaQuery.of(context).size.width - 30
-                ? _screenHeight * 3 / 5
-                : MediaQuery.of(context).size.width - 30) /
+        (_screenHeight *0.65 - MediaQuery.of(context).padding.top - 5 <
+                    MediaQuery.of(context).size.width - 2
+                ? _screenHeight * 0.65
+                : MediaQuery.of(context).size.width - 2) /
             2;
     return loading == true
         ? Loading()

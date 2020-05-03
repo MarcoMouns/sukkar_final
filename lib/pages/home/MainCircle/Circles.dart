@@ -394,7 +394,7 @@ abstract class MainCircles {
     String time,
   }) {
     return SizedBox(
-      height: raduis + 25,
+      height: raduis+50,
       child: ChartWidget(
         isOnSide: false,
         isUpper: false,
