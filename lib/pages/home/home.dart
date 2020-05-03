@@ -794,7 +794,7 @@ class _HomePageState extends State<HomePage> {
                               Positioned(
                                 left: 8.5,
                                 child: CircleAvatar(
-                                  radius: 5,
+                                  radius: 3,
                                   backgroundImage:
                                       AssetImage("assets/imgs/profile.jpg"),
                                 ),
@@ -803,7 +803,7 @@ class _HomePageState extends State<HomePage> {
                                 left: 16,
                                 child: Icon(
                                   Icons.add,
-                                  size: 9,
+                                  size: 5,
                                 ),
                               )
                             ],

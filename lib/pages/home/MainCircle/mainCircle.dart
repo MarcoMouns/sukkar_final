@@ -57,7 +57,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(5.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -75,8 +75,8 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
                     : MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: widget.radius/2.2,
-                    height: widget.radius/2.2,
+                    width: widget.radius/2,
+                    height: widget.radius/2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
                           completeColor:
