@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> {
     initVal = sharedPreferences.getInt('lastSavedSteps') ?? 0;
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.228).toInt();
-
+     setState((){});
     await healthData();
     initPlatformState();
     getValuesSF();
@@ -760,7 +760,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       SizedBox(
-                        height: _chartRadius / 11,
+                        height: _chartRadius / 10,
                         width: _chartRadius / 5,
                       ),
                       Expanded(
@@ -803,7 +803,7 @@ class _HomePageState extends State<HomePage> {
                                 left: 16,
                                 child: Icon(
                                   Icons.add,
-                                  size: 10,
+                                  size: 9,
                                 ),
                               )
                             ],
