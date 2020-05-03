@@ -131,8 +131,6 @@ class _HomePageState extends State<HomePage> {
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
   Pedometer _pedometer;
   StreamSubscription<int> _subscription;
- 
-
 
   Widget ifRegUser = Positioned(
     right: 0,
@@ -263,7 +261,7 @@ class _HomePageState extends State<HomePage> {
           : sharedPreferences.getInt("daySteps");
     }
     distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
+    calories = (steps * 0.028).toInt();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
@@ -645,16 +643,11 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: calories == 0 ||
-                calories == null
+        percent: calories == 0 || calories == null
             ? 0
-            : ((calories / calGoals) > 1)
-                ? 1
-                : (calories / calGoals),
+            : ((calories / calGoals) > 1) ? 1 : (calories / calGoals),
         context: context,
-        day_Calories: calories == null
-            ? 0
-            : calories == null ? 0 : calories,
+        day_Calories: calories == null ? 0 : calories == null ? 0 : calories,
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
@@ -664,15 +657,11 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : steps == 0 || steps == null
                 ? 0
-                : (steps / stepsGoal) > 1
-                    ? 1
-                    : ((steps / stepsGoal)),
+                : (steps / stepsGoal) > 1 ? 1 : ((steps / stepsGoal)),
         context: context,
         steps: steps == null
             ? 0
-            :steps == null || steps == 0
-                ? 0
-                : steps == null ? 0 : steps,
+            : steps == null || steps == 0 ? 0 : steps == null ? 0 : steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
@@ -737,7 +726,7 @@ class _HomePageState extends State<HomePage> {
     return loading == true
         ? Loading()
         : CustomMultiChildLayout(
-            delegate: CirclesDelegate(_chartRadius - 30),
+            delegate: CirclesDelegate(_chartRadius - 35),
             children: <Widget>[
               new LayoutId(
                 id: 1,
@@ -1035,44 +1024,46 @@ class _HomePageState extends State<HomePage> {
                                               itemBuilder: (context, index) {
                                                 return banners[index].type ==
                                                         'advertise'
-                                                    ? GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.of(context).push(MaterialPageRoute(
-                                                              builder: (context) => AdDetailsScreen(
-                                                                  banners[index]
-                                                                      .image,
-                                                                  banners[index]
-                                                                              .text ==
-                                                                          null
-                                                                      ? ""
-                                                                      : banners[
-                                                                              index]
-                                                                          .text)));
-                                                        },
-                                                        child: new Container(
-                                                          decoration: ShapeDecoration(
-                                                              image: DecorationImage(
-                                                                  image: NetworkImage(
-                                                                      'http://api.sukar.co/${banners[index].image}'),
-                                                                  fit: BoxFit
-                                                                      .cover),
-                                                              color: Colors
-                                                                  .grey[200],
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                    ? FittedBox(
+                                                        fit: BoxFit.scaleDown,
+                                                        child: GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.of(context).push(MaterialPageRoute(
+                                                                  builder: (context) => AdDetailsScreen(
+                                                                      banners[index]
+                                                                          .image,
+                                                                      banners[index].text ==
+                                                                              null
+                                                                          ? ""
+                                                                          : banners[index]
+                                                                              .text)));
+                                                            },
+                                                            child:
+                                                                new Container(
+                                                              decoration: ShapeDecoration(
+                                                                  image: DecorationImage(
+                                                                      image: NetworkImage(
+                                                                          'http://api.sukar.co/${banners[index].image}'),
+                                                                      fit: BoxFit
+                                                                          .cover),
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      200],
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               10))),
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      10),
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width -
-                                                              100,
-                                                        ))
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width -
+                                                                  100,
+                                                            )),
+                                                      )
                                                     : new InkWell(
                                                         onTap: () async {
                                                           Navigator.push(
