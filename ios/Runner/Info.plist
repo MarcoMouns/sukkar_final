@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>سكر</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -78,7 +78,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>get healthy info</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always/When in use description</string>
+	<string>map usage </string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>map usage</string>
 	<key>NSLocationUsageDescription</key>
