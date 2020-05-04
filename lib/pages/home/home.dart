@@ -653,7 +653,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ((calories / calGoals) > 1) ? 1 : (calories / calGoals),
         context: context,
-        day_Calories: calories == null ? 0 : calories == null ? 0 : calories,
+        day_Calories: calories == null ? 0:calories,
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
@@ -666,8 +666,7 @@ class _HomePageState extends State<HomePage> {
                 : (steps / stepsGoal) > 1 ? 1 : ((steps / stepsGoal)),
         context: context,
         steps: steps == null
-            ? 0
-            : steps == null || steps == 0 ? 0 : steps == null ? 0 : steps,
+            ? 0 : steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
@@ -684,8 +683,7 @@ class _HomePageState extends State<HomePage> {
         context: context,
         raduis: _chartRadius,
         distance: distance == null
-            ? '0'
-            : distance == null ? '0' : distance.toString(),
+            ? '0': distance.toString(),
         onTap: () => null,
         footerText:
             " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
