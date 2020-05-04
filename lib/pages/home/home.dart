@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Social/friends.dart';
@@ -213,6 +212,9 @@ class _HomePageState extends State<HomePage> {
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
     pref.setInt("daySteps", steps);
+    distance = (steps * 0.68).toInt();
+    calories = (steps * 0.228).toInt();
+    setState(() {});
     healthData();
   }
 
@@ -262,6 +264,9 @@ class _HomePageState extends State<HomePage> {
     }
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.028).toInt();
+    setState(() {
+      
+    });
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
@@ -287,7 +292,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
-    healthData();
+    
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -326,6 +331,7 @@ class _HomePageState extends State<HomePage> {
       },
     );
     getHomeData();
+    healthData();
     setState(() {
       Settings.currentIndex = 0;
     });
@@ -767,7 +773,7 @@ class _HomePageState extends State<HomePage> {
                           child: ImageIcon(
                             AssetImage("assets/icons/ic_camera.png"),
                             color: Colors.grey[300],
-                            size: 8,
+                            size: 9,
                           ),
                           onTap: () =>
                               ScreenshotShareImage.takeScreenshotShareImage(),
@@ -785,7 +791,7 @@ class _HomePageState extends State<HomePage> {
                               children: <Widget>[
                                 Positioned(
                                   child: CircleAvatar(
-                                    radius: 5,
+                                    radius: 8,
                                     backgroundImage:
                                         AssetImage("assets/imgs/profile.jpg"),
                                   ),
@@ -793,7 +799,7 @@ class _HomePageState extends State<HomePage> {
                                 Positioned(
                                   left: 8.5,
                                   child: CircleAvatar(
-                                    radius: 3,
+                                    radius: 5,
                                     backgroundImage:
                                         AssetImage("assets/imgs/profile.jpg"),
                                   ),
@@ -802,7 +808,7 @@ class _HomePageState extends State<HomePage> {
                                   left: 16,
                                   child: Icon(
                                     Icons.add,
-                                    size: 5,
+                                    size: 8,
                                   ),
                                 )
                               ],
