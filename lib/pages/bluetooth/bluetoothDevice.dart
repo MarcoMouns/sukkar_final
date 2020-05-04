@@ -122,27 +122,28 @@
 
       // Subscribe to connection changes
       deviceStateSubscription = device.onStateChanged().listen((s) {
+        if(mounted)
         setState(() {
           deviceState = s;
         });
         if (s == BluetoothDeviceState.connected) {
           device.discoverServices().then((s) {
-            // var bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("0000ffe0-0000-1000-8000-00805f9b34fb")).first;
-            // if(bservice!=null){
-            //   var char=bservice.characteristics.where((c) => c.uuid.toString().toLowerCase().contains("0000ffe4-0000-1000-8000-00805f9b34fb")).first;
-            //   if(char!=null){
-            //     _setNotification(char);
-            //   }
+            var bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("0000ffe0-0000-1000-8000-00805f9b34fb")).first;
+            if(bservice!=null){
+              var char=bservice.characteristics.where((c) => c.uuid.toString().toLowerCase().contains("0000ffe4-0000-1000-8000-00805f9b34fb")).first;
+              if(char!=null){
+                _setNotification(char);
+              }
 
-            // }
-            // bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("00001808-0000-1000-8000-00805f9b34fb")).first;
-            // if(bservice!=null){
-            //   var char=bservice.characteristics.where((c) => c.uuid.toString().toLowerCase().contains("00002a18-0000-1000-8000-00805f9b34fb")).first;
-            //   if(char!=null){
-            //     _setNotification(char);
-            //   }
+            }
+            bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("00001808-0000-1000-8000-00805f9b34fb")).first;
+            if(bservice!=null){
+              var char=bservice.characteristics.where((c) => c.uuid.toString().toLowerCase().contains("00002a18-0000-1000-8000-00805f9b34fb")).first;
+              if(char!=null){
+                _setNotification(char);
+              }
 
-            // }
+            }
 
             setState(() {
               //Accu-Answer isaw Service UUID="0000ffe0-0000-1000-8000-00805f9b34fb"
