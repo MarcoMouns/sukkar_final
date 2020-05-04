@@ -208,12 +208,11 @@ class _HomePageState extends State<HomePage> {
       initVal = stepCountValue;
       setState(() {});
     }
-
+    distance = (steps * 0.68).toInt();
+    calories = (steps * 0.228).toInt();
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
     pref.setInt("daySteps", steps);
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
     setState(() {});
     healthData();
   }
@@ -231,7 +230,7 @@ class _HomePageState extends State<HomePage> {
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.228).toInt();
      setState((){});
-    await healthData();
+    healthData();
     initPlatformState();
     getValuesSF();
     getMeasurementsForDay(date);
