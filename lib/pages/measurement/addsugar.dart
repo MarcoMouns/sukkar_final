@@ -5,12 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:health/pages/Settings.dart' as settings;
 import 'package:health/pages/bluetooth/bluetoothDevice.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:health/scoped_models/measurements.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:health/pages/Settings.dart' as settings;
 
 import '../home.dart';
 
@@ -287,20 +287,22 @@ class _AddSugarState extends State<AddSugar> {
             content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
                 ? SizedBox(
                     height: MediaQuery.of(context).size.height * 0.35,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          allTranslations.text("low1SugermgsTitle"),
-                          style: TextStyle(
-                            color: Colors.green,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 10)),
-                        Text(allTranslations.text("low1Sugermgsbody")),
-                      ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("low1SugermgsTitle"),
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("low1Sugermgsbody")),
+                  ],
+                ),
                     ),
                   )
                 : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
@@ -312,38 +314,42 @@ class _AddSugarState extends State<AddSugar> {
                     : int.parse(initSuger) > 200
                         ? SizedBox(
                             height: MediaQuery.of(context).size.height * 0.27,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  allTranslations.text("highSugermsgTitle"),
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Padding(padding: EdgeInsets.only(top: 10)),
-                                Text(allTranslations.text("highSugerBody")),
-                              ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("highSugermsgTitle"),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("highSugerBody")),
+                  ],
+                ),
                             ),
                           )
                         : SizedBox(
                             height: MediaQuery.of(context).size.height * 0.4,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  allTranslations.text("lowSugermsgTitle"),
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Padding(padding: EdgeInsets.only(top: 10)),
-                                Text(allTranslations.text("lowSugermsgbody")),
-                              ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("lowSugermsgTitle"),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("lowSugermsgbody")),
+                  ],
+                ),
                             ),
                           ),
             actions: <Widget>[

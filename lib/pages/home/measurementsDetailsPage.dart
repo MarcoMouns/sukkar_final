@@ -6,6 +6,7 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../measurementsPageCircles.dart';
 import 'MainCircle/Circles.dart';
 
@@ -173,7 +174,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                                 bloodPresure1.toString(),
                             allTranslations.text("bloodPressure"),
                             (bloodPresure / 140),
-                            2,
+                            1.75,
                             (bloodPresure >= 90 && bloodPresure <= 140) &&
                                     (bloodPresure >= 60 && bloodPresure1 <= 90)
                                 ? Color.fromRGBO(229, 246, 211, 1)

@@ -1,32 +1,34 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
+import 'package:health/pages/home/articleDetails.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
+import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../languages/all_translations.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
-import 'package:health/pages/home/articleDetails.dart';
-import 'package:health/pages/Settings.dart';
-import '../../languages/all_translations.dart';
-import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'measurementsDetailsPage.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -229,7 +231,7 @@ class _HomePageState extends State<HomePage> {
     initVal = sharedPreferences.getInt('lastSavedSteps') ?? 0;
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.228).toInt();
-     setState((){});
+    setState(() {});
     healthData();
     initPlatformState();
     getValuesSF();
@@ -263,9 +265,7 @@ class _HomePageState extends State<HomePage> {
     }
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.028).toInt();
-    setState(() {
-      
-    });
+    setState(() {});
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
@@ -291,7 +291,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
-    
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -652,7 +651,7 @@ class _HomePageState extends State<HomePage> {
             ? 0
             : ((calories / calGoals) > 1) ? 1 : (calories / calGoals),
         context: context,
-        day_Calories: calories == null ? 0:calories,
+        day_Calories: calories == null ? 0 : calories,
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
@@ -664,8 +663,7 @@ class _HomePageState extends State<HomePage> {
                 ? 0
                 : (steps / stepsGoal) > 1 ? 1 : ((steps / stepsGoal)),
         context: context,
-        steps: steps == null
-            ? 0 : steps,
+        steps: steps == null ? 0 : steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
@@ -681,8 +679,7 @@ class _HomePageState extends State<HomePage> {
                     : ((distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
-        distance: distance == null
-            ? '0': distance.toString(),
+        distance: distance == null ? '0' : distance.toString(),
         onTap: () => null,
         footerText:
             " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
@@ -734,7 +731,6 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                 id: 1,
                 child: SafeArea(
-
                   child: MainCircles.diabetes(
                     percent: sugerToday == 0 || sugerToday == null
                         ? 1 / 600
@@ -764,7 +760,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                            SizedBox(width: 30,),
+                        SizedBox(
+                          width: 30,
+                        ),
                         Expanded(
                             child: InkWell(
                           child: ImageIcon(
@@ -846,9 +844,12 @@ class _HomePageState extends State<HomePage> {
         40 -
         56;
     double _chartRadius =
-        (_screenHeight *0.65 - MediaQuery.of(context).padding.top - 5 <
+        (_screenHeight * 0.65 - MediaQuery
+            .of(context)
+            .padding
+            .top - 5 <
                     MediaQuery.of(context).size.width - 2
-                ? _screenHeight * 0.65
+            ? _screenHeight * 0.6
                 : MediaQuery.of(context).size.width - 2) /
             2;
     return loading == true
@@ -974,8 +975,10 @@ class _HomePageState extends State<HomePage> {
                                       "assets/icons/ic_arrow_l.png",
                                       width: 15,
                                       height:
-                                          MediaQuery.of(context).size.height *
-                                              3,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height * 3,
                                       matchTextDirection: true,
                                     ),
                                   ),
