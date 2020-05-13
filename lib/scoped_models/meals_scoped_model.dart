@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/pages/Settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Models/all_meals_foods.dart';
 import '../Models/foods_model.dart';
 import '../Models/meals.dart';
-import '../Models/all_meals_foods.dart';
 
 
 mixin MealScopedModel on Model {
@@ -124,22 +126,12 @@ mixin MealScopedModel on Model {
       int foodIndex = 0;
       foods.forEach((food) {
         if (food != null) {
-          formdata.add(
-            "request[$foodIndex][title_ar]",
-            food.titleAr,
-          );
-          formdata.add(
-            "request[$foodIndex][title_en]",
-            food.titleEn,
-          );
-          formdata.add(
-            "request[$foodIndex][calories]",
-            food.calories,
-          );
-          formdata.add(
-            "request[$foodIndex][eat_category_id]",
-            mealId,
-          );
+          formdata = FormData.fromMap({
+            "request[$foodIndex][title_ar]": food.titleAr,
+            "request[$foodIndex][title_en]": food.titleEn,
+            "request[$foodIndex][calories]": food.calories,
+            "request[$foodIndex][eat_category_id]": mealId,
+          });
 
           foodIndex++;
         }
@@ -180,11 +172,13 @@ mixin MealScopedModel on Model {
 
       FormData formdata = new FormData();
 
-      formdata.add("user_id", authUser['id']);
-      formdata.add("calories", mealData['calories']);
-      formdata.add("eat_category_id", mealData['categoryId']);
-      formdata.add("title_ar", mealData['name']);
-      formdata.add("title_en", mealData['name']);
+      formdata = FormData.fromMap({
+        "user_id": authUser['id'],
+        "calories": mealData['calories'],
+        "eat_category_id": mealData['categoryId'],
+        "title_ar": mealData['name'],
+        "title_en": mealData['name'],
+      });
 
       print("authUser => $authUser");
       print("authUserToken => ${authUser['authToken']}");

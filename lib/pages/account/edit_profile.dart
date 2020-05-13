@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,9 @@ import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/home.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../shared-data.dart';
 import '../Settings.dart';
-import 'package:path/path.dart';
 
 final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
 
@@ -110,43 +111,29 @@ class EditProfileUserState extends State<EditProfileUser> {
       };
 
       FormData formdata = new FormData();
-      if (name != null) {
-        formdata.add('name', name);
-      }
 
-      if (email != null) {
-        formdata.add('email', email);
-      }
-
-      if (password != null) {
-        formdata.add('password', password);
-      }
-
-      if (gender != null) {
-        formdata.add('gender', gender);
-      }
-
-      if (phone != null) {
-        formdata.add('phone', phone);
-      }
-
-      if (birthDate != null) {
-        formdata.add('birth_date', birthDate);
-      }
-      if (injuryDate != null) {
-        formdata.add('injuredDate', injuryDate);
-      }
+      formdata = FormData.fromMap({
+        'name': name,
+        'email': email,
+        'password': password,
+        'gender': gender,
+        'phone': phone,
+        'birth_date': birthDate,
+        'injuredDate': injuryDate,
+      });
       if (profilePicture != null) {
-        formdata.add(
-          'image',
-          UploadFileInfo(
-            profilePicture,
-            basename(profilePicture.path),
-          ),
-        );
+        formdata = FormData.fromMap({
+          'name': name,
+          'email': email,
+          'password': password,
+          'gender': gender,
+          'phone': phone,
+          'birth_date': birthDate,
+          'injuredDate': injuryDate,
+          "image": await MultipartFile.fromFile("${profilePicture.path}")
+        });
       }
 
-      formdata.add('_method', "PUT");
       print(formdata.toString());
 
       print("loook hereee");

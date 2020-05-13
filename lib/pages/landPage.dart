@@ -4,12 +4,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/Welcome%20screen.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:health/Welcome_screen.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../languages/all_translations.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class LandPage extends StatefulWidget {
   _LandPageState createState() => _LandPageState();

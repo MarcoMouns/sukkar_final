@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/pages/Settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -22,8 +23,10 @@ mixin MedicineScopedModel on Model {
 
       FormData formdata = new FormData();
 
-      formdata.add("user_id", authUser['id']);
-      formdata.add("name", medicineData['name']);
+      formdata = FormData.fromMap({
+        "user_id": authUser['id'],
+        "name": medicineData['name'],
+      });
       
 
       print("authUser => $authUser");

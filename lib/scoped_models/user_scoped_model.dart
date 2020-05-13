@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/pages/Settings.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -16,9 +16,11 @@ mixin UserScopedModel on Model {
   Future<bool> addPhoneNumber(String phone , String name , String password) async {
     try {
       FormData formdata = new FormData();
-      formdata.add("phone", phone);
-      formdata.add("name", name);
-      formdata.add("password", password);
+      formdata = FormData.fromMap({
+        "phone": phone,
+        "name": name,
+        "password": password,
+      });
 
       response =
           await dio.post("${Settings.baseApilink}/auth/sendGeneratedCode", data: formdata);
@@ -46,8 +48,10 @@ mixin UserScopedModel on Model {
   Future<bool> verifyCode(Map<String, dynamic> data) async {
     try {
       FormData formdata = new FormData();
-      formdata.add("phone", data['phone']);
-      formdata.add("rand", data['code']);
+      formdata = FormData.fromMap({
+        "phone": data['phone'],
+        "rand": data['code'],
+      });
 
       response = await dio.post("${Settings.baseApilink}/auth/check_code", data: formdata);
       print(response.data.toString());
@@ -74,8 +78,11 @@ mixin UserScopedModel on Model {
   Future<bool> verifyCodeResetPass(Map<String, dynamic> data) async {
     try {
       FormData formdata = new FormData();
-      formdata.add("phone", data['phone']);
-      formdata.add("rand", data['code']);
+
+      formdata = FormData.fromMap({
+        "phone": data['phone'],
+        "rand": data['code'],
+      });
 
       response = await dio.post("${Settings.baseApilink}/auth/check_code_reset_password",
           data: formdata);
@@ -103,7 +110,9 @@ mixin UserScopedModel on Model {
   Future<bool> resendVerifyCode(String phone) async {
     try {
       FormData formdata = new FormData();
-      formdata.add("phone", phone);
+      formdata = FormData.fromMap({
+        "phone": phone
+      });
 
       response =
           await dio.post("${Settings.baseApilink}/auth/resendGeneratedCode", data: formdata);
@@ -131,24 +140,33 @@ mixin UserScopedModel on Model {
   Future<bool> userRegister(Map<String, dynamic> userData) async {
     try {
       FormData formdata = new FormData();
-      formdata.add("name", userData['userName']);
-      formdata.add("email", userData['email']);
-      formdata.add("birth_date", userData['birthDate']);
-      formdata.add("injuredDate", userData['injuredDate']);
-      formdata.add("token_id", "0000000000");
-      formdata.add("gender", userData['gender']);
-      formdata.add("phone", userData['phone']);
-      formdata.add("password", userData['password']);
-      formdata.add("fuid", userData['fuid']);
+
+      formdata = FormData.fromMap({
+        "name": userData['userName'],
+        "email": userData['email'],
+        "birth_date": userData['birthDate'],
+        "injuredDate": userData['injuredDate'],
+        "token_id": "0000000000",
+        "gender": userData['gender'],
+        "phone": userData['phone'],
+        "password": userData['password'],
+        "fuid": userData['fuid'],
+      });
+
 
       if (userData['image'] != null) {
-        formdata.add(
-          "image",
-          UploadFileInfo(
-            userData['image'],
-            basename(userData['image'].path),
-          ),
-        );
+        formdata = FormData.fromMap({
+          "name": userData['userName'],
+          "email": userData['email'],
+          "birth_date": userData['birthDate'],
+          "injuredDate": userData['injuredDate'],
+          "token_id": "0000000000",
+          "gender": userData['gender'],
+          "phone": userData['phone'],
+          "password": userData['password'],
+          "fuid": userData['fuid'],
+          "image": await MultipartFile.fromFile("${userData['image'].path}"),
+        });
       }
 
       response = await dio.post("${Settings.baseApilink}/auth/register", data: formdata);
@@ -202,13 +220,13 @@ mixin UserScopedModel on Model {
     try {
       FormData formdata = new FormData();
 
-      if (type == "email") {
-        formdata.add("email", userData['email']);
-      } else {
-        formdata.add("phone", userData['phone']);
-      }
-      formdata.add("password", userData['password']);
-      formdata.add("token_id", '12345');
+      formdata = FormData.fromMap({
+        "email": userData['email'],
+        "phone": userData['phone'],
+        "password": userData['password'],
+        "token_id": '12345',
+      });
+
       print('formdata = $formdata');
 
       if (type == "email") {
@@ -264,12 +282,7 @@ mixin UserScopedModel on Model {
   Future<bool> requestResetPasswordCode(String phone) async {
     try {
       FormData formdata = new FormData();
-
-      formdata.add("phone", phone);
-
-      // get user token
-
-  
+      formdata = FormData.fromMap({"phone": phone});
 
       response = await dio.post("${Settings.baseApilink}/auth/send_code_reset_password",
           data: formdata);
@@ -297,14 +310,11 @@ mixin UserScopedModel on Model {
     try {
       FormData formdata = new FormData();
 
-      formdata.add("phone", data['phone']);
-      formdata.add("password", data['password']);
-      // formdata.add("rand", data['code']);
-      formdata.add("token_id", '1234');
-
-
-
-    
+      formdata = FormData.fromMap({
+        "phone": data['phone'],
+        "password": data['password'],
+        "token_id": '1234',
+      });
 
       response = await dio.post("${Settings.baseApilink}/auth/reset_password", data: formdata);
       print(response.data.toString());
@@ -331,14 +341,17 @@ mixin UserScopedModel on Model {
     print("userData ===> $userData");
     try {
       FormData formdata = new FormData();
+      formdata = FormData.fromMap({
+        "email": userData['email'],
+        "name": userData['name'],
+        "gender": userData['gender'],
+        "provider": userData['provider'],
+        "provider_id": 1545,
+        "token_id": "12345",
+      });
 
-      formdata.add("email", userData['email']);
-      formdata.add("name", userData['name']);
-      formdata.add("gender", userData['gender']);
-      formdata.add("provider", userData['provider']);
       // formdata.add("provider_id", userData['provider_id'].toString());
-      formdata.add("provider_id", 1545);
-      formdata.add("token_id", "12345");
+
       response = await dio.post("${Settings.baseApilink}/auth/provider", data: formdata);
       print(response.data.toString());
       // if (response.data['status'] == 0) {
@@ -397,18 +410,18 @@ mixin UserScopedModel on Model {
     print("userData ===> $userData");
     try {
       FormData formdata = new FormData();
+      formdata = FormData.fromMap({
+        "phone": userData['phone'],
+        "birth_date": userData['injuredDate'],
+      });
 
-      formdata.add("phone", userData['phone']);
       if (userData['image'] != null) {
-        formdata.add(
-          "image",
-          UploadFileInfo(
-            userData['image'],
-            basename(userData['image'].path),
-          ),
-        );
+        formdata = FormData.fromMap({
+          "phone": userData['phone'],
+          "birth_date": userData['injuredDate'],
+          "image": await MultipartFile.fromFile("${userData['image'].path}")
+        });
       }
-      formdata.add("birth_date", userData['injuredDate']);
 
 
       // get user token

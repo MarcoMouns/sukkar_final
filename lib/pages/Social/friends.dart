@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/friends_tab/getFollowers.dart';
 import 'package:health/Models/friends_tab/getFollowing.dart';
-
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Settings.dart';
 
 var name;
@@ -130,7 +130,7 @@ class _FriendsPageState extends State<FriendsPage>
                                 "Authorization":
                                     "Bearer ${authUser['authToken']}",
                               };
-                              formdata.forEach((e, r) {});
+                              // formdata.forEach((e, r) {});
 
                               response = await dio.get(
                                   "${Settings.baseApilink}/auth/searchCode/$value");

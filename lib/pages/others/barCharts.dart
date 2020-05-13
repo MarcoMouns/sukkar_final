@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/Social/profileMeasuresDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +49,9 @@ class _BarChartsState extends State<BarCharts>
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      formdata.add("date", DateTime.now());
+      formdata = FormData.fromMap({
+        "date": DateTime.now(),
+      });
       response = await dio.post("http://api.sukar.co/api/SugarReads",
           data: formdata);
       dataCharts = response.data;

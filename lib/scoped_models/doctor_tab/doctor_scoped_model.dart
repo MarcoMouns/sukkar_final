@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/Models/doctor_tab/doctor_chat.dart';
 import 'package:health/Models/doctor_tab/doctor_specialists.dart';
 import 'package:health/Models/doctor_tab/specialists.dart';
 import 'package:health/pages/Settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -116,10 +117,9 @@ mixin DoctorScopedModel on Model {
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      formData.add("user_recieve", userRecieve);
-      formData.add("body", message);
-      formData.forEach((e, r) {
-
+      formData = FormData.fromMap({
+        "user_recieve": userRecieve,
+        "body": message,
       });
 
       response = await dio.post("${Settings.baseApilink}/sendMessage", data: formData);
