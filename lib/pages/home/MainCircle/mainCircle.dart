@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+
 import '../MainCircle/CirclurProgressBa.dart';
 
 class ChartWidget extends StatefulWidget {
@@ -57,7 +58,7 @@ class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

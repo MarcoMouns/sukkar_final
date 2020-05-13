@@ -1,9 +1,18 @@
   import 'dart:async';
+  import 'dart:convert';
+
+  import 'package:dio/dio.dart';
   import 'package:flutter/material.dart';
   import 'package:flutter_blue/flutter_blue.dart';
   import 'package:health/languages/all_translations.dart';
+  import 'package:health/pages/Settings.dart';
   import 'package:health/pages/bluetooth/widgets.dart';
   import 'package:health/scoped_models/main.dart';
+  import 'package:intl/intl.dart' as intl;
+  import 'package:shared_preferences/shared_preferences.dart';
+
+
+
 
   class BlueToothDevice extends StatefulWidget {
     final MainModel model;
@@ -43,6 +52,32 @@
     List<BluetoothService> services = new List();
     Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
     BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
+
+    Future<Response> addNewMeasurement({String date, var suger}) async {
+      Response response;
+      Dio dio = new Dio();
+
+      try {
+        SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+        Map<String, dynamic> authUser =
+        jsonDecode(sharedPreferences.getString("authUser"));
+        var headers = {
+          "Authorization": "Bearer ${authUser['authToken']}",
+        };
+        var now = new DateTime.now();
+        var formatter = new intl.DateFormat('hh:mm a');
+        String formatted = formatter.format(now);
+        await dio.post(
+            "${Settings
+                .baseApilink}/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
+            options: Options(headers: headers));
+      } catch (e) {
+        print("error =====================");
+      }
+
+      return response;
+    }
 
     @override
     void initState() {
@@ -292,6 +327,7 @@
               "Blood Glucose"; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
           resultUnitType = units.toLowerCase();
 
+
           widget.model.addMeasurements("sugar", data).then((result) async {
             print(result);
           });
@@ -482,9 +518,9 @@
           resultTestKind =
               dataTypeStr; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
           resultUnitType = units.toLowerCase(); //mg/dL
-          widget.model.addMeasurements("sugar", data).then((result) async {
-            print(result);
-          });
+          DateTime date = DateTime.now();
+          String dateString = '${date.year}-${date.month}-${date.day}';
+          addNewMeasurement(date: dateString, suger: data);
         }
         setState(() {});
         return 2;

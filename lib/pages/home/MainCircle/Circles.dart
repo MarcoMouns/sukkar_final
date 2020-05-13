@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:health/pages/home/MainCircle/presureCir.dart';
-import '../MainCircle/mainCircle.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/home/MainCircle/presureCir.dart';
+
+import '../MainCircle/mainCircle.dart';
 
 abstract class MainCircles {
   static double fontSize = 12;
@@ -394,7 +395,7 @@ abstract class MainCircles {
     String time,
   }) {
     return SizedBox(
-      height: raduis+50,
+      height: raduis + 25,
       child: ChartWidget(
         isOnSide: false,
         isUpper: false,
