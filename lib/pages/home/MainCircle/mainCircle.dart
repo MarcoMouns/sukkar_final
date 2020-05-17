@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import '../MainCircle/CirclurProgressBa.dart';
 
 class ChartWidget extends StatefulWidget {
@@ -38,19 +38,18 @@ class ChartWidget extends StatefulWidget {
   }
 }
 
-class ChartWidgetState extends State<ChartWidget>
-    with SingleTickerProviderStateMixin {
+class ChartWidgetState extends State<ChartWidget> with SingleTickerProviderStateMixin {
   Animation _animation;
   AnimationController _animationController;
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _animation = Tween(begin: 0, end: widget.percent * 100)
-        .animate(_animationController);
-    _animationController.addListener(() {
-      setState(() {});
+    _animationController=AnimationController(vsync: this,duration: Duration(milliseconds: 500));
+    _animation=Tween(begin: 0,end: widget.percent*100).animate(_animationController);
+    _animationController.addListener((){
+      setState(() {
+
+      });
     });
     _animationController.forward();
   }
@@ -69,18 +68,21 @@ class ChartWidgetState extends State<ChartWidget>
               widget.onTap();
             },
             child: Column(
+              
                 mainAxisAlignment: (!widget.isOnSide && !widget.isUpper) ||
                     widget.isOnSide && widget.isUpper
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: widget.radius / 2,
-                    height: widget.radius / 2,
+                    width: widget.radius/2.2,
+                    height: widget.radius/2.2,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
-                          completeColor: Color.fromRGBO(12, 156, 205, 19),
-                          completePercent: _animation.value * 0.7,
+                          completeColor:
+                              Color.fromRGBO(12, 156, 205, 19)
+                          ,
+                          completePercent: _animation.value*0.7,
                           width: 3.0),
                       child: CircleAvatar(
                         radius: widget.radius,
@@ -94,31 +96,22 @@ class ChartWidgetState extends State<ChartWidget>
                             children: <Widget>[
                               widget.status == null
                                   ? Wrap()
-                                  : Padding(padding: EdgeInsets.only(top: 15)),
-                              Image.asset(
-                                "assets/icons/${widget.image}.png",
-                                fit: BoxFit.scaleDown,
-                                scale: widget.status == null ? 4 : 4.5,
-                              ),
+                                  :Padding(padding: EdgeInsets.only(top: 20)),
+                               Image.asset(
+                                  "assets/icons/${widget.image}.png",fit: BoxFit.scaleDown,scale:  widget.status == null
+                                   ? 4
+                                   : 4.5,
+                                ),
+
+
                               widget.status == null
                                   ? Flexible(
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
-                                  child: Text(
-                                      widget.title == null
-                                          ? "--"
-                                          : (int.parse(widget.title) *
-                                          _animationController
-                                              .value)
-                                          .toInt()
-                                          .toString(),
+                                  child: Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
                                       style: TextStyle(
                                           color: Colors.grey,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize:
-                                          widget.radius / 12 < 10
-                                              ? 10
-                                              : widget.radius / 12)),
+                                          fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
                                 ),
                               )
                                   : Flexible(
@@ -126,70 +119,62 @@ class ChartWidgetState extends State<ChartWidget>
                                     fit: BoxFit.scaleDown,
                                     child: Row(
                                       children: <Widget>[
-                                        Text(
-                                          "mg/dl",
-                                          style: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.grey),
-                                        ),
-                                        Text(
-                                            widget.title == null
-                                                ? "--"
-                                                : (int.parse(widget
-                                                .title) *
-                                                _animationController
-                                                    .value)
-                                                .toInt()
-                                                .toString(),
+                                        Text("mg/dl",style: TextStyle(fontSize: 10,color: Colors.grey),),
+                                        Text(widget.title==null?"--": (int.parse(widget.title)*_animationController.value).toInt().toString(),
                                             style: TextStyle(
                                                 color: Colors.grey,
-                                                fontWeight: FontWeight
-                                                    .bold,
-                                                fontSize:
-                                                widget.radius / 12 <
-                                                    10
-                                                    ? 10
-                                                    : widget.radius /
-                                                    12)),
+                                                fontWeight: FontWeight.bold,fontSize:widget.radius/12<10?10: widget.radius/12)),
                                       ],
-                                    )),
+                                    )
+                                ),
                               ),
-                              Padding(padding: EdgeInsets.only(top: 5)),
+
+                              Padding(padding: EdgeInsets.only(
+                                top: 5
+                              )),
+
+       
+
+
                               widget.status == null
                                   ? Wrap()
                                   : FittedBox(
                                 child: Text(
                                   widget.status,
-                                  style: TextStyle(
-                                      color: Colors.redAccent, height: 1),
+                                  style: TextStyle(color: Colors.redAccent,height: 1),
                                 ),
                               ),
+
                               widget.status == null
                                   ? Wrap()
                                   : FittedBox(
                                 child: Text(
                                   widget.time,
-                                  style: TextStyle(
-                                      color: Colors.grey, height: 1),
+                                  style: TextStyle(color: Colors.grey,height: 1),
                                 ),
                               ),
+                              
+
+
                               widget.status == null
                                   ? Wrap()
                                   : FittedBox(
                                 // child: Text(
 
-                                //
+                                //   
                                 //   ///this commeted until we work on the back end
                                 //   //"${widget.status ?? ''}"
                                 //   "",
                                 //   style: TextStyle(color: Colors.grey,height: 1),
                                 // ),
                               ),
+
                               widget.status == null
                                   ? Wrap()
-                                  : Padding(
+                                  :Padding(
                                 padding: EdgeInsets.only(bottom: 15),
                               ),
+
                             ],
                           ),
                         ),
@@ -198,6 +183,7 @@ class ChartWidgetState extends State<ChartWidget>
                   ),
                 ]),
           ),
+
           widget.footer,
         ],
       ),
