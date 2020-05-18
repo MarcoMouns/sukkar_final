@@ -312,7 +312,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => MainHome()));
+                                            builder: (context) => SpLash()));
                                   },
                                 ),
                                 CupertinoActionSheetAction(
@@ -323,7 +323,7 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {});
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => MainHome()));
+                                            builder: (context) => SpLash()));
                                   },
                                 )
                               ],
