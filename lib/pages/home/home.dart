@@ -164,9 +164,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() async {
+    calculateSteps();
     getValuesSF();
     getMeasurementsForDay(date);
-    calculateSteps();
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
@@ -187,15 +187,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<int>> healthKit() async {
-    var r = await FitKit.hasPermissions(
-        [DataType.DISTANCE, DataType.STEP_COUNT, DataType.ENERGY]);
+    var r = await FitKit.hasPermissions([DataType.STEP_COUNT]);
 
     List<int> steps = new List<int>();
-    List<int> disctance = new List<int>();
-    List<int> homeCalories = new List<int>();
     DateTime usedDate =
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    fitDistanceData.clear();
+
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
       dateFrom: usedDate,
@@ -205,77 +202,6 @@ class _HomePageState extends State<HomePage> {
 
     print(healthKitStepsData);
     print("===================================");
-
-    healthKitDistanceData = await FitKit.read(
-      DataType.DISTANCE,
-      dateFrom: usedDate,
-      dateTo: DateTime.now(),
-    );
-    print("===================================");
-
-    print(healthKitDistanceData);
-    print("===================================");
-
-    healthKitCaloriesData = await FitKit.read(
-      DataType.ENERGY,
-      dateFrom: usedDate,
-      dateTo: DateTime.now(),
-    );
-    print("===================================");
-
-    print(healthKitCaloriesData);
-    print("===================================");
-
-    for (int i = 0; i <= healthKitDistanceData.length - 1; i++) {
-      fitDistanceData.add(healthKitDistanceData[i]);
-      disctance.add(fitDistanceData[i].value.round());
-    }
-
-    for (int i = 0; i <= healthKitCaloriesData.length - 1; i++) {
-      fitCaloriesData.add(healthKitCaloriesData[i]);
-      homeCalories.add(fitCaloriesData[i].value.round());
-    }
-
-    if (homeCalories.isEmpty) {
-      calories = 0;
-    } else {
-      calories = 0;
-      for (int i = 0; i <= homeCalories.length - 1; i++) {
-        calories = homeCalories[i] + calories;
-      }
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
-      await http.post(
-          "${Settings.baseApilink}/measurements?day_Calories=$calories",
-          body: {
-            "distance": "$distance",
-          },
-          headers: {
-            "Authorization": "Bearer ${authUser['authToken']}"
-          });
-    }
-
-    if (disctance.isEmpty) {
-      distance = 0;
-    } else {
-      distance = 0;
-      for (int i = 0; i <= disctance.length - 1; i++) {
-        distance = disctance[i] + distance;
-      }
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
-
-      await http.post("${Settings.baseApilink}/update-distance", body: {
-        "distance": "$distance",
-      }, headers: {
-        "Authorization": "Bearer ${authUser['authToken']}"
-      });
-      setState(() {});
-    }
 
     if (healthKitStepsData.isEmpty) {
       return steps;
@@ -303,6 +229,13 @@ class _HomePageState extends State<HomePage> {
       }
       flag = false;
       step = steps;
+      distance = (step * 0.68).toInt();
+      calories = (step * 0.228).toInt();
+      print("holaaaaaaaaaaa $distance");
+      setState(() {
+        
+      });
+
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
@@ -312,6 +245,21 @@ class _HomePageState extends State<HomePage> {
       }, headers: {
         "Authorization": "Bearer ${authUser['authToken']}"
       });
+
+      await http.post("${Settings.baseApilink}/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post(
+          "${Settings.baseApilink}/measurements?day_Calories=$calories",
+          body: {
+            "distance": "$distance",
+          },
+          headers: {
+            "Authorization": "Bearer ${authUser['authToken']}"
+          });
     }
   }
 
@@ -671,17 +619,13 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: dataHome == null ||
-                dataHome.calories == 0 ||
-                dataHome.calories == null
+        percent: calories == null 
             ? 0
-            : ((dataHome.calories / calGoals) > 1)
+            : ((calories / calGoals) > 1)
                 ? 1
-                : (dataHome.calories / calGoals),
+                : (calories / calGoals),
         context: context,
-        day_Calories: dataHome.calories == null
-            ? 0
-            : dataHome.calories == null ? 0 : (dataHome.calories.toInt()),
+        day_Calories: calories == null ? 0 : (calories.toInt()),
         ontap: () => null,
         raduis: _chartRadius,
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
@@ -702,16 +646,15 @@ class _HomePageState extends State<HomePage> {
             ": $stepsGoal " +
             allTranslations.text("steps"));
     widgetCircleDistance = MainCircles.distance(
-        percent: dataHome.distance == null || dataHome.distance == 0.0
+        percent: distance == null
             ? 0
-            : ((dataHome.distance / distanceGoal)).toDouble() > 1.0
+            : ((distance/ distanceGoal)).toDouble() > 1.0
                 ? 1
-                : ((dataHome.distance / distanceGoal)),
+                : ((distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
-        distance: dataHome == null
-            ? '0'
-            : dataHome.distance == null ? '0' : dataHome.distance.toString(),
+        distance: distance == null
+            ? '0' : distance.toString(),
         onTap: () => null,
         footerText:
             " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
