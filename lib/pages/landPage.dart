@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:health/Welcome%20screen.dart';
+import 'package:health/Welcome_screen.dart';
 import 'package:health/pages/Settings.dart';
 import '../languages/all_translations.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';

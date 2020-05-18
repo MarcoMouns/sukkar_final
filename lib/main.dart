@@ -25,7 +25,7 @@ import './pages/account/new.dart';
 import './pages/others/map.dart';
 import './pages/home.dart';
 import './pages/others/offers.dart';
-import 'Welcome screen.dart';
+import 'Welcome_screen.dart';
 
 void main() async {
   runApp(MyApp());

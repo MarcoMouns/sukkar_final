@@ -229,8 +229,8 @@ class _HomePageState extends State<HomePage> {
       }
       flag = false;
       step = steps;
-      distance = (step * 0.68).toInt();
-      calories = (step * 0.228).toInt();
+      distance = (steps * 0.68).toInt();
+      calories = (steps * 0.228).toInt();
       print("holaaaaaaaaaaa $distance");
       setState(() {
         
