@@ -230,7 +230,7 @@ class _HomePageState extends State<HomePage> {
       flag = false;
       step = steps;
       distance = (steps * 0.68).toInt();
-      calories = (steps * 0.228).toInt();
+      calories = (steps * 0.028).toInt();
       print("holaaaaaaaaaaa $distance");
       setState(() {
         
@@ -449,12 +449,12 @@ class _HomePageState extends State<HomePage> {
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
-    distance = response.data["Measurements"]["distance"] == null
-        ? 0
-        : response.data["Measurements"]["distance"];
-    calories = response.data["Measurements"]["day_Calories"] == null
-        ? 0
-        : response.data["Measurements"]["day_Calories"];
+    // distance = response.data["Measurements"]["distance"] == null
+    //     ? 0
+    //     : response.data["Measurements"]["distance"];
+    // calories = response.data["Measurements"]["day_Calories"] == null
+    //     ? 0
+    //     : response.data["Measurements"]["day_Calories"];
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];

@@ -179,7 +179,7 @@ class _MyAppState extends State<MyApp> {
             bottomAppBarColor: Colors.white,
             secondaryHeaderColor: Colors.white,
           ),
-          title: allTranslations.text("app_title"),
+          title:'سكر',
           debugShowCheckedModeBanner: false,
           locale: model.appLocal,
           supportedLocales: allTranslations.supportedLocales(),

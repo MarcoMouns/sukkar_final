@@ -274,7 +274,11 @@ class EditProfileUserState extends State<EditProfileUser> {
             title: Text(allTranslations.text("editProfile")),
           ),
           body: ListView(
-            children: <Widget>[editProfileForm(context)],
+            children: <Widget>[InkWell(
+              onTap: (){
+
+              },
+              child: editProfileForm(context))],
           ),
         ));
   }
@@ -285,6 +289,7 @@ class EditProfileUserState extends State<EditProfileUser> {
     isLoading == true
         ? page = Loading()
         : page = Form(
+          
             key: _formKey,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
