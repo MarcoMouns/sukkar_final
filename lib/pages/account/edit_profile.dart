@@ -101,7 +101,7 @@ class EditProfileUserState extends State<EditProfileUser> {
     Response response;
     isLoading = true;
     setState(() {});
-    try {
+     try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser2 =
@@ -110,19 +110,8 @@ class EditProfileUserState extends State<EditProfileUser> {
         "Authorization": "Bearer ${authUser2['authToken']}",
       };
 
-      FormData formdata = new FormData();
 
-      formdata = FormData.fromMap({
-        'name': name,
-        'email': email,
-        'password': password,
-        'gender': gender,
-        'phone': phone,
-        'birth_date': birthDate,
-        'injuredDate': injuryDate,
-      });
-      if (profilePicture != null) {
-        formdata = FormData.fromMap({
+        FormData formdata = FormData.fromMap({
           'name': name,
           'email': email,
           'password': password,
@@ -130,9 +119,11 @@ class EditProfileUserState extends State<EditProfileUser> {
           'phone': phone,
           'birth_date': birthDate,
           'injuredDate': injuryDate,
-          "image": await MultipartFile.fromFile("${profilePicture.path}")
+          "image": profilePicture == null ? null :await MultipartFile.fromFile("${profilePicture.path}"),
+          "_method":"PUT"
+
         });
-      }
+      
 
       print(formdata.toString());
 

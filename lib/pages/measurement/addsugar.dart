@@ -248,7 +248,7 @@ class _AddSugarState extends State<AddSugar> {
                                      context,
                                      MaterialPageRoute(
                                          builder: (context) =>
-                                             BlueToothDevice(model)),
+                                             BlueToothDevice()),
                                    );
                                 },
                               ),
