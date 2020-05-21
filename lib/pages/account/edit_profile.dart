@@ -101,7 +101,7 @@ class EditProfileUserState extends State<EditProfileUser> {
     Response response;
     isLoading = true;
     setState(() {});
-     try {
+    try {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       Map<String, dynamic> authUser2 =
@@ -110,20 +110,19 @@ class EditProfileUserState extends State<EditProfileUser> {
         "Authorization": "Bearer ${authUser2['authToken']}",
       };
 
-
-        FormData formdata = FormData.fromMap({
-          'name': name,
-          'email': email,
-          'password': password,
-          'gender': gender,
-          'phone': phone,
-          'birth_date': birthDate,
-          'injuredDate': injuryDate,
-          "image": profilePicture == null ? null :await MultipartFile.fromFile("${profilePicture.path}"),
-          "_method":"PUT"
-
-        });
-      
+      FormData formdata = FormData.fromMap({
+        'name': name,
+        'email': email == "--" ? null : email,
+        'password': password,
+        'gender': gender,
+        'phone': phone,
+        'birth_date': birthDate == "--" ? null : birthDate,
+        'injuredDate': injuryDate == "--" ? null : injuryDate,
+        "image": profilePicture == null
+            ? null
+            : await MultipartFile.fromFile("${profilePicture.path}"),
+        "_method": "PUT"
+      });
 
       print(formdata.toString());
 
@@ -389,7 +388,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                           maxTime: DateTime.now(), onChanged: (date) {
                         setState(() {
                           birthDate = (date.toString()).split(" ")[0];
-                           _birthDateController.text = birthDate;
+                          _birthDateController.text = birthDate;
                         });
                       }, onConfirm: (date) {
                         setState(() {
@@ -419,8 +418,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
                         injuryDate = date.toString().split(" ")[0];
-                       _injuryDateController.text = birthDate;
-
+                        _injuryDateController.text = birthDate;
                       }, onConfirm: (date) {
                         injuryDate = date.toString().split(" ")[0];
                         _injuryDateController.text = birthDate;
