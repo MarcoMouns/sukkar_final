@@ -1,7 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:health/pages/bluetooth/widgets.dart';
+import 'package:intl/intl.dart' as intl;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Settings.dart';
+import '../home.dart';
 
 class BlueToothDevice extends StatefulWidget {
   @override
@@ -38,6 +46,37 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   List<BluetoothService> services = new List();
   Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
+
+  Response response;
+  Dio dio = new Dio();
+
+  Future<Response> addNewMeasurement(var suger, BuildContext context) async {
+    Response response;
+
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      var headers = {
+        "Authorization": "Bearer ${authUser['authToken']}",
+      };
+      var now = new DateTime.now();
+      var date =
+          '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
+      var formatter = new intl.DateFormat('hh:mm a');
+      String formatted = formatter.format(now);
+      await dio.post(
+          "${Settings.baseApilink}/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
+          options: Options(headers: headers));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
+    } catch (e) {
+      print("error =====================");
+    }
+
+    return response;
+  }
 
   @override
   void initState() {
@@ -345,7 +384,8 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     int dataLen = 0;
     int cmdChar = 161; //INVERTED EXCLAMATION MARK !
     int chkSum = 0;
-    int dataType = 0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
+    int dataType =
+    0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
     double tmpVal = 0.0;
     int tmpIVal = 0;
     String data = "";
@@ -491,9 +531,9 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         resultData = data; // Lo Or Hi
         resultTestKind = dataTypeStr; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
         resultUnitType = units.toLowerCase(); //mg/dL
-       setState(() {
+        addNewMeasurement(tmpIVal, context);
 
-       });
+        setState(() {});
       }
       setState(() {});
       return 2;
