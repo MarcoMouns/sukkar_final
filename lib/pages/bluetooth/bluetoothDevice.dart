@@ -28,7 +28,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   String resultData = "";
   String resultTestKind = "";
   String resultUnitType = "";
-  int finalMeasure = 0;
+  int finalMeasure = 250;
   //Uint8List Liste = [  0x68,  0x02,  0x51,  0x53, 0x00 ];
 
   //  List<int> sampleData = [104,56,161, 0,138,19,5,25,10,46,29,162,2,141,136,194,85,159,224,123];
@@ -71,10 +71,9 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
       await dio.post(
           "${Settings.baseApilink}/measurements/sugar?sugar=$suger&date=$date&time=$formatted",
           options: Options(headers: headers));
-
-      if (suger > 0) {
-        _ackAlert(context);
-      }
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
+      _ackAlert(context);
     } catch (e) {
       print("error =====================");
     }
@@ -170,8 +169,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                   style: TextStyle(color: Colors.blue),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MainHome()));
+                  Navigator.of(context).pop();
                   finalMeasure = null;
                 },
               ),
