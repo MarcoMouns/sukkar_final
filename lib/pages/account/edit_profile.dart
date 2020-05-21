@@ -114,7 +114,8 @@ class EditProfileUserState extends State<EditProfileUser> {
         formdata.add('name', name);
       }
 
-      if (email != null) {
+      if (email != null && email != "--") {
+        print("added 1");
         formdata.add('email', email);
       }
 
@@ -130,10 +131,12 @@ class EditProfileUserState extends State<EditProfileUser> {
         formdata.add('phone', phone);
       }
 
-      if (birthDate != null) {
+      if (birthDate != null && birthDate != "--") {
+        print("added 2");
         formdata.add('birth_date', birthDate);
       }
-      if (injuryDate != null) {
+      if (injuryDate != null && injuryDate != "--") {
+        print("added 3");
         formdata.add('injuredDate', injuryDate);
       }
       if (profilePicture != null) {
@@ -274,11 +277,9 @@ class EditProfileUserState extends State<EditProfileUser> {
             title: Text(allTranslations.text("editProfile")),
           ),
           body: ListView(
-            children: <Widget>[InkWell(
-              onTap: (){
-
-              },
-              child: editProfileForm(context))],
+            children: <Widget>[
+              InkWell(onTap: () {}, child: editProfileForm(context))
+            ],
           ),
         ));
   }
@@ -289,7 +290,6 @@ class EditProfileUserState extends State<EditProfileUser> {
     isLoading == true
         ? page = Loading()
         : page = Form(
-          
             key: _formKey,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -416,7 +416,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                           maxTime: DateTime.now(), onChanged: (date) {
                         setState(() {
                           birthDate = (date.toString()).split(" ")[0];
-                           _birthDateController.text = birthDate;
+                          _birthDateController.text = birthDate;
                         });
                       }, onConfirm: (date) {
                         setState(() {
@@ -446,8 +446,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                           minTime: DateTime(1900, 3, 5),
                           maxTime: DateTime.now(), onChanged: (date) {
                         injuryDate = date.toString().split(" ")[0];
-                       _injuryDateController.text = birthDate;
-
+                        _injuryDateController.text = birthDate;
                       }, onConfirm: (date) {
                         injuryDate = date.toString().split(" ")[0];
                         _injuryDateController.text = birthDate;
