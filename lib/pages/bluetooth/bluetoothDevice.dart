@@ -27,6 +27,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   String resultData = "";
   String resultTestKind = "";
   String resultUnitType = "";
+  int finalMeasure = 0;
   //Uint8List Liste = [  0x68,  0x02,  0x51,  0x53, 0x00 ];
 
   //  List<int> sampleData = [104,56,161, 0,138,19,5,25,10,46,29,162,2,141,136,194,85,159,224,123];
@@ -385,7 +386,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     int cmdChar = 161; //INVERTED EXCLAMATION MARK !
     int chkSum = 0;
     int dataType =
-    0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
+        0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
     double tmpVal = 0.0;
     int tmpIVal = 0;
     String data = "";
@@ -526,18 +527,19 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
           }
         }
       }
-      if (data.length > 0) {
+      if (data.length >= 0) {
         resultTime = time;
         resultData = data; // Lo Or Hi
-        resultTestKind = dataTypeStr; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
+        resultTestKind =
+            dataTypeStr; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
         resultUnitType = units.toLowerCase(); //mg/dL
-        addNewMeasurement(tmpIVal, context);
-
+        finalMeasure = tmpIVal;
         setState(() {});
       }
       setState(() {});
       return 2;
     }
+
     return 0;
   }
 
@@ -579,7 +581,12 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
       return <Widget>[
         new IconButton(
           icon: const Icon(Icons.cancel),
-          onPressed: () => _disconnect(),
+          onPressed: () {
+            if (finalMeasure > 0) {
+              addNewMeasurement(finalMeasure, context);
+            }
+            _disconnect();
+          },
         )
       ];
     }
@@ -656,29 +663,42 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Directionality(
-      textDirection: TextDirection.ltr,
-      child: new Scaffold(
-        appBar: new AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+    return WillPopScope(
+      onWillPop: () {
+        if (finalMeasure > 0) {
+          addNewMeasurement(finalMeasure, context);
+        } else {
+          Navigator.pop(context);
+        }
+      },
+      child: new Directionality(
+        textDirection: TextDirection.ltr,
+        child: new Scaffold(
+          appBar: new AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                if (finalMeasure > 0) {
+                  addNewMeasurement(finalMeasure, context);
+                } else {
+                  Navigator.pop(context);
+                }
+              },
+            ),
+            title: Text("Add glucose meter"),
+            centerTitle: true,
+            actions: _buildActionButtons(),
           ),
-          title: Text("Add glucose meter"),
-          centerTitle: true,
-          actions: _buildActionButtons(),
-        ),
-        floatingActionButton:
-            _buildScanningButton(), //_buildTestReadingButton(),
-        body: new Stack(
-          children: <Widget>[
-            (isScanning) ? _buildProgressBarTile() : new Container(),
-            new ListView(
-              children: tiles,
-            )
-          ],
+          floatingActionButton:
+          _buildScanningButton(), //_buildTestReadingButton(),
+          body: new Stack(
+            children: <Widget>[
+              (isScanning) ? _buildProgressBarTile() : new Container(),
+              new ListView(
+                children: tiles,
+              )
+            ],
+          ),
         ),
       ),
     );
