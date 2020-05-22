@@ -771,6 +771,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         } else {
           Navigator.pop(context);
         }
+        _disconnect();
       },
       child: new Directionality(
         textDirection: TextDirection.ltr,
@@ -784,6 +785,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 } else {
                   Navigator.pop(context);
                 }
+                _disconnect();
               },
             ),
             title: Text("Add glucose meter"),
