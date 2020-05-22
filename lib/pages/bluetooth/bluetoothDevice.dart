@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/bluetooth/widgets.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,11 +73,111 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
           options: Options(headers: headers));
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
+      _ackAlert(context);
     } catch (e) {
       print("error =====================");
     }
 
     return response;
+  }
+
+  Future<void> _ackAlert(BuildContext context) async {
+    return await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Directionality(
+          textDirection: allTranslations.currentLanguage == "ar"
+              ? TextDirection.rtl
+              : TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(
+              "${allTranslations.text("sugerDialogTitle")} $finalMeasure",
+              textAlign: TextAlign.center,
+            ),
+            content: finalMeasure >= 70 && finalMeasure < 90
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            allTranslations.text("low1SugermgsTitle"),
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Text(allTranslations.text("low1Sugermgsbody")),
+                        ],
+                      ),
+                    ),
+                  )
+                : finalMeasure >= 90 && finalMeasure <= 200
+                    ? Text(
+                        allTranslations.text("normalSugermsg"),
+                        style: TextStyle(color: Colors.green),
+                        textAlign: TextAlign.center,
+                      )
+                    : finalMeasure > 200
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("highSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("highSugerBody")),
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("lowSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("lowSugermsgbody")),
+                                ],
+                              ),
+                            ),
+                          ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  allTranslations.text("ok"),
+                  style: TextStyle(color: Colors.blue),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  finalMeasure = null;
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
