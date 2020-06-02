@@ -83,9 +83,9 @@ class _AddSugarState extends State<AddSugar> {
 
     try {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
@@ -115,14 +115,15 @@ class _AddSugarState extends State<AddSugar> {
 
     try {
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
       response = await dio.delete(
-          "${Settings.baseApilink}/measurements/sugar?date=$date&sugar=$val&time=$time",
+          "${Settings
+              .baseApilink}/measurements/sugar?date=$date&sugar=$val&time=$time",
           options: Options(headers: headers));
 
       setState(() {});
@@ -181,7 +182,7 @@ class _AddSugarState extends State<AddSugar> {
                             allTranslations
                                 .text("measure sugar bla bla bla bla"),
                             style:
-                                TextStyle(color: Colors.blueGrey, fontSize: 17),
+                            TextStyle(color: Colors.blueGrey, fontSize: 17),
                           ),
                         ),
                         Center(
@@ -192,7 +193,10 @@ class _AddSugarState extends State<AddSugar> {
                                 child: Center(
                                   child: Container(
                                     width:
-                                        MediaQuery.of(context).size.width / 3,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width / 3,
                                     height: 60,
                                     child: Center(
                                       child: Text(
@@ -244,12 +248,12 @@ class _AddSugarState extends State<AddSugar> {
                                   ),
                                 ),
                                 onTap: () {
-                                   Navigator.push(
-                                     context,
-                                     MaterialPageRoute(
-                                         builder: (context) =>
-                                             BlueToothDevice()),
-                                   );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BlueToothDevice()),
+                                  );
                                 },
                               ),
                             ],
@@ -286,7 +290,10 @@ class _AddSugarState extends State<AddSugar> {
             ),
             content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
                 ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.35,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -303,17 +310,20 @@ class _AddSugarState extends State<AddSugar> {
                     Text(allTranslations.text("low1Sugermgsbody")),
                   ],
                 ),
-                    ),
-                  )
+              ),
+            )
                 : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
-                    ? Text(
-                        allTranslations.text("normalSugermsg"),
-                        style: TextStyle(color: Colors.green),
-                        textAlign: TextAlign.center,
-                      )
-                    : int.parse(initSuger) > 200
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.27,
+                ? Text(
+              allTranslations.text("normalSugermsg"),
+              style: TextStyle(color: Colors.green),
+              textAlign: TextAlign.center,
+            )
+                : int.parse(initSuger) > 200
+                ? SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.27,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -330,10 +340,13 @@ class _AddSugarState extends State<AddSugar> {
                     Text(allTranslations.text("highSugerBody")),
                   ],
                 ),
-                            ),
-                          )
-                        : SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.4,
+              ),
+            )
+                : SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.4,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -350,8 +363,8 @@ class _AddSugarState extends State<AddSugar> {
                     Text(allTranslations.text("lowSugermsgbody")),
                   ],
                 ),
-                            ),
-                          ),
+              ),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -370,15 +383,14 @@ class _AddSugarState extends State<AddSugar> {
     );
   }
 
-  _showBottomSheet(
-      {BuildContext context,
-      MainModel model,
-      String title,
-      String type,
-      String subTitle,
-      String imageName,
-      double min,
-      double max}) async {
+  _showBottomSheet({BuildContext context,
+    MainModel model,
+    String title,
+    String type,
+    String subTitle,
+    String imageName,
+    double min,
+    double max}) async {
     await showDialog(
         barrierDismissible: true,
         context: context,
@@ -400,12 +412,13 @@ class _AddSugarState extends State<AddSugar> {
                 return value;
               });
         }).then((v) {
-      Timer(Duration(seconds: 1), () {
-        print(initSuger);
-        if (initSuger != null) {
-          _ackAlert(context);
-        }
-      });
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
+
+      print(initSuger);
+      if (initSuger != null) {
+        _ackAlert(context);
+      }
     });
   }
 
