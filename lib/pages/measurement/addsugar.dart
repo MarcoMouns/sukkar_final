@@ -244,12 +244,12 @@ class _AddSugarState extends State<AddSugar> {
                                   ),
                                 ),
                                 onTap: () {
-                                   Navigator.push(
-                                     context,
-                                     MaterialPageRoute(
-                                         builder: (context) =>
-                                             BlueToothDevice()),
-                                   );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BlueToothDevice()),
+                                  );
                                 },
                               ),
                             ],
@@ -286,23 +286,23 @@ class _AddSugarState extends State<AddSugar> {
             ),
             content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
                 ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.35,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("low1SugermgsTitle"),
-                      style: TextStyle(
-                        color: Colors.green,
+              height: MediaQuery.of(context).size.height * 0.35,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            allTranslations.text("low1SugermgsTitle"),
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Text(allTranslations.text("low1Sugermgsbody")),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("low1Sugermgsbody")),
-                  ],
-                ),
                     ),
                   )
                 : int.parse(initSuger) >= 90 && int.parse(initSuger) <= 200
@@ -313,7 +313,10 @@ class _AddSugarState extends State<AddSugar> {
                       )
                     : int.parse(initSuger) > 200
                         ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.27,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.27,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -330,10 +333,13 @@ class _AddSugarState extends State<AddSugar> {
                     Text(allTranslations.text("highSugerBody")),
                   ],
                 ),
-                            ),
+              ),
                           )
                         : SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.4,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.4,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -350,7 +356,7 @@ class _AddSugarState extends State<AddSugar> {
                     Text(allTranslations.text("lowSugermsgbody")),
                   ],
                 ),
-                            ),
+              ),
                           ),
             actions: <Widget>[
               FlatButton(
@@ -400,12 +406,13 @@ class _AddSugarState extends State<AddSugar> {
                 return value;
               });
         }).then((v) {
-      Timer(Duration(seconds: 1), () {
-        print(initSuger);
-        if (initSuger != null) {
-          _ackAlert(context);
-        }
-      });
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
+
+      print(initSuger);
+      if (initSuger != null) {
+        _ackAlert(context);
+      }
     });
   }
 
