@@ -96,72 +96,81 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             ),
             content: finalMeasure >= 70 && finalMeasure < 90
                 ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            allTranslations.text("low1SugermgsTitle"),
-                            style: TextStyle(
-                              color: Colors.green,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Padding(padding: EdgeInsets.only(top: 10)),
-                          Text(allTranslations.text("low1Sugermgsbody")),
-                        ],
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.35,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("low1SugermgsTitle"),
+                      style: TextStyle(
+                        color: Colors.green,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                  )
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("low1Sugermgsbody")),
+                  ],
+                ),
+              ),
+            )
                 : finalMeasure >= 90 && finalMeasure <= 200
-                    ? Text(
-                        allTranslations.text("normalSugermsg"),
-                        style: TextStyle(color: Colors.green),
-                        textAlign: TextAlign.center,
-                      )
-                    : finalMeasure > 200
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.27,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    allTranslations.text("highSugermsgTitle"),
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(top: 10)),
-                                  Text(allTranslations.text("highSugerBody")),
-                                ],
-                              ),
-                            ),
-                          )
-                        : SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    allTranslations.text("lowSugermsgTitle"),
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(top: 10)),
-                                  Text(allTranslations.text("lowSugermsgbody")),
-                                ],
-                              ),
-                            ),
-                          ),
+                ? Text(
+              allTranslations.text("normalSugermsg"),
+              style: TextStyle(color: Colors.green),
+              textAlign: TextAlign.center,
+            )
+                : finalMeasure > 200
+                ? SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.27,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("highSugermsgTitle"),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("highSugerBody")),
+                  ],
+                ),
+              ),
+            )
+                : SizedBox(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.4,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      allTranslations.text("lowSugermsgTitle"),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    Text(allTranslations.text("lowSugermsgbody")),
+                  ],
+                ),
+              ),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -245,9 +254,9 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     deviceConnection = _flutterBlue
         .connect(device, timeout: const Duration(seconds: 4))
         .listen(
-          null,
-          onDone: _disconnect,
-        );
+      null,
+      onDone: _disconnect,
+    );
 
     // Update the connection state immediately
     device.state.then((s) {
@@ -265,14 +274,16 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
       if (s == BluetoothDeviceState.connected) {
         device.discoverServices().then((s) {
           var bservice = s
-              .where((r) => r.uuid
+              .where((r) =>
+              r.uuid
                   .toString()
                   .toLowerCase()
                   .contains("0000ffe0-0000-1000-8000-00805f9b34fb"))
               .first;
           if (bservice != null) {
             var char = bservice.characteristics
-                .where((c) => c.uuid
+                .where((c) =>
+                c.uuid
                     .toString()
                     .toLowerCase()
                     .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
@@ -282,14 +293,16 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             }
           }
           bservice = s
-              .where((r) => r.uuid
+              .where((r) =>
+              r.uuid
                   .toString()
                   .toLowerCase()
                   .contains("00001808-0000-1000-8000-00805f9b34fb"))
               .first;
           if (bservice != null) {
             var char = bservice.characteristics
-                .where((c) => c.uuid
+                .where((c) =>
+                c.uuid
                     .toString()
                     .toLowerCase()
                     .contains("00002a18-0000-1000-8000-00805f9b34fb"))
@@ -313,7 +326,8 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
 
               if (tmpUUID == "0000ffe0-0000-1000-8000-00805f9b34fb") {
                 var char = bservice.characteristics
-                    .where((c) => c.uuid
+                    .where((c) =>
+                    c.uuid
                         .toString()
                         .toLowerCase()
                         .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
@@ -324,7 +338,8 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 break;
               } else if (tmpUUID == "00001808-0000-1000-8000-00805f9b34fb") {
                 var char = bservice.characteristics
-                    .where((c) => c.uuid
+                    .where((c) =>
+                    c.uuid
                         .toString()
                         .toLowerCase()
                         .contains("00002a18-0000-1000-8000-00805f9b34fb"))
@@ -443,7 +458,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         resultTime = time;
         resultData = data;
         resultTestKind =
-            "Blood Glucose"; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
+        "Blood Glucose"; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
         resultUnitType = units.toLowerCase();
 
         setState(() {});
@@ -487,7 +502,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     int cmdChar = 161; //INVERTED EXCLAMATION MARK !
     int chkSum = 0;
     int dataType =
-        0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
+    0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
     double tmpVal = 0.0;
     int tmpIVal = 0;
     String data = "";
@@ -670,10 +685,11 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
 
   _buildScanResultTiles() {
     return scanResults.values
-        .map((r) => ScanResultTile(
-              result: r,
-              onTap: () => _connect(r.device),
-            ))
+        .map((r) =>
+        ScanResultTile(
+          result: r,
+          onTap: () => _connect(r.device),
+        ))
         .toList();
   }
 
@@ -771,6 +787,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         } else {
           Navigator.pop(context);
         }
+        _disconnect();
       },
       child: new Directionality(
         textDirection: TextDirection.ltr,
@@ -784,6 +801,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 } else {
                   Navigator.pop(context);
                 }
+                _disconnect();
               },
             ),
             title: Text("Add glucose meter"),
