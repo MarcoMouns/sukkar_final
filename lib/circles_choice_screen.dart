@@ -299,41 +299,35 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
   void sendData() async {
     Response response;
     Dio dio = new Dio();
-    FormData _formData = new FormData();
-    _formData.add("_method", "PUT");
-    _formData.add("calorie", calorie);
-    _formData.add("steps", steps);
-    _formData.add("distance", distance);
-    _formData.add("water", water);
-    _formData.add("heart", heart);
-    _formData.add("blood", blood);
+    FormData _formData;
+    _formData = FormData.fromMap({
+      "calorie": calorie,
+      "steps": steps,
+      "distance": distance,
+      "water": water,
+      "heart": heart,
+      "blood": blood,
+    });
 
-    SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
 
-    try{
-      response = await dio.post(
-          "${Settings.baseApilink}/users/circles",
-          data: _formData,
-          options: Options(headers: headers));
+    try {
+      response = await dio.post("${Settings.baseApilink}/users/circles",
+          data: _formData, options: Options(headers: headers));
 
-      if(response.statusCode==201){
+      if (response.statusCode == 201) {
         print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      }
-      else{
+      } else {
         print('shiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit');
       }
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
-
-
   }
 
   

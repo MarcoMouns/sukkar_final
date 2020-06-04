@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 mixin MeasurementsScopedModel on Model {
   Response response;
@@ -27,13 +27,13 @@ mixin MeasurementsScopedModel on Model {
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      formdata.add(type.toString(), value);
-      formdata.add("date", formatted);
-      formdata.forEach((e, r) {
-        print('{$e : $r}');
+      formdata = FormData.fromMap({
+        type.toString(): value,
+        "date": formatted,
       });
 
-      response = await dio.post("${Settings.baseApilink}/measurements", data: formdata);
+      response = await dio.post("${Settings.baseApilink}/measurements",
+          data: formdata);
       print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {

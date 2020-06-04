@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../languages/all_translations.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 import '../home.dart';
 
 ///********************from here this is the stopwatch********************
@@ -679,15 +681,17 @@ class _MapPageState extends State<MapPage> {
                                     "Authorization":
                                         "Bearer ${authUser['authToken']}",
                                   };
-                                  formdata.add("startLongitude", 0.0);
-                                  formdata.add("endLongitude", 0.0);
-                                  formdata.add("startLatitude", 0.0);
-                                  formdata.add("endLatitude", 0.0);
-                                  formdata.add("date", DateTime.now());
-                                  formdata.add("distance", (0).toInt());
-                                  formdata.add("steps", _stepCountValue);
-                                  formdata.add("calories",
-                                      ((steps * 0.0512).ceil()).toInt());
+                                  formdata = FormData.fromMap({
+                                    "startLongitude": 0.0,
+                                    "endLongitude": 0.0,
+                                    "startLatitude": 0.0,
+                                    "endLatitude": 0.0,
+                                    "date": DateTime.now(),
+                                    "distance": (0).toInt(),
+                                    "steps": _stepCountValue,
+                                    "calories":
+                                        ((steps * 0.0512).ceil()).toInt(),
+                                  });
                                   response = await dio.post(
                                       "${Settings.baseApilink}/mapInformation",
                                       data: formdata);
