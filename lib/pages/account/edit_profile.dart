@@ -9,6 +9,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/helpers/color_transform.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/home.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +44,7 @@ class EditProfileUserState extends State<EditProfileUser> {
 
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
 
   TextEditingController _injuryDateController = TextEditingController();
   TextEditingController _birthDateController = TextEditingController();
@@ -78,11 +80,11 @@ class EditProfileUserState extends State<EditProfileUser> {
       injuryDate = response.data['user']['injuredDate'] == null
           ? "--"
           : response.data['user']['injuredDate'];
-
+      phone = response.data['user']['phone'];
       gender = response.data['user']['gender'];
       nameCtrl.text = name;
       emailCtrl.text = email;
-
+      phoneCtrl.text = phone;
       _injuryDateController.text = injuryDate;
       _birthDateController.text = birthDate;
       isLoading = false;
@@ -113,6 +115,7 @@ class EditProfileUserState extends State<EditProfileUser> {
         'email': email == "--" ? null : email,
         'password': password,
         'gender': gender,
+        'phone': phone,
         'birth_date': birthDate == "--" ? null : birthDate,
         'injuredDate': injuryDate == "--" ? null : injuryDate,
         "image": profilePicture == null
@@ -325,29 +328,44 @@ class EditProfileUserState extends State<EditProfileUser> {
                         ? "Email number is required"
                         : "البريد الالكترونى مطلوب";
                   }
-                  Pattern pattern =
-                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                  RegExp regex = new RegExp(pattern);
-                  if (!regex.hasMatch(val))
-                    return myLocale.languageCode.contains("en")
-                        ? "Not Valid Email."
-                        : "البريد الالكترونى غير صحيح.";
-                  else
-                    return null;
-                }),
-
-
-            TextFormField(
-              obscureText: true,
-              onChanged: (val) {
-                password = val;
-              },
-              validator: (String val) {
-                if (val.length < 8) {
-                  return myLocale.languageCode.contains("en")
-                      ? "invalid password"
-                      : "كلمة مرور غبر صالحة";
-                }
+                        Pattern pattern =
+                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                        RegExp regex = new RegExp(pattern);
+                        if (!regex.hasMatch(val))
+                          return myLocale.languageCode.contains("en")
+                              ? "Not Valid Email."
+                              : "البريد الالكترونى غير صحيح.";
+                        else
+                          return null;
+                      }),
+                  TextFormField(
+                      enabled: false,
+                      onChanged: (val) {
+                        phone = val;
+                      },
+                      initialValue: phone,
+                      decoration: InputDecoration(
+                          labelText: myLocale.languageCode.contains("en")
+                              ? "phone"
+                              : "رقم الهاتف"),
+                      keyboardType: TextInputType.number,
+                      onSaved: (String val) {
+                        setState(() {
+                          phone = val;
+                        });
+                      },
+                      validator: (String val) {}),
+                  TextFormField(
+                    obscureText: true,
+                    onChanged: (val) {
+                      password = val;
+                    },
+                    validator: (String val) {
+                      if (val.length < 8) {
+                        return myLocale.languageCode.contains("en")
+                            ? "invalid password"
+                            : "كلمة مرور غبر صالحة";
+                      }
               },
               onSaved: (String val) {
                 setState(() {
