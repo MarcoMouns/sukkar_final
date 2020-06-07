@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
   int rcalories = 0;
   DateTime selectedDate = DateTime.now();
   DateTime dummySelectedDate = DateTime.now();
+  int stepsHistory = 0;
 
   var date =
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
@@ -465,12 +466,19 @@ class _HomePageState extends State<HomePage> {
     Response response;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
         options: Options(headers: headers));
+    print("========================");
+    print("========================");
+    print("========================");
+    print(response.data["Measurements"]["NumberOfSteps"]);
+    print("========================");
+    print("========================");
+    print("========================");
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
 
@@ -508,6 +516,9 @@ class _HomePageState extends State<HomePage> {
     distanceGoal = response.data["Measurements"]["distance_goal"] == null
         ? 0
         : response.data["Measurements"]["distance_goal"];
+    stepsHistory = response.data["Measurements"]["NumberOfSteps"] == null
+        ? 0
+        : response.data["Measurements"]["NumberOfSteps"];
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -877,7 +888,14 @@ class _HomePageState extends State<HomePage> {
                           getMeasurementsForDay(date);
                           getMeasurements(date);
                           getValuesSF();
-
+                          steps = stepsHistory;
+                          print("55555555555");
+                          print(steps);
+                          print("5555555555555555");
+                          print("55555555555555555");
+                          print("5555555555555555");
+                          distance = (steps * 0.68).toInt();
+                          calories = (steps * 0.228).toInt();
                           selectedDate = e;
                         });
                       }, currentTime: DateTime.now(), locale: LocaleType.ar);
