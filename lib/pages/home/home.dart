@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
   StreamSubscription iosSubscription;
 
   bool _firstPageLoad = true;
+  int stepsHistory = 0;
 
   ScrollController _scrollController;
   Response response;
@@ -232,9 +233,7 @@ class _HomePageState extends State<HomePage> {
       distance = (steps * 0.68).toInt();
       calories = (steps * 0.028).toInt();
       print("holaaaaaaaaaaa $distance");
-      setState(() {
-        
-      });
+      setState(() {});
 
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -449,12 +448,9 @@ class _HomePageState extends State<HomePage> {
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
-    // distance = response.data["Measurements"]["distance"] == null
-    //     ? 0
-    //     : response.data["Measurements"]["distance"];
-    // calories = response.data["Measurements"]["day_Calories"] == null
-    //     ? 0
-    //     : response.data["Measurements"]["day_Calories"];
+    stepsHistory = response.data["Measurements"]["NumberOfSteps"] == null
+        ? 0
+        : response.data["Measurements"]["NumberOfSteps"];
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
@@ -619,11 +615,9 @@ class _HomePageState extends State<HomePage> {
 
   void initialCircles(_chartRadius) {
     widgetCircleCalorie = MainCircles.cal(
-        percent: calories == null 
+        percent: calories == null
             ? 0
-            : ((calories / calGoals) > 1)
-                ? 1
-                : (calories / calGoals),
+            : ((calories / calGoals) > 1) ? 1 : (calories / calGoals),
         context: context,
         day_Calories: calories == null ? 0 : (calories.toInt()),
         ontap: () => null,
@@ -648,13 +642,12 @@ class _HomePageState extends State<HomePage> {
     widgetCircleDistance = MainCircles.distance(
         percent: distance == null
             ? 0
-            : ((distance/ distanceGoal)).toDouble() > 1.0
+            : ((distance / distanceGoal)).toDouble() > 1.0
                 ? 1
                 : ((distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
-        distance: distance == null
-            ? '0' : distance.toString(),
+        distance: distance == null ? '0' : distance.toString(),
         onTap: () => null,
         footerText:
             " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
@@ -848,6 +841,14 @@ class _HomePageState extends State<HomePage> {
                           getMeasurementsForDay(date);
                           getMeasurements(date);
                           getValuesSF();
+                          steps = stepsHistory;
+                          print("55555555555");
+                          print(steps);
+                          print("5555555555555555");
+                          print("55555555555555555");
+                          print("5555555555555555");
+                          distance = (steps * 0.68).toInt();
+                          calories = (steps * 0.228).toInt();
 
                           selectedDate = e;
                         });
