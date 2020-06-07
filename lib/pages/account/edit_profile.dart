@@ -325,8 +325,8 @@ class EditProfileUserState extends State<EditProfileUser> {
                 validator: (String val) {
                   if (val.isEmpty) {
                     return myLocale.languageCode.contains("en")
-                        ? "Phone number is required"
-                        : "رقم الجوال مطلوب";
+                        ? "Email number is required"
+                        : "البريد الالكترونى مطلوب";
                   }
                   Pattern pattern =
                       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -339,6 +339,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     return null;
                 }),
             TextFormField(
+               enabled: false,
                 onChanged: (val) {
                   phone = val;
                 },
