@@ -1152,18 +1152,22 @@ class _HomePageState extends State<HomePage> {
                                                               right:
                                                               10),
                                                           child:
-                                                          Text(
-                                                            banners[index]
-                                                                .name,
-                                                            style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                    41,
-                                                                    172,
-                                                                    216,
-                                                                    1),
-                                                                fontSize:
-                                                                15),
+                                                          Container(
+                                                            child: Text(
+                                                              banners[index]
+                                                                  .name,
+                                                                  softWrap: true,
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                      41,
+                                                                      172,
+                                                                      216,
+                                                                      1),
+                                                                  fontSize:
+                                                                  15),
+                                                            
+                                                            ),
                                                           ),
                                                         ),
                                                         Padding(
