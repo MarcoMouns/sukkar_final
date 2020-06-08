@@ -1157,6 +1157,7 @@ class _HomePageState extends State<HomePage> {
                                                               banners[index]
                                                                   .name,
                                                                   softWrap: true,
+                                                                  overflow: TextOverflow.ellipsis,
                                                               style: TextStyle(
                                                                   color: Color
                                                                       .fromRGBO(
