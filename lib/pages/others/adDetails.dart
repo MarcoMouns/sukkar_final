@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdDetailsScreen extends StatefulWidget {
   String imgLInk;
   String text;
-  AdDetailsScreen(String link, String text) {
-    this.imgLInk = link;
+  String link;
+
+  AdDetailsScreen(String imgLInk, String text, String link) {
+    this.imgLInk = imgLInk;
     this.text = text;
+    this.link = link;
   }
   @override
   _AdDetailsScreenState createState() => _AdDetailsScreenState();
@@ -50,7 +54,24 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                 child: Text(
                   widget.text,
                   style: TextStyle(fontSize: 20),
-                ))
+                )),
+            InkWell(
+              onTap: () {
+                launch(widget.link);
+              },
+              child: Center(
+                child: Container(
+                  child: Text(
+                    "${widget.link ?? ""}",
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
