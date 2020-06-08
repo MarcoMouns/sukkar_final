@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/material.dart';
+
 import '../../languages/all_translations.dart';
 //import 'package:flutter_youtube/flutter_youtube.dart';
 
@@ -42,6 +43,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           file = result.article.file;
           video = result.article.video;
           startDate = result.article.startDate;
+          print(file);
+          print('12432143243243');
           setState(() {
             loading = false;
           });
@@ -56,8 +59,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection:  allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
+          ? TextDirection.rtl
+          : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -65,7 +68,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           leading: IconButton(
             onPressed: () {
               String sharedUrl =
-                  file != null ? file : video != null ? video : null;
+              file != null ? file : video != null ? video : null;
               if (sharedUrl != null) {
                 Share.share('check out Suker Article $sharedUrl');
               } else {
@@ -100,82 +103,82 @@ class _ArticleDetailsState extends State<ArticleDetails> {
         body: loading == true
             ? Loading()
             : ListView(
+          children: <Widget>[
+            Image.network('http://api.sukar.co/$image',
+                height: 250, fit: BoxFit.contain),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Image.network('http://api.sukar.co/$image',
-                      height: 250, fit: BoxFit.contain),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          startDate,
-                          style: TextStyle(color: Colors.redAccent),
-                        ),
-                      ],
-                    ),
+                  Text(
+                    startDate,
+                    style: TextStyle(color: Colors.redAccent),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      text,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
-                    ),
-                  ),
-                  Container(
-                    child: video != null
-                        ? InkWell(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                children: <Widget>[
-                                  Image.asset(
-                                    "assets/icons/youtube.png",
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                                  Text(
-                                    allTranslations.text("Check video"),
-                                    style: TextStyle(
-                                        fontSize: 12, color: Colors.blue),
-                                  )
-                                ],
-                              ),
-                            ),
-                            onTap: () async {
-                              var url = '$video';
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                          )
-                        : Container(),
-                  ),
-                  Container(
-                    child: file != null ? InkWell(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          allTranslations.text("simple Pdf"),
-                          style: TextStyle(color: Colors.blue),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      onTap: () async {
-                        var url = '$file';
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
-                    ):Container(),
-                  ),
-                
                 ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.grey, fontSize: 15),
+              ),
+            ),
+            Container(
+              child: video != null
+                  ? InkWell(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/icons/youtube.png",
+                        width: 50,
+                        height: 50,
+                      ),
+                      Text(
+                        allTranslations.text("Check video"),
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.blue),
+                      )
+                    ],
+                  ),
+                ),
+                onTap: () async {
+                  var url = '$video';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+              )
+                  : Container(),
+            ),
+            Container(
+              child: file != null ? InkWell(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    allTranslations.text("simple Pdf"),
+                    style: TextStyle(color: Colors.blue),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                onTap: () async {
+                  var url = '$file';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+              ):Container(),
+            ),
+
+          ],
+        ),
       ),
     );
   }

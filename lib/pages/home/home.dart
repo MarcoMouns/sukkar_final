@@ -1053,18 +1053,19 @@ class _HomePageState extends State<HomePage> {
                                               onTap: () {
                                                 Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AdDetailsScreen(
-                                                                banners[index]
-                                                                    .image,
-                                                                banners[index]
-                                                                    .text ==
-                                                                    null
-                                                                    ? ""
-                                                                    : banners[
-                                                                index]
-                                                                    .text)));
-                                              },
+                                                              builder: (context) => AdDetailsScreen(
+                                                                  banners[index]
+                                                                      .image,
+                                                                  banners[index]
+                                                                              .text ==
+                                                                          null
+                                                                      ? ""
+                                                                      : banners[
+                                                                              index]
+                                                                          .text,
+                                                                  banners[index]
+                                                                      .adLInk)));
+                                                        },
                                               child: new Container(
                                                 decoration: ShapeDecoration(
                                                     image: DecorationImage(

@@ -237,7 +237,8 @@ You should follow the following tips:
   2- don't exercise before eating a small Snack. 
   3- keep somthing sweet with you to eat it in case od feeling dizzy. 
 """,
-"bluetoothConnect":"Connect",
-"glucose meter connected":"glucose meter connected",
-"glucose meter disconnected":"glucose meter not connected"
+  "bluetoothConnect": "Connect",
+  "glucose meter connected": "glucose meter connected",
+  "glucose meter disconnected": "glucose meter not connected",
+  "click here": "Click here"
 };

@@ -17,12 +17,14 @@ class _OffersScreenState extends State<OffersScreen> {
   bool isLoading = true;
   List<String> ads = new List();
   List<String> adTexts = new List();
+  List<String> link = new List();
   List<Widget> adsCards = new List();
 
   getOffers() async {
     response = await dio.get("${Settings.baseApilink}/ads");
     for (int i = 0; i < response.data["ads"].length; i++) {
       ads.add(response.data["ads"][i]["image"].toString());
+      link.add(response.data["ads"][i]["link"].toString());
       adTexts.add(response.data["ads"][i]["text"].toString());
     }
     isLoading = false;
@@ -38,7 +40,8 @@ class _OffersScreenState extends State<OffersScreen> {
       list.add(GestureDetector(
           onTap: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => AdDetailsScreen(ads[i],adTexts[i])));
+                .push(MaterialPageRoute(builder: (context) =>
+                AdDetailsScreen(ads[i], adTexts[i], link[i])));
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 3, vertical: 5),

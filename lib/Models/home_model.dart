@@ -57,12 +57,25 @@ class BannersListBean {
   String text;
   String file;
   String video;
+  String adLInk;
   int id;
   int categoryId;
 
-  BannersListBean({this.type, this.image, this.created, this.updated, this.name, this.text, this.file, this.video, this.id, this.categoryId});
+  BannersListBean(
+      {this.type,
+      this.image,
+      this.created,
+      this.updated,
+      this.name,
+      this.text,
+      this.file,
+      this.adLInk,
+      this.video,
+      this.id,
+      this.categoryId});
 
-  BannersListBean.fromJson(Map<String, dynamic> json) {    
+  BannersListBean.fromJson(Map<String, dynamic> json) {
+    this.adLInk = json['link'];
     this.type = json['type'];
     this.image = json['image'];
     this.created = json['createdar'];

@@ -244,14 +244,15 @@ Map<String, String> arabicLang = {
 4-مراجعة عيادة السكري بشكل دوري.
 5-قياس السكر باستمرار.
 """,
-"lowSugermsgTitle": "انتبه مستوى السكر لديك منخفض",
-"lowSugermsgbody": """
+  "lowSugermsgTitle": "انتبه مستوى السكر لديك منخفض",
+  "lowSugermsgbody": """
 عليك إتباع النصائح التالية:
 1- تعرف على أعراض هبوط السكر مثل ( الدوخه ، التعرق ، الخفقان ، الدوار ، الجوع الشدٌد ، الرعشة ). 
 2-لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة.
 3-احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط .
 """,
-"bluetoothConnect":"اتصال",
-"glucose meter connected":"جهاز السكر متصل",
-"glucose meter disconnected":"جهاز السكر غير متصل"
+  "bluetoothConnect": "اتصال",
+  "glucose meter connected": "جهاز السكر متصل",
+  "glucose meter disconnected": "جهاز السكر غير متصل",
+  "click here": "اضغط هنا"
 };
