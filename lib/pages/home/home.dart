@@ -1097,18 +1097,25 @@ class _HomePageState extends State<HomePage> {
                                                                           right:
                                                                               10),
                                                                       child:
-                                                                          Text(
-                                                                        banners[index]
-                                                                            .name,
-                                                                        style: TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                41,
-                                                                                172,
-                                                                                216,
-                                                                                1),
-                                                                            fontSize:
-                                                                                15),
-                                                                      ),
+                                                                    Container(
+                                                            width: MediaQuery.of(context).size.width *
+                                                                            0.355,
+                                                                        child:
+                                                                            Text(
+                                                                          banners[index]
+                                                                              .name,
+                                                                          softWrap:
+                                                                              true,
+                                                                          overflow:
+                                                                              TextOverflow.ellipsis,
+                                                                          style: TextStyle(
+                                                                              color: Color.fromRGBO(41, 172, 216,
+                                                                      1),
+                                                                  fontSize:
+                                                                  15),
+
+                                                            ),
+                                                          ),
                                                                     ),
                                                                     Padding(
                                                                       padding: EdgeInsets
