@@ -254,5 +254,17 @@ Map<String, String> arabicLang = {
   "bluetoothConnect": "اتصال",
   "glucose meter connected": "جهاز السكر متصل",
   "glucose meter disconnected": "جهاز السكر غير متصل",
-  "click here": "اضغط هنا"
+  "click here": "اضغط هنا",
+  "complain": "شكوى",
+  "suggestion": "اقتراح",
+  "choose type": "اختر النوع",
+  "details": "تفاصيل",
+  "subject": "العنوان",
+  "please provide us with your compliment or suggestion so we can do our best:":
+      "الرجاء اخبارنا عن الشكوى او الاقتراح, حتى نعرف ما الذي يمكننا فعله,الرجاء تقديم اكبر قدر من المعلومات:",
+  "done": "تم",
+  "warning": "تنبيه",
+  "your massage has been send successfully": """شكراً ..
+
+لقد تم ارسال رسالتكم بنجاح"""
 };

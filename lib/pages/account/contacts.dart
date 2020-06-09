@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:health/pages/account/contactUsForm.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Contacts extends StatefulWidget {
@@ -32,18 +33,7 @@ class _ContactsState extends State<Contacts> {
     getSocialLinks();
   }
 
-  sendForm() async {
-    var data = {
-      "email": email,
-      "subject": subject,
-      "message": msg,
-      "type": type
-    };
-    Response response =
-        await dio.post("${Settings.baseApilink}/contact-us", data: data);
 
-    print(response.data);
-  }
 
   void getSocialLinks() async {
     try {
@@ -147,104 +137,20 @@ class _ContactsState extends State<Contacts> {
                   Divider(
                     height: 0,
                   ),
-                  SizedBox(height: 15),
-                  Form(
-                    key: _key,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                            onChanged: (val) {
-                              email = val;
-                            },
-                            decoration: InputDecoration(
-                                labelText: myLocale.languageCode.contains("en")
-                                    ? "Email"
-                                    : "البريد الالكتروني"),
-                            keyboardType: TextInputType.emailAddress,
-                            onSaved: (String val) {
-                              setState(() {
-                                email = val;
-                              });
-                            },
-                            validator: (String val) {
-                              if (val.isEmpty) {
-                                return myLocale.languageCode.contains("en")
-                                    ? "Email number is required"
-                                    : "البريد الالكترونى مطلوب";
-                              }
-                              Pattern pattern =
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                              RegExp regex = new RegExp(pattern);
-                              if (!regex.hasMatch(val))
-                                return myLocale.languageCode.contains("en")
-                                    ? "Not Valid Email."
-                                    : "البريد الالكترونى غير صحيح.";
-                              else
-                                return null;
-                            }),
-                        TextFormField(
-                          onChanged: (val) {
-                            subject = val;
-                          },
-                          decoration: InputDecoration(
-                              labelText: myLocale.languageCode.contains("en")
-                                  ? "subject"
-                                  : "العنوان"),
-                          enabled: true,
-                          keyboardType: TextInputType.text,
-                          onFieldSubmitted: (String val) {
-                            setState(() {
-                              subject = val;
-                              print(val);
-                            });
-                          },
-                          validator: (String val) {
-                            if (val.isEmpty) {
-                              return myLocale.languageCode.contains("en")
-                                  ? "subject is required."
-                                  : "العنوان مطلوب";
-                            }
-                          },
-                        ),
-                        TextFormField(
-                          onChanged: (val) {
-                            msg = val;
-                          },
-                          decoration: InputDecoration(
-                              labelText: myLocale.languageCode.contains("en")
-                                  ? "’message"
-                                  : "نص الرسالة"),
-                          enabled: true,
-                          keyboardType: TextInputType.text,
-                          onFieldSubmitted: (String val) {
-                            setState(() {
-                              msg = val;
-                              print(val);
-                            });
-                          },
-                          validator: (String val) {
-                            if (val.isEmpty) {
-                              return myLocale.languageCode.contains("en")
-                                  ? "’message is required."
-                                  : "نص الرسالة مطلوب";
-                            }
-                          },
-                        ),
-                        new DropdownButton<String>(
-                          items:
-                              <String>['A', 'B', 'C', 'D'].map((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: selectedType,
-                              child: new Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (_) {
-                            type  = selectedType;
-                          },
-                        )
-                      ],
+                  ListTile(
+                    title: Text(
+                      allTranslations.text("contacts"),
+                      style: TextStyle(color: Colors.grey),
                     ),
-                  )
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.redAccent,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ContactUs()));
+                    },
+                  ),
                 ],
               ),
       ),

@@ -240,5 +240,18 @@ You should follow the following tips:
   "bluetoothConnect": "Connect",
   "glucose meter connected": "glucose meter connected",
   "glucose meter disconnected": "glucose meter not connected",
-  "click here": "Click here"
+  "click here": "Click here",
+  "complain": "complain",
+  "suggestion": "suggestions",
+  "choose type": "choose type",
+  "details": "details",
+  "subject": "subject",
+  "please provide us with your compliment or suggestion so we can do our best:":
+      "please provide us with your compliment or suggestion so we can do our best:",
+  "done": "done",
+  "warning": "warning",
+  "your massage has been send successfully": """thank you.. 
+  
+your massage has been send successfully
+  """
 };
