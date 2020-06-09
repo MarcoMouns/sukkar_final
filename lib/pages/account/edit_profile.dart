@@ -338,6 +338,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                   else
                     return null;
                 }),
+            
             TextFormField(
                enabled: false,
                 onChanged: (val) {
