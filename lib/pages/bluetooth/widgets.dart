@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
-
+import '../../languages/all_translations.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
@@ -86,7 +86,7 @@ class ScanResultTile extends StatelessWidget {
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),
       trailing: RaisedButton(
-        child: Text("bluetoothConnect"),
+        child: Text(allTranslations.text("bluetoothConnect")),
         color: Colors.black,
         textColor: Colors.white,
         onPressed: (result.advertisementData.connectable) ? onTap : null,
@@ -100,7 +100,7 @@ class ScanResultTile extends StatelessWidget {
             context,
             'Manufacturer Data',
             getNiceManufacturerData(
-                result.advertisementData.manufacturerData) ??
+                    result.advertisementData.manufacturerData) ??
                 'N/A'),
         _buildAdvRow(
             context,
@@ -160,11 +160,11 @@ class CharacteristicTile extends StatelessWidget {
 
   const CharacteristicTile(
       {Key key,
-        this.characteristic,
-        this.descriptorTiles,
-        this.onReadPressed,
-        this.onWritePressed,
-        this.onNotificationPressed})
+      this.characteristic,
+      this.descriptorTiles,
+      this.onReadPressed,
+      this.onWritePressed,
+      this.onNotificationPressed})
       : super(key: key);
 
   @override

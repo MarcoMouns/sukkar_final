@@ -34,7 +34,6 @@ class _ContactsState extends State<Contacts> {
   }
 
 
-
   void getSocialLinks() async {
     try {
       response = await dio.get(

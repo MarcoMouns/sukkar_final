@@ -736,8 +736,8 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
 
         title: new Text(
           (deviceState.toString().split('.')[1] == "connected")
-              ? "glucose meter connected"
-              : "glucose meter disconnected",
+              ? allTranslations.text("glucose meter connected")
+              : allTranslations.text("glucose meter disconnected"),
           style: (deviceState.toString().split('.')[1] == "connected")
               ? TextStyle(color: Colors.green)
               : TextStyle(color: Colors.red),
@@ -804,7 +804,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 _disconnect();
               },
             ),
-            title: Text("Add glucose meter"),
+            title: Text(allTranslations.text("Add glucose meter")),
             centerTitle: true,
             actions: _buildActionButtons(),
           ),
