@@ -29,20 +29,18 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
-    print('userID => ${widget.userId}');
-    print('image => ${widget.image}');
     setState(() {
       loading = true;
     });
     getChat();
     super.initState();
   }
-  getChat(){
+
+  getChat() {
     widget.model.fetchDoctorChat(widget.userId).then((result) {
       if (result != null) {
         setState(() {
           doctorChat = result.chat.data;
-          print(doctorChat);
           setState(() {
             loading = false;
           });
@@ -52,6 +50,7 @@ class _ChatState extends State<Chat> {
       print(err);
     });
   }
+
   //Submit Send
   void submitForm() async {
     setState(() {
@@ -65,7 +64,6 @@ class _ChatState extends State<Chat> {
     widget.model.sendMessage(message, widget.userId).then((result) {
       if (result != null) {
         setState(() {
-          print(result);
           message = '';
           getChat();
           setState(() {
@@ -142,7 +140,9 @@ class _ChatState extends State<Chat> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ProfileMeasurementDetails(widget.userId)));
+                                      builder: (context) =>
+                                          ProfileMeasurementDetails(
+                                              widget.userId)));
                                 },
                               ),
                       ],
@@ -232,9 +232,7 @@ class _ChatState extends State<Chat> {
                                     }
                                   },
                                 ),
-
                               ),
-
                               Container(
                                   child: new FlatButton(
                                       child: _isLoading == true

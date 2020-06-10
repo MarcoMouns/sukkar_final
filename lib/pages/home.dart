@@ -34,17 +34,14 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   void _handleSubmitted(
       BuildContext context, MainModel model, var value, String type) {
-    model.addMeasurements(type, value).then((result) async {
-      print(result);
-    });
+    model.addMeasurements(type, value).then((result) async {});
   }
 
   _onMenuTap(item, MainModel model) {
     if (item == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => MedList(model)),
+        MaterialPageRoute(builder: (context) => MedList(model)),
       );
     }
     if (item == 2) {
@@ -66,7 +63,6 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       );
     }
     if (item == 5) {
-
       showDialog(
           barrierDismissible: true,
           context: context,
@@ -119,25 +115,22 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-   
-      _pageController = _getPageController();
+    _pageController = _getPageController();
 
-      _controller = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 175),
-      );
-      _rotateCopntroller = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 175),
-      );
-      _rotateAmimation =
-          Tween(begin: 0.0, end: math.pi / 4).animate(_rotateCopntroller);
-      _rotateAmimation.addListener(() {
-        _rotateAmimation.value;
-      });
-    
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 175),
+    );
+    _rotateCopntroller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 175),
+    );
+    _rotateAmimation =
+        Tween(begin: 0.0, end: math.pi / 4).animate(_rotateCopntroller);
+    _rotateAmimation.addListener(() {
+      _rotateAmimation.value;
+    });
   }
-
 
   int cIndex = 0;
   PageController _Pcontroller = PageController(initialPage: 3, keepPage: false);
@@ -151,7 +144,9 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
           DoctorChatScreen(),
           FriendsPage(model, false),
           ArticleCategory(model),
-          HomePage(model: model,),
+          HomePage(
+            model: model,
+          ),
           MapPage(),
         ],
       );
@@ -160,7 +155,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       return ArticleCategory(model);
     }
     if (index == 2) {
-      return FriendsPage(model,false);
+      return FriendsPage(model, false);
     }
     if (index == 3) {
       return DoctorChatScreen();
@@ -170,12 +165,13 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       textDirection: TextDirection.ltr,
       child: PageView(
         children: <Widget>[
-          HomePage(model: model,),
+          HomePage(
+            model: model,
+          ),
           MapPage(),
         ],
       ),
     );
-
   }
 
   @override
@@ -187,7 +183,8 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       child: ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
           return new Scaffold(
-appBar: PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
+            appBar: PreferredSize(
+                child: AppBar(), preferredSize: Size.fromHeight(0)),
             key: _scaffoldKey,
             backgroundColor: Colors.white,
             body: navPages(cIndex, model),
@@ -213,8 +210,7 @@ appBar: PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0)),
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController.forward();
                         animationController2.forward();
-                      }
-                      else if (i < 4)
+                      } else if (i < 4)
                         setState(() {
                           if (i != 4) {
                             Settings.currentIndex = i;

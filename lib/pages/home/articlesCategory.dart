@@ -31,18 +31,25 @@ class _ArticleCategoryState extends State<ArticleCategory> {
       print(err);
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-        new Container(
+    return new Container(
       color: Colors.lightBlue[50],
       child: ListView.builder(
         padding: EdgeInsets.all(20.0),
         itemCount: articleCategory.length,
         itemBuilder: (BuildContext context, index) {
-          return InkWell(onTap: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>ArticlesPage(widget.model,articleCategory[index].id,  articleCategory[index].titleAr)) );
-          },
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ArticlesPage(
+                          widget.model,
+                          articleCategory[index].id,
+                          articleCategory[index].titleAr)));
+            },
             child: Card(
               elevation: 5.0,
               margin: EdgeInsets.only(bottom: 20),
@@ -62,13 +69,13 @@ class _ArticleCategoryState extends State<ArticleCategory> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage('http://api.sukar.co/${ articleCategory[index].image}'))),
+                        image: NetworkImage(
+                            'http://api.sukar.co/${articleCategory[index].image}'))),
               ),
             ),
           );
         },
       ),
     );
-
   }
 }

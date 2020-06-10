@@ -15,14 +15,12 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
   Response response;
   Dio dio = new Dio();
   void getTerms() async {
- 
-      response = await dio.get(
-        "${Settings.baseApilink}/terms",
-      );
+    response = await dio.get(
+      "${Settings.baseApilink}/terms",
+    );
 
-      terms = response.data['terms'];
-      isloading = false;
-
+    terms = response.data['terms'];
+    isloading = false;
 
     setState(() {});
   }
@@ -34,29 +32,25 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
 
   @override
   Widget build(BuildContext context) {
-        return Directionality(
-        textDirection: allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
+    return Directionality(
+      textDirection: allTranslations.currentLanguage == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
       child: Scaffold(
           appBar: AppBar(
             title: Text(allTranslations.text("Terms")),
             centerTitle: true,
           ),
-          body: isloading == true ? Loading():Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListView(
-              children: <Widget>[
-                
-                 Text(terms,style:TextStyle(fontSize: 20)),
-                
-            
-
-                
-
-              ],
-            ),
-          )),
+          body: isloading == true
+              ? Loading()
+              : Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView(
+                    children: <Widget>[
+                      Text(terms, style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                )),
     );
   }
 }

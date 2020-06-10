@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class MyPainter extends CustomPainter {
@@ -16,8 +15,7 @@ class MyPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = width;
     Offset center = new Offset(size.width / 2, size.height / 2);
-    double radius =
-        size.width / 2 ;
+    double radius = size.width / 2;
 
     double arcAngle = 2 * pi * (completePercent / 100);
     canvas.drawArc(new Rect.fromCircle(center: center, radius: radius),

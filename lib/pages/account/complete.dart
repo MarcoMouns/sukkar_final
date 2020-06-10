@@ -155,7 +155,7 @@ class _CompleteState extends State<Complete> {
     try {
       final FirebaseUser user =
           (await _firebaseAuth.createUserWithEmailAndPassword(
-        email: _formData['email'] == null || _formData['email'] ==""
+        email: _formData['email'] == null || _formData['email'] == ""
             ? "a${randomString(9)}@gmail.com"
             : _formData['email'],
         password: "11112222",
@@ -173,8 +173,6 @@ class _CompleteState extends State<Complete> {
   Future<Null> CreateCFSaccount(String uid) async {
     if (!_formKey.currentState.validate() || _formData['phone'] == null) {
       _autoValidate = true;
-      print(_formData);
-
       showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
       _formKey.currentState.save();

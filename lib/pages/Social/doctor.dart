@@ -17,7 +17,6 @@ class Doctor extends StatefulWidget {
 }
 
 class _DoctorState extends State<Doctor> {
-
   List<SpecialistsListBean> specialists = List<SpecialistsListBean>();
   List<DataListBean> doctorSpecialists = List<DataListBean>();
   List<DoctorCvListBean> doctorCv = List<DoctorCvListBean>();
@@ -52,13 +51,10 @@ class _DoctorState extends State<Doctor> {
   }
 
   fetchDoctorSpecialist() {
-    print('defaultSelectId = > $defaultSelectId');
     widget.model.fetchDoctorSpecialists(defaultSelectId).then((result) {
       if (result != null) {
         setState(() {
           doctorSpecialists = result.doctors.data;
-          print(
-              'fetchDoctorSpecialists = > ${doctorSpecialists[0].doctorCv[0].userId}');
         });
       } else {}
     });
@@ -128,6 +124,7 @@ class _DoctorState extends State<Doctor> {
                   )));
         });
   }
+
   @override
   Widget build(BuildContext context) {
     return loading == true
@@ -194,10 +191,6 @@ class _DoctorState extends State<Doctor> {
                     children: <Widget>[
                       ListTile(
                         onTap: () {
-                          print(
-                              'doctorSpecialists => ${doctorSpecialists[index].name}');
-                          print(
-                              'userID => ${doctorSpecialists[index].doctorCv[0].userId}');
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => DoctorProfile(
                                     doctorSpecialists: doctorSpecialists[index],

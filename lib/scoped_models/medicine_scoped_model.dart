@@ -23,16 +23,12 @@ mixin MedicineScopedModel on Model {
       "name": medicineData['name'],
     });
 
-    print("authUser => $authUser");
-    print("authUserToken => ${authUser['authToken']}");
-
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
 
     response =
         await dio.post("${Settings.baseApilink}/medicine", data: formdata);
-    print(response.data.toString());
 
     notifyListeners();
     return true;

@@ -90,13 +90,10 @@ class _ResetPassVerifyCodeState extends State<ResetPassVerifyCode> {
         seconds = DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)
             .second;
       });
-      print("$hours $minutes $seconds");
 
       if (distance <= 0) {
         timer.cancel();
         stop = true;
-        print('finish');
-        // resend code
       }
     });
   }

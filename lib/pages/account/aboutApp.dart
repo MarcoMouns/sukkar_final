@@ -18,12 +18,8 @@ class AboutAppState extends State<AboutApp> {
     response = await dio.get(
       "${Settings.baseApilink}/about",
     );
-
     about = response.data['about'];
-    print("=======================================================");
-    print(about);
     isloading = false;
-
     setState(() {});
   }
 

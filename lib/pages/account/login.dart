@@ -61,9 +61,8 @@ class _LogInState extends State<LogIn> {
               ? "login Completed successfully"
               : "تم التسجيل بنجاح");
           // go to Home  page
-          await         Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home',
-                  (Route<dynamic> route) => false);
+          await Navigator.of(context).pushNamedAndRemoveUntil(
+              '/home', (Route<dynamic> route) => false);
         } else {
           setState(() {
             _isLoading = false;
@@ -82,6 +81,7 @@ class _LogInState extends State<LogIn> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Locale myLocale = Localizations.localeOf(context);
@@ -157,12 +157,13 @@ class _LogInState extends State<LogIn> {
                                           });
                                         },
                                         isActive: activeType == 2),
-
                                   ],
                                 ),
                               ),
                               LogInInput(
-                                keyboard: activeType == 1? TextInputType.number :  TextInputType.emailAddress,
+                                keyboard: activeType == 1
+                                    ? TextInputType.number
+                                    : TextInputType.emailAddress,
                                 autoValidate: _autoValidate,
                                 controller: _emailOrPhoneController,
                                 onSaved: (String value) {

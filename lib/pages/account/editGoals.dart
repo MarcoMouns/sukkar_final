@@ -25,8 +25,6 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
   String iconRemainingName = "_gray";
   Dio dio = new Dio();
 
-
-
   Future<Response> getCurrentGoals() async {
     Response response;
 
@@ -43,9 +41,9 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
     calGoal = response.data['goals']['calorie_goal'];
     stepsGoal = response.data['goals']['steps_goal'];
     isAutoMatic = response.data['isAutomatically'];
-    
+
     isdisabled = !isAutoMatic;
-    iconRemainingName = isAutoMatic? "_gray" : "";
+    iconRemainingName = isAutoMatic ? "_gray" : "";
     setState(() {});
     isLoading = false;
     return response;
@@ -53,7 +51,7 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
 
   Future<Response> setGoals() async {
     Response response;
-    int isAuto = isAutoMatic ? 1 :0;
+    int isAuto = isAutoMatic ? 1 : 0;
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
@@ -223,12 +221,10 @@ class EditGoalsScreenState extends State<EditGoalsScreen> {
                     value: isAutoMatic,
                     onChanged: (bool value) {
                       setState(() {
-                         isAutoMatic = !isAutoMatic;
+                        isAutoMatic = !isAutoMatic;
                         isdisabled = !isdisabled;
                         iconRemainingName = isAutoMatic ? "_gray" : "";
-                        setState(() {
-                          
-                        });
+                        setState(() {});
                       });
                     },
                   ),

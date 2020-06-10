@@ -9,7 +9,7 @@ import '../languages/all_translations.dart';
 
 class Settings {
   static String googleApi = 'AIzaSyCBlmohZdkR7SPHIsQDzIMhKNc_wLaimDs';
-  static String baseApilink ='http://api.sukar.co/api';
+  static String baseApilink = 'http://api.sukar.co/api';
   static int currentIndex = 0;
   static Function navigationTapped;
 
@@ -43,13 +43,12 @@ class Settings {
               onPressed: () {
                 Navigator.of(context).pushNamed('/editProfile');
               },
-
               child: CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(SharedData
-                    .customerData['image'] ==
-                    'Null' ||
-                    SharedData.customerData['image'] == null
+                                .customerData['image'] ==
+                            'Null' ||
+                        SharedData.customerData['image'] == null
                     ? 'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png'
                     : 'http://api.sukar.co${SharedData.customerData['image']}'),
               ),
@@ -154,8 +153,7 @@ class _LoginTypeState extends State<LoginType> {
                         widget.icon,
                         color: Colors.red,
                         size: 25.0,
-                      )
-                ),
+                      )),
           ),
         ),
       ),
@@ -318,9 +316,7 @@ class _BottomSheetState extends State<BottomSheet> {
         } else {
           _value = int.parse(_controller.text);
         }
-        if (_controller.text.contains(".")) {
-
-        }
+        if (_controller.text.contains(".")) {}
 
         setState(() {});
       });
@@ -328,22 +324,20 @@ class _BottomSheetState extends State<BottomSheet> {
   }
 
   Future<void> pop() {
-    return Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => MainHome()));
+    return Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Directionality(
-          textDirection: allTranslations.currentLanguage == "ar"
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-              child: Padding(
-            padding:
-            EdgeInsets.only(bottom: MediaQuery
-                .of(context)
-                .viewInsets
-                .bottom),
+        textDirection: allTranslations.currentLanguage == "ar"
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+        child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
@@ -396,23 +390,24 @@ class _BottomSheetState extends State<BottomSheet> {
                             ),
                             widget.addSlider
                                 ? Slider(
-                              inactiveColor: Colors.grey,
-                              value: double.parse(_value.toString()),
-                              min: widget.min,
-                              max: widget.max,
-                              divisions: (widget.max - widget.min).toInt(),
-                              label: '${_value.round()}',
-                              onChanged: (value) {
-                                setState(() {
-                                  _value = value ~/ 1;
-                                  _controller.text = _value.toString();
-                                });
-                              },
-                            )
+                                    inactiveColor: Colors.grey,
+                                    value: double.parse(_value.toString()),
+                                    min: widget.min,
+                                    max: widget.max,
+                                    divisions:
+                                        (widget.max - widget.min).toInt(),
+                                    label: '${_value.round()}',
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _value = value ~/ 1;
+                                        _controller.text = _value.toString();
+                                      });
+                                    },
+                                  )
                                 : SizedBox(
-                              width: 0,
-                              height: 0,
-                            ),
+                                    width: 0,
+                                    height: 0,
+                                  ),
                             RaisedButton(
                               child: Text(
                                 allTranslations.text("save"),
@@ -580,11 +575,11 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
     _listItems.add(
       BottomNavigationBarItem(
-        icon:  Image.asset(
-                "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
-                height: 25,
-                width: 25,
-              ),
+        icon: Image.asset(
+          "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
+          height: 25,
+          width: 25,
+        ),
         title: Text(
           allTranslations.text("doctors"),
           style: TextStyle(
@@ -604,7 +599,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-
     _getDate();
     return Container(
       height: MediaQuery.of(context).size.height / 9,

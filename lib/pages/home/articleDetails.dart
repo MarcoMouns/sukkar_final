@@ -55,9 +55,9 @@ class _ArticleDetailsState extends State<ArticleDetails> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection:  allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
+      textDirection: allTranslations.currentLanguage == "ar"
+          ? TextDirection.rtl
+          : TextDirection.ltr,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -154,26 +154,27 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                         : Container(),
                   ),
                   Container(
-                    child: file != null ? InkWell(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          allTranslations.text("simple Pdf"),
-                          style: TextStyle(color: Colors.blue),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      onTap: () async {
-                        var url = '$file';
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
-                    ):Container(),
+                    child: file != null
+                        ? InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                allTranslations.text("simple Pdf"),
+                                style: TextStyle(color: Colors.blue),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            onTap: () async {
+                              var url = '$file';
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                          )
+                        : Container(),
                   ),
-                
                 ],
               ),
       ),

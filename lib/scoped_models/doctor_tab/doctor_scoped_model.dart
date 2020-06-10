@@ -28,7 +28,6 @@ mixin DoctorScopedModel on Model {
       response = await dio.get(
         "${Settings.baseApilink}/specialists",
       );
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -87,7 +86,6 @@ mixin DoctorScopedModel on Model {
       response = await dio.get(
         "${Settings.baseApilink}/chat/$userId",
       );
-      print('${Settings.baseApilink}/chat/$userId');
       print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -122,7 +120,6 @@ mixin DoctorScopedModel on Model {
 
       response =
           await dio.post("${Settings.baseApilink}/sendMessage", data: formData);
-      print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();

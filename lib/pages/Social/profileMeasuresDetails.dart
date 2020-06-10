@@ -62,7 +62,6 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
     };
     response = await dio.get("${Settings.baseApilink}/friends/$id",
         options: Options(headers: headers));
-    print(response.data);
     res = response;
     if (response.data["Measurements"] != null) {
       sugerToday = response.data["Measurements"]["sugar"] == null
@@ -100,12 +99,9 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
       goalSteps = response.data["Measurements"]["steps_goal"];
       goalDistance = response.data["Measurements"]["distance_goal"];
     }
-    print("=================================================fffffffffff");
     isLoading = false;
     setState(() {});
   }
-
- 
 
   initState() {
     getMeasurementsForDay(id);
@@ -205,10 +201,10 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height/3,
+                          height: MediaQuery.of(context).size.height / 3,
                           child: SizedBox(
                             width: 170,
-                            height: MediaQuery.of(context).size.height/3,
+                            height: MediaQuery.of(context).size.height / 3,
                             child: sugerToday == 0
                                 ? measurementsCircles(
                                     "ic_logo_3",
@@ -268,7 +264,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             allTranslations.text("cals"),
                             calories == 0 ? 0 : (calories) / goalCalories,
                             2,
-                            calories== 0 ||((calories) / goalCalories) <= 0.3
+                            calories == 0 || ((calories) / goalCalories) <= 0.3
                                 ? redColor
                                 : ((calories) / goalCalories) > 0.3 &&
                                         ((calories) / goalCalories) < 0.6
@@ -286,7 +282,7 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
                             allTranslations.text("steps"),
                             steps == 0 ? 0 : steps / goalSteps,
                             2,
-                            steps == 0 ||(steps / goalSteps) <= 0.3
+                            steps == 0 || (steps / goalSteps) <= 0.3
                                 ? redColor
                                 : (steps / goalSteps) > 0.3 &&
                                         (steps / goalSteps) < 0.6

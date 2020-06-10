@@ -56,7 +56,6 @@ class _BarChartsState extends State<BarCharts>
           await dio.post("http://api.sukar.co/api/SugarReads", data: formdata);
       dataCharts = response.data;
       num = dataCharts.length;
-      print("$dataCharts");
       setState(() {
         loading = false;
       });

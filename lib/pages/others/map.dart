@@ -15,10 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../languages/all_translations.dart';
 import '../home.dart';
 
-///********************from here this is the stopwatch********************
-///note: i was too lazy to make this in another class and use it here #panda
-///
-
 class ElapsedTime {
   final int hundreds;
   final int seconds;

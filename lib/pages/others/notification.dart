@@ -29,7 +29,6 @@ class NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     getNotifications();
-
   }
 
   Future onSelectNotification(String payload) async {
@@ -43,9 +42,6 @@ class NotificationsState extends State<Notifications> {
       },
     );
   }
-
-
-
 
   getNotifications() async {
     setState(() {
@@ -73,9 +69,9 @@ class NotificationsState extends State<Notifications> {
     return new ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
         return Directionality(
-        textDirection: allTranslations.currentLanguage == "ar"
-            ? TextDirection.rtl
-            : TextDirection.ltr,
+          textDirection: allTranslations.currentLanguage == "ar"
+              ? TextDirection.rtl
+              : TextDirection.ltr,
           child: Scaffold(
               appBar: AppBar(),
               body: loading == true
@@ -85,9 +81,15 @@ class NotificationsState extends State<Notifications> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: <Widget>[
-                            Container(height: 1, width: MediaQuery.of(context).size.width , color: Colors.grey[250],),
                             Container(
-                              color: index % 2 == 0 ? Color(0xfff5f5f5) : Colors.white,
+                              height: 1,
+                              width: MediaQuery.of(context).size.width,
+                              color: Colors.grey[250],
+                            ),
+                            Container(
+                              color: index % 2 == 0
+                                  ? Color(0xfff5f5f5)
+                                  : Colors.white,
                               child: Column(
                                 children: <Widget>[
                                   ListTile(
@@ -109,15 +111,12 @@ class NotificationsState extends State<Notifications> {
                                     ),
                                     subtitle: Text(
                                       data[index]['body'],
-                                      style: TextStyle(
-                                          color: Colors.black),
+                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ),
-                                
                                 ],
                               ),
                             ),
-                            
                           ],
                         );
                       })),

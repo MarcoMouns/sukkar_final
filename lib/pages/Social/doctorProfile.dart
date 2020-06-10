@@ -11,7 +11,12 @@ class DoctorProfile extends StatefulWidget {
   MainModel model;
   final userId;
 
-  DoctorProfile({this.doctorSpecialists, this.doctorCv, this.rate,this.model,this.userId});
+  DoctorProfile(
+      {this.doctorSpecialists,
+      this.doctorCv,
+      this.rate,
+      this.model,
+      this.userId});
 
   @override
   _DoctorProfileState createState() => _DoctorProfileState();
@@ -21,7 +26,6 @@ class _DoctorProfileState extends State<DoctorProfile> {
   @override
   void initState() {
     super.initState();
-    print('get userId => ${widget.doctorSpecialists}');
   }
 
   @override
@@ -125,12 +129,11 @@ class _DoctorProfileState extends State<DoctorProfile> {
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return Chat(
-                      isDoctor: true,
-                        userId:widget.userId,
-                        model:widget.model,
-                        name:widget.doctorSpecialists.name.toString(),
-                        image:'${widget.doctorSpecialists.image}'
-                    );
+                        isDoctor: true,
+                        userId: widget.userId,
+                        model: widget.model,
+                        name: widget.doctorSpecialists.name.toString(),
+                        image: '${widget.doctorSpecialists.image}');
                   }));
                 },
                 child: Image.asset(

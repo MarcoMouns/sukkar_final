@@ -4,7 +4,7 @@ import 'package:health/languages/all_translations.dart';
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return    Center(
+    return Center(
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -25,9 +25,7 @@ class Loading extends StatelessWidget {
             child: new Center(
               child: new Text(
                 allTranslations.text("loading"),
-                style: new TextStyle(
-                    color: Colors.blue
-                ),
+                style: new TextStyle(color: Colors.blue),
               ),
             ),
           ),

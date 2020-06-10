@@ -59,7 +59,6 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
 
   Dio dio = new Dio();
 
-
   Future<int> getMeasurementsForDay(String date) async {
     Response response;
 
@@ -102,12 +101,11 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
     goalCupOfWater = response.data["Measurements"]["water_cups_goal"];
     goalSteps = response.data["Measurements"]["steps_goal"];
     goalDistance = response.data["Measurements"]["distance_goal"];
-    
+
     isLoading = false;
     if (mounted) setState(() {});
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
-
 
   initState() {
     getMeasurementsForDay(dateString);
@@ -140,7 +138,6 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                   height: 40,
                 ),
                 FittedBox(
-
                   fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -208,15 +205,9 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height / 3,
+                          height: MediaQuery.of(context).size.height / 3,
                           child: SizedBox(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .height / 3,
+                            width: MediaQuery.of(context).size.height / 3,
                             height: 160,
                             child: sugerToday == 0
                                 ? measurementsCircles(
@@ -277,7 +268,7 @@ class _MeasurementDetailsState extends State<MeasurementDetails> {
                             allTranslations.text("cals"),
                             calories == 0 ? 0 : (calories) / goalCalories,
                             2,
-                            steps == 0 ||(calories / goalCalories) <= 0.3
+                            steps == 0 || (calories / goalCalories) <= 0.3
                                 ? redColor
                                 : (calories / goalCalories) > 0.3 &&
                                         (calories / goalCalories) < 0.6

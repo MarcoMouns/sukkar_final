@@ -11,7 +11,8 @@ mixin UserScopedModel on Model {
   Dio dio = new Dio();
 
   // add phone number
-  Future<bool> addPhoneNumber(String phone , String name , String password) async {
+  Future<bool> addPhoneNumber(
+      String phone, String name, String password) async {
     try {
       FormData formdata = new FormData();
       formdata = FormData.fromMap({
@@ -23,7 +24,6 @@ mixin UserScopedModel on Model {
       response = await dio.post(
           "${Settings.baseApilink}/auth/sendGeneratedCode",
           data: formdata);
-      print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -32,12 +32,6 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -52,9 +46,8 @@ mixin UserScopedModel on Model {
         "rand": data['code'],
       });
 
-      response =
-      await dio.post("${Settings.baseApilink}/auth/check_code", data: formdata);
-      print(response.data.toString());
+      response = await dio.post("${Settings.baseApilink}/auth/check_code",
+          data: formdata);
       if (response.statusCode == 200 || response.statusCode == 201) {
         notifyListeners();
         return true;
@@ -63,12 +56,6 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return false;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
 //      notifyListeners();
 //      return false;
     }
@@ -84,10 +71,9 @@ mixin UserScopedModel on Model {
         "rand": data['code'],
       });
 
-      response =
-      await dio.post("${Settings.baseApilink}/auth/check_code_reset_password",
+      response = await dio.post(
+          "${Settings.baseApilink}/auth/check_code_reset_password",
           data: formdata);
-      print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -96,12 +82,6 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -111,14 +91,11 @@ mixin UserScopedModel on Model {
   Future<bool> resendVerifyCode(String phone) async {
     try {
       FormData formdata = new FormData();
-      formdata = FormData.fromMap({
-        "phone": phone
-      });
+      formdata = FormData.fromMap({"phone": phone});
 
-      response =
-      await dio.post(
-          "${Settings.baseApilink}/auth/resendGeneratedCode", data: formdata);
-      print(response.data.toString());
+      response = await dio.post(
+          "${Settings.baseApilink}/auth/resendGeneratedCode",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -127,12 +104,6 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -155,7 +126,6 @@ mixin UserScopedModel on Model {
         "fuid": userData['fuid'],
       });
 
-
       if (userData['image'] != null) {
         formdata = FormData.fromMap({
           "name": userData['userName'],
@@ -171,9 +141,8 @@ mixin UserScopedModel on Model {
         });
       }
 
-      response =
-      await dio.post("${Settings.baseApilink}/auth/register", data: formdata);
-      print(response.data.toString());
+      response = await dio.post("${Settings.baseApilink}/auth/register",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -181,7 +150,7 @@ mixin UserScopedModel on Model {
 
       // save user data to local storege
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
@@ -207,12 +176,6 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -230,16 +193,13 @@ mixin UserScopedModel on Model {
         "token_id": '12345',
       });
 
-      print('formdata = $formdata');
-
       if (type == "email") {
-        response = await dio.post(
-            "${Settings.baseApilink}/auth/email-login", data: formdata);
+        response = await dio.post("${Settings.baseApilink}/auth/email-login",
+            data: formdata);
       } else {
-        response =
-        await dio.post("${Settings.baseApilink}/auth/login", data: formdata);
+        response = await dio.post("${Settings.baseApilink}/auth/login",
+            data: formdata);
       }
-      print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -248,7 +208,7 @@ mixin UserScopedModel on Model {
 
       // save user data to local storage
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
@@ -273,12 +233,7 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return false;
     }
   }
@@ -289,10 +244,9 @@ mixin UserScopedModel on Model {
       FormData formdata = new FormData();
       formdata = FormData.fromMap({"phone": phone});
 
-      response =
-      await dio.post("${Settings.baseApilink}/auth/send_code_reset_password",
+      response = await dio.post(
+          "${Settings.baseApilink}/auth/send_code_reset_password",
           data: formdata);
-      print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -301,12 +255,7 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return false;
     }
   }
@@ -322,9 +271,8 @@ mixin UserScopedModel on Model {
         "token_id": '1234',
       });
 
-      response = await dio.post(
-          "${Settings.baseApilink}/auth/reset_password", data: formdata);
-      print(response.data.toString());
+      response = await dio.post("${Settings.baseApilink}/auth/reset_password",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -333,19 +281,14 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return false;
     }
   }
 
   // socialMedia Login
-  Future<Map<String, dynamic>> socialMediaLogin(Map<String, dynamic> userData) async {
-    print("userData ===> $userData");
+  Future<Map<String, dynamic>> socialMediaLogin(
+      Map<String, dynamic> userData) async {
     try {
       FormData formdata = new FormData();
       formdata = FormData.fromMap({
@@ -357,16 +300,8 @@ mixin UserScopedModel on Model {
         "token_id": "12345",
       });
 
-      // formdata.add("provider_id", userData['provider_id'].toString());
-
-      response =
-      await dio.post("${Settings.baseApilink}/auth/provider", data: formdata);
-      print(response.data.toString());
-      // if (response.data['status'] == 0) {
-      //   notifyListeners();
-      //   return {"success": false, "error": response.data['errors']['email'][0]};
-      // }
-
+      response = await dio.post("${Settings.baseApilink}/auth/provider",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return {"success": false, "error": "Facebook login error"};
@@ -374,7 +309,7 @@ mixin UserScopedModel on Model {
 
       // save user data to local storege
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       String authUser = jsonEncode({
         "authToken": response.data['access_token'],
         "id": response.data['user']['id'],
@@ -403,12 +338,7 @@ mixin UserScopedModel on Model {
         return {"success": true, "error": null, "new": false};
       }
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return {"success": false, "error": "Facebook login error"};
     }
   }
@@ -431,12 +361,11 @@ mixin UserScopedModel on Model {
         });
       }
 
-
       // get user token
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> currentUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       print("currentUser => $currentUser");
       print("authUserToken => ${currentUser['authToken']}");
@@ -446,8 +375,8 @@ mixin UserScopedModel on Model {
         // "token":"11215"
       };
 
-      response =
-      await dio.post("${Settings.baseApilink}/auth/editUser", data: formdata);
+      response = await dio.post("${Settings.baseApilink}/auth/editUser",
+          data: formdata);
       print(response.data.toString());
 
       if (response.statusCode != 200 && response.statusCode != 201) {
@@ -482,12 +411,7 @@ mixin UserScopedModel on Model {
 
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       return false;
     }
   }

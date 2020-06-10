@@ -136,11 +136,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       frRHieght = r6.toDouble();
       frYHieght = r8.toDouble();
 
-      setState(() {
-      });
+      setState(() {});
     });
   }
-
 
   int _selectedIndex = 0;
 
@@ -156,9 +154,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     _chartRadius,
   ) {
     return InkWell(
-      onTap: () =>
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => LandPage())),
+      onTap: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => LandPage())),
       child: CustomMultiChildLayout(
         delegate: CirclesDelegate(_chartRadius),
         children: <Widget>[
@@ -170,10 +167,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               sugar: '0',
               raduis: _chartRadius,
               status: '0',
-              ontap: () =>
-                  Navigator.of(context)
-                      .push(
-                      MaterialPageRoute(builder: (context) => LandPage())),
+              ontap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LandPage())),
               footer: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -183,13 +178,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   Expanded(
                       child: InkWell(
-                        child: ImageIcon(
-                          AssetImage("assets/icons/ic_camera.png"),
-                          color: Colors.grey[300],
-                          size: 15,
-                        ),
-                        onTap: null
-                      )),
+                          child: ImageIcon(
+                            AssetImage("assets/icons/ic_camera.png"),
+                            color: Colors.grey[300],
+                            size: 15,
+                          ),
+                          onTap: null)),
                   Expanded(
                     child: InkWell(
                       onTap: () => null,
@@ -201,7 +195,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             child: CircleAvatar(
                               radius: 7.5,
                               backgroundImage:
-                              AssetImage("assets/imgs/profile.jpg"),
+                                  AssetImage("assets/imgs/profile.jpg"),
                             ),
                           ),
                           Positioned(
@@ -209,7 +203,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             child: CircleAvatar(
                               radius: 7.5,
                               backgroundImage:
-                              AssetImage("assets/imgs/profile.jpg"),
+                                  AssetImage("assets/imgs/profile.jpg"),
                             ),
                           ),
                           Positioned(
@@ -236,13 +230,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   percent: 0.5,
                   context: context,
                   day_Calories: '100',
-                  ontap: () =>
-                      Navigator.of(context)
-                          .push(
-                          MaterialPageRoute(builder: (context) => LandPage())),
+                  ontap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LandPage())),
                   raduis: _chartRadius,
                   footerText:
-                  "Cal " + " 100 :" + allTranslations.text("Goal is"))),
+                      "Cal " + " 100 :" + allTranslations.text("Goal is"))),
           new LayoutId(
             id: 3,
             child: MainCircles.steps(
@@ -250,12 +242,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 context: context,
                 steps: 100,
                 raduis: _chartRadius,
-                onTap: () =>
-                    Navigator.of(context)
-                        .push(
-                        MaterialPageRoute(builder: (context) => LandPage())),
-                footerText: " Step " + "100 :" +
-                    allTranslations.text("Goal is")),
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => LandPage())),
+                footerText:
+                    " Step " + "100 :" + allTranslations.text("Goal is")),
           ),
           new LayoutId(
             id: 4,
@@ -264,12 +254,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 context: context,
                 raduis: _chartRadius,
                 distance: '0',
-                onTap: () =>
-                    Navigator.of(context)
-                        .push(
-                        MaterialPageRoute(builder: (context) => LandPage())),
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => LandPage())),
                 footerText:
-                " meter " + "200 :" + allTranslations.text("Goal is")),
+                    " meter " + "200 :" + allTranslations.text("Goal is")),
           )
         ],
       ),
@@ -364,19 +352,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onTap: () => null,
                     ),
                   ),
-
                   Expanded(
                       child: InkWell(
-                        onTap: () =>
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) =>
-                                    LandPage())),
-                        child: upperCircles(
-                          context,
-                          _chartRadius,
-                        ),
-                      )
-                  ),
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LandPage())),
+                    child: upperCircles(
+                      context,
+                      _chartRadius,
+                    ),
+                  )),
                   InkWell(
                     onTap: () => null,
                     child: Image.asset(
@@ -424,7 +408,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                   Text(
                                     "August 2019 5",
-                                    style: TextStyle(color: Colors.grey,fontSize: 12),
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
                                   )
                                 ],
                               ),
@@ -460,7 +445,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                   Text(
                                     "August 2019 5",
-                                    style: TextStyle(color: Colors.grey,fontSize: 12),
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12),
                                   )
                                 ],
                               ),
@@ -479,7 +465,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             color: Colors.grey[200]),
-                        child: Image.network('${Settings.baseApilink}/articles/3'),
+                        child:
+                            Image.network('${Settings.baseApilink}/articles/3'),
                       ),
                     ),
                   ],

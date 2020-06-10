@@ -33,7 +33,6 @@ class _ContactsState extends State<Contacts> {
     getSocialLinks();
   }
 
-
   void getSocialLinks() async {
     try {
       response = await dio.get(
