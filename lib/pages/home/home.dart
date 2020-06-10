@@ -610,13 +610,13 @@ class _HomePageState extends State<HomePage> {
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
 
     widgetCircleSteps = MainCircles.steps(
-        percent: dataHome.steps == 0 || dataHome.steps == null
+        percent: dataHome== null ? 0 : dataHome.steps == 0 || dataHome.steps == null
             ? 0
             : (dataHome.steps / stepsGoal) > 1
                 ? 1
                 : ((dataHome.steps / stepsGoal)),
         context: context,
-        steps: dataHome.steps == null || dataHome.steps == 0
+        steps: dataHome == null || dataHome.steps == 0
             ? 0
             : dataHome.steps == null ? 0 : dataHome.steps,
         raduis: _chartRadius,
