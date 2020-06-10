@@ -251,20 +251,19 @@ Map<String, String> arabicLang = {
 2-لاتقم بممارسة أي مجهود رياضة إلا بعد تناول وجبة خفيفة.
 3-احمل معك قطعة من الحلوى ، تناولها فى حالة الاحساس بأعراض الهبوط .
 """,
-"bluetoothConnect":"اتصال",
-"glucose meter connected":"جهاز السكر متصل",
-"glucose meter disconnected":"جهاز السكر غير متصل",
+  "bluetoothConnect": "اتصال",
+  "glucose meter connected": "جهاز السكر متصل",
+  "glucose meter disconnected": "جهاز السكر غير متصل",
   "click here": "اضغط هنا",
   "complain": "شكوى",
   "suggestion": "اقتراح",
   "choose type": "اختر النوع",
   "details": "تفاصيل",
-  "subject": "العنوان",
+  "subject": "عنوان الرسالة",
   "please provide us with your compliment or suggestion so we can do our best:":
       "الرجاء اخبارنا عن الشكوى او الاقتراح, حتى نعرف ما الذي يمكننا فعله,الرجاء تقديم اكبر قدر من المعلومات:",
   "done": "تم",
   "warning": "تنبيه",
   "your massage has been send successfully": """شكراً ..
 لقد تم ارسال رسالتكم بنجاح"""
-
 };

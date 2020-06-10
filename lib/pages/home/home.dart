@@ -1,32 +1,34 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fit_kit/fit_kit.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
+import 'package:health/pages/home/articleDetails.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/adDetails.dart';
 import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
+import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../languages/all_translations.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
-import 'package:health/pages/home/articleDetails.dart';
-import 'package:health/pages/Settings.dart';
-import '../../languages/all_translations.dart';
-import 'package:http/http.dart' as http;
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'measurementsDetailsPage.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
@@ -282,10 +284,8 @@ class _HomePageState extends State<HomePage> {
         );
         setState(() {});
       },
-      onLaunch: (Map<String, dynamic> message) async {
-      },
-      onResume: (Map<String, dynamic> message) async {
-      },
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
     getHomeData();
     setState(() {
@@ -1048,7 +1048,11 @@ class _HomePageState extends State<HomePage> {
                                                               .symmetric(
                                                                   horizontal:
                                                                       10),
-                                                          width: 230,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.59,
                                                           child: new Row(
                                                             children: <Widget>[
                                                               SizedBox(
