@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   int distance = 0;
-  int steps;
+  int steps =0;
   int calories = 0;
   int cupOfWater;
   int heartRate;
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void calculateSteps() async {
-    int steps = 0;
+    
     List<int> stepsList = new List<int>();
     stepsList = await healthKit();
     if (stepsList.isEmpty) {
@@ -615,7 +615,7 @@ class _HomePageState extends State<HomePage> {
                 : ((steps / stepsGoal)),
         context: context,
         steps: steps == null 
-            ? 0 : dataHome.steps,
+            ? 0 : steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
