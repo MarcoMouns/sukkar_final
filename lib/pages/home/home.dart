@@ -1082,28 +1082,31 @@ class _HomePageState extends State<HomePage> {
                                             child: new Container(
                                               decoration: ShapeDecoration(
                                                   color: Colors
-                                                      .grey[200],
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          10))),
-                                              margin: EdgeInsets
-                                                  .symmetric(
-                                                  horizontal:
-                                                  10),
-                                              width: 230,
-                                              child: new Row(
-                                                children: <Widget>[
-                                                  SizedBox(
-                                                    width: 80,
-                                                    height: 100,
-                                                    child:
-                                                    ClipRRect(
-                                                      child: Image
-                                                          .network(
-                                                        "http://api.sukar.co/${banners[index]
-                                                            .image}",
+                                                                  .grey[200],
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10))),
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.59,
+                                                          child: new Row(
+                                                            children: <Widget>[
+                                                              SizedBox(
+                                                                width: 80,
+                                                                height: 100,
+                                                                child:
+                                                                    ClipRRect(
+                                                                  child: Image
+                                                                      .network(
+                                                                    "http://api.sukar.co/${banners[index].image}",
                                                         fit: BoxFit
                                                             .cover,
                                                       ),

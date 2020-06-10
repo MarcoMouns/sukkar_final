@@ -259,7 +259,7 @@ Map<String, String> arabicLang = {
   "suggestion": "اقتراح",
   "choose type": "اختر النوع",
   "details": "تفاصيل",
-  "subject": "العنوان",
+  "subject": "عنوان الرسالة",
   "please provide us with your compliment or suggestion so we can do our best:":
       "الرجاء اخبارنا عن الشكوى او الاقتراح, حتى نعرف ما الذي يمكننا فعله,الرجاء تقديم اكبر قدر من المعلومات:",
   "done": "تم",
