@@ -9,8 +9,6 @@ import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 mixin DoctorScopedModel on Model {
   Response response;
   Dio dio = new Dio();
@@ -24,13 +22,11 @@ mixin DoctorScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
         "${Settings.baseApilink}/specialists",
       );
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -54,7 +50,6 @@ mixin DoctorScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
@@ -83,14 +78,11 @@ mixin DoctorScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
         "${Settings.baseApilink}/chat/$userId",
       );
-      print('${Settings.baseApilink}/chat/$userId');
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -111,9 +103,9 @@ mixin DoctorScopedModel on Model {
       FormData formData = new FormData();
       // get user token
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
@@ -122,7 +114,8 @@ mixin DoctorScopedModel on Model {
         "body": message,
       });
 
-      response = await dio.post("${Settings.baseApilink}/sendMessage", data: formData);
+      response =
+          await dio.post("${Settings.baseApilink}/sendMessage", data: formData);
       print('Response = ${response.data}');
 
       if (response.statusCode != 200 && response.statusCode != 201) {

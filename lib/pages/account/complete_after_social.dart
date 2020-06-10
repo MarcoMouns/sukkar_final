@@ -127,7 +127,6 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
       setState(() {
         _isLoading = true;
       });
-      print("form data => $_formData");
       model.completeSocialLoginData(_formData).then((result) {
         if (result == true) {
           setState(() {
@@ -196,7 +195,6 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                                     InkWell(
                                       onTap: () => _imagePicker(context),
                                       child: UserImage(_formData['image']),
-
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),

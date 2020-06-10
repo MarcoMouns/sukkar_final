@@ -46,8 +46,13 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         image: widget.iconName,
         footer: Column(
           children: <Widget>[
-            Text(widget.cirFooter,style: TextStyle(color: Colors.grey)),
-            widget.cirFooter2 != null ? Text(widget.cirFooter2 , style: TextStyle(color: Colors.grey),) : Container()
+            Text(widget.cirFooter, style: TextStyle(color: Colors.grey)),
+            widget.cirFooter2 != null
+                ? Text(
+                    widget.cirFooter2,
+                    style: TextStyle(color: Colors.grey),
+                  )
+                : Container()
           ],
         ),
         time: "",
@@ -65,7 +70,7 @@ class _measurementsCirclesState extends State<measurementsCircles> {
         radius: raduis,
         title: widget.cirTitle == null ? 0 : widget.cirTitle,
         image: widget.iconName,
-        footer: Text(widget.cirFooter,style: TextStyle(color: Colors.grey)),
+        footer: Text(widget.cirFooter, style: TextStyle(color: Colors.grey)),
         time: "",
         percent: widget.cirPercent == null
             ? 0

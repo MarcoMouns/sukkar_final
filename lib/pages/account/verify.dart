@@ -38,18 +38,15 @@ class _VerifyState extends State<Verify> {
   }
 
   void _handleSubmit(BuildContext context, MainModel model) {
-    print('tab myass');
     if (!_formKey.currentState.validate()) {
       setState(() {
         _isLoading = false;
       });
     }
-    print('tab myass');
     _formKey.currentState.save();
     setState(() {
       _isLoading = true;
     });
-    print('tab myass');
     model.verifyCode({
       "code": code,
       "phone": widget.phone,
@@ -93,13 +90,10 @@ class _VerifyState extends State<Verify> {
         seconds = DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)
             .second;
       });
-      print("$hours $minutes $seconds");
 
       if (distance <= 0) {
         timer.cancel();
         stop = true;
-        print('finish');
-        // resend code
       }
     });
   }

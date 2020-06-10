@@ -50,13 +50,11 @@ mixin ArticlesCategoriesScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
         "${Settings.baseApilink}/get_articles?category_id=$id",
       );
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -65,10 +63,7 @@ mixin ArticlesCategoriesScopedModel on Model {
       notifyListeners();
       return ArticleDetailCategory.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }
@@ -83,13 +78,10 @@ mixin ArticlesCategoriesScopedModel on Model {
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
-      print("${Settings.baseApilink}/articles/$id");
       response = await dio.get(
         "${Settings.baseApilink}/articles/$id",
       );
-      print('data = > \n ${response.data}');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -98,10 +90,7 @@ mixin ArticlesCategoriesScopedModel on Model {
       notifyListeners();
       return ArticleDetails.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }

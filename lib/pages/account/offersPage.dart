@@ -39,9 +39,9 @@ class _OffersScreenState extends State<OffersScreen> {
       ));
       list.add(GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) =>
-                AdDetailsScreen(ads[i], adTexts[i], link[i])));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    AdDetailsScreen(ads[i], adTexts[i], link[i])));
           },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 3, vertical: 5),

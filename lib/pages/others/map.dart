@@ -15,10 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../languages/all_translations.dart';
 import '../home.dart';
 
-///********************from here this is the stopwatch********************
-///note: i was too lazy to make this in another class and use it here #panda
-///
-
 class ElapsedTime {
   final int hundreds;
   final int seconds;
@@ -217,7 +213,6 @@ class _MapPageState extends State<MapPage> {
     if (initVal == 0) {
       stepsThisRun = 0;
     } else {
-      print(stepsThisRun);
       stepsThisRun += stepCountValue - initVal;
     }
 
@@ -234,7 +229,6 @@ class _MapPageState extends State<MapPage> {
   void leftButtonPressed() {
     setState(() {
       if (dependencies.stopwatch.isRunning) {
-        print("${dependencies.stopwatch.elapsedMilliseconds}");
       } else {
         dependencies.stopwatch.reset();
       }
@@ -299,7 +293,6 @@ class _MapPageState extends State<MapPage> {
       currentPosition = position;
       latlngSegment
           .add(LatLng(currentPosition.latitude, currentPosition.longitude));
-      print(latlngSegment.last);
     });
     setState(() {});
   }
@@ -324,8 +317,6 @@ class _MapPageState extends State<MapPage> {
       } catch (e) {
         myPosition = Position(latitude: 0, longitude: 0);
       }
-      print(
-          "current user position ---------------------------------------> $position");
       setState(() {
         firstPosition = position;
         currentPosition = position;
@@ -341,11 +332,10 @@ class _MapPageState extends State<MapPage> {
     try {
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-      print(
-          "current user position ---------------------------------------> $position");
+
       return position;
     } catch (e) {
-      print('GEOOOOOOOOOO ->>>>>>>>>> $e');
+      print('$e');
     }
   }
 
@@ -690,8 +680,8 @@ class _MapPageState extends State<MapPage> {
                                     "date": DateTime.now(),
                                     "distance": (0).toInt(),
                                     "steps": _stepCountValue,
-                                    "calories": ((steps * 0.0512).ceil()).toInt(),
-
+                                    "calories":
+                                        ((steps * 0.0512).ceil()).toInt(),
                                   });
 
                                   response = await dio.post(
@@ -701,12 +691,10 @@ class _MapPageState extends State<MapPage> {
                                       response.statusCode != 201) {
                                     return false;
                                   } else {
-                                    print('success -->');
-                                    print('Response = ${response.data}');
                                     return true;
                                   }
                                 } on DioError catch (e) {
-                                  print(e.response.data);
+                                  print(e);
                                   return false;
                                 }
                               }

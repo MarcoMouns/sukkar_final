@@ -408,8 +408,6 @@ class _AddSugarState extends State<AddSugar> {
         }).then((v) {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
-
-      print(initSuger);
       if (initSuger != null) {
         _ackAlert(context);
       }
@@ -417,12 +415,9 @@ class _AddSugarState extends State<AddSugar> {
   }
 
   List<Widget> listOfSuger() {
-    print("0000000000000");
     List<Widget> list = new List();
-    print("0000000000000");
     for (var i = 0; i < measuresOfDay.length; i++) {
       if (measuresOfDay[i] == 0) {
-        print("0000000000000${measuresOfDay[i]}");
         list.add(Container());
       } else {
         list.add(

@@ -37,9 +37,7 @@ class _LandPageState extends State<LandPage> {
     startListening();
   }
 
-  void onData(int stepCountValue) {
-    print(stepCountValue);
-  }
+  void onData(int stepCountValue) {}
 
   void startListening() {
     _pedometer = new Pedometer();
@@ -52,9 +50,7 @@ class _LandPageState extends State<LandPage> {
   }
 
   void _onData(int stepCountValue) async {
-    print("hi");
     SharedPreferences pref = await SharedPreferences.getInstance();
-
     initVal = stepCountValue;
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);

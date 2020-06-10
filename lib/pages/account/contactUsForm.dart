@@ -59,7 +59,6 @@ class _ContactUsState extends State<ContactUs> {
           setState(() {
             _value = value;
             typeController.text = value == "1" ? "complaint " : "suggestion";
-            print(typeController.text);
           });
         },
         value: _value,
@@ -80,11 +79,10 @@ class _ContactUsState extends State<ContactUs> {
       "message": detailsController.text,
       "type": typeController.text
     });
-    Response response = await dio.post("${Settings.baseApilink}/contact-us",
+    await dio.post("${Settings.baseApilink}/contact-us",
         data: data,
         options: Options(
             headers: {"Authorization": "Bearer ${authUser['authToken']}"}));
-    print(response.data);
   }
 
   Future<void> confirmFieldsDialog(BuildContext context) {

@@ -43,8 +43,6 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           file = result.article.file;
           video = result.article.video;
           startDate = result.article.startDate;
-          print(file);
-          print('12432143243243');
           setState(() {
             loading = false;
           });

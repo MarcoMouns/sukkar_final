@@ -9,9 +9,6 @@ import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
-
 mixin FriendsScopedModel on Model {
   Response response;
   Dio dio = new Dio();
@@ -19,16 +16,16 @@ mixin FriendsScopedModel on Model {
   Future<SearchFriends> getSearchFriends(value) async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      response = await dio.get(
-          "${Settings.baseApilink}/auth/searchCode/$value");
+      response =
+          await dio.get("${Settings.baseApilink}/auth/searchCode/$value");
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -113,8 +110,9 @@ mixin FriendsScopedModel on Model {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-      response = await dio
-          .post("${Settings.baseApilink}/get_friend_information", data: {'user_id': user_id});
+      response = await dio.post(
+          "${Settings.baseApilink}/get_friend_information",
+          data: {'user_id': user_id});
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;

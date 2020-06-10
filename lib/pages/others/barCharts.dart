@@ -52,16 +52,14 @@ class _BarChartsState extends State<BarCharts>
       formdata = FormData.fromMap({
         "date": DateTime.now(),
       });
-      response = await dio.post("http://api.sukar.co/api/SugarReads",
-          data: formdata);
+      response =
+          await dio.post("http://api.sukar.co/api/SugarReads", data: formdata);
       dataCharts = response.data;
       num = dataCharts.length;
-      print("$dataCharts");
       setState(() {
         loading = false;
       });
-      if (response.statusCode != 200 && response.statusCode != 201) {
-      }
+      if (response.statusCode != 200 && response.statusCode != 201) {}
     } on DioError catch (e) {
       return false;
     }
@@ -80,22 +78,20 @@ class _BarChartsState extends State<BarCharts>
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.end,
-      children:  listMyWidgets(),
+      children: listMyWidgets(),
     );
   }
 
   List<Widget> listMyWidgets() {
     List<Widget> list = new List();
-    for( var i = 0 ; i <= num; i++ ) {
+    for (var i = 0; i <= num; i++) {
       list.add(new Expanded(
         child: InkWell(
           onTap: () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProfileMeasurementDetails( id
-                      
-                    )));
+                    builder: (context) => ProfileMeasurementDetails(id)));
           },
           child: _dayCharts(100, context, [
             Color.fromRGBO(224, 112, 82, 1),
@@ -140,8 +136,6 @@ class _BarChartsState extends State<BarCharts>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           _barChart(context, colors[0], acturalHeight),
-
         ]);
   }
 }
-

@@ -103,7 +103,6 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging().configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("oaaaaaaaaaaaanMessage $message");
         one = message['notification']['title'];
         two = message['notification']['body'];
         showDialog(
@@ -123,12 +122,8 @@ class _MyAppState extends State<MyApp> {
         );
       },
       onBackgroundMessage: myBackgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume $message");
-      },
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();

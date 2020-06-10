@@ -24,7 +24,6 @@ mixin UserScopedModel on Model {
 
       response =
           await dio.post("${Settings.baseApilink}/auth/sendGeneratedCode", data: formdata);
-      print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -33,12 +32,7 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -54,7 +48,6 @@ mixin UserScopedModel on Model {
       });
 
       response = await dio.post("${Settings.baseApilink}/auth/check_code", data: formdata);
-      print(response.data.toString());
       if (response.statusCode == 200 || response.statusCode == 201) {
         notifyListeners();
         return true;
@@ -63,14 +56,7 @@ mixin UserScopedModel on Model {
       notifyListeners();
       return false;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
-//      notifyListeners();
-//      return false;
     }
   }
 

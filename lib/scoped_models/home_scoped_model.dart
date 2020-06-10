@@ -6,8 +6,6 @@ import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-
-
 mixin HomeScopedModel on Model {
   Response response;
   Dio dio = new Dio();
@@ -15,13 +13,12 @@ mixin HomeScopedModel on Model {
   Future<HomeModel> fetchHome(String date) async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
@@ -35,12 +32,9 @@ mixin HomeScopedModel on Model {
       notifyListeners();
       return HomeModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
       notifyListeners();
       return null;
     }
   }
-
 }

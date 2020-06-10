@@ -6,7 +6,6 @@ import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-
 mixin NotificationsScopedModel on Model {
   Response response;
   Dio dio = new Dio();
@@ -14,9 +13,9 @@ mixin NotificationsScopedModel on Model {
   Future<Notifications> fetchNotifications() async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
@@ -35,10 +34,7 @@ mixin NotificationsScopedModel on Model {
       notifyListeners();
       return Notifications.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }

@@ -23,7 +23,7 @@ class MainModel extends Model
         NotificationsScopedModel,
         FriendsScopedModel,
         HomeScopedModel,
-        DoctorScopedModel{
+        DoctorScopedModel {
   Locale get appLocal => allTranslations.locale;
 
   void changeDirection(lang) async {

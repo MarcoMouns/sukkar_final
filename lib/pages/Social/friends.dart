@@ -130,7 +130,6 @@ class _FriendsPageState extends State<FriendsPage>
                                 "Authorization":
                                     "Bearer ${authUser['authToken']}",
                               };
-                              // formdata.forEach((e, r) {});
 
                               response = await dio.get(
                                   "${Settings.baseApilink}/auth/searchCode/$value");
@@ -157,7 +156,6 @@ class _FriendsPageState extends State<FriendsPage>
                                 return true;
                               }
                             } on DioError catch (e) {
-                              print(e);
                               return false;
                             }
                           },
@@ -252,13 +250,8 @@ class _FriendsPageState extends State<FriendsPage>
                                       hiController.clear();
                                       FocusScope.of(context)
                                           .requestFocus(new FocusNode());
-                                      print(
-                                          'nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                                      print('Response = ${response3.data}');
                                       setState(() {});
                                     } on DioError catch (e) {
-                                      print("sa2tnaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                      print(e.response.data);
                                       return false;
                                     }
                                     return true;
@@ -427,11 +420,6 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         setState(
                                                                             () {});
                                                                       } on DioError catch (e) {
-                                                                        print(
-                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                        print(e
-                                                                            .response
-                                                                            .data);
                                                                         return false;
                                                                       }
                                                                       return true;
@@ -449,8 +437,6 @@ class _FriendsPageState extends State<FriendsPage>
                                                                             .all(0),
                                                                     onPressed:
                                                                         () async {
-                                                                      print(
-                                                                          'here ea 3l2');
                                                                       try {
                                                                         // get user token
                                                                         SharedPreferences
@@ -468,19 +454,12 @@ class _FriendsPageState extends State<FriendsPage>
 
                                                                         response =
                                                                             await dio.post("${Settings.baseApilink}/unfollow/${following[index].id}");
-                                                                        print(
-                                                                            'Response = ${response.data}');
                                                                         getAll();
                                                                         following
                                                                             .removeAt(index);
                                                                         setState(
                                                                             () {});
                                                                       } on DioError catch (e) {
-                                                                        print(
-                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                        print(e
-                                                                            .response
-                                                                            .data);
                                                                         return false;
                                                                       }
                                                                       return true;
@@ -597,14 +576,9 @@ class _FriendsPageState extends State<FriendsPage>
                                                                         };
                                                                         response2 =
                                                                             await dio2.post("${Settings.baseApilink}/unfollow/${followers[index].id}");
-                                                                        print(
-                                                                            'Response = ${response.data}');
                                                                       } on DioError catch (e) {
                                                                         print(
-                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                        print(e
-                                                                            .response
-                                                                            .data);
+                                                                            e);
                                                                         return false;
                                                                       }
                                                                       return true;
@@ -639,14 +613,9 @@ class _FriendsPageState extends State<FriendsPage>
 
                                                                         response2 =
                                                                             await dio2.post("${Settings.baseApilink}/follow/${followers[index].id}");
-                                                                        print(
-                                                                            'Response = ${response.data}');
                                                                       } on DioError catch (e) {
                                                                         print(
-                                                                            "errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
-                                                                        print(e
-                                                                            .response
-                                                                            .data);
+                                                                            e);
                                                                         return false;
                                                                       }
                                                                       return true;

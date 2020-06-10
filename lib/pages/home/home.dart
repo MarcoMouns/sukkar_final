@@ -182,17 +182,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onData(int stepCountValue) async {
-    print("hi");
-    print(date);
     SharedPreferences pref = await SharedPreferences.getInstance();
     String coDate = pref.getString("lastMeasureDate");
-    print(coDate);
-    print(initVal);
-    print(stepCountValue);
-    print(steps);
 
     if (coDate != date) {
-      print("in if");
       pref.setString("lastMeasureDate", date);
       steps = 0;
       initVal = stepCountValue;
@@ -249,8 +242,6 @@ class _HomePageState extends State<HomePage> {
 
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
-    print(authUser['email']);
-    print(authUser['image']);
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -300,12 +291,10 @@ class _HomePageState extends State<HomePage> {
       var headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
-      print("Bearer ${authUser['authToken']}");
 
-      var res = await dio.post(
+     await dio.post(
           "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
-      print(res.data);
     });
 
     if (Platform.isIOS) {
@@ -315,7 +304,6 @@ class _HomePageState extends State<HomePage> {
     }
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
         icNotifications = Icon(
           Icons.notifications,
           color: Colors.red,
@@ -323,10 +311,8 @@ class _HomePageState extends State<HomePage> {
         setState(() {});
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
       },
     );
     getHomeData();
@@ -373,7 +359,6 @@ class _HomePageState extends State<HomePage> {
     };
     response = await dio.post("${Settings.baseApilink}/user/notified",
         options: Options(headers: headers));
-    print(response);
   }
 
   getValuesSF() async {
@@ -416,7 +401,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   static Future setFirebaseImage() async {
-    print("my image link = ${SharedData.customerData['image']}");
     Firestore.instance
         .collection('users')
         .document(SharedData.customerData['fuid'])
@@ -472,13 +456,6 @@ class _HomePageState extends State<HomePage> {
     };
     response = await dio.get("${Settings.baseApilink}/measurements?date=$date",
         options: Options(headers: headers));
-    print("========================");
-    print("========================");
-    print("========================");
-    print(response.data["Measurements"]["NumberOfSteps"]);
-    print("========================");
-    print("========================");
-    print("========================");
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"];
     timeOfLastMeasure = response.data["Measurements"]["sugar"][0]["time"];
 
@@ -889,11 +866,6 @@ class _HomePageState extends State<HomePage> {
                           getMeasurements(date);
                           getValuesSF();
                           steps = stepsHistory;
-                          print("55555555555");
-                          print(steps);
-                          print("5555555555555555");
-                          print("55555555555555555");
-                          print("5555555555555555");
                           distance = (steps * 0.68).toInt();
                           calories = (steps * 0.228).toInt();
                           selectedDate = e;

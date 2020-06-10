@@ -10,7 +10,6 @@ import '../Models/all_meals_foods.dart';
 import '../Models/foods_model.dart';
 import '../Models/meals.dart';
 
-
 mixin MealScopedModel on Model {
   Response response;
   Dio dio = new Dio();
@@ -20,7 +19,6 @@ mixin MealScopedModel on Model {
       response = await dio.get(
         "${Settings.baseApilink}/eatCategories",
       );
-      print(response.data.toString());
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -29,24 +27,18 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return MealModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }
   }
 
-
-
-
   Future<UserFoodsModel> fetchUserFoods() async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
@@ -56,7 +48,6 @@ mixin MealScopedModel on Model {
       response = await dio.get(
         "${Settings.baseApilink}/foods",
       );
-      print("................foods.................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -65,32 +56,25 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return UserFoodsModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }
   }
 
-
   Future<AllMealsFoodsModel> fetchAllMealsFoods() async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
-
+          jsonDecode(sharedPreferences.getString("authUser"));
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
       response = await dio.get(
         "${Settings.baseApilink}/userFoods",
       );
-      print(".................................. ${response.data.toString()}");
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
@@ -99,10 +83,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return AllMealsFoodsModel.fromJson(response.data);
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr"); print(e); print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
+      print(e);
       notifyListeners();
       return null;
     }
@@ -111,15 +92,13 @@ mixin MealScopedModel on Model {
   Future<bool> addSelectedFoods(List<Foods> foods, int mealId) async {
     try {
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
-      
 
       FormData formdata = new FormData();
 
@@ -137,11 +116,8 @@ mixin MealScopedModel on Model {
         }
       });
 
-      print("+++++++++++++++++++++++++++++ fromdate $formdata");
-      
-      for(int i= 0 ; i<foods.length; i++){
-      response = await dio.post("${Settings.baseApilink}/eat/${foods[i].id}");
-      print(".................................. ${response.data.toString()}");
+      for (int i = 0; i < foods.length; i++) {
+        response = await dio.post("${Settings.baseApilink}/eat/${foods[i].id}");
       }
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
@@ -151,12 +127,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }
@@ -166,9 +137,9 @@ mixin MealScopedModel on Model {
     try {
       // get user token
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
 
       FormData formdata = new FormData();
 
@@ -180,16 +151,12 @@ mixin MealScopedModel on Model {
         "title_en": mealData['name'],
       });
 
-      print("authUser => $authUser");
-      print("authUserToken => ${authUser['authToken']}");
-
       dio.options.headers = {
         "Authorization": "Bearer ${authUser['authToken']}",
-        // "token":"11215"
       };
 
-      response = await dio.post("${Settings.baseApilink}/Userfoodtaken", data: formdata);
-      print(response.data.toString());
+      response = await dio.post("${Settings.baseApilink}/Userfoodtaken",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -198,12 +165,7 @@ mixin MealScopedModel on Model {
       notifyListeners();
       return true;
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
-      print(e.response.headers);
-      print(e.response.request);
       notifyListeners();
       return false;
     }

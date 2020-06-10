@@ -7,17 +7,15 @@ import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 mixin MeasurementsScopedModel on Model {
   Response response;
   Dio dio = new Dio();
-  
 
   // add Measurements application
   Future<bool> addMeasurements(String type, var value) async {
-      var now = new DateTime.now();
-  var formatter = new DateFormat('yyyy-MM-dd');
-  String formatted = formatter.format(now);
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formatted = formatter.format(now);
     try {
       FormData formdata = new FormData();
       // get user token
@@ -33,13 +31,8 @@ mixin MeasurementsScopedModel on Model {
         "date": formatted,
       });
 
-//      formdata.forEach((e, r) {
-//        print('{$e : $r}');
-//      });
-
-      response = await dio.post("${Settings.baseApilink}/measurements", data: formdata);
-      print('Response = ${response.data}');
-
+      response = await dio.post("${Settings.baseApilink}/measurements",
+          data: formdata);
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return false;
@@ -48,17 +41,8 @@ mixin MeasurementsScopedModel on Model {
         return true;
       }
     } on DioError catch (e) {
-      print("errrrrrrrrrrrrrrrrrrroooooooorrrrrrrrr");
       print(e);
-      print('*****************************************************************');
-      print(e.response.data);
       return false;
     }
   }
-
-  
-  
-
-
-
 }

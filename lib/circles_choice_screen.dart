@@ -19,16 +19,16 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
   bool o3 = false;
   bool o4 = false;
   bool o5 = false;
-  bool o6= false;
+  bool o6 = false;
   bool finish = false;
   List<bool> finished = [false, false, false];
 
-  int calorie=0;
-  int water=0;
-  int heart=0;
-  int steps=0;
-  int distance=0;
-  int blood=0;
+  int calorie = 0;
+  int water = 0;
+  int heart = 0;
+  int steps = 0;
+  int distance = 0;
+  int blood = 0;
 
   int index1;
   int index2;
@@ -38,44 +38,55 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
   int index6;
 
   int counter = 0;
-  int selectednumber=0;
+  int selectednumber = 0;
 
-
-  Widget w1= Container(
+  Widget w1 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w2= Container(
+  Widget w2 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w3= Container(
+  Widget w3 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w4= Container(
+  Widget w4 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w5= Container(
+  Widget w5 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
-  Widget w6= Container(
+  Widget w6 = Container(
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
   Widget check = Container(
     width: 50,
@@ -92,7 +103,9 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
     width: 50,
     height: 50,
     decoration: BoxDecoration(
-        shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+      shape: BoxShape.circle,
+      border: Border.all(color: Colors.grey, width: 2),
+    ),
   );
 
   void isChecked1(bool x) {
@@ -113,12 +126,12 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2),),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.grey, width: 2),
+            ),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked2(bool x) {
@@ -139,12 +152,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked3(bool x) {
@@ -165,12 +177,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked4(bool x) {
@@ -191,12 +202,11 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked5(bool x) {
@@ -217,38 +227,36 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-                shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
           );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   void isChecked6(bool x) {
     x
         ? w6 = Container(
-      width: 50,
-      height: 50,
-      alignment: Alignment.center,
-      decoration:
-      BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-      child: Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 30,
-      ),
-    )
+            width: 50,
+            height: 50,
+            alignment: Alignment.center,
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+              size: 30,
+            ),
+          )
         : w6 = Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle, border: Border.all(color: Colors.grey,width: 2)),
-    );
-    x?selectednumber++:selectednumber--;
-    setState(() {
-
-    });
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey, width: 2)),
+          );
+    x ? selectednumber++ : selectednumber--;
+    setState(() {});
   }
 
   bool isFinished() {
@@ -260,9 +268,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
         finish = true;
       }
     }
-    setState(() {
-
-    });
+    setState(() {});
     return finish;
   }
 
@@ -274,24 +280,24 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
     }
   }
 
-  void changeToInt(){
-    if(o1==true){
-      calorie=1;
+  void changeToInt() {
+    if (o1 == true) {
+      calorie = 1;
     }
-    if(o2==true){
-      water=1;
+    if (o2 == true) {
+      water = 1;
     }
-    if(o3==true){
-      heart=1;
+    if (o3 == true) {
+      heart = 1;
     }
-    if(o4==true){
-      steps=1;
+    if (o4 == true) {
+      steps = 1;
     }
-    if(o5==true){
-      distance=1;
+    if (o5 == true) {
+      distance = 1;
     }
-    if(o6==true){
-      blood=1;
+    if (o6 == true) {
+      blood = 1;
     }
     setState(() {});
   }
@@ -309,47 +315,39 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
       "blood": blood,
     });
 
-    SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
 
-    try{
-      response = await dio.post(
-          "${Settings.baseApilink}/users/circles",
-          data: _formData,
-          options: Options(headers: headers));
+    try {
+      response = await dio.post("${Settings.baseApilink}/users/circles",
+          data: _formData, options: Options(headers: headers));
 
-      if(response.statusCode==201){
-        print('nag7naaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      if (response.statusCode == 201) {
+        print('Sucess');
+      } else {
+        print('Fail');
       }
-      else{
-        print('shiiiiiiiiiiiiiiiiiiiiiiiiiiiiiit');
-      }
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
-
-
   }
 
-  
-
-  Future _errorShowDialog(){
+  Future _errorShowDialog() {
     return showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text("من فضلك اختر ثلاث دوائر"),
-          content:
-              Text("لقد اخترت "+"$selectednumber"+" تبقى "+"${3-selectednumber}"),
-        );
-      }
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("من فضلك اختر ثلاث دوائر"),
+            content: Text("لقد اخترت " +
+                "$selectednumber" +
+                " تبقى " +
+                "${3 - selectednumber}"),
+          );
+        });
   }
 
   @override
@@ -405,7 +403,6 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     }
                     setState(() {});
                   },
-
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -648,27 +645,29 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
                     setState(() {});
                   },
                 ),
-                Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top)),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top)),
                 InkWell(
                   child: Container(
-                    width: MediaQuery.of(context).size.width*0.6,
-                    height: MediaQuery.of(context).size.height*0.07,
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.07,
                     decoration: BoxDecoration(
                         color: Colors.blue,
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
                     alignment: Alignment.center,
-                    child: Text("حفظ",style: TextStyle(color: Colors.white,fontSize: 20),),
+                    child: Text(
+                      "حفظ",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
                   onTap: () {
-                    if(isFinished()){
+                    if (isFinished()) {
                       changeToInt();
                       sendData();
-                       Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => MainHome()));
-                    }
-                    else{
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => MainHome()));
+                    } else {
                       _errorShowDialog();
                     }
                   },
