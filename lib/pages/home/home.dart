@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
   bool fitKitPermissions;
 
   var dateSplit;
-  final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
 

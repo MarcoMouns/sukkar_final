@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -31,6 +32,25 @@ class _DocInfoState extends State<DocInfo> {
   Dio dio = new Dio();
   bool isLoading = true;
   double starRating = 3;
+
+  void rateTheDoctor(double rating) async {
+    Firestore.instance.collection('users').document(widget.peerId).get().then((value) {
+      var oldRarting = value['rating'];
+      print('========> $oldRarting');
+      print('=> $rating');
+      if (oldRarting != 0)
+        rating = (rating + oldRarting) / 2;
+      print(rating);
+      Firestore.instance
+          .collection('users')
+          .document(widget.peerId)
+          .updateData({
+        'rating': rating
+      });
+      starRating = rating;
+      setState(() {});
+    });
+  }
 
   @override
   void initState() {
@@ -144,15 +164,17 @@ class _DocInfoState extends State<DocInfo> {
                       initialRating: starRating,
                       direction: Axis.horizontal,
                       textDirection: TextDirection.ltr,
-                      allowHalfRating: true,
+                      allowHalfRating: false,
                       itemCount: 5,
                       itemSize: 20,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.blue,
-                      ),
+                      itemBuilder: (context, _) =>
+                          Icon(
+                            Icons.star,
+                            color: Colors.blue,
+                          ),
                       onRatingUpdate: (rating) {
                         print(rating);
+                        rateTheDoctor(rating);
                       },
                     ),
                   ),
@@ -237,3 +259,5 @@ class _DocInfoState extends State<DocInfo> {
     );
   }
 }
+
+

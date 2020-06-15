@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:health/pages/Settings.dart';
 
@@ -14,7 +15,6 @@ import 'chat.dart';
 import 'const.dart';
 import 'doctor_chat_model.dart';
 import 'shared-data.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DoctorChatScreen extends StatefulWidget {
   @override
@@ -51,6 +51,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         for (int i = 0; i < value.documents.length; i++) {
           patients.forEach((patient) {
             if (patient == value.documents[i].documentID) {
+              print('*******************');
+              print('${value.documents[i].documentID}');
               userDocument.add(value.documents[i]);
             }
           });
@@ -141,8 +143,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             child: Container(
                               child: Text(
                                 '${document['nickname']}',
-                                style:
-                                    TextStyle(color: primaryColor, height: 0),
+                                style: TextStyle(color: primaryColor, height: 0),
                               ),
                               alignment: Alignment.centerLeft,
                               margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
@@ -150,6 +151,16 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           ),
                         ],
                       ),
+                      onTap: () {
+                        print('a7ba tete');
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DocInfo(
+                            peerId: document.documentID,
+                            peerAvatar: document['photoUrl'],
+                            dId: document['dId'],
+                          ),
+                        ));
+                      },
                     ),
                     InkWell(
                       child: Padding(
@@ -175,7 +186,17 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                onPressed: () {},
+                onPressed: () {
+                  print('a7ba tete');
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        DocInfo(
+                          peerId: document.documentID,
+                          peerAvatar: document['photoUrl'],
+                          dId: document['dId'],
+                        ),
+                  ));
+                },
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -262,15 +283,19 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   RatingBar(
-                                    initialRating: starRating,
+                                    initialRating: document['rating'].toDouble(),
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemSize: 20,
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.blue,
-                                    ),
+                                    ignoreGestures: true,
+                                    tapOnlyMode: true,
+                                    unratedColor: Colors.grey,
+                                    itemBuilder: (context, _) =>
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.blue,
+                                        ),
                                     onRatingUpdate: (rating) {
                                       print(rating);
                                     },

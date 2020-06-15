@@ -1,21 +1,25 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../../helpers/color_transform.dart';
-import '../../scoped_models/main.dart';
-import 'package:health/pages/Settings.dart';
-import '../../languages/all_translations.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../helpers/color_transform.dart';
+import '../../languages/all_translations.dart';
+import '../../scoped_models/main.dart';
 
 class Complete extends StatefulWidget {
   final String phone;
+
   Complete(this.phone);
+
   _CompleteState createState() => _CompleteState();
 }
 
@@ -184,8 +188,12 @@ class _CompleteState extends State<Complete> {
         'nickname': _formData['userName'],
         'id': uid,
         'isDoctor': false,
-        'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
-        'chattingWith': null
+        'createdAt': DateTime
+            .now()
+            .millisecondsSinceEpoch
+            .toString(),
+        'chattingWith': null,
+        'rating': 0
       });
 
       prefs = await SharedPreferences.getInstance();
