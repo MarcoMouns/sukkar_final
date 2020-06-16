@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:health/pages/Settings.dart';
 
@@ -14,7 +15,6 @@ import 'chat.dart';
 import 'const.dart';
 import 'doctor_chat_model.dart';
 import 'shared-data.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DoctorChatScreen extends StatefulWidget {
   @override
@@ -51,6 +51,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         for (int i = 0; i < value.documents.length; i++) {
           patients.forEach((patient) {
             if (patient == value.documents[i].documentID) {
+              print('*******************');
+              print('${value.documents[i].documentID}');
               userDocument.add(value.documents[i]);
             }
           });
@@ -105,34 +107,38 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           Container(
                             margin: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).padding.bottom + 15),
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 15),
                             child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                      placeholder: (context, url) => Container(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  themeColor),
-                                        ),
-                                        width: 50.0,
-                                        height: 50.0,
-                                        padding: EdgeInsets.all(15.0),
+                                placeholder: (context, url) =>
+                                    Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(
+                                            themeColor),
                                       ),
-                                      imageUrl:
-                                          'http://api.sukar.co${document['photoUrl']}',
                                       width: 50.0,
                                       height: 50.0,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Icon(
-                                      Icons.account_circle,
-                                      size: 50.0,
-                                      color: greyColor,
+                                      padding: EdgeInsets.all(15.0),
                                     ),
+                                imageUrl:
+                                'http://api.sukar.co${document['photoUrl']}',
+                                width: 50.0,
+                                height: 50.0,
+                                fit: BoxFit.cover,
+                              )
+                                  : Icon(
+                                Icons.account_circle,
+                                size: 50.0,
+                                color: greyColor,
+                              ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
+                              BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -141,8 +147,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             child: Container(
                               child: Text(
                                 '${document['nickname']}',
-                                style:
-                                    TextStyle(color: primaryColor, height: 0),
+                                style: TextStyle(
+                                    color: primaryColor, height: 0),
                               ),
                               alignment: Alignment.centerLeft,
                               margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
@@ -150,6 +156,17 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           ),
                         ],
                       ),
+                      onTap: () {
+                        print('a7ba tete');
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              DocInfo(
+                                peerId: document.documentID,
+                                peerAvatar: document['photoUrl'],
+                                dId: document['dId'],
+                              ),
+                        ));
+                      },
                     ),
                     InkWell(
                       child: Padding(
@@ -175,7 +192,17 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                 padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0)),
-                onPressed: () {},
+                onPressed: () {
+                  print('a7ba tete');
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        DocInfo(
+                          peerId: document.documentID,
+                          peerAvatar: document['photoUrl'],
+                          dId: document['dId'],
+                        ),
+                  ));
+                },
               ),
               margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
             ),
@@ -207,36 +234,39 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           Container(
                             margin: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).padding.bottom + 15),
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 15),
                             child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                      placeholder: (context, url) => Container(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  themeColor),
-                                        ),
-                                        width: 50.0,
-                                        height: 50.0,
-                                        padding: EdgeInsets.all(15.0),
+                                placeholder: (context, url) =>
+                                    Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor: AlwaysStoppedAnimation<
+                                            Color>(themeColor),
                                       ),
-                                      imageUrl: (document['photoUrl'])
-                                              .contains("api.sukar.co")
-                                          ? document['photoUrl']
-                                          : 'http://api.sukar.co${document['photoUrl']}',
-                                      width: 50.0,
-                                      height: 50.0,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Icon(
-                                      Icons.account_circle,
-                                      size: 50.0,
-                                      color: greyColor,
+                                      width: 60.0,
+                                      height: 60.0,
+                                      padding: EdgeInsets.all(15.0),
                                     ),
+                                imageUrl: (document['photoUrl']).contains(
+                                    "api.sukar.co")
+                                    ? document['photoUrl']
+                                    : 'http://api.sukar.co${document['photoUrl']}',
+                                width: 60.0,
+                                height: 60.0,
+                                fit: BoxFit.cover,
+                              )
+                                  : Icon(
+                                Icons.account_circle,
+                                size: 50.0,
+                                color: greyColor,
+                              ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
+                              BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -262,16 +292,23 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   RatingBar(
-                                    initialRating: starRating,
+                                    initialRating: document['rating']
+                                        .toDouble(),
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemSize: 20,
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.blue,
-                                    ),
-                                    onRatingUpdate: (rating) {},
+                                    ignoreGestures: true,
+                                    tapOnlyMode: true,
+                                    unratedColor: Colors.grey,
+                                    itemBuilder: (context, _) =>
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.blue,
+                                        ),
+                                    onRatingUpdate: (rating) {
+                                      print(rating);
+                                    },
                                   ),
                                 ],
                               ),
@@ -386,79 +423,85 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
       ),
       body: isLoading
           ? Center(
-              child: SpinKitWave(
-                size: 30,
-                itemBuilder: (_, int index) {
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: index.isEven ? Colors.blue : Colors.white,
-                    ),
-                  );
-                },
+        child: SpinKitWave(
+          size: 30,
+          itemBuilder: (_, int index) {
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                color: index.isEven ? Colors.blue : Colors.white,
               ),
-            )
+            );
+          },
+        ),
+      )
           : Column(
-              children: <Widget>[
-                isDoctor == true
-                    ? Container()
-                    : Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 10),
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: RotatedBox(
-                                    quarterTurns: arrowFlip ? 90 : 0,
-                                    child: Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 30,
-                                      color: Colors.blueAccent,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(right: 20),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text("$specialityName"),
-                                      Padding(
-                                          padding: EdgeInsets.only(right: 8)),
-                                      Image.asset(
-                                        'assets/icons/ic_doctor.png',
-                                        scale: 4,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: () => dropDownMenu(),
+        children: <Widget>[
+          isDoctor == true
+              ? Container()
+              : Directionality(
+            textDirection: TextDirection.ltr,
+            child: GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(top: 10),
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.8,
+                padding: EdgeInsets.symmetric(vertical: 5),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(12)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RotatedBox(
+                        quarterTurns: arrowFlip ? 90 : 0,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 30,
+                          color: Colors.blueAccent,
                         ),
                       ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: ListView.builder(
-                    padding: EdgeInsets.all(10.0),
-                    itemBuilder: (context, index) {
-                      return buildItem(context, userDocument[index]);
-                    },
-                    itemCount: userDocument.length,
-                  ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Text("$specialityName"),
+                          Padding(
+                              padding: EdgeInsets.only(right: 8)),
+                          Image.asset(
+                            'assets/icons/ic_doctor.png',
+                            scale: 4,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-              ],
+              ),
+              onTap: () => dropDownMenu(),
             ),
+          ),
+          Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.7,
+            child: ListView.builder(
+              padding: EdgeInsets.all(10.0),
+              itemBuilder: (context, index) {
+                return buildItem(context, userDocument[index]);
+              },
+              itemCount: userDocument.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

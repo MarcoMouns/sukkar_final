@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -32,6 +33,26 @@ class _DocInfoState extends State<DocInfo> {
   bool isLoading = true;
   double starRating = 3;
 
+  void rateTheDoctor(double rating) async {
+    Firestore.instance.collection('users').document(widget.peerId).get().then((
+        value) {
+      var oldRarting = value['rating'];
+      print('========> $oldRarting');
+      print('=> $rating');
+      if (oldRarting != 0)
+        rating = (rating + oldRarting) / 2;
+      print(rating);
+      Firestore.instance
+          .collection('users')
+          .document(widget.peerId)
+          .updateData({
+        'rating': rating
+      });
+      starRating = rating;
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +63,7 @@ class _DocInfoState extends State<DocInfo> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
 
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
@@ -68,169 +89,186 @@ class _DocInfoState extends State<DocInfo> {
         ),
         body: isLoading
             ? Center(
-                child: SpinKitWave(
-                  size: 30,
-                  itemBuilder: (_, int index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: index.isEven ? Colors.blue : Colors.white,
-                      ),
-                    );
-                  },
+          child: SpinKitWave(
+            size: 30,
+            itemBuilder: (_, int index) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: index.isEven ? Colors.blue : Colors.white,
                 ),
-              )
+              );
+            },
+          ),
+        )
             : ListView(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.topCenter,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              color: Colors.blue,
+              child: Column(
                 children: <Widget>[
-                  Container(
-                    alignment: Alignment.topCenter,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.blue,
-                    child: Column(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: response.data['doctor']['image'] ==
-                                  null
-                              ? AssetImage('assets/icons/ic_avatar.png')
-                              : NetworkImage(
-                                  'http://api.sukar.co${response.data['doctor']['image']}'),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 5),
-                        ),
-                        Text(
-                          "${response.data['doctor']['name']}",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                        Text(
-                          "${response.data['doctor']['specialist']['title_ar']}",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: response.data['doctor']['image'] ==
+                        null
+                        ? AssetImage('assets/icons/ic_avatar.png')
+                        : NetworkImage(
+                        'http://api.sukar.co${response
+                            .data['doctor']['image']}'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 5),
+                  ),
+                  Text(
+                    "${response.data['doctor']['name']}",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Text(
+                    "${response.data['doctor']['specialist']['title_ar']}",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+            Stack(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      height: 30,
+                      color: Colors.blue,
                     ),
+                  ],
+                ),
+                InkWell(
+                  child: Image.asset(
+                    'assets/icons/ic_message.png',
+                    scale: 2.5,
                   ),
-                  Stack(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 30,
-                            color: Colors.blue,
-                          ),
-                        ],
+                  onTap: () =>
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Chat(
+                                peerId: widget.peerId,
+                                peerAvatar: widget.peerAvatar,
+                              ),
+                        ),
                       ),
-                      InkWell(
-                        child: Image.asset(
-                          'assets/icons/ic_message.png',
-                          scale: 2.5,
-                        ),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Chat(
-                              peerId: widget.peerId,
-                              peerAvatar: widget.peerAvatar,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                )
+              ],
+            ),
+            Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              alignment: Alignment.center,
+              child: RatingBar(
+                initialRating: starRating,
+                direction: Axis.horizontal,
+                textDirection: TextDirection.ltr,
+                allowHalfRating: false,
+                itemCount: 5,
+                itemSize: 20,
+                itemBuilder: (context, _) =>
+                    Icon(
+                      Icons.star,
+                      color: Colors.blue,
+                    ),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                  rateTheDoctor(rating);
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    allTranslations.text("aboutDoctor"),
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    child: RatingBar(
-                      initialRating: starRating,
-                      direction: Axis.horizontal,
-                      textDirection: TextDirection.ltr,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 20,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.blue,
-                      ),
-                      onRatingUpdate: (rating) {},
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                      "${response.data['doctor']['doctor_cv'][0]['brief']}",
+                      style: TextStyle(fontSize: 17),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          allTranslations.text("aboutDoctor"),
-                          style: TextStyle(color: Colors.blue, fontSize: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                            "${response.data['doctor']['doctor_cv'][0]['brief']}",
-                            style: TextStyle(fontSize: 17),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                        ),
-                        Text(
-                          allTranslations.text("doctorSpecailty"),
-                          style: TextStyle(color: Colors.blue, fontSize: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                              "${response.data['doctor']['specialist']['title_ar']}",
-                              style: TextStyle(fontSize: 17)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                        ),
-                        Text(
-                          allTranslations.text("workinghistory"),
-                          style: TextStyle(color: Colors.blue, fontSize: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                              "${response.data['doctor']['doctor_cv'][0]['place']}",
-                              style: TextStyle(fontSize: 17)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                        ),
-                        Text(
-                          allTranslations.text("workingsince"),
-                          style: TextStyle(color: Colors.blue, fontSize: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                              "${response.data['doctor']['doctor_cv'][0]['work_from']}",
-                              style: TextStyle(fontSize: 17)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                        ),
-                        Text(
-                          allTranslations.text("joinData"),
-                          style: TextStyle(color: Colors.blue, fontSize: 20),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(
-                              "${response.data['doctor']['work_since']}",
-                              style: TextStyle(fontSize: 17)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                        ),
-                      ],
-                    ),
-                  )
+                    padding: EdgeInsets.only(top: 10),
+                  ),
+                  Text(
+                    allTranslations.text("doctorSpecailty"),
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                        "${response.data['doctor']['specialist']['title_ar']}",
+                        style: TextStyle(fontSize: 17)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                  ),
+                  Text(
+                    allTranslations.text("workinghistory"),
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                        "${response.data['doctor']['doctor_cv'][0]['place']}",
+                        style: TextStyle(fontSize: 17)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                  ),
+                  Text(
+                    allTranslations.text("workingsince"),
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                        "${response
+                            .data['doctor']['doctor_cv'][0]['work_from']}",
+                        style: TextStyle(fontSize: 17)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                  ),
+                  Text(
+                    allTranslations.text("joinData"),
+                    style: TextStyle(color: Colors.blue, fontSize: 20),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    child: Text(
+                        "${response.data['doctor']['work_since']}",
+                        style: TextStyle(fontSize: 17)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                  ),
                 ],
               ),
+            )
+          ],
+        ),
       ),
     );
   }

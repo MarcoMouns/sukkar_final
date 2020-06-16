@@ -1,21 +1,25 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../../helpers/color_transform.dart';
-import '../../scoped_models/main.dart';
-import 'package:health/pages/Settings.dart';
-import '../../languages/all_translations.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../helpers/color_transform.dart';
+import '../../languages/all_translations.dart';
+import '../../scoped_models/main.dart';
 
 class Complete extends StatefulWidget {
   final String phone;
+
   Complete(this.phone);
+
   _CompleteState createState() => _CompleteState();
 }
 
@@ -173,6 +177,7 @@ class _CompleteState extends State<Complete> {
   Future<Null> CreateCFSaccount(String uid) async {
     if (!_formKey.currentState.validate() || _formData['phone'] == null) {
       _autoValidate = true;
+
       showInSnackBar("من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
       _formKey.currentState.save();
@@ -183,8 +188,12 @@ class _CompleteState extends State<Complete> {
         'nickname': _formData['userName'],
         'id': uid,
         'isDoctor': false,
-        'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
-        'chattingWith': null
+        'createdAt': DateTime
+            .now()
+            .millisecondsSinceEpoch
+            .toString(),
+        'chattingWith': null,
+        'rating': 0
       });
 
       prefs = await SharedPreferences.getInstance();
@@ -193,13 +202,9 @@ class _CompleteState extends State<Complete> {
     }
   }
 
-  void _handleSubmitted(
-    BuildContext context,
-    MainModel model,
-  ) {
+  void _handleSubmitted(BuildContext context,
+      MainModel model,) {
     Locale myLocale = Localizations.localeOf(context);
-//    final FormState form = _formKey.currentState;
-    print(_formData);
     setState(() {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
     });
@@ -268,7 +273,7 @@ class _CompleteState extends State<Complete> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     SizedBox(
                                       width: 24,
@@ -308,7 +313,7 @@ class _CompleteState extends State<Complete> {
                                     RegExp regex = new RegExp(pattern);
                                     if (!regex.hasMatch(val))
                                       return myLocale.languageCode
-                                              .contains("en")
+                                          .contains("en")
                                           ? "Not Valid Email."
                                           : "البريد الالكترونى غير صحيح.";
                                     else
@@ -323,12 +328,13 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                    _birthDateController.text =
+                                        _birthDateController.text =
                                         (date.toString()).split(" ")[0];
-                                  }, onConfirm: (date) {
-                                    _birthDateController.text =
+                                      },
+                                      onConfirm: (date) {
+                                        _birthDateController.text =
                                         (date.toString()).split(" ")[0];
-                                  },
+                                      },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -354,12 +360,13 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                    _injuryDateController.text =
+                                        _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                  }, onConfirm: (date) {
-                                    _injuryDateController.text =
+                                      },
+                                      onConfirm: (date) {
+                                        _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                  },
+                                      },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -383,36 +390,36 @@ class _CompleteState extends State<Complete> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Row(
-                                    children: <Widget>[
-                                      Radio(
-                                        activeColor: Colors.redAccent,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _gender = val;
-                                          });
-                                        },
-                                        value: 'male',
-                                        groupValue: _gender,
-                                      ),
-                                      Text(allTranslations.text("male"))
-                                    ],
-                                  )),
+                                        children: <Widget>[
+                                          Radio(
+                                            activeColor: Colors.redAccent,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                _gender = val;
+                                              });
+                                            },
+                                            value: 'male',
+                                            groupValue: _gender,
+                                          ),
+                                          Text(allTranslations.text("male"))
+                                        ],
+                                      )),
                                   Expanded(
                                       child: Row(
-                                    children: <Widget>[
-                                      Radio(
-                                        activeColor: Colors.redAccent,
-                                        onChanged: (val) {
-                                          setState(() {
-                                            _gender = val;
-                                          });
-                                        },
-                                        value: 'female',
-                                        groupValue: _gender,
-                                      ),
-                                      Text(allTranslations.text("female"))
-                                    ],
-                                  ))
+                                        children: <Widget>[
+                                          Radio(
+                                            activeColor: Colors.redAccent,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                _gender = val;
+                                              });
+                                            },
+                                            value: 'female',
+                                            groupValue: _gender,
+                                          ),
+                                          Text(allTranslations.text("female"))
+                                        ],
+                                      ))
                                 ],
                               ),
                             ],
@@ -424,69 +431,69 @@ class _CompleteState extends State<Complete> {
                               vertical: 0.0, horizontal: 30.0),
                           child: _isLoading
                               ? CupertinoActivityIndicator(
-                                  animating: true,
-                                  radius: 15,
-                                )
+                            animating: true,
+                            radius: 15,
+                          )
                               : Column(
-                                  children: <Widget>[
-                                    RaisedButton(
-                                        elevation: 0.0,
-                                        color: Colors.grey,
-                                        textColor: Colors.white,
-                                        onPressed: () async {
-                                          if (hasPhoto &&
-                                              picdone &&
-                                              isMatched == true) {
-                                            uidx =
-                                                await createFirebaseAccount();
-                                            _formData['fuid'] = uidx;
-                                            CreateCFSaccount(uidx);
-                                            _handleSubmitted(
-                                              context,
-                                              model,
-                                            );
-                                          } else {
-                                            hasPhoto = false;
-                                            setState(() {});
-                                          }
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.all(0.0),
-                                            width: double.infinity,
-                                            child: Text(
-                                              allTranslations.text("verify"),
-                                              style: TextStyle(fontSize: 18.0),
-                                              textAlign: TextAlign.center,
-                                            )),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0))),
-                                    RaisedButton(
-                                        elevation: 0.0,
-                                        color: Settings.mainColor(),
-                                        textColor: Colors.white,
-                                        onPressed: () async {
-                                          uidx = await createFirebaseAccount();
-                                          _formData['fuid'] = uidx;
-                                          CreateCFSaccount(uidx);
-                                          _handleSubmitted(
-                                            context,
-                                            model,
-                                          );
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.all(0.0),
-                                            width: double.infinity,
-                                            child: Text(
-                                              allTranslations.text("skip"),
-                                              style: TextStyle(fontSize: 18.0),
-                                              textAlign: TextAlign.center,
-                                            )),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0))),
-                                  ],
-                                ),
+                            children: <Widget>[
+                              RaisedButton(
+                                  elevation: 0.0,
+                                  color: Colors.grey,
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    if (hasPhoto &&
+                                        picdone &&
+                                        isMatched == true) {
+                                      uidx =
+                                      await createFirebaseAccount();
+                                      _formData['fuid'] = uidx;
+                                      CreateCFSaccount(uidx);
+                                      _handleSubmitted(
+                                        context,
+                                        model,
+                                      );
+                                    } else {
+                                      hasPhoto = false;
+                                      setState(() {});
+                                    }
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(0.0),
+                                      width: double.infinity,
+                                      child: Text(
+                                        allTranslations.text("verify"),
+                                        style: TextStyle(fontSize: 18.0),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(20.0))),
+                              RaisedButton(
+                                  elevation: 0.0,
+                                  color: Settings.mainColor(),
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    uidx = await createFirebaseAccount();
+                                    _formData['fuid'] = uidx;
+                                    CreateCFSaccount(uidx);
+                                    _handleSubmitted(
+                                      context,
+                                      model,
+                                    );
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(0.0),
+                                      width: double.infinity,
+                                      child: Text(
+                                        allTranslations.text("skip"),
+                                        style: TextStyle(fontSize: 18.0),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(20.0))),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -511,34 +518,34 @@ class UserImage extends StatelessWidget {
     }
     return Center(
         child: Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        CircleAvatar(
-          backgroundColor: Colors.white,
-          backgroundImage: userImage,
-          radius: 30,
-        ),
-        Container(
-          width: 80,
-          height: 80,
-        ),
-        imageFile == null
-            ? Positioned(
-                right: 1,
-                bottom: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.blue, width: 2),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.black,
-                  ),
+          alignment: Alignment.center,
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.white,
+              backgroundImage: userImage,
+              radius: 30,
+            ),
+            Container(
+              width: 80,
+              height: 80,
+            ),
+            imageFile == null
+                ? Positioned(
+              right: 1,
+              bottom: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.blue, width: 2),
                 ),
-              )
-            : Container(),
-      ],
-    ));
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
+              ),
+            )
+                : Container(),
+          ],
+        ));
   }
 }
