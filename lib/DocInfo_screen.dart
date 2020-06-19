@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
@@ -31,19 +32,32 @@ class _DocInfoState extends State<DocInfo> {
   Response response;
   Dio dio = new Dio();
   bool isLoading = true;
-  double starRating = 3;
+  double starRating;
 
   void rateTheDoctor(double rating) async {
+    print('**********************');
+    print(widget.peerId);
+    print(rating);
+    print(authUser['authToken']);
+    print('**********************');
+    Response response;
+    try {
+      response = await Dio().post('http://api.sukar.co/api/rate-doctors',
+          data: {"fuid": "${widget.peerId}", "rating": "$rating"},
+          options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer ${authUser['authToken']}"},
+          ));
+    } on DioError catch (e) {
+      print(e.response.data);
+    }
+
     Firestore.instance.collection('users').document(widget.peerId).get().then((value) {
       var oldRarting = value['rating'];
       print('========> $oldRarting');
       print('=> $rating');
-      if (oldRarting != 0)
-        rating = (rating + oldRarting) / 2;
+      if (oldRarting != 0) rating = (rating + oldRarting) / 2;
       print(rating);
-      Firestore.instance
-          .collection('users')
-          .document(widget.peerId)
+      Firestore.instance.collection('users').document(widget.peerId)
           .updateData({
         'rating': rating
       });
@@ -58,10 +72,13 @@ class _DocInfoState extends State<DocInfo> {
     getUser();
   }
 
+  Map<String, dynamic> authUser;
+
   void getUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    Map<String, dynamic> authUser =
+
+    authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
 
     dio.options.headers = {
@@ -70,6 +87,25 @@ class _DocInfoState extends State<DocInfo> {
     response = await dio.get(
       "${Settings.baseApilink}/doctors/${widget.dId}",
     );
+
+    Response responsex = await Dio().get('http://api.sukar.co/api/rate-doctors',
+        options: Options(
+          headers: {HttpHeaders.authorizationHeader: "Bearer ${authUser['authToken']}"},
+        ));
+
+    print('****************************');
+    print(responsex);
+    print('****************************');
+
+    List<dynamic> data = responsex.data['ratings'];
+    data.forEach((element) {
+      if (element['fuid'] == widget.peerId)
+        starRating = double.parse(element['rating']);
+    });
+
+    if (starRating == null)
+      starRating = 0;
+
     isLoading = false;
     setState(() {});
   }
