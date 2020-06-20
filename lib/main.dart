@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:health/pages/Settings.dart';
+import 'package:health/pages/landPage.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/shared-data.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -13,19 +16,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import './languages/all_translations.dart';
 import './languages/translations.dart';
-
-import './scoped_models/main.dart';
-import 'package:health/pages/landPage.dart';
-import 'package:health/pages/Settings.dart';
-
-import './pages/account/profile.dart';
-import './pages/account/reset.dart';
 import './pages/account/login.dart';
 import './pages/account/new.dart';
-import './pages/others/map.dart';
+import './pages/account/profile.dart';
+import './pages/account/reset.dart';
 import './pages/home.dart';
+import './pages/others/map.dart';
 import './pages/others/offers.dart';
-import 'Welcome_screen.dart';
+import './scoped_models/main.dart';
 
 void main() async {
   runApp(MyApp());
@@ -59,7 +57,7 @@ class _SpLashState extends State<SpLash> {
             MaterialPageRoute(
               builder: (BuildContext context) =>
                   sharedPreferences.get('authUser') == null
-                      ? WelcomeScreen()
+                      ? LandPage()
                       : MainHome(),
             ),
             ModalRoute.withName("langPage"));
@@ -174,7 +172,7 @@ class _MyAppState extends State<MyApp> {
             bottomAppBarColor: Colors.white,
             secondaryHeaderColor: Colors.white,
           ),
-          title: 'سكر',
+          title: "سكر",
           debugShowCheckedModeBanner: false,
           locale: model.appLocal,
           supportedLocales: allTranslations.supportedLocales(),

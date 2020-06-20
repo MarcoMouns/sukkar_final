@@ -245,19 +245,20 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                     Container(
                                       child: CircularProgressIndicator(
                                         strokeWidth: 1.0,
-                                        valueColor: AlwaysStoppedAnimation<
-                                            Color>(themeColor),
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(
+                                            themeColor),
                                       ),
-                                      width: 60.0,
-                                      height: 60.0,
+                                      width: 50.0,
+                                      height: 50.0,
                                       padding: EdgeInsets.all(15.0),
                                     ),
-                                imageUrl: (document['photoUrl']).contains(
-                                    "api.sukar.co")
+                                imageUrl: (document['photoUrl'])
+                                    .contains("api.sukar.co")
                                     ? document['photoUrl']
                                     : 'http://api.sukar.co${document['photoUrl']}',
-                                width: 60.0,
-                                height: 60.0,
+                                width: 50.0,
+                                height: 50.0,
                                 fit: BoxFit.cover,
                               )
                                   : Icon(
