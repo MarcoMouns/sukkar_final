@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:bluetooth/bluetooth.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/bluetooth/widgets.dart';
 import 'package:intl/intl.dart' as intl;
@@ -46,7 +46,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   StreamSubscription deviceConnection;
   StreamSubscription deviceStateSubscription;
   List<BluetoothService> services = new List();
-  Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
+  Map<BluetoothCharacteristicIdentifier, StreamSubscription> valueChangedSubscriptions = {};
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
   Response response;
@@ -75,7 +75,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
           .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
       _ackAlert(context);
     } catch (e) {
-      print("error =====================");
+      //print("error =====================");
     }
 
     return response;
@@ -226,10 +226,9 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
            ]*/
     )
         .listen((scanResult) {
-      print('localName: ${scanResult.advertisementData.localName}');
-      print(
-          'manufacturerData: ${scanResult.advertisementData.manufacturerData}');
-      print('serviceData: ${scanResult.advertisementData.serviceData}');
+     // print('localName: ${scanResult.advertisementData.localName}');
+     // print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
+      //print('serviceData: ${scanResult.advertisementData.serviceData}');
       setState(() {
         scanResults[scanResult.device.id] = scanResult;
       });
@@ -283,7 +282,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
           if (bservice != null) {
             var char = bservice.characteristics
                 .where((c) =>
-                c.uuid
+                c.id
                     .toString()
                     .toLowerCase()
                     .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
@@ -302,7 +301,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
           if (bservice != null) {
             var char = bservice.characteristics
                 .where((c) =>
-                c.uuid
+                c.id
                     .toString()
                     .toLowerCase()
                     .contains("00002a18-0000-1000-8000-00805f9b34fb"))
@@ -327,7 +326,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
               if (tmpUUID == "0000ffe0-0000-1000-8000-00805f9b34fb") {
                 var char = bservice.characteristics
                     .where((c) =>
-                    c.uuid
+                    c.id
                         .toString()
                         .toLowerCase()
                         .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
@@ -339,7 +338,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
               } else if (tmpUUID == "00001808-0000-1000-8000-00805f9b34fb") {
                 var char = bservice.characteristics
                     .where((c) =>
-                    c.uuid
+                    c.id
                         .toString()
                         .toLowerCase()
                         .contains("00002a18-0000-1000-8000-00805f9b34fb"))
@@ -375,9 +374,8 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     if (c.isNotifying) {
       await device.setNotifyValue(c, false);
       // Cancel subscription
-//      valueChangedSubscriptions[c.uuid]?.cancel();
-//      valueChangedSubscriptions.remove(c.uuid);
-      return;
+      valueChangedSubscriptions[c.id]?.cancel();
+      valueChangedSubscriptions.remove(c.id);
     } else {
       await device.setNotifyValue(c, true);
       // ignore: cancel_subscriptions
@@ -385,16 +383,16 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         if (d.length == 20 && d[0] == 104 && d[2] == 161) {
           setState(() {
             // Update Backend
-            var res = checkReceiveData(d);
-            print('onValueChanged $d res:$res');
+             checkReceiveData(d);
+           // print('onValueChanged $d res:$res');
           });
         } else if (d.length == 15) {
           var res = checkReceiveDataYASEE(d);
-          print('onValueChanged $d res:$res');
+         // print('onValueChanged $d res:$res');
         }
       });
       // Add to map
-      valueChangedSubscriptions[c.uuid] = sub;
+      valueChangedSubscriptions[c.id] = sub;
     }
     setState(() {});
   }
@@ -663,7 +661,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     var state = await d.state;
     setState(() {
       deviceState = state;
-      print('State refreshed: $deviceState');
+     // print('State refreshed: $deviceState');
     });
   }
 
