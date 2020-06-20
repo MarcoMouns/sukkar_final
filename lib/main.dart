@@ -24,7 +24,6 @@ import './pages/home.dart';
 import './pages/others/map.dart';
 import './pages/others/offers.dart';
 import './scoped_models/main.dart';
-import 'Welcome_screen.dart';
 
 void main() async {
   runApp(MyApp());
@@ -58,7 +57,7 @@ class _SpLashState extends State<SpLash> {
             MaterialPageRoute(
               builder: (BuildContext context) =>
                   sharedPreferences.get('authUser') == null
-                      ? WelcomeScreen()
+                      ? LandPage()
                       : MainHome(),
             ),
             ModalRoute.withName("langPage"));
