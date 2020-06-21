@@ -64,7 +64,6 @@ class _DocInfoState extends State<DocInfo> {
           .updateData({
         'rating': rating
       });
-      starRating = rating;
       setState(() {});
     });
   }
@@ -226,6 +225,7 @@ class _DocInfoState extends State<DocInfo> {
                       color: Colors.blue,
                     ),
                 onRatingUpdate: (rating) {
+                  starRating = rating;
                   print(rating);
                   rateTheDoctor(rating);
                 },
@@ -313,3 +313,5 @@ class _DocInfoState extends State<DocInfo> {
     );
   }
 }
+
+
