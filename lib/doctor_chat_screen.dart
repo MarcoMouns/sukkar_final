@@ -143,7 +143,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             child: Container(
                               child: Text(
                                 '${document['nickname']}',
-                                style: TextStyle(color: primaryColor, height: 0),
+                                style:
+                                    TextStyle(color: primaryColor, height: 0),
                               ),
                               alignment: Alignment.centerLeft,
                               margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
@@ -283,7 +284,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   RatingBar(
-                                    initialRating: document['rating'].toDouble(),
+                                    initialRating: document['rating'] == null
+                                        ? 0
+                                        : document['rating'].toDouble(),
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,

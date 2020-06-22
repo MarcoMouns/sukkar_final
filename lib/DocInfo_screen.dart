@@ -55,7 +55,7 @@ class _DocInfoState extends State<DocInfo> {
       var oldRarting = value['rating'];
       print('========> $oldRarting');
       print('=> $rating');
-      if (oldRarting != 0) rating = (rating + oldRarting) / 2;
+      if (oldRarting != null) rating = (rating + oldRarting) / 2;
       print(rating);
       Firestore.instance.collection('users').document(widget.peerId)
           .updateData({
