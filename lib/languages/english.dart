@@ -253,5 +253,7 @@ You should follow the following tips:
   "your massage has been send successfully": """thank you.. 
   
 your massage has been send successfully
-  """
+  """,
+  "press here": "Press here",
+  "source": "Source"
 };

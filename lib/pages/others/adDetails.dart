@@ -57,13 +57,18 @@ class _AdDetailsScreenState extends State<AdDetailsScreen> {
                   style: TextStyle(fontSize: 20),
                 )),
             InkWell(
-              onTap: () {
-                launch(widget.link);
+              onTap: () async {
+                var url = '${widget.link}';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
               },
               child: Center(
                 child: Container(
                   child: Text(
-                    "${widget.link ?? ""}",
+                    allTranslations.text("press here"),
                     textDirection: TextDirection.rtl,
                     style: TextStyle(
                         color: Colors.blue,

@@ -159,10 +159,10 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
-                    allTranslations.text("simple Pdf"),
-                    style: TextStyle(color: Colors.blue),
-                    textAlign: TextAlign.center,
-                  ),
+                    allTranslations.text("source"),
+                                style: TextStyle(color: Colors.blue),
+                                textAlign: TextAlign.center,
+                              ),
                 ),
                 onTap: () async {
                   var url = '$file';
