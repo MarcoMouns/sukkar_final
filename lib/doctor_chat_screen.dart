@@ -107,38 +107,34 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           Container(
                             margin: EdgeInsets.only(
                                 bottom:
-                                MediaQuery
-                                    .of(context)
-                                    .padding
-                                    .bottom + 15),
+                                    MediaQuery.of(context).padding.bottom + 15),
                             child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                placeholder: (context, url) =>
-                                    Container(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 1.0,
-                                        valueColor:
-                                        AlwaysStoppedAnimation<Color>(
-                                            themeColor),
+                                      placeholder: (context, url) => Container(
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1.0,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  themeColor),
+                                        ),
+                                        width: 50.0,
+                                        height: 50.0,
+                                        padding: EdgeInsets.all(15.0),
                                       ),
+                                      imageUrl:
+                                          'http://api.sukar.co${document['photoUrl']}',
                                       width: 50.0,
                                       height: 50.0,
-                                      padding: EdgeInsets.all(15.0),
-                                    ),
-                                imageUrl:
-                                'http://api.sukar.co${document['photoUrl']}',
-                                width: 50.0,
-                                height: 50.0,
-                                fit: BoxFit.cover,
-                              )
+                                      fit: BoxFit.cover,
+                                    )
                                   : Icon(
-                                Icons.account_circle,
-                                size: 50.0,
-                                color: greyColor,
-                              ),
+                                      Icons.account_circle,
+                                      size: 50.0,
+                                      color: greyColor,
+                                    ),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)),
+                                  BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -147,8 +143,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                             child: Container(
                               child: Text(
                                 '${document['nickname']}',
-                                style: TextStyle(
-                                    color: primaryColor, height: 0),
+                                style:
+                                TextStyle(color: primaryColor, height: 0),
                               ),
                               alignment: Alignment.centerLeft,
                               margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
@@ -293,8 +289,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                     style: TextStyle(color: Colors.red),
                                   ),
                                   RatingBar(
-                                    initialRating: document['rating']
-                                        .toDouble(),
+                                    initialRating: document['rating'] == null
+                                        ? 0
+                                        : document['rating'].toDouble(),
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
