@@ -40,7 +40,7 @@ class _LogInState extends State<LogIn> {
     if (!form.validate()) {
       _autoValidate = true; // Start validating on every change.
 
-      showInSnackBar(myLocale.languageCode.contains("en")
+      showInSnackBar(allTranslations.currentLanguage == "en"
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
@@ -48,7 +48,6 @@ class _LogInState extends State<LogIn> {
       setState(() {
         _isLoading = true;
       });
-      print("form data => $_formData");
       model
           .userLogin(_formData, activeType == 1 ? "password" : "email")
           .then((result) async {
@@ -57,7 +56,7 @@ class _LogInState extends State<LogIn> {
             _isLoading = false;
           });
           // show registration success
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "login Completed successfully"
               : "تم التسجيل بنجاح");
           // go to Home  page
@@ -69,7 +68,7 @@ class _LogInState extends State<LogIn> {
           });
           // show registration failed
           // and show error message
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "Invalid email or password."
               : "البريد الالكترونى او الرقم السرى غير صحيح");
         }
@@ -178,8 +177,9 @@ class _LogInState extends State<LogIn> {
                                 validator: activeType == 1
                                     ? (String value) {
                                         if (value.isEmpty) {
-                                          return myLocale.languageCode
-                                                  .contains("en")
+                                          return allTranslations
+                                                      .currentLanguage ==
+                                                  "en"
                                               ? "Phone number is required"
                                               : "رقم الجوال مطلوب";
                                         }
@@ -189,8 +189,9 @@ class _LogInState extends State<LogIn> {
                                             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                                         RegExp regex = new RegExp(pattern);
                                         if (!regex.hasMatch(val))
-                                          return myLocale.languageCode
-                                                  .contains("en")
+                                          return allTranslations
+                                                      .currentLanguage ==
+                                                  "en"
                                               ? "Not Valid Email."
                                               : "البريد الالكترونى غير صحيح.";
                                         else
@@ -213,8 +214,9 @@ class _LogInState extends State<LogIn> {
                                       },
                                       validator: (String value) {
                                         if (value.toString().length < 6)
-                                          return myLocale.languageCode
-                                                  .contains("en")
+                                          return allTranslations
+                                                      .currentLanguage ==
+                                                  "en"
                                               ? "Password must contain at least 6 char"
                                               : "الرقم السرى يجب ان يحتوى على 6 حروف على الاقل";
                                         else

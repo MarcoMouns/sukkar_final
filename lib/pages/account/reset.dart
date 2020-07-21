@@ -50,7 +50,7 @@ class _ResetState extends State<Reset> {
           _isLoading = false;
         });
         // show error
-        showInSnackBar(myLocale.languageCode.contains("en")
+        showInSnackBar(allTranslations.currentLanguage == "en"
             ? "Invalid phone number."
             : "رقم الجوال غير مسجل فى قاعدة البيانات");
       }

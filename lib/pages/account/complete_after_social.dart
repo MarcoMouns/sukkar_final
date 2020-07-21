@@ -73,7 +73,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Camera'
                           : 'الكاميرا',
                       style: TextStyle(
@@ -95,7 +95,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Gallery'
                           : 'الاستديو',
                       style: TextStyle(
@@ -119,7 +119,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
     if (!form.validate() || _formData['image'] == null) {
       _autoValidate = true; // Start validating on every change.
 
-      showInSnackBar(myLocale.languageCode.contains("en")
+      showInSnackBar(allTranslations.currentLanguage == "en"
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
@@ -134,7 +134,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
           });
 
           // show registration success
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "Registratin CompleteAfterSocialLogind successfully"
               : "تم التسجيل بنجاح");
           // go to Home  page
@@ -146,7 +146,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
           });
           // show registration failed
           // and show error message
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "The email has already been taken."
               : "البريد الالكترونى موجود مسبقا");
         }
@@ -218,7 +218,7 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
                                 },
                                 validator: (String val) {
                                   if (val.isEmpty) {
-                                    return myLocale.languageCode.contains("en")
+                                    return allTranslations.currentLanguage == "en"
                                         ? "Phone number is required"
                                         : "رقم الجوال مطلوب";
                                   }

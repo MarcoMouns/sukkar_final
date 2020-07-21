@@ -6,6 +6,7 @@ import 'package:health/pages/account/verify.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../scoped_models/main.dart';
 import '../../languages/all_translations.dart';
 
@@ -163,7 +164,7 @@ class _NewUserState extends State<NewUser> {
                             },
                             validator: (String val) {
                               if (val.isEmpty) {
-                                return myLocale.languageCode.contains("en")
+                                return allTranslations.currentLanguage == "en"
                                     ? "userName is required."
                                     : "اسم المستخدم مطلوب";
                               }
@@ -175,7 +176,7 @@ class _NewUserState extends State<NewUser> {
                             name: "mobilePhone",
                             validator: (String val) {
                               if (val.isEmpty) {
-                                return myLocale.languageCode.contains("en")
+                                return allTranslations.currentLanguage == "en"
                                     ? "Phone number is required"
                                     : "رقم الجوال مطلوب";
                               }
@@ -201,7 +202,7 @@ class _NewUserState extends State<NewUser> {
                             },
                             validator: (String val) {
                               if (val.toString().length < 6)
-                                return myLocale.languageCode.contains("en")
+                                return allTranslations.currentLanguage == "en"
                                     ? "Password must contain at least 6 char"
                                     : "الرقم السرى يجب ان يحتوى على 6 حروف على الاقل";
                               else
@@ -249,6 +250,10 @@ class _NewUserState extends State<NewUser> {
                                       color: Settings.mainColor(),
                                       textColor: Colors.white,
                                       onPressed: () async {
+                                        SharedPreferences pref =
+                                            await SharedPreferences
+                                                .getInstance();
+
                                         _focusNode.unfocus();
                                         isClicked == true
                                             ? _handleSubmit(context, model)

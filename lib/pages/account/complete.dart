@@ -98,7 +98,7 @@ class _CompleteState extends State<Complete> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Camera'
                           : 'الكاميرا',
                       style: TextStyle(
@@ -120,7 +120,7 @@ class _CompleteState extends State<Complete> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Gallery'
                           : 'الاستديو',
                       style: TextStyle(
@@ -202,8 +202,10 @@ class _CompleteState extends State<Complete> {
     }
   }
 
-  void _handleSubmitted(BuildContext context,
-      MainModel model,) {
+  void _handleSubmitted(
+    BuildContext context,
+    MainModel model,
+  ) {
     Locale myLocale = Localizations.localeOf(context);
     setState(() {
       _formData['gender'] = _gender == 'male' ? 1 : 0;
@@ -211,7 +213,7 @@ class _CompleteState extends State<Complete> {
     if (!_formKey.currentState.validate() || _formData['phone'] == null) {
       _autoValidate = true;
 
-      showInSnackBar(myLocale.languageCode.contains("en")
+      showInSnackBar(allTranslations.currentLanguage == "en"
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
@@ -231,7 +233,7 @@ class _CompleteState extends State<Complete> {
           setState(() {
             _isLoading = false;
           });
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "The email has already been taken."
               : "البريد الالكترونى موجود مسبقا");
         }
@@ -273,7 +275,7 @@ class _CompleteState extends State<Complete> {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     SizedBox(
                                       width: 24,
@@ -313,7 +315,7 @@ class _CompleteState extends State<Complete> {
                                     RegExp regex = new RegExp(pattern);
                                     if (!regex.hasMatch(val))
                                       return myLocale.languageCode
-                                          .contains("en")
+                                              .contains("en")
                                           ? "Not Valid Email."
                                           : "البريد الالكترونى غير صحيح.";
                                     else
@@ -328,13 +330,12 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                        _birthDateController.text =
+                                    _birthDateController.text =
                                         (date.toString()).split(" ")[0];
-                                      },
-                                      onConfirm: (date) {
-                                        _birthDateController.text =
+                                  }, onConfirm: (date) {
+                                    _birthDateController.text =
                                         (date.toString()).split(" ")[0];
-                                      },
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -360,13 +361,12 @@ class _CompleteState extends State<Complete> {
                                       minTime: DateTime(1900, 3, 5),
                                       maxTime: DateTime.now(),
                                       onChanged: (date) {
-                                        _injuryDateController.text =
+                                    _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                      },
-                                      onConfirm: (date) {
-                                        _injuryDateController.text =
+                                  }, onConfirm: (date) {
+                                    _injuryDateController.text =
                                         date.toString().split(" ")[0];
-                                      },
+                                  },
                                       currentTime: DateTime.now(),
                                       locale: LocaleType.en);
                                 },
@@ -390,36 +390,36 @@ class _CompleteState extends State<Complete> {
                                 children: <Widget>[
                                   Expanded(
                                       child: Row(
-                                        children: <Widget>[
-                                          Radio(
-                                            activeColor: Colors.redAccent,
-                                            onChanged: (val) {
-                                              setState(() {
-                                                _gender = val;
-                                              });
-                                            },
-                                            value: 'male',
-                                            groupValue: _gender,
-                                          ),
-                                          Text(allTranslations.text("male"))
-                                        ],
-                                      )),
+                                    children: <Widget>[
+                                      Radio(
+                                        activeColor: Colors.redAccent,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            _gender = val;
+                                          });
+                                        },
+                                        value: 'male',
+                                        groupValue: _gender,
+                                      ),
+                                      Text(allTranslations.text("male"))
+                                    ],
+                                  )),
                                   Expanded(
                                       child: Row(
-                                        children: <Widget>[
-                                          Radio(
-                                            activeColor: Colors.redAccent,
-                                            onChanged: (val) {
-                                              setState(() {
-                                                _gender = val;
-                                              });
-                                            },
-                                            value: 'female',
-                                            groupValue: _gender,
-                                          ),
-                                          Text(allTranslations.text("female"))
-                                        ],
-                                      ))
+                                    children: <Widget>[
+                                      Radio(
+                                        activeColor: Colors.redAccent,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            _gender = val;
+                                          });
+                                        },
+                                        value: 'female',
+                                        groupValue: _gender,
+                                      ),
+                                      Text(allTranslations.text("female"))
+                                    ],
+                                  ))
                                 ],
                               ),
                             ],
@@ -431,69 +431,69 @@ class _CompleteState extends State<Complete> {
                               vertical: 0.0, horizontal: 30.0),
                           child: _isLoading
                               ? CupertinoActivityIndicator(
-                            animating: true,
-                            radius: 15,
-                          )
+                                  animating: true,
+                                  radius: 15,
+                                )
                               : Column(
-                            children: <Widget>[
-                              RaisedButton(
-                                  elevation: 0.0,
-                                  color: Colors.grey,
-                                  textColor: Colors.white,
-                                  onPressed: () async {
-                                    if (hasPhoto &&
-                                        picdone &&
-                                        isMatched == true) {
-                                      uidx =
-                                      await createFirebaseAccount();
-                                      _formData['fuid'] = uidx;
-                                      CreateCFSaccount(uidx);
-                                      _handleSubmitted(
-                                        context,
-                                        model,
-                                      );
-                                    } else {
-                                      hasPhoto = false;
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.all(0.0),
-                                      width: double.infinity,
-                                      child: Text(
-                                        allTranslations.text("verify"),
-                                        style: TextStyle(fontSize: 18.0),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(20.0))),
-                              RaisedButton(
-                                  elevation: 0.0,
-                                  color: Settings.mainColor(),
-                                  textColor: Colors.white,
-                                  onPressed: () async {
-                                    uidx = await createFirebaseAccount();
-                                    _formData['fuid'] = uidx;
-                                    CreateCFSaccount(uidx);
-                                    _handleSubmitted(
-                                      context,
-                                      model,
-                                    );
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.all(0.0),
-                                      width: double.infinity,
-                                      child: Text(
-                                        allTranslations.text("skip"),
-                                        style: TextStyle(fontSize: 18.0),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(20.0))),
-                            ],
-                          ),
+                                  children: <Widget>[
+                                    RaisedButton(
+                                        elevation: 0.0,
+                                        color: Colors.grey,
+                                        textColor: Colors.white,
+                                        onPressed: () async {
+                                          if (hasPhoto &&
+                                              picdone &&
+                                              isMatched == true) {
+                                            uidx =
+                                                await createFirebaseAccount();
+                                            _formData['fuid'] = uidx;
+                                            CreateCFSaccount(uidx);
+                                            _handleSubmitted(
+                                              context,
+                                              model,
+                                            );
+                                          } else {
+                                            hasPhoto = false;
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(0.0),
+                                            width: double.infinity,
+                                            child: Text(
+                                              allTranslations.text("verify"),
+                                              style: TextStyle(fontSize: 18.0),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0))),
+                                    RaisedButton(
+                                        elevation: 0.0,
+                                        color: Settings.mainColor(),
+                                        textColor: Colors.white,
+                                        onPressed: () async {
+                                          uidx = await createFirebaseAccount();
+                                          _formData['fuid'] = uidx;
+                                          CreateCFSaccount(uidx);
+                                          _handleSubmitted(
+                                            context,
+                                            model,
+                                          );
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(0.0),
+                                            width: double.infinity,
+                                            child: Text(
+                                              allTranslations.text("skip"),
+                                              style: TextStyle(fontSize: 18.0),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0))),
+                                  ],
+                                ),
                         ),
                       ],
                     ),
@@ -518,34 +518,34 @@ class UserImage extends StatelessWidget {
     }
     return Center(
         child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: userImage,
-              radius: 30,
-            ),
-            Container(
-              width: 80,
-              height: 80,
-            ),
-            imageFile == null
-                ? Positioned(
-              right: 1,
-              bottom: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.blue, width: 2),
+      alignment: Alignment.center,
+      children: <Widget>[
+        CircleAvatar(
+          backgroundColor: Colors.white,
+          backgroundImage: userImage,
+          radius: 30,
+        ),
+        Container(
+          width: 80,
+          height: 80,
+        ),
+        imageFile == null
+            ? Positioned(
+                right: 1,
+                bottom: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.blue, width: 2),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.black,
+                  ),
                 ),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              ),
-            )
-                : Container(),
-          ],
-        ));
+              )
+            : Container(),
+      ],
+    ));
   }
 }
