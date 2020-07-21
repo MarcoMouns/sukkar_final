@@ -193,7 +193,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Camera'
                           : 'الكاميرا',
                       style: TextStyle(
@@ -215,7 +215,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Gallery'
                           : 'الاستديو',
                       style: TextStyle(
@@ -280,7 +280,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     },
                     initialValue: name,
                     decoration: InputDecoration(
-                        labelText: myLocale.languageCode.contains("en")
+                        labelText: allTranslations.currentLanguage == "en"
                             ? "Name"
                             : "الاسم"),
                     enabled: true,
@@ -292,7 +292,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     },
                     validator: (String val) {
                       if (val.isEmpty) {
-                        return myLocale.languageCode.contains("en")
+                        return allTranslations.currentLanguage == "en"
                             ? "userName is required."
                             : "اسم المستخدم مطلوب";
                       }
@@ -304,7 +304,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       },
                       initialValue: email,
                       decoration: InputDecoration(
-                          labelText: myLocale.languageCode.contains("en")
+                          labelText: allTranslations.currentLanguage == "en"
                               ? "Email"
                               : "البريد الالكتروني"),
                       keyboardType: TextInputType.emailAddress,
@@ -315,7 +315,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       },
                       validator: (String val) {
                         if (val.isEmpty) {
-                          return myLocale.languageCode.contains("en")
+                          return allTranslations.currentLanguage == "en"
                               ? "Email number is required"
                               : "البريد الالكترونى مطلوب";
                         }
@@ -323,7 +323,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                         RegExp regex = new RegExp(pattern);
                         if (!regex.hasMatch(val))
-                          return myLocale.languageCode.contains("en")
+                          return allTranslations.currentLanguage == "en"
                               ? "Not Valid Email."
                               : "البريد الالكترونى غير صحيح.";
                         else
@@ -336,7 +336,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       },
                       initialValue: phone,
                       decoration: InputDecoration(
-                          labelText: myLocale.languageCode.contains("en")
+                          labelText: allTranslations.currentLanguage == "en"
                               ? "phone"
                               : "رقم الهاتف"),
                       keyboardType: TextInputType.number,
@@ -353,7 +353,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                     },
                     validator: (String val) {
                       if (val.length < 8) {
-                        return myLocale.languageCode.contains("en")
+                        return allTranslations.currentLanguage == "en"
                             ? "invalid password"
                             : "كلمة مرور غبر صالحة";
                       }
@@ -364,7 +364,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                       });
                     },
                     decoration: InputDecoration(
-                        labelText: myLocale.languageCode.contains("en")
+                        labelText: allTranslations.currentLanguage == "en"
                             ? "Password"
                             : "كلمة السر"),
                     keyboardType: TextInputType.text,

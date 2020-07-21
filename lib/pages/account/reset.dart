@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/account/reset_pass_verify_code.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../../scoped_models/main.dart';
-import 'package:health/pages/Settings.dart';
+
 import '../../languages/all_translations.dart';
+import '../../scoped_models/main.dart';
 
 class Reset extends StatefulWidget {
   _ResetState createState() => _ResetState();
@@ -50,7 +51,7 @@ class _ResetState extends State<Reset> {
           _isLoading = false;
         });
         // show error
-        showInSnackBar(myLocale.languageCode.contains("en")
+        showInSnackBar(allTranslations.currentLanguage == "en"
             ? "Invalid phone number."
             : "رقم الجوال غير مسجل فى قاعدة البيانات");
       }

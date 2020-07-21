@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import '../../scoped_models/main.dart';
 import 'package:health/pages/Settings.dart';
+import 'package:scoped_model/scoped_model.dart';
+
 import '../../languages/all_translations.dart';
+import '../../scoped_models/main.dart';
 
 class ChangePassword extends StatefulWidget {
   final String phone;
+
   ChangePassword(this.phone);
+
   _ChangePasswordState createState() => _ChangePasswordState();
 }
 
@@ -49,7 +52,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     if (!form.validate()) {
       _autoValidate = true; // Start validating on every change.
 
-      showInSnackBar(myLocale.languageCode.contains("en")
+      showInSnackBar(allTranslations.currentLanguage == "en"
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
@@ -64,7 +67,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           });
 
           // show registration success
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "ChangePasswordd completed successfully"
               : "تم تغيير الباسورد بنجاح");
           // go to Home  page
@@ -76,7 +79,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           });
           // show registration failed
           // and show error message
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "Invalid code."
               : "كود التحقيق غير صحيح");
         }
@@ -113,9 +116,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           child: ListView(
                             children: <Widget>[
                               Center(
-                                child: Text(myLocale.languageCode.contains("en")
-                                    ? "Change Password"
-                                    : "تغيير الباسورد"),
+                                child: Text(
+                                    allTranslations.currentLanguage == "en"
+                                        ? "Change Password"
+                                        : "تغيير الباسورد"),
                               ),
                               LogInInput(
                                 enabled: true,
@@ -130,7 +134,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 },
                                 validator: (String val) {
                                   if (val.toString().length < 6)
-                                    return myLocale.languageCode.contains("en")
+                                    return allTranslations.currentLanguage ==
+                                        "en"
                                         ? "Password must contain at least 6 char"
                                         : "الرقم السرى يجب ان يحتوى على 6 حروف على الاقل";
                                   else
@@ -146,7 +151,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 focusNode: _focusNode5,
                                 validator: (String val) {
                                   if (_passwrodController.text != val) {
-                                    return myLocale.languageCode.contains("en")
+                                    return allTranslations.currentLanguage ==
+                                        "en"
                                         ? "Password don't match."
                                         : "الرقم السرى غير صحيح";
                                   }

@@ -98,7 +98,7 @@ class _CompleteState extends State<Complete> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Camera'
                           : 'الكاميرا',
                       style: TextStyle(
@@ -120,7 +120,7 @@ class _CompleteState extends State<Complete> {
                       width: 20,
                     ),
                     Text(
-                      myLocale.languageCode.contains("en")
+                      allTranslations.currentLanguage == "en"
                           ? 'Gallery'
                           : 'الاستديو',
                       style: TextStyle(
@@ -213,7 +213,7 @@ class _CompleteState extends State<Complete> {
     if (!_formKey.currentState.validate() || _formData['phone'] == null) {
       _autoValidate = true;
 
-      showInSnackBar(myLocale.languageCode.contains("en")
+      showInSnackBar(allTranslations.currentLanguage == "en"
           ? "Please fix errors before submit"
           : "من فضلك قم بتصحيح جميع الاخطاء اولا");
     } else {
@@ -233,7 +233,7 @@ class _CompleteState extends State<Complete> {
           setState(() {
             _isLoading = false;
           });
-          showInSnackBar(myLocale.languageCode.contains("en")
+          showInSnackBar(allTranslations.currentLanguage == "en"
               ? "The email has already been taken."
               : "البريد الالكترونى موجود مسبقا");
         }
