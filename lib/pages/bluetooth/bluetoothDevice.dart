@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:bluetooth/bluetooth.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/bluetooth/widgets.dart';
 import 'package:intl/intl.dart' as intl;
@@ -46,7 +46,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   StreamSubscription deviceConnection;
   StreamSubscription deviceStateSubscription;
   List<BluetoothService> services = new List();
-  Map<BluetoothCharacteristicIdentifier, StreamSubscription> valueChangedSubscriptions = {};
+  Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
   Response response;
@@ -96,81 +96,72 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             ),
             content: finalMeasure >= 70 && finalMeasure < 90
                 ? SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.35,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("low1SugermgsTitle"),
-                      style: TextStyle(
-                        color: Colors.green,
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            allTranslations.text("low1SugermgsTitle"),
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Text(allTranslations.text("low1Sugermgsbody")),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("low1Sugermgsbody")),
-                  ],
-                ),
-              ),
-            )
+                  )
                 : finalMeasure >= 90 && finalMeasure <= 200
-                ? Text(
-              allTranslations.text("normalSugermsg"),
-              style: TextStyle(color: Colors.green),
-              textAlign: TextAlign.center,
-            )
-                : finalMeasure > 200
-                ? SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.27,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("highSugermsgTitle"),
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("highSugerBody")),
-                  ],
-                ),
-              ),
-            )
-                : SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.4,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("lowSugermsgTitle"),
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("lowSugermsgbody")),
-                  ],
-                ),
-              ),
-            ),
+                    ? Text(
+                        allTranslations.text("normalSugermsg"),
+                        style: TextStyle(color: Colors.green),
+                        textAlign: TextAlign.center,
+                      )
+                    : finalMeasure > 200
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("highSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("highSugerBody")),
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("lowSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("lowSugermsgbody")),
+                                ],
+                              ),
+                            ),
+                          ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -179,7 +170,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  finalMeasure = null;
+                  finalMeasure = 0;
                 },
               ),
             ],
@@ -193,45 +184,56 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   void initState() {
     super.initState();
     // Immediately get the state of FlutterBlue
-    _flutterBlue.state.then((s) {
+    _flutterBlue.state.listen((s) {
       setState(() {
         state = s;
       });
+      print('State init: $state');
     });
+
     // Subscribe to state changes
-    _stateSubscription = _flutterBlue.onStateChanged().listen((s) {
+    _stateSubscription = _flutterBlue.state.listen((s) {
       setState(() {
         state = s;
       });
+      print('State updated: $state');
     });
   }
 
   @override
-  void dispose() {
-    _stateSubscription?.cancel();
-    _stateSubscription = null;
-    _scanSubscription?.cancel();
-    _scanSubscription = null;
-    deviceConnection?.cancel();
-    deviceConnection = null;
-    super.dispose();
-  }
+//  void dispose() {
+//    valueChangedSubscriptions.forEach((uuid, sub) => sub.cancel());
+//    valueChangedSubscriptions.clear();
+//    _stateSubscription?.cancel();
+//    _stateSubscription = null;
+//    _scanSubscription?.cancel();
+//    _scanSubscription = null;
+//    deviceConnection?.cancel();
+//     deviceConnection = null;
+//    setState(() {
+//      device.disconnect();
+//    });
+//    super.dispose();
+//  }
 
   _startScan() {
     _scanSubscription = _flutterBlue
         .scan(
-      timeout: const Duration(seconds: 5),
-      /*withServices: [
-             new Guid('0000ffe4-0000-1000-8000-00805f9b34fb')
-           ]*/
+      timeout: const Duration(seconds: 4),
+//      withServices: [
+//             new Guid('0000ffe4-0000-1000-8000-00805f9b34fb')
+//           ]
     )
         .listen((scanResult) {
-     // print('localName: ${scanResult.advertisementData.localName}');
-     // print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
+      // print('localName: ${scanResult.advertisementData.localName}');
+      // print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
       //print('serviceData: ${scanResult.advertisementData.serviceData}');
-      setState(() {
-        scanResults[scanResult.device.id] = scanResult;
-      });
+      if (scanResult.device.name == "LBM-1") {
+        if (mounted)
+          setState(() {
+            scanResults[scanResult.device.id] = scanResult;
+          });
+      }
     }, onDone: _stopScan);
 
     setState(() {
@@ -250,83 +252,36 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   _connect(BluetoothDevice d) async {
     device = d;
     // Connect to device
-    deviceConnection = _flutterBlue
-        .connect(device, timeout: const Duration(seconds: 4))
-        .listen(
-      null,
-      onDone: _disconnect,
+    await device.connect(
+      timeout: Duration(seconds: 4),
     );
 
-    // Update the connection state immediately
-    device.state.then((s) {
-      setState(() {
-        deviceState = s;
-      });
-    });
-
-    // Subscribe to connection changes
-    deviceStateSubscription = device.onStateChanged().listen((s) {
-      if (mounted)
-        setState(() {
-          deviceState = s;
-        });
-      if (s == BluetoothDeviceState.connected) {
-        device.discoverServices().then((s) {
-          var bservice = s
-              .where((r) =>
-              r.uuid
-                  .toString()
-                  .toLowerCase()
-                  .contains("0000ffe0-0000-1000-8000-00805f9b34fb"))
-              .first;
-          if (bservice != null) {
-            var char = bservice.characteristics
-                .where((c) =>
-                c.id
-                    .toString()
-                    .toLowerCase()
-                    .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
-                .first;
-            if (char != null) {
-              _setNotification(char);
-            }
-          }
-          bservice = s
-              .where((r) =>
-              r.uuid
-                  .toString()
-                  .toLowerCase()
-                  .contains("00001808-0000-1000-8000-00805f9b34fb"))
-              .first;
-          if (bservice != null) {
-            var char = bservice.characteristics
-                .where((c) =>
-                c.id
-                    .toString()
-                    .toLowerCase()
-                    .contains("00002a18-0000-1000-8000-00805f9b34fb"))
-                .first;
-            if (char != null) {
-              _setNotification(char);
-            }
-          }
-
+    deviceConnection = _flutterBlue.state.listen((state) async {
+      // Update the connection state immediately
+      device.state.listen((s) {
+        if (mounted)
           setState(() {
-            //Accu-Answer isaw Service UUID="0000ffe0-0000-1000-8000-00805f9b34fb"
-            //Accu-Answer isaw Characteristics UUID="0000ffe4-0000-1000-8000-00805f9b34fb"
-            //YASEE Service UUID="00001808-0000-1000-8000-00805f9b34fb"
-            //YASEE Characteristics UUID="00002a18-0000-1000-8000-00805f9b34fb"
-
-            // var bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("0000ffe0-0000-1000-8000-00805f9b34fb")).first;//Accu-Answer
-            // var bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("00001808-0000-1000-8000-00805f9b34fb")).first;//YASEE
-            for (int i = 0; i < s.length; i++) {
-              var bservice = s[i];
-              var tmpUUID = bservice.uuid.toString().toLowerCase();
-
-              if (tmpUUID == "0000ffe0-0000-1000-8000-00805f9b34fb") {
+            deviceState = s;
+          });
+      });
+      // Subscribe to connection changes
+      deviceStateSubscription = device.state.listen(
+        (s) {
+          if (mounted)
+            setState(() {
+              deviceState = s;
+            });
+          if (s == BluetoothDeviceState.connected) {
+            device.discoverServices().then((s) {
+              var bservice = s
+                  .where((r) => r.uuid
+                      .toString()
+                      .toLowerCase()
+                      .contains("0000ffe0-0000-1000-8000-00805f9b34fb"))
+                  .first;
+              if (bservice != null) {
                 var char = bservice.characteristics
-                    .where((c) =>
-                    c.id
+                    .where((c) => c.uuid
                         .toString()
                         .toLowerCase()
                         .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
@@ -334,11 +289,16 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 if (char != null) {
                   _setNotification(char);
                 }
-                break;
-              } else if (tmpUUID == "00001808-0000-1000-8000-00805f9b34fb") {
+              }
+              bservice = s
+                  .where((r) => r.uuid
+                      .toString()
+                      .toLowerCase()
+                      .contains("00001808-0000-1000-8000-00805f9b34fb"))
+                  .first;
+              if (bservice != null) {
                 var char = bservice.characteristics
-                    .where((c) =>
-                    c.id
+                    .where((c) => c.uuid
                         .toString()
                         .toLowerCase()
                         .contains("00002a18-0000-1000-8000-00805f9b34fb"))
@@ -346,14 +306,53 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 if (char != null) {
                   _setNotification(char);
                 }
-                break;
               }
-            }
 
-            //services = s;
-          });
-        });
-      }
+              setState(() {
+                //Accu-Answer isaw Service UUID="0000ffe0-0000-1000-8000-00805f9b34fb"
+                //Accu-Answer isaw Characteristics UUID="0000ffe4-0000-1000-8000-00805f9b34fb"
+                //YASEE Service UUID="00001808-0000-1000-8000-00805f9b34fb"
+                //YASEE Characteristics UUID="00002a18-0000-1000-8000-00805f9b34fb"
+
+                //var bservice =s.where((r) =>r.uuid.toString().toLowerCase().contains("0000ffe0-0000-1000-8000-00805f9b34fb")).first;//Accu-Answer
+                // var bservice=s.where((r) =>r.uuid.toString().toLowerCase().contains("00001808-0000-1000-8000-00805f9b34fb")).first;//YASEE
+                for (int i = 0; i < s.length; i++) {
+                  var bservice = s[i];
+                  var tmpUUID = bservice.uuid.toString().toLowerCase();
+
+                  if (tmpUUID == "0000ffe0-0000-1000-8000-00805f9b34fb") {
+                    var char = bservice.characteristics
+                        .where((c) => c.uuid
+                            .toString()
+                            .toLowerCase()
+                            .contains("0000ffe4-0000-1000-8000-00805f9b34fb"))
+                        .first;
+                    if (char != null) {
+                      _setNotification(char);
+                    }
+                    break;
+                  } else if (tmpUUID ==
+                      "00001808-0000-1000-8000-00805f9b34fb") {
+                    var char = bservice.characteristics
+                        .where((c) => c.uuid
+                            .toString()
+                            .toLowerCase()
+                            .contains("00002a18-0000-1000-8000-00805f9b34fb"))
+                        .first;
+                    if (char != null) {
+                      _setNotification(char);
+                    }
+                    break;
+                  }
+                }
+                //services = s;
+                //if (mounted) setState(() {});
+              });
+            });
+          }
+        },
+        onDone: _disconnect,
+      );
     });
   }
 
@@ -366,106 +365,31 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     deviceConnection?.cancel();
     deviceConnection = null;
     setState(() {
-      device = null;
+      device.disconnect();
     });
   }
 
   _setNotification(BluetoothCharacteristic c) async {
-    if (c.isNotifying) {
-      await device.setNotifyValue(c, false);
-      // Cancel subscription
-      valueChangedSubscriptions[c.id]?.cancel();
-      valueChangedSubscriptions.remove(c.id);
-    } else {
-      await device.setNotifyValue(c, true);
-      // ignore: cancel_subscriptions
-      final sub = device.onValueChanged(c).listen((d) async {
-        if (d.length == 20 && d[0] == 104 && d[2] == 161) {
+    await c.setNotifyValue(true);
+    // ignore: cancel_subscriptions
+    final sub = c.value.listen((d) async {
+      if (d.length == 20 && d[0] == 104 && d[2] == 161) {
+        if (mounted)
           setState(() {
             // Update Backend
-             checkReceiveData(d);
-           // print('onValueChanged $d res:$res');
+            var res = checkReceiveData(d);
+            print('onValueChanged $d res:$res');
           });
-        } else if (d.length == 15) {
-          var res = checkReceiveDataYASEE(d);
-         // print('onValueChanged $d res:$res');
-        }
-      });
-      // Add to map
-      valueChangedSubscriptions[c.id] = sub;
-    }
-    setState(() {});
-  }
-
-  //checkReceiveData YASEE Device
-  int checkReceiveDataYASEE(List<int> reciveData) {
-    //[71, 0, 0, 227, 7, 5, 25, 16, 38, 0, 0, 0, 240, 96, 17]
-    double tmpVal = 0.0;
-    int tmpIVal = 0;
-    String data = "";
-    String time = "";
-    String units = "mg/dL";
-
-    if (reciveData.length == 15) {
-      int tmpYear = 0;
-      int tmpMonth = 0;
-      int tmpDay = 0;
-      int tmpHour = 0;
-      int tmpMin = 0;
-      int tmpsec = 0;
-
-      tmpVal = reciveData[13] * 0.1 * 18.0;
-      tmpIVal = tmpVal.round();
-
-      tmpYear = (reciveData[3]) + 1792; //السنة
-      tmpMonth = (reciveData[5]); //الشهر
-      tmpDay = (reciveData[6]); //اليوم
-      tmpHour = (reciveData[7]); //الساعة
-      tmpMin = (reciveData[8]); //الدقيقة
-      tmpsec = (reciveData[9]); //الثانية
-
-      time = ((((tmpYear.toString() + "-") + tmpMonth.toString()) + "-") +
-          tmpDay.toString() +
-          " ");
-      if (tmpHour < 10) {
-        time = (time + "0");
-      }
-      time = ((time + tmpHour.toString()) + ":");
-      if (tmpMin < 10) {
-        time = (time + "0");
-      }
-      time = ((time + tmpMin.toString()) + ":");
-      if (tmpsec < 10) {
-        time = (time + "0");
-      }
-      time = (time + tmpsec.toString());
-
-      //Blood Glucose
-      data = "";
-      if (tmpIVal <= 20) {
-        data = tmpIVal.toString() + " " + units.toLowerCase() + " Lo";
-      } else {
-        if (tmpIVal >= 600) {
-          data = tmpIVal.toString() + " " + units.toLowerCase() + " Hi";
-        } else {
-          data = tmpIVal.toString() + " " + units.toLowerCase() + " Normal";
+        if (finalMeasure > 0) {
+          _disconnect();
+          addNewMeasurement(finalMeasure, context);
         }
       }
+    });
+    // Add to map
+    valueChangedSubscriptions[c.uuid] = sub;
 
-      if (data.length > 0) {
-        resultTime = time;
-        resultData = data;
-        resultTestKind =
-        "Blood Glucose"; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
-        resultUnitType = units.toLowerCase();
-
-        setState(() {});
-      }
-      setState(() {});
-      return 2;
-    } else {
-      return 0;
-    }
+    if (mounted) setState(() {});
   }
 
   //checkReceiveData ACCU-ANSWER Device
@@ -500,7 +424,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     int cmdChar = 161; //INVERTED EXCLAMATION MARK !
     int chkSum = 0;
     int dataType =
-    0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
+        0; //0xA1(161):Urine Glucose,0xA2(162):Blood Glucose,0xA3(163):Uric Acid,0xA4(164):Total Cholesterol
     double tmpVal = 0.0;
     int tmpIVal = 0;
     String data = "";
@@ -648,6 +572,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             dataTypeStr; //Urine Glucose OR Blood Glucose OR Uric Acid OR Total Cholesterol
         resultUnitType = units.toLowerCase(); //mg/dL
         finalMeasure = tmpIVal;
+
         setState(() {});
       }
       setState(() {});
@@ -657,11 +582,14 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     return 0;
   }
 
-  _refreshDeviceState(BluetoothDevice d) async {
-    var state = await d.state;
-    setState(() {
-      deviceState = state;
-     // print('State refreshed: $deviceState');
+  _refreshDeviceState(BluetoothDevice d) {
+    device = d;
+    device.state.listen((s) {
+      if (mounted)
+        setState(() {
+          deviceState = s;
+          print('State refreshed: $deviceState');
+        });
     });
   }
 
@@ -682,30 +610,30 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   }
 
   _buildScanResultTiles() {
+    setState(() {});
     return scanResults.values
-        .map((r) =>
-        ScanResultTile(
-          result: r,
-          onTap: () => _connect(r.device),
-        ))
+        .map((r) => ScanResultTile(
+              result: r,
+              onTap: () => _connect(r.device),
+            ))
         .toList();
   }
 
-  _buildActionButtons() {
-    if (isConnected) {
-      return <Widget>[
-        new IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () {
-            if (finalMeasure > 0) {
-              addNewMeasurement(finalMeasure, context);
-            }
-            _disconnect();
-          },
-        )
-      ];
-    }
-  }
+//  _buildActionButtons() {
+//    if (isConnected) {
+//      return <Widget>[
+//        new IconButton(
+//          icon: const Icon(Icons.cancel),
+//          onPressed: () {
+//            _disconnect();
+//            if (finalMeasure > 0) {
+//              addNewMeasurement(finalMeasure, context);
+//            }
+//          },
+//        )
+//      ];
+//    }
+//  }
 
   _buildAlertTile() {
     return new Container(
@@ -727,25 +655,29 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
 
   _buildDeviceStateTile() {
     return new ListTile(
-        leading: (deviceState == BluetoothDeviceState.connected)
-            ? const Icon(Icons.bluetooth_connected)
-            : const Icon(Icons.bluetooth_disabled),
-        // title: new Text('Device is ${deviceState.toString().split('.')[1]}.'),
+      leading: (deviceState == BluetoothDeviceState.connected)
+          ? const Icon(Icons.bluetooth_connected)
+          : const Icon(Icons.bluetooth_disabled),
+      // title: new Text('Device is ${deviceState.toString().split('.')[1]}.'),
 
-        title: new Text(
-          (deviceState.toString().split('.')[1] == "connected")
-              ? allTranslations.text("glucose meter connected")
-              : allTranslations.text("glucose meter disconnected"),
-          style: (deviceState.toString().split('.')[1] == "connected")
-              ? TextStyle(color: Colors.green)
-              : TextStyle(color: Colors.red),
-        ),
-        subtitle: new Text('${device.id}'),
-        trailing: new IconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: () => _refreshDeviceState(device),
-          color: Theme.of(context).iconTheme.color.withOpacity(0.5),
-        ));
+      title: new Text(
+        (deviceState.toString().split('.')[1] == "connected")
+            ? allTranslations.text("glucose meter connected")
+            : allTranslations.text("glucose meter disconnected"),
+        style: (deviceState.toString().split('.')[1] == "connected")
+            ? TextStyle(color: Colors.green, fontSize: 25)
+            : TextStyle(color: Colors.red, fontSize: 25),
+        textDirection: allTranslations.currentLanguage == "en"
+            ? TextDirection.ltr
+            : TextDirection.rtl,
+      ),
+      //subtitle: new Text('${device.id}'),
+      trailing: new IconButton(
+        icon: const Icon(Icons.refresh),
+        onPressed: () => _refreshDeviceState(device),
+        color: Theme.of(context).iconTheme.color.withOpacity(0.5),
+      ),
+    );
   }
 
   _buildDeviceReadDataTile() {
@@ -778,44 +710,40 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return WillPopScope(
-      onWillPop: () {
-        if (finalMeasure > 0) {
-          addNewMeasurement(finalMeasure, context);
-        } else {
-          Navigator.pop(context);
-        }
-        _disconnect();
-      },
-      child: new Directionality(
-        textDirection: TextDirection.ltr,
-        child: new Scaffold(
-          appBar: new AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                if (finalMeasure > 0) {
-                  addNewMeasurement(finalMeasure, context);
-                } else {
-                  Navigator.pop(context);
-                }
+    return new Directionality(
+      textDirection: TextDirection.ltr,
+      child: new Scaffold(
+        appBar: new AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              if (finalMeasure > 0) {
+                addNewMeasurement(finalMeasure, context);
                 _disconnect();
-              },
-            ),
-            title: Text(allTranslations.text("Add glucose meter")),
-            centerTitle: true,
-            actions: _buildActionButtons(),
+              } else if (deviceState.toString() ==
+                  "BluetoothDeviceState.connected") {
+                _disconnect();
+                Navigator.pop(context);
+              } else {
+                Navigator.pop(context);
+              }
+            },
           ),
-          floatingActionButton:
-          _buildScanningButton(), //_buildTestReadingButton(),
-          body: new Stack(
-            children: <Widget>[
-              (isScanning) ? _buildProgressBarTile() : new Container(),
-              new ListView(
-                children: tiles,
-              )
-            ],
-          ),
+          title: isConnected
+              ? Text(allTranslations.text("Add test strip"))
+              : Text(allTranslations.text("Add glucose meter")),
+          centerTitle: true,
+          // actions: _buildActionButtons(),
+        ),
+        floatingActionButton:
+            _buildScanningButton(), //_buildTestReadingButton(),
+        body: new Stack(
+          children: <Widget>[
+            (isScanning) ? _buildProgressBarTile() : new Container(),
+            new ListView(
+              children: tiles,
+            )
+          ],
         ),
       ),
     );

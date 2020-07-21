@@ -267,5 +267,6 @@ Map<String, String> arabicLang = {
   "your massage has been send successfully": """شكراً ..
 لقد تم ارسال رسالتكم بنجاح""",
   "press here": "اضغط هنا",
-  "source": "المصدر"
+  "source": "المصدر",
+  "Add test strip" : "ضع شريط السكر"
 };

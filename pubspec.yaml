@@ -41,8 +41,7 @@ dependencies:
   flutter_rating_bar: ^3.0.0
   flutter_spinkit: ^4.0.0
   share: ^0.6.2+3
-  bluetooth:
-    git: https://github.com/spd-heshuip/flutter_bluetooth.git
+  flutter_blue: ^0.7.2
   rxdart: any
 
   vector_math: ^2.0.8

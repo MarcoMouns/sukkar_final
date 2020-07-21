@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bluetooth/bluetooth.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
 import '../../languages/all_translations.dart';
 
@@ -10,16 +10,16 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback onTap;
 
   Widget _buildTitle(BuildContext context) {
-    if (result.device.name.length > 0) {
+    if (result.device.name.length > 0 && result.device.name == "LBM-1") {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(result.device.name),
-          Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
-          )
+          Text(result.device.name,style: TextStyle(fontSize: 25),),
+//          Text(
+//            result.device.id.toString(),
+//            style: Theme.of(context).textTheme.caption,
+//          )
         ],
       );
     } else {
@@ -84,7 +84,7 @@ class ScanResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
+      //leading: Text(result.rssi.toString()),
       trailing: RaisedButton(
         child: Text(allTranslations.text("bluetoothConnect")),
         color: Colors.black,
@@ -100,7 +100,7 @@ class ScanResultTile extends StatelessWidget {
             context,
             'Manufacturer Data',
             getNiceManufacturerData(
-                    result.advertisementData.manufacturerData) ??
+                result.advertisementData.manufacturerData) ??
                 'N/A'),
         _buildAdvRow(
             context,
@@ -160,11 +160,11 @@ class CharacteristicTile extends StatelessWidget {
 
   const CharacteristicTile(
       {Key key,
-      this.characteristic,
-      this.descriptorTiles,
-      this.onReadPressed,
-      this.onWritePressed,
-      this.onNotificationPressed})
+        this.characteristic,
+        this.descriptorTiles,
+        this.onReadPressed,
+        this.onWritePressed,
+        this.onNotificationPressed})
       : super(key: key);
 
   @override
@@ -199,7 +199,7 @@ class CharacteristicTile extends StatelessWidget {
       children: <Widget>[
         const Text('Characteristic'),
         new Text(
-            '0x${characteristic.id.toString().toUpperCase().substring(4, 8)}',
+            '0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}',
             style: Theme.of(context)
                 .textTheme
                 .body1
