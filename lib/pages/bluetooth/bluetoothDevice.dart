@@ -198,6 +198,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
       });
       print('State updated: $state');
     });
+    _startScan();
   }
 
   @override
@@ -219,7 +220,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   _startScan() {
     _scanSubscription = _flutterBlue
         .scan(
-      timeout: const Duration(seconds: 4),
+      timeout: const Duration(seconds: 2),
 //      withServices: [
 //             new Guid('0000ffe4-0000-1000-8000-00805f9b34fb')
 //           ]
