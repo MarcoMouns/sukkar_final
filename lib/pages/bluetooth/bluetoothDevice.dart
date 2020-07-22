@@ -198,7 +198,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
       });
       print('State updated: $state');
     });
-    _startScan();
+    //_startScan();
   }
 
   @override
