@@ -93,7 +93,9 @@ class _NewUserState extends State<NewUser> {
           _isLoading = false;
         });
         // show error
-        showInSnackBar("The phone has already been taken.");
+        showInSnackBar(allTranslations.currentLanguage == "en"
+            ? "The phone has already been taken"
+            : "الهاتف المحمول مسجل مسبقاً");
       }
     }).catchError((err) {
       setState(() {
@@ -243,34 +245,34 @@ class _NewUserState extends State<NewUser> {
                                   vertical: 10.0, horizontal: 30.0),
                               child: _isLoading
                                   ? CupertinoActivityIndicator(
-                                      animating: true,
-                                      radius: 15,
-                                    )
+                                animating: true,
+                                radius: 15,
+                              )
                                   : RaisedButton(
-                                      elevation: 0.0,
-                                      color: Settings.mainColor(),
-                                      textColor: Colors.white,
-                                      onPressed: () async {
-                                        SharedPreferences pref =
-                                            await SharedPreferences
-                                                .getInstance();
+                                  elevation: 0.0,
+                                  color: Settings.mainColor(),
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    SharedPreferences pref =
+                                    await SharedPreferences
+                                        .getInstance();
 
-                                        _focusNode.unfocus();
-                                        isClicked == true
-                                            ? _handleSubmit(context, model)
-                                            : _showPrivacyPolicy();
-                                      },
-                                      child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          width: double.infinity,
-                                          child: Text(
-                                            allTranslations.text("sendCode"),
-                                            style: TextStyle(fontSize: 18.0),
-                                            textAlign: TextAlign.center,
-                                          )),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0))),
+                                    _focusNode.unfocus();
+                                    isClicked == true
+                                        ? _handleSubmit(context, model)
+                                        : _showPrivacyPolicy();
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.all(10.0),
+                                      width: double.infinity,
+                                      child: Text(
+                                        allTranslations.text("sendCode"),
+                                        style: TextStyle(fontSize: 18.0),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(20.0))),
                             ),
                           )
                         ],
