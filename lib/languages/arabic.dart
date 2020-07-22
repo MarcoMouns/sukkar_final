@@ -268,5 +268,6 @@ Map<String, String> arabicLang = {
 
 لقد تم ارسال رسالتكم بنجاح""",
   "press here": "اضغط هنا",
-  "source": "المصدر"
+  "source": "المصدر",
+  "Add test strip": "ضع شريط السكر"
 };

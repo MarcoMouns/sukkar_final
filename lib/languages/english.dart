@@ -255,5 +255,6 @@ You should follow the following tips:
 your massage has been send successfully
   """,
   "press here": "Press here",
-  "source": "Source"
+  "source": "Source",
+  "Add test strip": "Add test strip"
 };

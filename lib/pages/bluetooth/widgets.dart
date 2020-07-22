@@ -10,16 +10,19 @@ class ScanResultTile extends StatelessWidget {
   final VoidCallback onTap;
 
   Widget _buildTitle(BuildContext context) {
-    if (result.device.name.length > 0) {
+    if (result.device.name.length > 0 && result.device.name == "LBM-1") {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(result.device.name),
           Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
-          )
+            result.device.name,
+            style: TextStyle(fontSize: 25),
+          ),
+//          Text(
+//            result.device.id.toString(),
+//            style: Theme.of(context).textTheme.caption,
+//          )
         ],
       );
     } else {
@@ -84,7 +87,7 @@ class ScanResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
+      //leading: Text(result.rssi.toString()),
       trailing: RaisedButton(
         child: Text(allTranslations.text("bluetoothConnect")),
         color: Colors.black,
@@ -158,13 +161,12 @@ class CharacteristicTile extends StatelessWidget {
   final VoidCallback onWritePressed;
   final VoidCallback onNotificationPressed;
 
-  const CharacteristicTile(
-      {Key key,
-      this.characteristic,
-      this.descriptorTiles,
-      this.onReadPressed,
-      this.onWritePressed,
-      this.onNotificationPressed})
+  const CharacteristicTile({Key key,
+    this.characteristic,
+    this.descriptorTiles,
+    this.onReadPressed,
+    this.onWritePressed,
+    this.onNotificationPressed})
       : super(key: key);
 
   @override

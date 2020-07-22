@@ -96,81 +96,72 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             ),
             content: finalMeasure >= 70 && finalMeasure < 90
                 ? SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.35,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("low1SugermgsTitle"),
-                      style: TextStyle(
-                        color: Colors.green,
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            allTranslations.text("low1SugermgsTitle"),
+                            style: TextStyle(
+                              color: Colors.green,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Text(allTranslations.text("low1Sugermgsbody")),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("low1Sugermgsbody")),
-                  ],
-                ),
-              ),
-            )
+                  )
                 : finalMeasure >= 90 && finalMeasure <= 200
-                ? Text(
-              allTranslations.text("normalSugermsg"),
-              style: TextStyle(color: Colors.green),
-              textAlign: TextAlign.center,
-            )
-                : finalMeasure > 200
-                ? SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.27,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("highSugermsgTitle"),
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("highSugerBody")),
-                  ],
-                ),
-              ),
-            )
-                : SizedBox(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.4,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      allTranslations.text("lowSugermsgTitle"),
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 10)),
-                    Text(allTranslations.text("lowSugermsgbody")),
-                  ],
-                ),
-              ),
-            ),
+                    ? Text(
+                        allTranslations.text("normalSugermsg"),
+                        style: TextStyle(color: Colors.green),
+                        textAlign: TextAlign.center,
+                      )
+                    : finalMeasure > 200
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("highSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("highSugerBody")),
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    allTranslations.text("lowSugermsgTitle"),
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(top: 10)),
+                                  Text(allTranslations.text("lowSugermsgbody")),
+                                ],
+                              ),
+                            ),
+                          ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -204,6 +195,7 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         state = s;
       });
     });
+    // _startScan();
   }
 
   @override
@@ -220,19 +212,21 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
   _startScan() {
     _scanSubscription = _flutterBlue
         .scan(
-      timeout: const Duration(seconds: 5),
-      /*withServices: [
-             new Guid('0000ffe4-0000-1000-8000-00805f9b34fb')
-           ]*/
+      timeout: const Duration(seconds: 2),
+//      withServices: [
+//             new Guid('0000ffe4-0000-1000-8000-00805f9b34fb')
+//           ]
     )
         .listen((scanResult) {
-      print('localName: ${scanResult.advertisementData.localName}');
-      print(
-          'manufacturerData: ${scanResult.advertisementData.manufacturerData}');
-      print('serviceData: ${scanResult.advertisementData.serviceData}');
-      setState(() {
-        scanResults[scanResult.device.id] = scanResult;
-      });
+      // print('localName: ${scanResult.advertisementData.localName}');
+      // print('manufacturerData: ${scanResult.advertisementData.manufacturerData}');
+      //print('serviceData: ${scanResult.advertisementData.serviceData}');
+      if (scanResult.device.name == "LBM-1") {
+        if (mounted)
+          setState(() {
+            scanResults[scanResult.device.id] = scanResult;
+          });
+      }
     }, onDone: _stopScan);
 
     setState(() {
@@ -693,21 +687,21 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         .toList();
   }
 
-  _buildActionButtons() {
-    if (isConnected) {
-      return <Widget>[
-        new IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () {
-            if (finalMeasure > 0) {
-              addNewMeasurement(finalMeasure, context);
-            }
-            _disconnect();
-          },
-        )
-      ];
-    }
-  }
+//  _buildActionButtons() {
+//    if (isConnected) {
+//      return <Widget>[
+//        new IconButton(
+//          icon: const Icon(Icons.cancel),
+//          onPressed: () {
+//            if (finalMeasure > 0) {
+//              addNewMeasurement(finalMeasure, context);
+//            }
+//            _disconnect();
+//          },
+//        )
+//      ];
+//    }
+//  }
 
   _buildAlertTile() {
     return new Container(
@@ -716,7 +710,10 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
         title: new Text(
           'Bluetooth adapter is ${state.toString().substring(15)}',
           // ignore: deprecated_member_use
-          style: Theme.of(context).primaryTextTheme.subhead,
+          style: Theme
+              .of(context)
+              .primaryTextTheme
+              .subhead,
         ),
         trailing: new Icon(
           Icons.error,
@@ -739,10 +736,13 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
               ? allTranslations.text("glucose meter connected")
               : allTranslations.text("glucose meter disconnected"),
           style: (deviceState.toString().split('.')[1] == "connected")
-              ? TextStyle(color: Colors.green)
-              : TextStyle(color: Colors.red),
+              ? TextStyle(color: Colors.green, fontSize: 25)
+              : TextStyle(color: Colors.red, fontSize: 25),
+          textDirection: allTranslations.currentLanguage == "en"
+              ? TextDirection.ltr
+              : TextDirection.rtl,
         ),
-        subtitle: new Text('${device.id}'),
+        //subtitle: new Text('${device.id}'),
         trailing: new IconButton(
           icon: const Icon(Icons.refresh),
           onPressed: () => _refreshDeviceState(device),
@@ -804,9 +804,11 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
                 _disconnect();
               },
             ),
-            title: Text(allTranslations.text("Add glucose meter")),
+            title: isConnected
+                ? Text(allTranslations.text("Add test strip"))
+                : Text(allTranslations.text("Add glucose meter")),
             centerTitle: true,
-            actions: _buildActionButtons(),
+            //actions: _buildActionButtons(),
           ),
           floatingActionButton:
           _buildScanningButton(), //_buildTestReadingButton(),
