@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/pages/Settings.dart';
-import '../../languages/all_translations.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import '../../languages/all_translations.dart';
 import '../../scoped_models/main.dart';
 
 class LogIn extends StatefulWidget {
@@ -68,9 +69,13 @@ class _LogInState extends State<LogIn> {
           });
           // show registration failed
           // and show error message
-          showInSnackBar(allTranslations.currentLanguage == "en"
-              ? "Invalid email or password."
-              : "البريد الالكترونى او الرقم السرى غير صحيح");
+          activeType == 1
+              ? showInSnackBar(allTranslations.currentLanguage == "en"
+                  ? "Invalid phone or password."
+                  : "الهاتف المحمول او الرقم السري غير صحيح")
+              : showInSnackBar(allTranslations.currentLanguage == "en"
+                  ? "Invalid email or password."
+                  : "البريد الالكتروني او الرقم السري غير صحيح");
         }
       });
     }
