@@ -1,14 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/account/verify.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:health/pages/Settings.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../scoped_models/main.dart';
+
 import '../../languages/all_translations.dart';
+import '../../scoped_models/main.dart';
 
 class NewUser extends StatefulWidget {
   _NewUserState createState() => _NewUserState();
@@ -92,7 +93,9 @@ class _NewUserState extends State<NewUser> {
           _isLoading = false;
         });
         // show error
-        showInSnackBar("The phone has already been taken.");
+        showInSnackBar(allTranslations.currentLanguage == "en"
+            ? "The phone has already been taken"
+            : "الهاتف المحمول مسجل مسبقاً");
       }
     }).catchError((err) {
       setState(() {
