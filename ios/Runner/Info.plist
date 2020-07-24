@@ -77,7 +77,7 @@
 	<key>NSLocationUsageDescription</key>
 	<string>Used in map to get your current location for map usage</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>map usage</string>
+	<string>Used in map to get your current location for map usage</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>upload profile photo</string>
 	<key>NSMotionUsageDescription</key>
@@ -87,7 +87,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
