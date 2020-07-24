@@ -19,12 +19,6 @@
 			<key>UIPrerenderedIcon</key>
 			<false/>
 		</dict>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string></string>
-			</array>
-		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
@@ -69,7 +63,7 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>used to connect to suger meter device</string>
 	<key>NSCameraUsageDescription</key>
-	<string>upload profile photo</string>
+	<string>Upload profile photo</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
 	<string>to record steps and health info</string>
 	<key>NSHealthShareUsageDescription</key>
@@ -77,19 +71,19 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>get healthy info</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>map usage </string>
+	<string>Used in map to get your current location for map usage</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>map usage</string>
+	<string>Used in map to get your current location for map usage</string>
 	<key>NSLocationUsageDescription</key>
-	<string>map usage</string>
+	<string>Used in map to get your current location for map usage</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>map usage</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>upload profile photo</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Motion usage description</string>
+	<string>Used to count your step </string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>upload profile photo</string>
+	<string>Upload profile photo</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
