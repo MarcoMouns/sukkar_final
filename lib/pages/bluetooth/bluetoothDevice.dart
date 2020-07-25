@@ -248,9 +248,9 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
     deviceConnection = _flutterBlue
         .connect(device, timeout: const Duration(seconds: 4))
         .listen(
-      null,
-      onDone: _disconnect,
-    );
+          null,
+          onDone: _disconnect,
+        );
 
     // Update the connection state immediately
     device.state.then((s) {
@@ -382,9 +382,10 @@ class _BlueToothDeviceState extends State<BlueToothDevice> {
             var res = checkReceiveData(d);
             print('onValueChanged $d res:$res');
           });
-        } else if (d.length == 15) {
-          var res = checkReceiveDataYASEE(d);
-          print('onValueChanged $d res:$res');
+          if (finalMeasure > 0) {
+            _disconnect();
+            addNewMeasurement(finalMeasure, context);
+          }
         }
       });
       // Add to map
