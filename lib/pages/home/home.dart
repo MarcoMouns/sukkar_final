@@ -769,14 +769,23 @@ class _HomePageState extends State<HomePage> {
               ),
               new LayoutId(
                   id: 2,
-                  child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[0])),
+                  child: Padding(
+                    padding:  EdgeInsets.only(left: 13),
+                    child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
+                  )),
               new LayoutId(
                 id: 3,
-                child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[1]),
+                child: Padding(
+                  padding:  EdgeInsets.only(left: 13),
+                  child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[1]),
+                ),
               ),
               new LayoutId(
                 id: 4,
-                child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[2]),
+                child: Padding(
+                  padding:  EdgeInsets.only(left: 13),
+                  child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[2]),
+                ),
               )
             ],
           );
@@ -1049,12 +1058,12 @@ class _HomePageState extends State<HomePage> {
                                                                       context)
                                                                   .size
                                                                   .width *
-                                                              0.59,
+                                                              0.64,
                                                           child: new Row(
                                                             children: <Widget>[
                                                               SizedBox(
-                                                                width: 80,
-                                                                height: 100,
+                                                                width: MediaQuery.of(context).size.width*0.24,
+                                                                height: MediaQuery.of(context).size.height*0.2,
                                                                 child:
                                                                     ClipRRect(
                                                                   child: Image

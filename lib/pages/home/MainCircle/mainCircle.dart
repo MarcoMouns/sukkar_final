@@ -75,7 +75,7 @@ class ChartWidgetState extends State<ChartWidget>
                 children: [
                   SizedBox(
                     width: widget.radius / 2.2,
-                    height: widget.radius / 2.2,
+                    height: widget.radius / 2.35,
                     child: CustomPaint(
                       foregroundPainter: new MyPainter(
                           completeColor: Color.fromRGBO(12, 156, 205, 19),
