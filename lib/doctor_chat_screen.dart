@@ -383,8 +383,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           style: TextStyle(color: Colors.grey),
         ),
         onCancel: () {
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('AlertDialogPicker.cancel')));
+//          Scaffold.of(context).showSnackBar(
+//              SnackBar(content: Text('AlertDialogPicker.cancel')));
         },
         confirm: Text(
           'confirm',
