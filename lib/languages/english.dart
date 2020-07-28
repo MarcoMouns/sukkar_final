@@ -64,6 +64,7 @@ Map<String, String> englishLang = {
   "Add Food": "Add Food",
   "calories": "calories",
   "food menu": "food menu",
+  "select the meal to add food": "select the meal to add food",
   "save": "save",
   "Add sleep": "Add sleep",
   "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not":

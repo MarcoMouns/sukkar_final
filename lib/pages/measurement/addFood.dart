@@ -8,20 +8,21 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:health/pages/measurement/itemList.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../scoped_models/main.dart';
-import 'package:scoped_model/scoped_model.dart';
-import '../../Models/meals.dart';
-import '../../Models/all_meals_foods.dart';
-
 import 'package:intl/intl.dart' as intl;
+import 'package:scoped_model/scoped_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Models/all_meals_foods.dart';
+import '../../Models/meals.dart';
+import '../../scoped_models/main.dart';
 import '../../shared-data.dart';
 import '../home.dart';
 
 class AddFood extends StatefulWidget {
   final MainModel model;
+
   AddFood(this.model);
+
   @override
   _AddFoodState createState() => _AddFoodState();
 }
@@ -35,10 +36,6 @@ class _AddFoodState extends State<AddFood> {
   int Rcalories;
   Dio dio = new Dio();
   Response response;
-
-
-
-
 
   _mealsWidget(MainModel model) {
     return ListView.separated(
@@ -79,8 +76,13 @@ class _AddFoodState extends State<AddFood> {
   }
 
   _pressOnMeals(MainModel model, int mealId) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new ItemList(model: model, mealId: mealId, isfood: true)),)
-        .then((val)=>val?fetchMeals():null);
+    Navigator.of(context)
+        .push(
+          new MaterialPageRoute(
+              builder: (_) =>
+                  new ItemList(model: model, mealId: mealId, isfood: true)),
+        )
+        .then((val) => val ? fetchMeals() : null);
   }
 
   @override
@@ -91,23 +93,20 @@ class _AddFoodState extends State<AddFood> {
     _getTime();
   }
 
-
-
-    Future<Void> deleteFood(int id) async {
+  Future<Void> deleteFood(int id) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
     response = await dio.delete("${Settings.baseApilink}/food-today/$id",
         options: Options(headers: headers));
 
-  
     setState(() {});
   }
 
-  Future<void> fetchMeals() async{
+  Future<void> fetchMeals() async {
     await widget.model.fetchMeals().then((result) {
       if (result != null) {
         setState(() {
@@ -134,10 +133,9 @@ class _AddFoodState extends State<AddFood> {
   }
 
   addIntToSF() async {
-    if(_calories.length==0){
-      Rcalories=0;
-    }
-    else{
+    if (_calories.length == 0) {
+      Rcalories = 0;
+    } else {
       Rcalories = _calories.reduce((a, b) => a + b).toInt();
     }
   }
@@ -145,17 +143,16 @@ class _AddFoodState extends State<AddFood> {
   getValuesSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int ncal = SharedData.customerData['average_calorie'];
-    if(ncal==null){
-      ncal=0;
+    if (ncal == null) {
+      ncal = 0;
     }
 
-    int calTarget=0;
+    int calTarget = 0;
 
-    if(Rcalories>ncal && ncal!=0){
-      calTarget=Rcalories-ncal;
+    if (Rcalories > ncal && ncal != 0) {
+      calTarget = Rcalories - ncal;
     }
     prefs.setInt('calTarget', calTarget);
-
   }
 
   _getTime() async {
@@ -173,7 +170,7 @@ class _AddFoodState extends State<AddFood> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(allTranslations.text("Add Food")),
-                        leading: IconButton(
+            leading: IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
@@ -182,11 +179,11 @@ class _AddFoodState extends State<AddFood> {
             ),
             centerTitle: true,
           ),
-          body:
-
-          new ScopedModelDescendant<MainModel>(
+          body: new ScopedModelDescendant<MainModel>(
             builder: (BuildContext context, Widget child, MainModel model) {
-              return loading == true ? Loading() : Padding(
+              return loading == true
+                  ? Loading()
+                  : Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
                   children: <Widget>[
@@ -196,14 +193,22 @@ class _AddFoodState extends State<AddFood> {
                           ListTile(
                             title: Text(
                               now,
-                              style:
-                              TextStyle(color: Colors.red, fontSize: 25.0),
+                              style: TextStyle(
+                                  color: Colors.red, fontSize: 25.0),
                             ),
                             subtitle: Text(
                               intl.DateFormat("h:m a",
                                   allTranslations.locale.languageCode)
                                   .format(DateTime.now()),
                               style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                          ListTile(
+                            title: Text(
+                              allTranslations.text(
+                                  "select the meal to add food"),
+                              style: TextStyle(
+                                  color: Colors.blue[800], fontSize: 20.0),
                             ),
                           ),
                           Container(
@@ -215,15 +220,19 @@ class _AddFoodState extends State<AddFood> {
                           Padding(
                             padding: EdgeInsets.only(top: 50),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
                                   allTranslations.text("calories"),
-                                  style: TextStyle(color: Colors.blue[300]),
+                                  style:
+                                  TextStyle(color: Colors.blue[300]),
                                 ),
                                 Text(
-                                  _calories.isEmpty ? '0':
-                                  "${_calories.reduce((a, b) => a + b).toString()}",
+                                  _calories.isEmpty
+                                      ? '0'
+                                      : "${_calories.reduce((a, b) => a + b)
+                                      .toString()}",
                                   style: TextStyle(color: Colors.grey),
                                 )
                               ],
@@ -233,7 +242,9 @@ class _AddFoodState extends State<AddFood> {
                               padding: EdgeInsets.only(bottom: 50),
                               child: LinearProgressIndicator(
                                 value: _calories.isEmpty ? 1 : 0.9,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white70,),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white70,
+                                ),
                                 backgroundColor: Colors.blue,
                               )),
                           Text(
@@ -253,25 +264,28 @@ class _AddFoodState extends State<AddFood> {
                                       title: Text(
                                         meal.eatcategories.titleAr,
                                         style: TextStyle(
-                                            color: Colors.blue[300], fontSize: 20),
+                                            color: Colors.blue[300],
+                                            fontSize: 20),
                                       ),
                                       subtitle: Text(
                                         meal.titleAr,
                                         style: TextStyle(
-                                            fontSize: 13, color: Colors.blueGrey),
+                                            fontSize: 13,
+                                            color: Colors.blueGrey),
                                       ),
-                                 trailing: InkWell(
-                                   child: ImageIcon(
-                                     AssetImage("assets/icons/ic_trash.png"),
-                                     color: Colors.red,
-                                   ),
-                                   onTap: () {
-                                     allMealsFoods.remove(meal);
-                                     _calories.remove(meal.calories);
-                                     deleteFood(meal.id);
-                                     setState(() {});
-                                   },
-                                 ),
+                                      trailing: InkWell(
+                                        child: ImageIcon(
+                                          AssetImage(
+                                              "assets/icons/ic_trash.png"),
+                                          color: Colors.red,
+                                        ),
+                                        onTap: () {
+                                          allMealsFoods.remove(meal);
+                                          _calories.remove(meal.calories);
+                                          deleteFood(meal.id);
+                                          setState(() {});
+                                        },
+                                      ),
                                     ),
                                     Divider(
                                       height: 16,
@@ -284,12 +298,16 @@ class _AddFoodState extends State<AddFood> {
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.5,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 1.5,
                       child: FlatButton(
                         color: Color(0xff009DDC),
                         child: Text(
                           allTranslations.text("save"),
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 16),
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -304,7 +322,6 @@ class _AddFoodState extends State<AddFood> {
               );
             },
           ),
-
         ));
   }
 }

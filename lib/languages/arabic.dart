@@ -65,6 +65,7 @@ Map<String, String> arabicLang = {
   "Add Food": "اضف طعام",
   "calories": "كالوري",
   "food menu": "قائمة الطعام",
+  "select the meal to add food": "انقر على الوجبة لإضافة الطعام",
   "save": "حفظ",
   "Add sleep": "اضف ساعات النوم",
   "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not":
