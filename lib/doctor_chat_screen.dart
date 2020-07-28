@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
 
 import 'DocInfo_screen.dart';
@@ -27,7 +28,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   int specialityId = 0;
   int indexSpeciality = 0;
   double starRating = 3;
-  String specialityName = "عيون";
+  String specialityName;
   List<SpecialityDoc> _specoalists = List<SpecialityDoc>();
   bool isDoctor = false;
   List<DocumentSnapshot> userDocument = List<DocumentSnapshot>();
@@ -69,6 +70,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     _specoalists = await ApiProvider().getSpecialists();
     if (mounted) setState(() {});
     specialityId = _specoalists[0].id;
+    specialityName = allTranslations.currentLanguage == "en"
+        ? _specoalists.first.titleEn
+        : _specoalists.first.titleAr;
     setState(() {});
   }
 
@@ -81,6 +85,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
     });
     getFirebaseUserData();
     _initData();
+    //specialityName = _specoalists.first.titleAr;
   }
 
   List patients = List();
@@ -284,7 +289,12 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                                         10.0, 0.0, 0.0, 5.0),
                                   ),
                                   Padding(padding: EdgeInsets.only(top: 5)),
-                                  Text(
+                                  allTranslations.currentLanguage == "en"
+                                      ? Text(
+                                    "${_specoalists[indexSpeciality].titleEn}",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                      : Text(
                                     "${_specoalists[indexSpeciality].titleAr}",
                                     style: TextStyle(color: Colors.red),
                                   ),
@@ -378,8 +388,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           style: TextStyle(color: Colors.grey),
         ),
         onCancel: () {
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('AlertDialogPicker.cancel')));
+//          Scaffold.of(context).showSnackBar(
+//              SnackBar(content: Text('AlertDialogPicker.cancel')));
         },
         confirm: Text(
           'confirm',
@@ -391,7 +401,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 
           indexSpeciality = selectedItems.first;
           specialityId = _specoalists[indexSpeciality].id;
-          specialityName = _specoalists[selectedItems.first].titleAr;
+          specialityName = allTranslations.currentLanguage == "en"
+              ? _specoalists[selectedItems.first].titleEn
+              : _specoalists[selectedItems.first].titleAr;
           arrowFlip = false;
           setState(() {});
         },
@@ -406,7 +418,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           return _specoalists.length;
         },
         itemBuilder: (section, row) {
-          return Text(
+          return allTranslations.currentLanguage == "en"
+              ? Text('${_specoalists[row].titleEn}')
+              : Text(
             '${_specoalists[row].titleAr}',
             style: TextStyle(fontSize: 12),
           );
@@ -437,7 +451,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
           isDoctor == true
               ? Container()
               : Directionality(
-            textDirection: TextDirection.ltr,
+            textDirection: allTranslations.currentLanguage == "en"
+                ? TextDirection.rtl
+                : TextDirection.ltr,
             child: GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(top: 10),
