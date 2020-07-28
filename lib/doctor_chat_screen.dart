@@ -159,13 +159,15 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                       ),
                       onTap: () {
                         print('a7ba tete');
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DocInfo(
-                            peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
-                            dId: document['dId'],
-                          ),
-                        ));
+                        isDoctor == true
+                            ? null
+                            : Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DocInfo(
+                                  peerId: document.documentID,
+                                  peerAvatar: document['photoUrl'],
+                                  dId: document['dId'],
+                                ),
+                              ));
                       },
                     ),
                     InkWell(
@@ -194,7 +196,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                     borderRadius: BorderRadius.circular(10.0)),
                 onPressed: () {
                   print('a7ba tete');
-                  Navigator.of(context).push(MaterialPageRoute(
+                  isDoctor == true
+                      ? null
+                      : Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         DocInfo(
                           peerId: document.documentID,
@@ -462,16 +466,16 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         borderRadius:
                         BorderRadius.all(Radius.circular(12)),
                       ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  child: RotatedBox(
-                                    quarterTurns: arrowFlip ? 90 : 0,
-                                    child: Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 30,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: RotatedBox(
+                              quarterTurns: arrowFlip ? 90 : 0,
+                              child: Icon(
+                                Icons.arrow_drop_down,
+                                size: 30,
                                       color: Colors.blueAccent,
                                     ),
                                   ),
