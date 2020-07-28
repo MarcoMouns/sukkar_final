@@ -112,34 +112,38 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                           Container(
                             margin: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).padding.bottom + 15),
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 15),
                             child: Material(
                               child: document['photoUrl'] != null
                                   ? CachedNetworkImage(
-                                      placeholder: (context, url) => Container(
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  themeColor),
-                                        ),
-                                        width: 50.0,
-                                        height: 50.0,
-                                        padding: EdgeInsets.all(15.0),
+                                placeholder: (context, url) =>
+                                    Container(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1.0,
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(
+                                            themeColor),
                                       ),
-                                      imageUrl:
-                                          'http://api.sukar.co${document['photoUrl']}',
                                       width: 50.0,
                                       height: 50.0,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : Icon(
-                                      Icons.account_circle,
-                                      size: 50.0,
-                                      color: greyColor,
+                                      padding: EdgeInsets.all(15.0),
                                     ),
+                                imageUrl:
+                                'http://api.sukar.co${document['photoUrl']}',
+                                width: 50.0,
+                                height: 50.0,
+                                fit: BoxFit.cover,
+                              )
+                                  : Icon(
+                                Icons.account_circle,
+                                size: 50.0,
+                                color: greyColor,
+                              ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25.0)),
+                              BorderRadius.all(Radius.circular(25.0)),
                               clipBehavior: Clip.hardEdge,
                             ),
                           ),
@@ -159,7 +163,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                       ),
                       onTap: () {
                         print('a7ba tete');
-                        Navigator.of(context).push(MaterialPageRoute(
+                        isDoctor == true
+                            ? null
+                            : Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
                               DocInfo(
                                 peerId: document.documentID,
@@ -195,7 +201,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                     borderRadius: BorderRadius.circular(10.0)),
                 onPressed: () {
                   print('a7ba tete');
-                  Navigator.of(context).push(MaterialPageRoute(
+                  isDoctor == true
+                      ? null
+                      : Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         DocInfo(
                           peerId: document.documentID,
