@@ -256,7 +256,16 @@ class _AddSugarState extends State<AddSugar> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: 30),
+                          child: Text(
+                            allTranslations
+                                .text("Sugar measurements for today"),
+                            style:
+                            TextStyle(color: Colors.blueGrey, fontSize: 17),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 15),
                           child: Column(
                             children: listOfSuger(),
                           ),

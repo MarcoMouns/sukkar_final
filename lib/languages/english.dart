@@ -257,5 +257,6 @@ your massage has been send successfully
   """,
   "press here": "Press here",
   "source": "Source",
-  "Add test strip": "Add test strip"
+  "Add test strip": "Add test strip",
+  "Sugar measurements for today": "Sugar measurements for today :"
 };
