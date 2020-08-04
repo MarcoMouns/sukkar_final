@@ -170,7 +170,7 @@ class _CompleteState extends State<Complete> {
       setState(() {
         _isLoading = false;
       });
-      showInSnackBar("من فضلك قم بأدخال بريد اليكتروني صحيح");
+      //showInSnackBar("من فضلك قم بأدخال بريد اليكتروني صحيح");
     }
   }
 
@@ -232,7 +232,7 @@ class _CompleteState extends State<Complete> {
           });
           showInSnackBar(allTranslations.currentLanguage == "en"
               ? "The email has already been taken."
-              : "البريد الالكترونى موجود مسبقا");
+              : "البريد الالكتروني موجود مسبقا");
         }
       });
     }
@@ -435,36 +435,6 @@ class _CompleteState extends State<Complete> {
                                   children: <Widget>[
                                     RaisedButton(
                                         elevation: 0.0,
-                                        color: Settings.mainColor(),
-                                        textColor: Colors.white,
-                                        onPressed: () async {
-                                          if (isMatched == true) {
-                                            uidx =
-                                            await createFirebaseAccount();
-                                            _formData['fuid'] = uidx;
-                                            CreateCFSaccount(uidx);
-                                            _handleSubmitted(
-                                              context,
-                                              model,
-                                            );
-                                          } else {
-                                            hasPhoto = false;
-                                            setState(() {});
-                                          }
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.all(0.0),
-                                            width: double.infinity,
-                                            child: Text(
-                                              allTranslations.text("verify"),
-                                              style: TextStyle(fontSize: 18.0),
-                                              textAlign: TextAlign.center,
-                                            )),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0))),
-                                    RaisedButton(
-                                        elevation: 0.0,
                                         color: Colors.grey,
                                         textColor: Colors.white,
                                         onPressed: () async {
@@ -481,6 +451,36 @@ class _CompleteState extends State<Complete> {
                                             width: double.infinity,
                                             child: Text(
                                               allTranslations.text("skip"),
+                                              style: TextStyle(fontSize: 18.0),
+                                              textAlign: TextAlign.center,
+                                            )),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0))),
+                                    RaisedButton(
+                                        elevation: 0.0,
+                                        color: Settings.mainColor(),
+                                        textColor: Colors.white,
+                                        onPressed: () async {
+                                          if (isMatched == true) {
+                                            uidx =
+                                                await createFirebaseAccount();
+                                            _formData['fuid'] = uidx;
+                                            CreateCFSaccount(uidx);
+                                            _handleSubmitted(
+                                              context,
+                                              model,
+                                            );
+                                          } else {
+                                            hasPhoto = false;
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.all(0.0),
+                                            width: double.infinity,
+                                            child: Text(
+                                              allTranslations.text("verify"),
                                               style: TextStyle(fontSize: 18.0),
                                               textAlign: TextAlign.center,
                                             )),
