@@ -120,8 +120,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 text,
-                style: TextStyle(color: Colors.grey, fontSize: 15),
-              ),
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                    ),
             ),
             Container(
               child: video != null

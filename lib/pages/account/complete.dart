@@ -188,10 +188,7 @@ class _CompleteState extends State<Complete> {
         'nickname': _formData['userName'],
         'id': uid,
         'isDoctor': false,
-        'createdAt': DateTime
-            .now()
-            .millisecondsSinceEpoch
-            .toString(),
+        'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
         'chattingWith': null,
         'rating': 0
       });
@@ -438,14 +435,12 @@ class _CompleteState extends State<Complete> {
                                   children: <Widget>[
                                     RaisedButton(
                                         elevation: 0.0,
-                                        color: Colors.grey,
+                                        color: Settings.mainColor(),
                                         textColor: Colors.white,
                                         onPressed: () async {
-                                          if (hasPhoto &&
-                                              picdone &&
-                                              isMatched == true) {
+                                          if (isMatched == true) {
                                             uidx =
-                                                await createFirebaseAccount();
+                                            await createFirebaseAccount();
                                             _formData['fuid'] = uidx;
                                             CreateCFSaccount(uidx);
                                             _handleSubmitted(
@@ -470,7 +465,7 @@ class _CompleteState extends State<Complete> {
                                                 BorderRadius.circular(20.0))),
                                     RaisedButton(
                                         elevation: 0.0,
-                                        color: Settings.mainColor(),
+                                        color: Colors.grey,
                                         textColor: Colors.white,
                                         onPressed: () async {
                                           uidx = await createFirebaseAccount();
