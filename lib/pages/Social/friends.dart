@@ -98,102 +98,104 @@ class _FriendsPageState extends State<FriendsPage>
             ? TextDirection.rtl
             : TextDirection.ltr,
         child: new Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size(MediaQuery.of(context).size.width, 44),
-            child: Material(
-              elevation: 4,
-              child: Container(
-                alignment: Alignment.center,
-                padding:
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                margin: EdgeInsets.fromLTRB(20, 0, 20, 4),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: TextField(
-                          controller: hiController,
-                          onChanged: (value) async {
-                            try {
-                              setState(() {
-                                check = true;
-                              });
-                              FormData formdata = new FormData();
-                              SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
-                              Map<String, dynamic> authUser = jsonDecode(
-                                  sharedPreferences.getString("authUser"));
-                              dio.options.headers = {
-                                "Authorization":
-                                    "Bearer ${authUser['authToken']}",
-                              };
-
-                              response = await dio.get(
-                                  "${Settings.baseApilink}/auth/searchCode/$value");
-
-                              if (response.data.isEmpty) {
-                                setState(() {
-                                  check = true;
-                                });
-                              } else {
-                                setState(() {
-                                  check = false;
-                                });
-                              }
-                              setState(() {
-                                name = response.data['name'].toString();
-                                image = response.data['image'].toString();
-                                state = response.data['state'];
-                                id = response.data['id'];
-                              });
-                              if (response.statusCode != 200 &&
-                                  response.statusCode != 201) {
-                                return false;
-                              } else {
-                                return true;
-                              }
-                            } on DioError catch (e) {
-                              return false;
-                            }
-                          },
-                          enabled: true,
-                          decoration: InputDecoration(
-                              labelText:
-                                  allTranslations.text('Search name or id'),
-                              fillColor: Colors.grey.shade300,
-                              filled: true,
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 0, color: Colors.white),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              disabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 0, color: Colors.white))),
-                        ),
-                      ),
-                    ),
-                    widget.fullScreen
-                        ? IconButton(
-                            icon: Icon(Icons.arrow_forward_ios),
-                            onPressed: () => Navigator.of(context).pop())
-                        : Container(),
-                  ],
-                ),
-              ),
-            ),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
           ),
           body: GestureDetector(
             onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
             child: Column(
               children: <Widget>[
+                Material(
+                  elevation: 4,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top + 10),
+                    margin: EdgeInsets.fromLTRB(25, 0, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: TextField(
+                              controller: hiController,
+                              onChanged: (value) async {
+                                try {
+                                  setState(() {
+                                    check = true;
+                                  });
+                                  FormData formdata = new FormData();
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  Map<String, dynamic> authUser = jsonDecode(
+                                      sharedPreferences.getString("authUser"));
+                                  dio.options.headers = {
+                                    "Authorization":
+                                        "Bearer ${authUser['authToken']}",
+                                  };
+
+                                  response = await dio.get(
+                                      "${Settings.baseApilink}/auth/searchCode/$value");
+
+                                  if (response.data.isEmpty) {
+                                    setState(() {
+                                      check = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      check = false;
+                                    });
+                                  }
+                                  setState(() {
+                                    name = response.data['name'].toString();
+                                    image = response.data['image'].toString();
+                                    state = response.data['state'];
+                                    id = response.data['id'];
+                                  });
+                                  if (response.statusCode != 200 &&
+                                      response.statusCode != 201) {
+                                    return false;
+                                  } else {
+                                    return true;
+                                  }
+                                } on DioError catch (e) {
+                                  return false;
+                                }
+                              },
+                              enabled: true,
+                              decoration: InputDecoration(
+                                  labelText:
+                                      allTranslations.text('Search name or id'),
+                                  fillColor: Colors.grey.shade300,
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius:
+                                          BorderRadius.circular(25.0)),
+                                  prefixIcon: Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0, color: Colors.white),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(25.0))),
+                                  disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 0, color: Colors.white))),
+                            ),
+                          ),
+                        ),
+                        widget.fullScreen
+                            ? IconButton(
+                                icon: Icon(Icons.arrow_forward_ios),
+                                onPressed: () => Navigator.of(context).pop())
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                ),
                 check == true
                     ? Text('')
                     : Column(
