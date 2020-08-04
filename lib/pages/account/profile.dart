@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/main.dart';
+import 'package:health/pages/Settings.dart';
 import 'package:health/pages/account/editGoals.dart';
 import 'package:health/pages/account/offersPage.dart';
 import 'package:health/pages/account/termsAndConditions.dart';
 import 'package:health/pages/measurement/weightAndHeight.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:health/pages/Settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../circles_choice_screen.dart';
 import '../../languages/all_translations.dart';
-import 'dart:convert';
 import '../../shared-data.dart';
 import 'aboutApp.dart';
 import 'contacts.dart';
@@ -36,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
 
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
@@ -74,61 +76,61 @@ class _EditProfileState extends State<EditProfile> {
                             : Container(width: 30),
                         SharedData.customerData == null
                             ? new Expanded(
-                                child: Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                          radius: 45.0,
-                                          backgroundImage: NetworkImage(
-                                              'https://www.allsolutionslocksmiths.com.au/wp-content/uploads/2011/07/user.png')),
-                                      Divider(
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        allTranslations.text("not logged"),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.0),
-                                      ),
-                                    ],
-                                  ),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                CircleAvatar(
+                                    radius: 45.0,
+                                    backgroundImage: NetworkImage(
+                                        'https://www.allsolutionslocksmiths.com.au/wp-content/uploads/2011/07/user.png')),
+                                Divider(
+                                  color: Colors.white,
                                 ),
-                              )
+                                Text(
+                                  allTranslations.text("not logged"),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                             : new Expanded(
-                                child: Center(
-                                  child: Column(
-                                    children: <Widget>[
-                                      CircleAvatar(
-                                        radius: 45.0,
-                                        backgroundColor: Settings.mainColor(),
-                                        backgroundImage: SharedData
-                                                            .customerData[
-                                                        'image'] ==
-                                                    'Null' ||
-                                                SharedData.customerData[
-                                                        'image'] ==
-                                                    null
-                                            ? NetworkImage(
-                                                'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
-                                            : NetworkImage(
-                                                'http://api.sukar.co${SharedData.customerData['image']}'),
-                                      ),
-                                      Text(
-                                        SharedData.customerData['userName'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20.0),
-                                      ),
-                                      Text(
-                                        "id:${SharedData.customerData['search_code']}",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14.0),
-                                      )
-                                    ],
-                                  ),
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 45.0,
+                                  backgroundColor: Settings.mainColor(),
+                                  backgroundImage: SharedData
+                                      .customerData[
+                                  'image'] ==
+                                      'Null' ||
+                                      SharedData.customerData[
+                                      'image'] ==
+                                          null
+                                      ? NetworkImage(
+                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                      : NetworkImage(
+                                      'http://api.sukar.co${SharedData.customerData['image']}'),
                                 ),
-                              ),
+                                Text(
+                                  SharedData.customerData['userName'],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18.5),
+                                      ),
+                                Text(
+                                  "id:${SharedData.customerData['search_code']}",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                         IconButton(
                           onPressed: () {
                             Navigator.pop(context, true);
@@ -157,7 +159,7 @@ class _EditProfileState extends State<EditProfile> {
                               children: <Widget>[
                                 Image(
                                   image:
-                                      AssetImage("assets/icons/ic_giftbox.png"),
+                                  AssetImage("assets/icons/ic_giftbox.png"),
                                   width: 70,
                                   height: 70,
                                 ),
@@ -240,14 +242,14 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                             FittedBox(
                                 child: Text(
-                              "Kg: ",
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  "Kg: ",
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                             FittedBox(
                                 child: Text(
-                              "$weight",
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  "$weight",
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                             Padding(
                               padding: EdgeInsets.only(right: 5),
                             ),
@@ -268,9 +270,9 @@ class _EditProfileState extends State<EditProfile> {
                         onTap: () {
                           Navigator.of(context)
                               .push(
-                                new MaterialPageRoute(
-                                    builder: (_) => new WeightAndHeight()),
-                              )
+                            new MaterialPageRoute(
+                                builder: (_) => new WeightAndHeight()),
+                          )
                               .then((val) => val ? getUser() : null);
                         },
                       ),
@@ -282,9 +284,9 @@ class _EditProfileState extends State<EditProfile> {
                           children: <Widget>[
                             Expanded(
                                 child: Text(
-                              allTranslations.text("language"),
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  allTranslations.text("language"),
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                             Text(
                               allTranslations.currentLanguage == "en"
                                   ? "English"
@@ -298,35 +300,35 @@ class _EditProfileState extends State<EditProfile> {
                             context: context,
                             builder: (BuildContext context) =>
                                 CupertinoActionSheet(
-                              title: Text(allTranslations.text("language")),
-                              message: Text(
-                                allTranslations.text("chooseLanguage"),
-                              ),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: Text(allTranslations
-                                      .text("chooseLanguageOption1")),
-                                  onPressed: () async {
-                                    allTranslations.setNewLanguage("en", true);
-                                    setState(() {});
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => SpLash()));
-                                  },
+                                  title: Text(allTranslations.text("language")),
+                                  message: Text(
+                                    allTranslations.text("chooseLanguage"),
+                                  ),
+                                  actions: <Widget>[
+                                    CupertinoActionSheetAction(
+                                      child: Text(allTranslations
+                                          .text("chooseLanguageOption1")),
+                                      onPressed: () async {
+                                        allTranslations.setNewLanguage("en", true);
+                                        setState(() {});
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) => SpLash()));
+                                      },
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      child: Text(allTranslations
+                                          .text("chooseLanguageOption2")),
+                                      onPressed: () async {
+                                        allTranslations.setNewLanguage("ar", true);
+                                        setState(() {});
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) => SpLash()));
+                                      },
+                                    )
+                                  ],
                                 ),
-                                CupertinoActionSheetAction(
-                                  child: Text(allTranslations
-                                      .text("chooseLanguageOption2")),
-                                  onPressed: () async {
-                                    allTranslations.setNewLanguage("ar", true);
-                                    setState(() {});
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => SpLash()));
-                                  },
-                                )
-                              ],
-                            ),
                           );
 
                           setState(() {});
@@ -344,9 +346,9 @@ class _EditProfileState extends State<EditProfile> {
                           children: <Widget>[
                             Expanded(
                                 child: Text(
-                              allTranslations.text("about"),
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  allTranslations.text("about"),
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                           ],
                         ),
                         onTap: () {
@@ -368,9 +370,9 @@ class _EditProfileState extends State<EditProfile> {
                           children: <Widget>[
                             Expanded(
                                 child: Text(
-                              allTranslations.text("contacts"),
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  allTranslations.text("contacts"),
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                           ],
                         ),
                         onTap: () {
@@ -392,9 +394,9 @@ class _EditProfileState extends State<EditProfile> {
                           children: <Widget>[
                             Expanded(
                                 child: Text(
-                              allTranslations.text("Terms"),
-                              style: TextStyle(color: Colors.grey),
-                            )),
+                                  allTranslations.text("Terms"),
+                                  style: TextStyle(color: Colors.grey),
+                                )),
                           ],
                         ),
                         onTap: () {
@@ -421,32 +423,32 @@ class _EditProfileState extends State<EditProfile> {
                             context: context,
                             builder: (BuildContext context) =>
                                 CupertinoActionSheet(
-                              title: Text(allTranslations.text("exit")),
-                              message: Text(
-                                allTranslations.text("exitpopup"),
-                              ),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: Text(allTranslations.text("exit")),
-                                  onPressed: () async {
-                                    SharedPreferences sharedPreferences =
+                                  title: Text(allTranslations.text("exit")),
+                                  message: Text(
+                                    allTranslations.text("exitpopup"),
+                                  ),
+                                  actions: <Widget>[
+                                    CupertinoActionSheetAction(
+                                      child: Text(allTranslations.text("exit")),
+                                      onPressed: () async {
+                                        SharedPreferences sharedPreferences =
                                         await SharedPreferences.getInstance();
-                                    sharedPreferences.remove('authUser');
-                                    sharedPreferences.clear();
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(builder: (context) {
-                                      return SpLash();
-                                    }));
-                                  },
+                                        sharedPreferences.remove('authUser');
+                                        sharedPreferences.clear();
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(builder: (context) {
+                                              return SpLash();
+                                            }));
+                                      },
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      child: Text(allTranslations.text("cancel")),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
                                 ),
-                                CupertinoActionSheetAction(
-                                  child: Text(allTranslations.text("cancel")),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                )
-                              ],
-                            ),
                           );
                         },
                       ),
