@@ -334,24 +334,25 @@ class _FriendsPageState extends State<FriendsPage>
                                                           : Colors.grey[100],
                                                       child: ListTile(
                                                         onTap: () {},
-                                                        leading: new Container(
+                                                        leading: Container(
                                                           width: 40,
                                                           height: 40,
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              image: DecorationImage(
-                                                                  image: following[index]
-                                                                              .image ==
-                                                                          'Null'
-                                                                      ? NetworkImage(
-                                                                          'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
-                                                                      : NetworkImage(
-                                                                          'http://api.sukar.co/${following[index].image}'),
-                                                                  fit: BoxFit
-                                                                      .fill),
-                                                              color:
-                                                                  Colors.blue),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            image:
+                                                                DecorationImage(
+                                                              image: following[
+                                                                              index]
+                                                                          .image ==
+                                                                      'Null'
+                                                                  ? NetworkImage(
+                                                                      'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
+                                                                  : NetworkImage(
+                                                                      'http://api.sukar.co/${following[index].image}'),
+                                                            ),
+                                                          ),
                                                         ),
                                                         title: new Text(
                                                           following[index].name,
