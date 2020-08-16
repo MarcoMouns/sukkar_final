@@ -29,11 +29,11 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+    super.initState();
     setState(() {
       loading = true;
     });
     getChat();
-    super.initState();
   }
 
   getChat() {

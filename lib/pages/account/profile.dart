@@ -17,6 +17,7 @@ import '../../shared-data.dart';
 import 'aboutApp.dart';
 import 'contacts.dart';
 import 'edit_profile.dart';
+import 'package:app_settings/app_settings.dart';
 
 class EditProfile extends StatefulWidget {
   _EditProfileState createState() => _EditProfileState();
@@ -28,17 +29,22 @@ class _EditProfileState extends State<EditProfile> {
   Response response;
   Dio dio = new Dio();
 
+  Future<void> initPlatformState() async {
+    if (!mounted) return;
+  }
+
   @override
   void initState() {
     super.initState();
     getUser();
+    initPlatformState();
   }
 
   void getUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
 
     dio.options.headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
@@ -113,16 +119,18 @@ class _EditProfileState extends State<EditProfile> {
                                       ? NetworkImage(
                                       'https://i.pinimg.com/originals/7c/c7/a6/7cc7a630624d20f7797cb4c8e93c09c1.png')
                                       : NetworkImage(
-                                      'http://api.sukar.co${SharedData.customerData['image']}'),
+                                      'http://api.sukar.co${SharedData
+                                          .customerData['image']}'),
                                 ),
                                 Text(
                                   SharedData.customerData['userName'],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.5),
-                                      ),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.5),
+                                ),
                                 Text(
-                                  "id:${SharedData.customerData['search_code']}",
+                                  "id:${SharedData
+                                      .customerData['search_code']}",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14.0),
@@ -231,6 +239,22 @@ class _EditProfileState extends State<EditProfile> {
                         height: 0,
                       ),
                       ListTile(
+                        title: Text(
+                          allTranslations.text("Battery optimization"),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.redAccent,
+                        ),
+                        onTap: () {
+                          AppSettings.openBatteryOptimizationSettings();
+                        },
+                      ),
+                      Divider(
+                        height: 0,
+                      ),
+                      ListTile(
                         title: Row(
                           children: <Widget>[
                             Text(
@@ -309,22 +333,26 @@ class _EditProfileState extends State<EditProfile> {
                                       child: Text(allTranslations
                                           .text("chooseLanguageOption1")),
                                       onPressed: () async {
-                                        allTranslations.setNewLanguage("en", true);
+                                        allTranslations.setNewLanguage(
+                                            "en", true);
                                         setState(() {});
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
-                                                builder: (context) => SpLash()));
+                                                builder: (context) =>
+                                                    SpLash()));
                                       },
                                     ),
                                     CupertinoActionSheetAction(
                                       child: Text(allTranslations
                                           .text("chooseLanguageOption2")),
                                       onPressed: () async {
-                                        allTranslations.setNewLanguage("ar", true);
+                                        allTranslations.setNewLanguage(
+                                            "ar", true);
                                         setState(() {});
                                         Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
-                                                builder: (context) => SpLash()));
+                                                builder: (context) =>
+                                                    SpLash()));
                                       },
                                     )
                                   ],
@@ -436,13 +464,15 @@ class _EditProfileState extends State<EditProfile> {
                                         sharedPreferences.remove('authUser');
                                         sharedPreferences.clear();
                                         Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(builder: (context) {
-                                              return SpLash();
-                                            }));
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                                  return SpLash();
+                                                }));
                                       },
                                     ),
                                     CupertinoActionSheetAction(
-                                      child: Text(allTranslations.text("cancel")),
+                                      child: Text(
+                                          allTranslations.text("cancel")),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },

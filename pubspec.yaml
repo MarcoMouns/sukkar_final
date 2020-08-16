@@ -1,7 +1,7 @@
 name: health
 description: A new fitness app
 
-version: 0.0.1+4
+version: 0.0.1+5
 
 environment:
   sdk: ">=2.1.0-dev.68.0 <3.0.0"
@@ -47,6 +47,8 @@ dependencies:
 
   vector_math: ^2.0.8
   pedometer: ^1.2.5
+  flutter_local_notifications: ^1.4.4+2
+  app_settings: ^4.0.3
 
 # The following section is specific to Flutter.
 flutter:

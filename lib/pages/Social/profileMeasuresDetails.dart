@@ -103,9 +103,11 @@ class _ProfileMeasurementState extends State<ProfileMeasurementDetails> {
     setState(() {});
   }
 
-  initState() {
-    getMeasurementsForDay(id);
+  @override
+  void initState() {
+    // TODO: implement initState
     super.initState();
+    getMeasurementsForDay(id);
   }
 
   @override

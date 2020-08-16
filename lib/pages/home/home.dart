@@ -14,6 +14,7 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
+import 'package:health/pages/home.dart';
 import 'package:health/pages/home/articleDetails.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/adDetails.dart';
@@ -30,6 +31,7 @@ import '../../languages/all_translations.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'measurementsDetailsPage.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {}
@@ -68,6 +70,31 @@ class _HomePageState extends State<HomePage> {
   bool loading1;
   bool loading2;
   bool initOpen = true;
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      new FlutterLocalNotificationsPlugin();
+  var initializationSettingsAndroid;
+  var initializationSettingsIOS;
+  var initializationSettings;
+
+  Future<void> _showOngoingNotification() async {
+    print(sharedPreferences.getInt("daySteps"));
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your channel id', 'Steps', 'your channel description',
+        ongoing: true,
+        playSound: false,
+        showWhen: false,
+        enableVibration: false,
+        autoCancel: false,
+        styleInformation: DefaultStyleInformation(true, true));
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, null, null, platformChannelSpecifics);
+    setState(() {});
+  }
+
   Icon icNotifications = Icon(
     Icons.notifications_none,
     color: Colors.black,
@@ -240,10 +267,11 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
+    await _showOngoingNotification();
   }
 
   healthData() async {
@@ -281,7 +309,47 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('Notification payload: $payload');
+    }
+//    await Navigator.push(context,
+//        new MaterialPageRoute(builder: (context) => new SecondRoute()));
+  }
+
+  Future onDidReceiveLocalNotification(int id, String title, String body,
+      String payload) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+            CupertinoAlertDialog(
+              title: Text(title),
+              content: Text(body),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: Text('Ok'),
+                  onPressed: () async {
+                    Navigator.of(context, rootNavigator: true).pop();
+                    await Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MainHome()));
+                  },
+                )
+              ],
+            ));
+  }
+
   initState() {
+    super.initState();
+
+    initializationSettingsAndroid =
+    new AndroidInitializationSettings('app_icon');
+    initializationSettingsIOS = new IOSInitializationSettings(
+        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -291,7 +359,7 @@ class _HomePageState extends State<HomePage> {
         "Authorization": "Bearer ${authUser['authToken']}",
       };
 
-     await dio.post(
+      await dio.post(
           "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
           options: Options(headers: headers));
     });
@@ -309,10 +377,8 @@ class _HomePageState extends State<HomePage> {
         );
         setState(() {});
       },
-      onLaunch: (Map<String, dynamic> message) async {
-      },
-      onResume: (Map<String, dynamic> message) async {
-      },
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
     getHomeData();
     healthData();
@@ -320,11 +386,11 @@ class _HomePageState extends State<HomePage> {
       Settings.currentIndex = 0;
     });
 
-    super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
 
     const oneSec = const Duration(minutes: 15);
     new Timer.periodic(oneSec, (Timer t) => getHomeData());
+
   }
 
   Future<void> fetchMeals() async {
@@ -835,9 +901,15 @@ class _HomePageState extends State<HomePage> {
             .of(context)
             .padding
             .top - 5 <
-                    MediaQuery.of(context).size.width - 2
+            MediaQuery
+                .of(context)
+                .size
+                .width - 2
             ? _screenHeight * 0.6
-                : MediaQuery.of(context).size.width - 2) /
+            : MediaQuery
+            .of(context)
+            .size
+            .width - 2) /
             2;
     return loading == true
         ? Loading()
@@ -967,7 +1039,8 @@ class _HomePageState extends State<HomePage> {
                                       MediaQuery
                                           .of(context)
                                           .size
-                                          .height * 3,
+                                          .height *
+                                          3,
                                       matchTextDirection: true,
                                     ),
                                   ),
@@ -1024,19 +1097,20 @@ class _HomePageState extends State<HomePage> {
                                               onTap: () {
                                                 Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                              builder: (context) => AdDetailsScreen(
-                                                                  banners[index]
-                                                                      .image,
-                                                                  banners[index]
-                                                                              .text ==
-                                                                          null
-                                                                      ? ""
-                                                                      : banners[
-                                                                              index]
-                                                                          .text,
-                                                                  banners[index]
-                                                                      .adLInk)));
-                                                        },
+                                                        builder: (context) =>
+                                                            AdDetailsScreen(
+                                                                banners[index]
+                                                                    .image,
+                                                                banners[index]
+                                                                    .text ==
+                                                                    null
+                                                                    ? ""
+                                                                    : banners[
+                                                                index]
+                                                                    .text,
+                                                                banners[index]
+                                                                    .adLInk)));
+                                              },
                                               child: new Container(
                                                 decoration: ShapeDecoration(
                                                     image: DecorationImage(
@@ -1081,16 +1155,16 @@ class _HomePageState extends State<HomePage> {
                                             child: new Container(
                                               decoration: ShapeDecoration(
                                                   color: Colors
-                                                                  .grey[200],
-                                                              shape: RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10))),
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      10),
+                                                      .grey[200],
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          10))),
+                                              margin: EdgeInsets
+                                                  .symmetric(
+                                                  horizontal:
+                                                  10),
                                                           width: MediaQuery.of(
                                                                       context)
                                                                   .size
@@ -1102,73 +1176,82 @@ class _HomePageState extends State<HomePage> {
                                                                 width: 80,
                                                                 height: 100,
                                                                 child:
-                                                                    ClipRRect(
+                                                                ClipRRect(
                                                                   child: Image
                                                                       .network(
-                                                                    "http://api.sukar.co/${banners[index].image}",
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      ),
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          10),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    child: Column(
-                                                      children: <
-                                                          Widget>[
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                              top:
-                                                              10,
-                                                              right:
-                                                              10),
-                                                          child:
-                                                          Container(
-                                                            width: MediaQuery.of(context).size.width *
+                                                                    "http://api.sukar.co/${banners[index]
+                                                                        .image}",
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                  borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                      10),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                child: Column(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Padding(
+                                                                      padding: EdgeInsets
+                                                                          .only(
+                                                                          top:
+                                                                          10,
+                                                                          right:
+                                                                          10),
+                                                                      child:
+                                                                      Container(
+                                                                        width: MediaQuery
+                                                                            .of(
+                                                                            context)
+                                                                            .size
+                                                                            .width *
                                                                             0.355,
                                                                         child:
-                                                                            Text(
+                                                                        Text(
                                                                           banners[index]
                                                                               .name,
                                                                           softWrap:
-                                                                              true,
+                                                                          true,
                                                                           overflow:
-                                                                              TextOverflow.ellipsis,
+                                                                          TextOverflow
+                                                                              .ellipsis,
                                                                           style: TextStyle(
-                                                                              color: Color.fromRGBO(41, 172, 216,
-                                                                      1),
-                                                                  fontSize:
-                                                                  15),
-
-                                                            ),
+                                                                              color: Color
+                                                                                  .fromRGBO(
+                                                                                  41,
+                                                                                  172,
+                                                                                  216,
+                                                                                  1),
+                                                                              fontSize: 15),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets
+                                                                          .only(
+                                                                          top: 5),
+                                                                      child:
+                                                                      Text(
+                                                                        banners[index]
+                                                                            .created,
+                                                                        style:
+                                                                        TextStyle(
+                                                                          color:
+                                                                          Colors
+                                                                              .grey,
+                                                                          fontSize:
+                                                                          10,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
                                                           ),
-                                                        ),
-                                                        Padding(
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                              top: 5),
-                                                          child:
-                                                          Text(
-                                                            banners[index]
-                                                                .created,
-                                                            style:
-                                                            TextStyle(
-                                                              color:
-                                                              Colors.grey,
-                                                              fontSize:
-                                                              10,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
                                             ),
                                           );
                                         },
