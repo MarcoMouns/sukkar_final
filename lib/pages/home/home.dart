@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}';
 
   int distance = 0;
-  int steps =0;
+  int steps = 0;
   int calories = 0;
   int cupOfWater;
   int heartRate;
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() async {
-    calculateSteps();
+    //calculateSteps();
     getValuesSF();
     getMeasurementsForDay(date);
     dummySelectedDate = DateTime.now();
@@ -211,7 +211,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void calculateSteps() async {
-    
     List<int> stepsList = new List<int>();
     stepsList = await healthKit();
     if (stepsList.isEmpty) {
@@ -433,9 +432,12 @@ class _HomePageState extends State<HomePage> {
     sugerToday = response.data["Measurements"]["sugar"][0]["sugar"] == null
         ? 0
         : response.data["Measurements"]["sugar"][0]["sugar"];
-    stepsHistory = response.data["Measurements"]["NumberOfSteps"] == null
+    steps = response.data["Measurements"]["NumberOfSteps"] == null
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
+    print("===============> steps = $steps");
+    distance = (steps * 0.68).toInt();
+    calories = (steps * 0.228).toInt();
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
@@ -610,12 +612,11 @@ class _HomePageState extends State<HomePage> {
         footerText: "Cal " + " $calGoals :" + allTranslations.text("Goal is"));
 
     widgetCircleSteps = MainCircles.steps(
-        percent: steps== null ? 0 : (steps / stepsGoal) > 1
-                ? 1
-                : ((steps / stepsGoal)),
+        percent: steps == null
+            ? 0
+            : (steps / stepsGoal) > 1 ? 1 : ((steps / stepsGoal)),
         context: context,
-        steps: steps == null 
-            ? 0 : steps,
+        steps: steps == null ? 0 : steps,
         raduis: _chartRadius,
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
@@ -770,20 +771,21 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                   id: 2,
                   child: Padding(
-                    padding:  EdgeInsets.only(left: 13),
-                    child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
+                    padding: EdgeInsets.only(left: 13),
+                    child:
+                    FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
                   )),
               new LayoutId(
                 id: 3,
                 child: Padding(
-                  padding:  EdgeInsets.only(left: 13),
+                  padding: EdgeInsets.only(left: 13),
                   child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[1]),
                 ),
               ),
               new LayoutId(
                 id: 4,
                 child: Padding(
-                  padding:  EdgeInsets.only(left: 13),
+                  padding: EdgeInsets.only(left: 13),
                   child: FittedBox(fit: BoxFit.scaleDown, child: coCircles[2]),
                 ),
               )
@@ -822,23 +824,28 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
-                          minTime: DateTime(DateTime.now().year - 1),
-                          maxTime: DateTime(DateTime.now().year + 1),
+                          minTime: DateTime(DateTime
+                              .now()
+                              .year - 1),
+                          maxTime: DateTime(DateTime
+                              .now()
+                              .year, DateTime
+                              .now()
+                              .month, DateTime
+                              .now()
+                              .day),
                           onConfirm: (e) {
-                        setState(() {
-                          date = '${e.year}-${e.month}-${e.day}';
+                            date = '${e.year}-${e.month}-${e.day}';
 
-                          getHomeFetch();
-                          getMeasurementsForDay(date);
-                          getMeasurements(date);
-                          getValuesSF();
-                          steps = stepsHistory;
-                          distance = (steps * 0.68).toInt();
-                          calories = (steps * 0.228).toInt();
-
-                          selectedDate = e;
-                        });
-                      }, currentTime: DateTime.now(), locale: LocaleType.ar);
+                            getHomeFetch();
+                            getMeasurementsForDay(date);
+                            getMeasurements(date);
+                            getValuesSF();
+                            selectedDate = e;
+                            setState(() {});
+                          },
+                          currentTime: DateTime.now(),
+                          locale: LocaleType.ar);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1062,18 +1069,29 @@ class _HomePageState extends State<HomePage> {
                                                           child: new Row(
                                                             children: <Widget>[
                                                               SizedBox(
-                                                                width: MediaQuery.of(context).size.width*0.24,
-                                                                height: MediaQuery.of(context).size.height*0.2,
+                                                                width: MediaQuery
+                                                                    .of(
+                                                                    context)
+                                                                    .size
+                                                                    .width *
+                                                                    0.24,
+                                                                height: MediaQuery
+                                                                    .of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.2,
                                                                 child:
-                                                                    ClipRRect(
+                                                                ClipRRect(
                                                                   child: Image
                                                                       .network(
-                                                                    "http://api.sukar.co/${banners[index].image}",
+                                                                    "http://api.sukar.co/${banners[index]
+                                                                        .image}",
                                                                     fit: BoxFit
                                                                         .cover,
                                                                   ),
                                                                   borderRadius:
-                                                                      BorderRadius
+                                                                  BorderRadius
                                                                           .circular(
                                                                               10),
                                                                 ),
