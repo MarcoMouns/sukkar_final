@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -390,7 +390,6 @@ class _HomePageState extends State<HomePage> {
 
     const oneSec = const Duration(minutes: 15);
     new Timer.periodic(oneSec, (Timer t) => getHomeData());
-
   }
 
   Future<void> fetchMeals() async {
@@ -558,9 +557,11 @@ class _HomePageState extends State<HomePage> {
     distanceGoal = response.data["Measurements"]["distance_goal"] == null
         ? 0
         : response.data["Measurements"]["distance_goal"];
-    stepsHistory = response.data["Measurements"]["NumberOfSteps"] == null
+    steps = response.data["Measurements"]["NumberOfSteps"] == null
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
+    distance = (steps * 0.68).toInt();
+    calories = (steps * 0.228).toInt();
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -926,22 +927,32 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
-                          minTime: DateTime(DateTime.now().year - 1),
-                          maxTime: DateTime(DateTime.now().year + 1),
+                          minTime: DateTime(DateTime
+                              .now()
+                              .year - 1),
+                          maxTime: DateTime(
+                              DateTime
+                                  .now()
+                                  .year,
+                              DateTime
+                                  .now()
+                                  .month,
+                              DateTime
+                                  .now()
+                                  .day),
                           onConfirm: (e) {
-                        setState(() {
-                          date = '${e.year}-${e.month}-${e.day}';
+                            setState(() {
+                              date = '${e.year}-${e.month}-${e.day}';
 
-                          getHomeFetch();
-                          getMeasurementsForDay(date);
-                          getMeasurements(date);
-                          getValuesSF();
-                          steps = stepsHistory;
-                          distance = (steps * 0.68).toInt();
-                          calories = (steps * 0.228).toInt();
-                          selectedDate = e;
-                        });
-                      }, currentTime: DateTime.now(), locale: LocaleType.ar);
+                              getHomeFetch();
+                              getMeasurementsForDay(date);
+                              getMeasurements(date);
+                              getValuesSF();
+                              selectedDate = e;
+                            });
+                          },
+                          currentTime: DateTime.now(),
+                          locale: LocaleType.ar);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1165,16 +1176,17 @@ class _HomePageState extends State<HomePage> {
                                                   .symmetric(
                                                   horizontal:
                                                   10),
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.59,
-                                                          child: new Row(
-                                                            children: <Widget>[
-                                                              SizedBox(
-                                                                width: 80,
-                                                                height: 100,
+                                              width: MediaQuery
+                                                  .of(
+                                                  context)
+                                                  .size
+                                                  .width *
+                                                  0.59,
+                                              child: new Row(
+                                                children: <Widget>[
+                                                  SizedBox(
+                                                    width: 80,
+                                                    height: 100,
                                                                 child:
                                                                 ClipRRect(
                                                                   child: Image
@@ -1250,8 +1262,8 @@ class _HomePageState extends State<HomePage> {
                                                                   ],
                                                                 ),
                                                               )
-                                                            ],
-                                                          ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         },
