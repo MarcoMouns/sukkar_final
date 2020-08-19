@@ -173,6 +173,12 @@ class _MyAppState extends State<MyApp> {
             secondaryHeaderColor: Colors.white,
           ),
           title: "سكر",
+          builder: (context, child) {
+            return MediaQuery(
+              child: child,
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            );
+          },
           debugShowCheckedModeBanner: false,
           locale: model.appLocal,
           supportedLocales: allTranslations.supportedLocales(),

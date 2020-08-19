@@ -117,7 +117,7 @@ class _EditProfileState extends State<EditProfile> {
                                         SharedData.customerData['userName'],
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20.0),
+                                            fontSize: 18.5),
                                       ),
                                       Text(
                                         "id:${SharedData.customerData['search_code']}",
