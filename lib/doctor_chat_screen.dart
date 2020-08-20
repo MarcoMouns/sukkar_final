@@ -388,11 +388,11 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
         controller: pickerController,
         context: context,
         title: Text(
-          'التخصص',
+          allTranslations.text("specialty"),
           style: TextStyle(fontSize: 14),
         ),
         cancel: Text(
-          'cancel',
+          allTranslations.text("cancel"),
           style: TextStyle(color: Colors.grey),
         ),
         onCancel: () {
@@ -400,7 +400,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
 //              SnackBar(content: Text('AlertDialogPicker.cancel')));
         },
         confirm: Text(
-          'confirm',
+          allTranslations.text("confirm"),
           style: TextStyle(color: Colors.blue),
         ),
         onConfirm: (controller) {
