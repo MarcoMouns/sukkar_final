@@ -272,5 +272,7 @@ Map<String, String> arabicLang = {
   "source": "المصدر",
   "Add test strip": "ضع شريط السكر",
   "Sugar measurements for today": "قياسات السكر لهذا اليوم :",
-  "Battery optimization": "اعدادات البطارية"
+  "Battery optimization": "اعدادات البطارية",
+  "specialty": "التخصص",
+  "confirm": "تأكيد"
 };

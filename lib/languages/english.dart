@@ -259,5 +259,7 @@ your massage has been send successfully
   "source": "Source",
   "Add test strip": "Add test strip",
   "Sugar measurements for today": "Sugar measurements for today :",
-  "Battery optimization": "Battery optimization"
+  "Battery optimization": "Battery optimization",
+  "specialty": "specialty",
+  "confirm": "confirm"
 };
