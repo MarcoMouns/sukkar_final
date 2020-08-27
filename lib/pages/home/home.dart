@@ -9,6 +9,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Settings.dart';
@@ -31,7 +32,6 @@ import '../../languages/all_translations.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'measurementsDetailsPage.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {}
@@ -317,12 +317,11 @@ class _HomePageState extends State<HomePage> {
 //        new MaterialPageRoute(builder: (context) => new SecondRoute()));
   }
 
-  Future onDidReceiveLocalNotification(int id, String title, String body,
-      String payload) async {
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
     await showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            CupertinoAlertDialog(
+        builder: (BuildContext context) => CupertinoAlertDialog(
               title: Text(title),
               content: Text(body),
               actions: <Widget>[
@@ -560,6 +559,7 @@ class _HomePageState extends State<HomePage> {
     steps = response.data["Measurements"]["NumberOfSteps"] == null
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
+    stepsHistory = steps;
     distance = (steps * 0.68).toInt();
     calories = (steps * 0.228).toInt();
     return response.data["Measurements"]["sugar"][0]["sugar"];
@@ -941,14 +941,16 @@ class _HomePageState extends State<HomePage> {
                                   .now()
                                   .day),
                           onConfirm: (e) {
-                            setState(() {
+                            setState(() async {
                               date = '${e.year}-${e.month}-${e.day}';
 
                               getHomeFetch();
-                              getMeasurementsForDay(date);
+                              await getMeasurementsForDay(date);
                               getMeasurements(date);
                               getValuesSF();
                               selectedDate = e;
+                              steps = stepsHistory;
+                              setState(() {});
                             });
                           },
                           currentTime: DateTime.now(),
@@ -1187,19 +1189,19 @@ class _HomePageState extends State<HomePage> {
                                                   SizedBox(
                                                     width: 80,
                                                     height: 100,
-                                                                child:
-                                                                ClipRRect(
-                                                                  child: Image
-                                                                      .network(
-                                                                    "http://api.sukar.co/${banners[index]
-                                                                        .image}",
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                  borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      10),
+                                                    child:
+                                                    ClipRRect(
+                                                      child: Image
+                                                          .network(
+                                                        "http://api.sukar.co/${banners[index]
+                                                            .image}",
+                                                        fit: BoxFit
+                                                            .cover,
+                                                      ),
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          10),
                                                                 ),
                                                               ),
                                                               SizedBox(
