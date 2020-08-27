@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() async {
-    //calculateSteps();
+    calculateSteps();
     getValuesSF();
     getMeasurementsForDay(date);
     dummySelectedDate = DateTime.now();
@@ -436,8 +436,9 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
     print("===============> steps = $steps");
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
+    stepsHistory = steps;
+    distance = (stepsHistory * 0.68).toInt();
+    calories = (stepsHistory * 0.228).toInt();
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
@@ -834,14 +835,14 @@ class _HomePageState extends State<HomePage> {
                               .month, DateTime
                               .now()
                               .day),
-                          onConfirm: (e) {
+                          onConfirm: (e) async {
                             date = '${e.year}-${e.month}-${e.day}';
-
                             getHomeFetch();
-                            getMeasurementsForDay(date);
+                            await getMeasurementsForDay(date);
                             getMeasurements(date);
                             getValuesSF();
                             selectedDate = e;
+                            steps = stepsHistory;
                             setState(() {});
                           },
                           currentTime: DateTime.now(),
