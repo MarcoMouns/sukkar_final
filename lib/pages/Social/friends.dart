@@ -343,6 +343,7 @@ class _FriendsPageState extends State<FriendsPage>
                                                                 BoxShape.circle,
                                                             image:
                                                                 DecorationImage(
+                                                                  fit: BoxFit.fill,
                                                               image: following[
                                                                               index]
                                                                           .image ==
