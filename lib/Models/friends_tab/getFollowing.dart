@@ -58,7 +58,7 @@ class DataListBean2 {
   String birthDate;
   String provider;
   String providerId;
-  String specialistId;
+  int specialistId;
   String deletedAt;
   String createdAt;
   String updatedAt;
@@ -82,7 +82,7 @@ class DataListBean2 {
     this.birthDate = json['birth_date'].toString();
     this.provider = json['provider'].toString();
     this.providerId = json['provider_id'].toString();
-    this.specialistId = json['specialist_id'].toString();
+    this.specialistId = json['specialist_id'] ?? 0;
     this.deletedAt = json['deleted_at'].toString();
     this.createdAt = json['created_at'].toString();
     this.updatedAt = json['updated_at'].toString();
@@ -106,7 +106,7 @@ class DataListBean2 {
     data['birth_date'] = this.birthDate;
     data['provider'] = this.provider;
     data['provider_id'] = this.providerId;
-    data['specialist_id'] = this.specialistId;
+    data['specialist_id'] = this.specialistId ?? 0;
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

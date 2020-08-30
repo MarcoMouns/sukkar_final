@@ -14,7 +14,7 @@ class GetFollowers {
 
   GetFollowers({this.firstPageUrl, this.lastPageUrl, this.nextPageUrl, this.path, this.prevPageUrl, this.currentPage, this.from, this.lastPage, this.perPage, this.to, this.total, this.data});
 
-  GetFollowers.fromJson(Map<String, dynamic> json) {    
+  GetFollowers.fromJson(Map<String, dynamic> json) {
     this.firstPageUrl = json['first_page_url'];
     this.lastPageUrl = json['last_page_url'];
     this.nextPageUrl = json['next_page_url'];
@@ -58,7 +58,7 @@ class DataListBean {
   String birthDate;
   String provider;
   String providerId;
-  String specialistId;
+  int specialistId;
   String deletedAt;
   String createdAt;
   String updatedAt;
@@ -72,7 +72,7 @@ class DataListBean {
 
   DataListBean({this.name, this.email, this.phone, this.image, this.tokenId, this.hight, this.birthDate, this.provider, this.providerId, this.specialistId, this.deletedAt, this.createdAt, this.updatedAt, this.searchCode, this.id, this.gender, this.generatedCode, this.type, this.state, this.rating});
 
-  DataListBean.fromJson(Map<String, dynamic> json) {    
+  DataListBean.fromJson(Map<String, dynamic> json) {
     this.name = json['name'];
     this.email = json['email'];
     this.phone = json['phone'];
@@ -82,7 +82,7 @@ class DataListBean {
     this.birthDate = json['birth_date'];
     this.provider = json['provider'];
     this.providerId = json['provider_id'];
-    this.specialistId = json['specialist_id'];
+    this.specialistId = json['specialist_id'] ?? 0;
     this.deletedAt = json['deleted_at'];
     this.createdAt = json['created_at'];
     this.updatedAt = json['updated_at'];
@@ -106,7 +106,7 @@ class DataListBean {
     data['birth_date'] = this.birthDate;
     data['provider'] = this.provider;
     data['provider_id'] = this.providerId;
-    data['specialist_id'] = this.specialistId;
+    data['specialist_id'] = this.specialistId ?? 0;
     data['deleted_at'] = this.deletedAt;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
