@@ -68,7 +68,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
               String sharedUrl =
               file != null ? file : video != null ? video : null;
               if (sharedUrl != null) {
-                Share.share('check out Suker Article $sharedUrl');
+                Share.share('check out Sukar Article $sharedUrl');
               } else {
                 final snackBar = SnackBar(
                   content: Text(allTranslations.text("noShare")),
