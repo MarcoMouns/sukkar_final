@@ -313,19 +313,17 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
       "water": water,
       "heart": heart,
       "blood": blood,
+      "_method": "PUT"
     });
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
         jsonDecode(sharedPreferences.getString("authUser"));
     var headers = {
       "Authorization": "Bearer ${authUser['authToken']}",
     };
-
     try {
       response = await dio.post("${Settings.baseApilink}/users/circles",
           data: _formData, options: Options(headers: headers));
-
       if (response.statusCode == 201) {
         print('Sucess');
       } else {

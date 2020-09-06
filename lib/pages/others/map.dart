@@ -681,7 +681,7 @@ class _MapPageState extends State<MapPage> {
                                     "distance": (0).toInt(),
                                     "steps": _stepCountValue,
                                     "calories":
-                                        ((steps * 0.0512).ceil()).toInt(),
+                                        ((steps * 0.046).ceil()).toInt(),
                                   });
 
                                   response = await dio.post(

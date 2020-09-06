@@ -66,9 +66,9 @@ class _HomePageState extends State<HomePage> {
   String timeOfLastMeasure = "";
   List<BannersListBean> banners = List<BannersListBean>();
 
-  bool loading;
-  bool loading1;
-  bool loading2;
+  bool loading = true;
+  bool loading1 = true;
+  bool loading2 = true;
   bool initOpen = true;
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -230,8 +230,8 @@ class _HomePageState extends State<HomePage> {
       initVal = stepCountValue;
       setState(() {});
     }
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
+    distance = (steps * 0.770).toInt();
+    calories = (steps * 0.046).toInt();
     pref = await SharedPreferences.getInstance();
     pref.setInt("lastSavedSteps", initVal);
     pref.setInt("daySteps", steps);
@@ -249,25 +249,25 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     steps = sharedPreferences.getInt('daySteps') ?? 0;
     initVal = sharedPreferences.getInt('lastSavedSteps') ?? 0;
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
-    setState(() {});
-    healthData();
-    initPlatformState();
-    getValuesSF();
-    getMeasurementsForDay(date);
+    distance = (steps * 0.770).toInt();
+    calories = (steps * 0.046).toInt();
+    if (mounted) setState(() {});
+    await healthData();
+    await initPlatformState();
+    await getMeasurementsForDay(date);
+    await getValuesSF();
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
-    fetchMeals();
-    getCustomerData();
-    getMeasurements(date);
-    getHomeFetch();
+    await fetchMeals();
+    await getCustomerData();
+    await getMeasurements(date);
+    await getHomeFetch();
     getcal();
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -282,11 +282,11 @@ class _HomePageState extends State<HomePage> {
           ? 0
           : sharedPreferences.getInt("daySteps");
     }
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.028).toInt();
-    setState(() {});
+    distance = (steps * 0.770).toInt();
+    calories = (steps * 0.046).toInt();
+    if (mounted) setState(() {});
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     await http.post(
         "${Settings.baseApilink}/measurements?day_Calories=$calories",
         body: {
@@ -374,16 +374,15 @@ class _HomePageState extends State<HomePage> {
           Icons.notifications,
           color: Colors.red,
         );
-        setState(() {});
+        if (mounted) setState(() {});
       },
       onLaunch: (Map<String, dynamic> message) async {},
       onResume: (Map<String, dynamic> message) async {},
     );
-    getHomeData();
-    healthData();
-    setState(() {
+    if (mounted) setState(() {
       Settings.currentIndex = 0;
     });
+    initData();
 
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
 
@@ -394,7 +393,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
       if (result != null) {
-        setState(() {
+        if (mounted) setState(() {
           _calories = result.userFoods.map((meal) => meal.calories).toList();
           addIntToSF();
           getValuesSF();
@@ -456,11 +455,15 @@ class _HomePageState extends State<HomePage> {
     }
     initialCircles(169.0285);
     initListOfCircles();
-    setState(() {});
+  }
+
+  initData() async {
+    await getHomeData();
+    await healthData();
     loading = false;
     loading1 = false;
     loading2 = false;
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   static Future setFirebaseImage() async {
@@ -482,7 +485,7 @@ class _HomePageState extends State<HomePage> {
     if (ncal == null || ncal == 0) {
       ncal = 0;
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   Dio dio = new Dio();
@@ -560,8 +563,8 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
     stepsHistory = steps;
-    distance = (steps * 0.68).toInt();
-    calories = (steps * 0.228).toInt();
+    distance = (steps * 0.770).toInt();
+    calories = (steps * 0.046).toInt();
     return response.data["Measurements"]["sugar"][0]["sugar"];
   }
 
@@ -597,7 +600,7 @@ class _HomePageState extends State<HomePage> {
       datesOfMeasures = date;
       measuresData = suger;
 
-      setState(() {});
+      if (mounted) setState(() {});
     } catch (e) {
       print("error =====================  $e");
     }
@@ -618,18 +621,19 @@ class _HomePageState extends State<HomePage> {
     istrue = true;
     dummySelectedDate = dummySelectedDate.add(new Duration(days: 7));
     emptylists();
-    setState(() {});
+    if (mounted) setState(() {});
     Future.delayed(Duration(milliseconds: initOpen ? 300 : 300), () {
       initOpen = false;
       istrue = false;
-      setState(() {
+      if (mounted) setState(() {
         dummyDate =
-            '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
+        '${dummySelectedDate.year}-${dummySelectedDate
+            .month}-${dummySelectedDate.day}';
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
     });
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void decrementWeek() {
@@ -637,34 +641,30 @@ class _HomePageState extends State<HomePage> {
     istrue = true;
     dummySelectedDate = dummySelectedDate.subtract(new Duration(days: 7));
     emptylists();
-    setState(() {});
+    if (mounted) setState(() {});
     Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       initOpen = false;
       istrue = false;
-      setState(() {
+      if (mounted) setState(() {
         dummyDate =
-            '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
+        '${dummySelectedDate.year}-${dummySelectedDate
+            .month}-${dummySelectedDate.day}';
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
     });
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   getHomeFetch() {
-    setState(() {
-      loading = true;
-      loading1 = true;
-    });
     widget.model.fetchHome(date).then(
       (result) {
         if (result != null) {
-          setState(() {
+          if (mounted) setState(() {
             dataHome = result.measurements;
             Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
-              setState(() {
+              if (mounted) setState(() {
                 banners = result.banners;
-                loading1 = false;
               });
             });
           });
@@ -672,7 +672,7 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void initListOfCircles() {
@@ -695,8 +695,7 @@ class _HomePageState extends State<HomePage> {
     if (circleSteps == true) {
       coCircles.add(widgetCircleSteps);
     }
-
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void initialCircles(_chartRadius) {
@@ -761,7 +760,6 @@ class _HomePageState extends State<HomePage> {
         heart: heartRate == null ? '0' : heartRate.toString(),
         onTap: () => null,
         footerText: "");
-
     widgetCircleBlood = MainCircles.blood(
         percent: bloodPresure2 == null
             ? 0
@@ -773,7 +771,7 @@ class _HomePageState extends State<HomePage> {
             : bloodPresure2.toString() + "/" + bloodPresure1.toString(),
         onTap: () => null,
         footerText: "");
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   Widget upperCircles(context, _chartRadius, model) {
@@ -1202,45 +1200,42 @@ class _HomePageState extends State<HomePage> {
                                                       BorderRadius
                                                           .circular(
                                                           10),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                child: Column(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Padding(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                          top:
-                                                                          10,
-                                                                          right:
-                                                                          10),
-                                                                      child:
-                                                                      Container(
-                                                                        width: MediaQuery
-                                                                            .of(
-                                                                            context)
-                                                                            .size
-                                                                            .width *
-                                                                            0.355,
-                                                                        child:
-                                                                        Text(
-                                                                          banners[index]
-                                                                              .name,
-                                                                          softWrap:
-                                                                          true,
-                                                                          overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                          style: TextStyle(
-                                                                              color: Color
-                                                                                  .fromRGBO(
-                                                                                  41,
-                                                                                  172,
-                                                                                  216,
-                                                                                  1),
-                                                                              fontSize: 15),
-                                                                        ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    child: Column(
+                                                      children: <
+                                                          Widget>[
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .only(
+                                                              top:
+                                                              10,
+                                                              right:
+                                                              10),
+                                                          child:
+                                                          Container(
+                                                            width: MediaQuery
+                                                                .of(context)
+                                                                .size
+                                                                .width *
+                                                                0.355,
+                                                            child:
+                                                            Text(
+                                                              banners[index]
+                                                                  .name,
+                                                              softWrap:
+                                                              true,
+                                                              overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                      41, 172,
+                                                                      216, 1),
+                                                                  fontSize: 15),
+                                                            ),
                                                                       ),
                                                                     ),
                                                                     Padding(
@@ -1261,9 +1256,9 @@ class _HomePageState extends State<HomePage> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              )
+                                                      ],
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                             ),
