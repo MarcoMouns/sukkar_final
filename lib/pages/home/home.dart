@@ -185,7 +185,6 @@ class _HomePageState extends State<HomePage> {
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
-    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas');
     loading = false;
     loading1 = false;
     loading2 = false;
@@ -444,7 +443,7 @@ class _HomePageState extends State<HomePage> {
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
-    print("===============> steps = $cupOfWater");
+    print("===============> steps = $steps");
     bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
         ? 0
         : response.data["Measurements"]["DiastolicPressure"];
@@ -634,18 +633,13 @@ class _HomePageState extends State<HomePage> {
         footerText:
         " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
 
-    print('asss222222');
-    print(cupOfWater);
-
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
             ? 0
             : (cupOfWater / goalOfWater) > 1 ? 1 : ((cupOfWater / goalOfWater)),
         context: context,
         raduis: _chartRadius,
-        numberOfCups: dataHome == null
-            ? '0'
-            : cupOfWater == null ? '0' : cupOfWater.toString(),
+        numberOfCups: cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
             ": " +
