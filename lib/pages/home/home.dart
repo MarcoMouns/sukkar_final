@@ -743,9 +743,7 @@ class _HomePageState extends State<HomePage> {
             : (cupOfWater / goalOfWater) > 1 ? 1 : ((cupOfWater / goalOfWater)),
         context: context,
         raduis: _chartRadius,
-        numberOfCups: dataHome == null
-            ? '0'
-            : cupOfWater == null ? '0' : cupOfWater.toString(),
+        numberOfCups: cupOfWater == null ? '0' : cupOfWater.toString(),
         onTap: () => null,
         footerText: allTranslations.text("Goal is") +
             ": " +
