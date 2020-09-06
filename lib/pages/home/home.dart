@@ -66,9 +66,9 @@ class _HomePageState extends State<HomePage> {
   String timeOfLastMeasure = "";
   List<BannersListBean> banners = List<BannersListBean>();
 
-  bool loading;
-  bool loading1;
-  bool loading2;
+  bool loading = true;
+  bool loading1 = true;
+  bool loading2 = true;
   bool initOpen = true;
   Icon icNotifications = Icon(
     Icons.notifications_none,
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
   bool istrue = false;
   List newList = [];
   List<int> _calories = [];
-  int rcalories;
+  int rcalories = 0;
   DateTime selectedDate = DateTime.now();
   DateTime dummySelectedDate = DateTime.now();
 
@@ -168,23 +168,28 @@ class _HomePageState extends State<HomePage> {
 
   getHomeData() async {
     calculateSteps();
-    getValuesSF();
-    getMeasurementsForDay(date);
+    await getMeasurementsForDay(date);
+    await getValuesSF();
     dummySelectedDate = DateTime.now();
     selectedDate = DateTime.now();
     emptylists();
-    fetchMeals();
-    getCustomerData();
-    getMeasurements(date);
-    getHomeFetch();
+    await fetchMeals();
+    await getCustomerData();
+    await getMeasurements(date);
+    await getHomeFetch();
     getcal();
     setFirebaseImage();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas');
+    loading = false;
+    loading1 = false;
+    loading2 = false;
+    if (mounted) setState(() {});
   }
 
   Future<List<int>> healthKit() async {
@@ -224,14 +229,14 @@ class _HomePageState extends State<HomePage> {
       }
       flag = false;
       step = steps;
-      distance = (steps * 0.68).toInt();
-      calories = (steps * 0.028).toInt();
+      distance = (steps * 0.770).toInt();
+      calories = (steps * 0.046).toInt();
       setState(() {});
 
       SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-          jsonDecode(sharedPreferences.getString("authUser"));
+      jsonDecode(sharedPreferences.getString("authUser"));
       await http.post("${Settings.baseApilink}/update-steps", body: {
         "steps": "$step",
       }, headers: {
@@ -256,6 +261,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   initState() {
+    super.initState();
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -286,12 +292,12 @@ class _HomePageState extends State<HomePage> {
       onLaunch: (Map<String, dynamic> message) async {},
       onResume: (Map<String, dynamic> message) async {},
     );
-    getHomeData();
+
     setState(() {
       Settings.currentIndex = 0;
     });
+    getHomeData();
 
-    super.initState();
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());
 
     const oneSec = const Duration(minutes: 15);
@@ -364,10 +370,6 @@ class _HomePageState extends State<HomePage> {
     initialCircles(169.0285);
     initListOfCircles();
     setState(() {});
-    loading = false;
-    loading1 = false;
-    loading2 = false;
-    setState(() {});
   }
 
   static Future setFirebaseImage() async {
@@ -435,13 +437,14 @@ class _HomePageState extends State<HomePage> {
     steps = response.data["Measurements"]["NumberOfSteps"] == null
         ? 0
         : response.data["Measurements"]["NumberOfSteps"];
-    print("===============> steps = $steps");
+
     stepsHistory = steps;
-    distance = (stepsHistory * 0.68).toInt();
-    calories = (stepsHistory * 0.228).toInt();
+    distance = (stepsHistory * 0.770).toInt();
+    calories = (stepsHistory * 0.046).toInt();
     cupOfWater = response.data["Measurements"]["water_cups"] == null
         ? 0
         : response.data["Measurements"]["water_cups"];
+    print("===============> steps = $cupOfWater");
     bloodPresure1 = response.data["Measurements"]["DiastolicPressure"] == null
         ? 0
         : response.data["Measurements"]["DiastolicPressure"];
@@ -554,10 +557,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeFetch() {
-    setState(() {
-      loading = true;
-      loading1 = true;
-    });
     widget.model.fetchHome(date).then(
       (result) {
         if (result != null) {
@@ -566,7 +565,6 @@ class _HomePageState extends State<HomePage> {
             Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
               setState(() {
                 banners = result.banners;
-                loading1 = false;
               });
             });
           });
@@ -627,14 +625,17 @@ class _HomePageState extends State<HomePage> {
         percent: distance == null
             ? 0
             : ((distance / distanceGoal)).toDouble() > 1.0
-                ? 1
-                : ((distance / distanceGoal)),
+            ? 1
+            : ((distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: distance == null ? '0' : distance.toString(),
         onTap: () => null,
         footerText:
-            " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
+        " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
+
+    print('asss222222');
+    print(cupOfWater);
 
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
@@ -828,13 +829,16 @@ class _HomePageState extends State<HomePage> {
                           minTime: DateTime(DateTime
                               .now()
                               .year - 1),
-                          maxTime: DateTime(DateTime
-                              .now()
-                              .year, DateTime
-                              .now()
-                              .month, DateTime
-                              .now()
-                              .day),
+                          maxTime: DateTime(
+                              DateTime
+                                  .now()
+                                  .year,
+                              DateTime
+                                  .now()
+                                  .month,
+                              DateTime
+                                  .now()
+                                  .day),
                           onConfirm: (e) async {
                             date = '${e.year}-${e.month}-${e.day}';
                             getHomeFetch();
@@ -1093,8 +1097,8 @@ class _HomePageState extends State<HomePage> {
                                                                   ),
                                                                   borderRadius:
                                                                   BorderRadius
-                                                                          .circular(
-                                                                              10),
+                                                                      .circular(
+                                                                      10),
                                                                 ),
                                                               ),
                                                               SizedBox(

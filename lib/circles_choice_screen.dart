@@ -313,6 +313,7 @@ class _CirclesChoiceScreenState extends State<CirclesChoiceScreen> {
       "water": water,
       "heart": heart,
       "blood": blood,
+      "_method": "PUT"
     });
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
