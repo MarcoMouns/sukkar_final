@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() async {
-    calculateSteps();
+   await  calculateSteps();
     await getMeasurementsForDay(date);
     await getValuesSF();
     dummySelectedDate = DateTime.now();
@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void calculateSteps() async {
+   calculateSteps() async {
     List<int> stepsList = new List<int>();
     stepsList = await healthKit();
     if (stepsList.isEmpty) {
