@@ -1,9 +1,11 @@
 import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
 import 'package:health/scoped_models/main.dart';
+
 import 'languages/all_translations.dart';
 import 'pages/Settings.dart';
 import 'pages/landPage.dart';
@@ -46,12 +48,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   double frYHieght = 0;
 
   static Random rnd = new Random();
-  static int gmin = 50;
-  static int gmax = 100;
-  static int rmin = 100;
-  static int rmax = 120;
-  static int ymin = 40;
-  static int ymax = 80;
+  static int gmin = 100;
+  static int gmax = 190;
+  static int rmin = 220;
+  static int rmax = 340;
+  static int ymin = 65;
+  static int ymax = 90;
   bool istrue = false;
 
   @override
@@ -164,7 +166,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             child: MainCircles.diabetes(
               percent: 0.2,
               context: context,
-              sugar: '0',
+              sugar: '120',
               raduis: _chartRadius,
               status: '0',
               ontap: () => Navigator.of(context)
@@ -195,7 +197,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             child: CircleAvatar(
                               radius: 7.5,
                               backgroundImage:
-                                  AssetImage("assets/imgs/profile.jpg"),
+                              AssetImage("assets/imgs/profile.jpg"),
                             ),
                           ),
                           Positioned(
@@ -203,7 +205,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             child: CircleAvatar(
                               radius: 7.5,
                               backgroundImage:
-                                  AssetImage("assets/imgs/profile.jpg"),
+                              AssetImage("assets/imgs/profile.jpg"),
                             ),
                           ),
                           Positioned(
@@ -227,25 +229,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           new LayoutId(
               id: 2,
               child: MainCircles.cal(
-                  percent: 0.5,
+                  percent: 0.2,
                   context: context,
-                  day_Calories: '100',
-                  ontap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LandPage())),
+                  day_Calories: '4',
+                  ontap: () =>
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => LandPage())),
                   raduis: _chartRadius,
                   footerText:
-                      "Cal " + " 100 :" + allTranslations.text("Goal is"))),
+                  "Cal " + " 100 :" + allTranslations.text("Goal is"))),
           new LayoutId(
             id: 3,
             child: MainCircles.steps(
-                percent: 0.9,
+                percent: 0.5,
                 context: context,
                 steps: 100,
                 raduis: _chartRadius,
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => LandPage())),
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(
+                        MaterialPageRoute(builder: (context) => LandPage())),
                 footerText:
-                    " Step " + "100 :" + allTranslations.text("Goal is")),
+                " Step " + "200 :" + allTranslations.text("Goal is")),
           ),
           new LayoutId(
             id: 4,
@@ -253,11 +258,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 percent: 0.3,
                 context: context,
                 raduis: _chartRadius,
-                distance: '0',
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => LandPage())),
+                distance: '77',
+                onTap: () =>
+                    Navigator.of(context)
+                        .push(
+                        MaterialPageRoute(builder: (context) => LandPage())),
                 footerText:
-                    " meter " + "200 :" + allTranslations.text("Goal is")),
+                " meter " + "155 :" + allTranslations.text("Goal is")),
           )
         ],
       ),
@@ -272,10 +279,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         56;
 
     double _chartRadius =
-        (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
-                    MediaQuery.of(context).size.width - 30
-                ? _screenHeight * 3 / 5
-                : MediaQuery.of(context).size.width - 30) /
+        (_screenHeight * 3 / 5 - MediaQuery
+            .of(context)
+            .padding
+            .top - 40 - 56 <
+            MediaQuery
+                .of(context)
+                .size
+                .width - 30
+            ? _screenHeight * 3 / 5
+            : MediaQuery
+            .of(context)
+            .size
+            .width - 30) /
             2;
 
     return Directionality(
@@ -347,26 +363,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         "assets/icons/ic_arrow_r.png",
                         matchTextDirection: true,
                         width: 15,
-                        height: MediaQuery.of(context).size.height * 3 / 5,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 3 / 5,
                       ),
                       onTap: () => null,
                     ),
                   ),
                   Expanded(
                       child: InkWell(
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => LandPage())),
-                    child: upperCircles(
-                      context,
-                      _chartRadius,
-                    ),
-                  )),
+                        onTap: () =>
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                    LandPage())),
+                        child: upperCircles(
+                          context,
+                          _chartRadius,
+                        ),
+                      )),
                   InkWell(
                     onTap: () => null,
                     child: Image.asset(
                       "assets/icons/ic_arrow_r.png",
                       width: 15,
-                      height: MediaQuery.of(context).size.height * 3 / 5,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 3 / 5,
                       matchTextDirection: true,
                     ),
                   ),
@@ -459,14 +483,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => LandPage())),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.7,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.7,
                         margin: EdgeInsets.symmetric(horizontal: 10),
-                        height: MediaQuery.of(context).size.height * 0.15,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.15,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             color: Colors.grey[200]),
                         child:
-                            Image.network('${Settings.baseApilink}/articles/3'),
+                        Image.network('${Settings.baseApilink}/articles/3'),
                       ),
                     ),
                   ],
@@ -489,7 +519,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).padding.bottom + 60),
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 60),
                             child: Image.asset(
                               'assets/icons/ic_arrow_small_l.png',
                               scale: 2,
@@ -506,7 +539,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: <Widget>[
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
                                   Row(
@@ -523,7 +556,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: frRHieght,
+                                            height: frRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -546,7 +579,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 seconds: istrue ? 0 : 1),
-                                            height: frGHieght,
+                                            height: frGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -568,7 +601,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: frYHieght,
+                                            height: frYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -601,7 +634,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: thRHieght,
+                                            height: thRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -623,7 +656,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: thGHieght,
+                                            height: thGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -645,7 +678,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: thYHieght,
+                                            height: thYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -678,7 +711,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: weRHieght,
+                                            height: weRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -701,7 +734,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: weGHieght,
+                                            height: weGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -723,7 +756,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: weYHieght,
+                                            height: weYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -756,7 +789,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: tuRHieght,
+                                            height: tuRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -778,7 +811,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: tuGHieght,
+                                            height: tuGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -800,7 +833,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: tuYHieght,
+                                            height: tuYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -834,7 +867,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: moRHieght,
+                                            height: moRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -857,7 +890,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: moGHieght,
+                                            height: moGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -879,7 +912,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: moYHieght,
+                                            height: moYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -912,7 +945,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: suRHieght,
+                                            height: suRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -935,7 +968,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 seconds: istrue ? 0 : 1),
-                                            height: suGHieght,
+                                            height: suGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -957,7 +990,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: suYHieght,
+                                            height: suYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -990,7 +1023,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: stRHieght,
+                                            height: stRHieght * 0.4,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFd17356),
@@ -1013,7 +1046,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 seconds: istrue ? 0 : 1),
-                                            height: stGHieght,
+                                            height: stGHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Colors.green[300],
@@ -1035,7 +1068,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                           AnimatedContainer(
                                             duration: Duration(
                                                 milliseconds: istrue ? 0 : 300),
-                                            height: stYHieght,
+                                            height: stYHieght * 0.5,
                                             width: 10,
                                             decoration: BoxDecoration(
                                                 color: Color(0xFFed982f),
@@ -1052,12 +1085,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.9,
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.9,
                                   height: 1,
                                   color: Colors.grey[500]),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                MainAxisAlignment.spaceAround,
                                 children: <Widget>[
                                   Column(
                                     children: <Widget>[
@@ -1172,7 +1208,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(
                                 bottom:
-                                    MediaQuery.of(context).padding.bottom + 60),
+                                MediaQuery
+                                    .of(context)
+                                    .padding
+                                    .bottom + 60),
                             child: Image.asset(
                               'assets/icons/ic_arrow_small_r.png',
                               scale: 2,
