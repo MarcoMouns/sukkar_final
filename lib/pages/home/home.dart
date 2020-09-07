@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getHomeData() async {
-   await  calculateSteps();
+    await calculateSteps();
     await getMeasurementsForDay(date);
     await getValuesSF();
     dummySelectedDate = DateTime.now();
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-   calculateSteps() async {
+  calculateSteps() async {
     List<int> stepsList = new List<int>();
     stepsList = await healthKit();
     if (stepsList.isEmpty) {
@@ -233,9 +233,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {});
 
       SharedPreferences sharedPreferences =
-      await SharedPreferences.getInstance();
+          await SharedPreferences.getInstance();
       Map<String, dynamic> authUser =
-      jsonDecode(sharedPreferences.getString("authUser"));
+          jsonDecode(sharedPreferences.getString("authUser"));
       await http.post("${Settings.baseApilink}/update-steps", body: {
         "steps": "$step",
       }, headers: {
@@ -624,14 +624,14 @@ class _HomePageState extends State<HomePage> {
         percent: distance == null
             ? 0
             : ((distance / distanceGoal)).toDouble() > 1.0
-            ? 1
-            : ((distance / distanceGoal)),
+                ? 1
+                : ((distance / distanceGoal)),
         context: context,
         raduis: _chartRadius,
         distance: distance == null ? '0' : distance.toString(),
         onTap: () => null,
         footerText:
-        " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
+            " m " + "${distanceGoal} :" + allTranslations.text("Goal is"));
 
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
@@ -769,7 +769,7 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 13),
                     child:
-                    FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
+                        FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
                   )),
               new LayoutId(
                 id: 3,
@@ -820,31 +820,22 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
-                          minTime: DateTime(DateTime
-                              .now()
-                              .year - 1),
+                          minTime: DateTime(DateTime.now().year - 1),
                           maxTime: DateTime(
-                              DateTime
-                                  .now()
-                                  .year,
-                              DateTime
-                                  .now()
-                                  .month,
-                              DateTime
-                                  .now()
-                                  .day),
-                          onConfirm: (e) async {
-                            date = '${e.year}-${e.month}-${e.day}';
-                            getHomeFetch();
-                            await getMeasurementsForDay(date);
-                            getMeasurements(date);
-                            getValuesSF();
-                            selectedDate = e;
-                            steps = stepsHistory;
-                            setState(() {});
-                          },
-                          currentTime: DateTime.now(),
-                          locale: LocaleType.ar);
+                              DateTime.now().year,
+                              DateTime.now().month,
+                              DateTime.now().day), onConfirm: (e) async {
+                        loading = true;
+                        date = '${e.year}-${e.month}-${e.day}';
+                        await getHomeFetch();
+                        await getMeasurementsForDay(date);
+                        await getMeasurements(date);
+                        await getValuesSF();
+                        selectedDate = e;
+                        steps = stepsHistory;
+                        loading = false;
+                        setState(() {});
+                      }, currentTime: DateTime.now(), locale: LocaleType.ar);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1068,31 +1059,28 @@ class _HomePageState extends State<HomePage> {
                                                           child: new Row(
                                                             children: <Widget>[
                                                               SizedBox(
-                                                                width: MediaQuery
-                                                                    .of(
-                                                                    context)
-                                                                    .size
-                                                                    .width *
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
                                                                     0.24,
-                                                                height: MediaQuery
-                                                                    .of(
-                                                                    context)
-                                                                    .size
-                                                                    .height *
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
                                                                     0.2,
                                                                 child:
-                                                                ClipRRect(
+                                                                    ClipRRect(
                                                                   child: Image
                                                                       .network(
-                                                                    "http://api.sukar.co/${banners[index]
-                                                                        .image}",
+                                                                    "http://api.sukar.co/${banners[index].image}",
                                                                     fit: BoxFit
                                                                         .cover,
                                                                   ),
                                                                   borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                      10),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
                                                                 ),
                                                               ),
                                                               SizedBox(
