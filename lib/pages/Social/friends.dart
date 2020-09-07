@@ -65,8 +65,8 @@ class _FriendsPageState extends State<FriendsPage>
     getAll();
   }
 
-  getAll() {
-    widget.model.getFollowers().then((result) {
+  getAll() async {
+    await widget.model.getFollowers().then((result) {
       if (result != null) {
         setState(() {
           followers = result.data;
@@ -74,7 +74,7 @@ class _FriendsPageState extends State<FriendsPage>
       } else {}
     });
     setState(() {});
-    widget.model.getFollowing().then((result) {
+    await widget.model.getFollowing().then((result) {
       setState(() {});
       if (result != null) {
         setState(() {
