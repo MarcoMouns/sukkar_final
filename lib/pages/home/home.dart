@@ -767,7 +767,7 @@ class _HomePageState extends State<HomePage> {
               new LayoutId(
                   id: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 13),
+                    padding: EdgeInsets.only(left: 8),
                     child:
                         FittedBox(fit: BoxFit.scaleDown, child: coCircles[0]),
                   )),
