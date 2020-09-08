@@ -48,13 +48,14 @@ class _CompleteAfterSocialLoginState extends State<CompleteAfterSocialLogin> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
-  void _getImage(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
-      setState(() {
-        _formData['image'] = image;
-      });
-      Navigator.pop(context);
+  final picker = ImagePicker();
+
+  Future<void> _getImage(BuildContext context, ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, maxWidth: 400.0);
+    setState(() {
+      _formData['image'] = File(pickedFile.path);
     });
+    Navigator.pop(context);
   }
 
   void _imagePicker(BuildContext context) {

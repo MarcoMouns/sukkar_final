@@ -34,6 +34,7 @@ class EditProfileUserState extends State<EditProfileUser> {
   File profilePicture;
   Response response;
   Dio dio = new Dio();
+  final picker = ImagePicker();
 
   String email;
   String name;
@@ -162,15 +163,14 @@ class EditProfileUserState extends State<EditProfileUser> {
     return response;
   }
 
-  void _getImage(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
-      setState(() {
-        profilePicture = image;
-        img = image.path;
-      });
-      picdone = true;
-      Navigator.pop(context);
+  Future _getImage(BuildContext context, ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, maxWidth: 400.0);
+    setState(() {
+      profilePicture = File(pickedFile.path);
+      img = pickedFile.path;
     });
+    picdone = true;
+    Navigator.pop(context);
   }
 
   void _imagePicker(BuildContext context) {

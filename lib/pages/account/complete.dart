@@ -67,15 +67,17 @@ class _CompleteState extends State<Complete> {
   }
 
   String img;
-  void _getImage(BuildContext context, ImageSource source) {
-    ImagePicker.pickImage(source: source, maxWidth: 400.0).then((File image) {
-      setState(() {
-        _formData['image'] = image;
-        img = image.path;
-      });
-      picdone = true;
-      Navigator.pop(context);
+
+  final picker = ImagePicker();
+
+  Future<void> _getImage(BuildContext context, ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source, maxWidth: 400.0);
+    setState(() {
+      _formData['image'] = File(pickedFile.path);
+      img = pickedFile.path;
     });
+    picdone = true;
+    Navigator.pop(context);
   }
 
   void _imagePicker(BuildContext context) {
