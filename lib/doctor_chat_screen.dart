@@ -336,7 +336,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DocInfo(
                             peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
+                            peerAvatar:
+                            'http://api.sukar.co${document['photoUrl']}',
                             dId: document['dId'],
                           ),
                         ));
@@ -355,7 +356,7 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         MaterialPageRoute(
                           builder: (context) => Chat(
                             peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
+                            peerAvatar: 'http://api.sukar.co${document['photoUrl']}',
                           ),
                         ),
                       ),
