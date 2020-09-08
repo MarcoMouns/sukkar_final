@@ -256,12 +256,12 @@ class _AddSugarState extends State<AddSugar> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 30),
+                          padding: EdgeInsets.only(top: 20),
                           child: Text(
                             allTranslations
                                 .text("Sugar measurements for today"),
                             style:
-                            TextStyle(color: Colors.blueGrey, fontSize: 17),
+                                TextStyle(color: Colors.blueGrey, fontSize: 17),
                           ),
                         ),
                         Padding(
@@ -411,8 +411,6 @@ class _AddSugarState extends State<AddSugar> {
         }).then((v) {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => MainHome()));
-
-      print(initSuger);
       if (initSuger != null) {
         _ackAlert(context);
       }
@@ -421,10 +419,8 @@ class _AddSugarState extends State<AddSugar> {
 
   List<Widget> listOfSuger() {
     List<Widget> list = new List();
-
     for (var i = 0; i < measuresOfDay.length; i++) {
       if (measuresOfDay[i] == 0) {
-        //print("0000000000000${measuresOfDay[i]}");
         list.add(Container());
       } else {
         list.add(
