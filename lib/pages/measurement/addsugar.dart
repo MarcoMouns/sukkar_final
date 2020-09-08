@@ -399,13 +399,12 @@ class _AddSugarState extends State<AddSugar> {
               min: min,
               max: max,
               addSlider: true,
-              onSave: (String value) {
+              onSave: (String value) async {
                 initSuger = null;
-                _handleSubmitted(context, model, value, type);
-                setState(() {
-                  getMeasurementsForDay(dateString);
-                  initSuger = value;
-                });
+                await _handleSubmitted(context, model, value, type);
+                await getMeasurementsForDay(dateString);
+                initSuger = value;
+                setState(() {});
                 return value;
               });
         }).then((v) {
@@ -464,9 +463,9 @@ class _AddSugarState extends State<AddSugar> {
     return list;
   }
 
-  void _handleSubmitted(
-      BuildContext context, MainModel model, var value, String type) {
-    addNewMeasurement(dateString, "$value");
+  _handleSubmitted(
+      BuildContext context, MainModel model, var value, String type) async {
+    await addNewMeasurement(dateString, "$value");
     setState(() {});
   }
 }

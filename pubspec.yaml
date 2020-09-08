@@ -45,7 +45,7 @@ dependencies:
   rxdart: any
 
   vector_math: ^2.0.8
-  fit_kit: ^1.1.0
+  fit_kit: ^1.1.2
   pedometer: ^1.2.5
 
 # The following section is specific to Flutter.
