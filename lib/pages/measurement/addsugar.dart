@@ -295,7 +295,7 @@ class _AddSugarState extends State<AddSugar> {
             ),
             content: int.parse(initSuger) >= 70 && int.parse(initSuger) < 90
                 ? SizedBox(
-              height: MediaQuery.of(context).size.height * 0.35,
+                    height: MediaQuery.of(context).size.height * 0.35,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -343,7 +343,7 @@ class _AddSugarState extends State<AddSugar> {
                   ],
                 ),
               ),
-                          )
+            )
                         : SizedBox(
               height: MediaQuery
                   .of(context)
@@ -366,7 +366,7 @@ class _AddSugarState extends State<AddSugar> {
                   ],
                 ),
               ),
-                          ),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text(
@@ -405,13 +405,12 @@ class _AddSugarState extends State<AddSugar> {
               min: min,
               max: max,
               addSlider: true,
-              onSave: (String value) {
+              onSave: (String value) async {
                 initSuger = null;
-                _handleSubmitted(context, model, value, type);
-                setState(() {
-                  getMeasurementsForDay(dateString);
-                  initSuger = value;
-                });
+                await _handleSubmitted(context, model, value, type);
+                await getMeasurementsForDay(dateString);
+                initSuger = value;
+                setState(() {});
                 return value;
               });
         }).then((v) {
@@ -470,9 +469,9 @@ class _AddSugarState extends State<AddSugar> {
     return list;
   }
 
-  void _handleSubmitted(
-      BuildContext context, MainModel model, var value, String type) {
-    addNewMeasurement(dateString, "$value");
+  _handleSubmitted(BuildContext context, MainModel model, var value,
+      String type) async {
+    await addNewMeasurement(dateString, "$value");
     setState(() {});
   }
 }
