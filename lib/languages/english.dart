@@ -68,7 +68,7 @@ Map<String, String> englishLang = {
   "save": "save",
   "Add sleep": "Add sleep",
   "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not":
-  "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not",
+      "measure blood Preassure reg. it's fast and donsn't hurt and it's the only way to know weather your blood preassure is high or not",
   "add duration": "add duration",
   "hour": "hour",
   "minute": "minute",
@@ -238,10 +238,10 @@ You should follow the following tips:
   2- don't exercise before eating a small Snack. 
   3- keep somthing sweet with you to eat it in case od feeling dizzy. 
 """,
-"bluetoothConnect":"Connect",
-"glucose meter connected":"glucose meter connected",
-"glucose meter disconnected":"glucose meter not connected",
-"click here": "Click here",
+  "bluetoothConnect": "Connect",
+  "glucose meter connected": "glucose meter connected",
+  "glucose meter disconnected": "glucose meter not connected",
+  "click here": "Click here",
   "complain": "complain",
   "suggestion": "suggestions",
   "choose type": "choose type",
@@ -260,5 +260,6 @@ your massage has been send successfully
   "Add test strip": "Add test strip",
   "Sugar measurements for today": "Sugar measurements for today :",
   "specialty": "specialty",
-  "confirm": "confirm"
+  "confirm": "confirm",
+  "map": "Map"
 };
