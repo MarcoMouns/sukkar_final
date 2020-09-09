@@ -274,5 +274,6 @@ Map<String, String> arabicLang = {
   "Sugar measurements for today": "قياسات السكر لهذا اليوم :",
   "Battery optimization": "اعدادات البطارية",
   "specialty": "التخصص",
-  "confirm": "تأكيد"
+  "confirm": "تأكيد",
+  "map": "الخريطة",
 };

@@ -587,6 +587,20 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
       ),
     );
+    _listItems.add(
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.location_on,
+          size: 25,
+          color: Settings.currentIndex == 4 ? Colors.blue : Colors.grey,
+        ),
+        title: Text(
+          allTranslations.text("map"),
+          style: TextStyle(
+              color: Settings.currentIndex == 4 ? Colors.blue : Colors.black),
+        ),
+      ),
+    );
     _listItems.add(BottomNavigationBarItem(
         icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
             size: 25, color: widget.plusColor),

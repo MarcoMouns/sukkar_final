@@ -16,6 +16,7 @@ import '../scoped_models/main.dart';
 import 'package:health/pages/Settings.dart';
 import '../languages/all_translations.dart';
 import 'measurement/medicineLIst.dart';
+import 'others/map.dart';
 
 /*
  * Modifications
@@ -34,8 +35,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   void _handleSubmitted(
       BuildContext context, MainModel model, var value, String type) {
-    model.addMeasurements(type, value).then((result) async {
-    });
+    model.addMeasurements(type, value).then((result) async {});
   }
 
   _onMenuTap(item, MainModel model) {
@@ -96,11 +96,11 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   PageController _getPageController() {
     if (_pageController == null) {
       _pageController = PageController(
-        initialPage: 1,
+        initialPage: 0,
         keepPage: true,
       );
       _pageController.addListener(() {
-        if (_pageController.page <= 1 && _pageController.page >= 0.6) {
+        if (_pageController.page <= 0 && _pageController.page >= 0.6) {
           CustomBottomNavigationBarState.c.reload();
         }
       });
@@ -134,24 +134,30 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   }
 
   int cIndex = 0;
-  PageController _Pcontroller = PageController(initialPage: 3, keepPage: false);
+  PageController _Pcontroller = PageController(initialPage: 0, keepPage: false);
 
   Widget navPages(int index, MainModel model) {
     if (index == 0) {
       return PageView(
-        reverse: true,
+        // reverse: true,
         controller: _Pcontroller,
+        onPageChanged: (position) {
+          Settings.currentIndex = position;
+          print("postion is : $position");
+          setState(() {});
+        },
         children: <Widget>[
-          DoctorChatScreen(),
-          FriendsPage(model, false),
-          ArticleCategory(model),
           HomePage(
             model: model,
           ),
+          ArticleCategory(model),
+          FriendsPage(model, false),
+          DoctorChatScreen(),
           MapPage(),
         ],
       );
     }
+
     if (index == 1) {
       return ArticleCategory(model);
     }
@@ -161,18 +167,21 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
     if (index == 3) {
       return DoctorChatScreen();
     }
+    if (index == 4) {
+      return MapPage();
+    }
     Settings.currentIndex = 0;
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: PageView(
-        children: <Widget>[
-          HomePage(
-            model: model,
-          ),
-          MapPage(),
-        ],
-      ),
-    );
+    // return Directionality(
+    //   textDirection: TextDirection.ltr,
+    //   child: PageView(
+    //     children: <Widget>[
+    //       HomePage(
+    //         model: model,
+    //       ),
+    //       MapPage(),
+    //     ],
+    //   ),
+    // );
   }
 
   @override
@@ -194,29 +203,45 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                     plusColor: _plusColor,
                     pageController: _getPageController(),
                     navigationTapped: (i) async {
-                      cIndex = i;
-                      if (cIndex == 0) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => MainHome()));
-                      }
-                      setState(() {});
-                      if (i == 4) {
-                        _plusColor = Colors.white;
-                        setState(() {});
+                      print("i is :$i");
+                      if (i < 5) {
+                        _Pcontroller.animateToPage(i,
+                            duration: Duration(milliseconds: 125),
+                            curve: Curves.bounceInOut);
+                        Settings.currentIndex = i;
+                      } else {
                         showOverlay(context, model);
-
                         animationController = AnimationController(
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController2 = AnimationController(
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController.forward();
                         animationController2.forward();
-                      } else if (i < 4)
-                        setState(() {
-                          if (i != 4) {
-                            Settings.currentIndex = i;
-                          }
-                        });
+                        Settings.currentIndex = 0;
+                      }
+                      // cIndex = i;
+                      // if (cIndex == 0) {
+                      //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //       builder: (context) => MainHome()));
+                      // }
+                      // setState(() {});
+                      // if (i == 4) {
+                      //   _plusColor = Colors.white;
+                      //   setState(() {});
+                      //   showOverlay(context, model);
+
+                      //   animationController = AnimationController(
+                      //       vsync: this, duration: Duration(milliseconds: 175));
+                      //   animationController2 = AnimationController(
+                      //       vsync: this, duration: Duration(milliseconds: 175));
+                      //   animationController.forward();
+                      //   animationController2.forward();
+                      // } else if (i < 4)
+                      //   setState(() {
+                      //     if (i != 4) {
+                      //       Settings.currentIndex = i;
+                      //     }
+                      //   });
                     })
                 : null,
           );
