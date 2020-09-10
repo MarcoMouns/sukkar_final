@@ -60,7 +60,7 @@ class _FriendsPageState extends State<FriendsPage>
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
     super.initState();
     setState(() {
-      Settings.currentIndex = 2;
+      widget.fullScreen ? Settings.currentIndex = 0 : Settings.currentIndex = 2;
     });
     getAll();
   }
@@ -190,7 +190,8 @@ class _FriendsPageState extends State<FriendsPage>
                         widget.fullScreen
                             ? IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
-                                onPressed: () => Navigator.of(context).pop())
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true))
                             : Container(),
                       ],
                     ),
