@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:health/scoped_models/main.dart';
 
+import '../languages/all_translations.dart';
 import '../shared-data.dart';
 import 'home.dart';
 import 'others/notification.dart';
-
-import '../languages/all_translations.dart';
 
 class Settings {
   static String googleApi = 'AIzaSyCBlmohZdkR7SPHIsQDzIMhKNc_wLaimDs';
@@ -537,43 +536,41 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     c = this;
   }
 
-  _getDate() {
-    _listItems.clear();
-
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(
-          allTranslations.text("home"),
-          style: TextStyle(
-              color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
-        )));
-
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_article${Settings.currentIndex == 1 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(
-          allTranslations.text("articles"),
-          style: TextStyle(
-              color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
-        )));
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_friends${Settings.currentIndex == 2 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(allTranslations.text("friends"),
+  List<BottomNavigationBarItem> buildBottomNavBarItems() {
+    return [
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(
+            allTranslations.text("home"),
             style: TextStyle(
-                color:
-                    Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
-    _listItems.add(
+                color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
+          )),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_article${Settings.currentIndex == 1 ? '_active' : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(
+            allTranslations.text("articles"),
+            style: TextStyle(
+                color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
+          )),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_friends${Settings.currentIndex == 2 ? '_active' : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(allTranslations.text("friends"),
+              style: TextStyle(
+                  color: Settings.currentIndex == 2
+                      ? Colors.blue
+                      : Colors.black))),
       BottomNavigationBarItem(
         icon: Image.asset(
           "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
@@ -586,8 +583,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               color: Settings.currentIndex == 3 ? Colors.blue : Colors.black),
         ),
       ),
-    );
-    _listItems.add(
       BottomNavigationBarItem(
         icon: Icon(
           Icons.location_on,
@@ -600,12 +595,82 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               color: Settings.currentIndex == 4 ? Colors.blue : Colors.black),
         ),
       ),
-    );
-    _listItems.add(BottomNavigationBarItem(
-        icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
-            size: 25, color: widget.plusColor),
-        title: Text(allTranslations.text("more"))));
+      BottomNavigationBarItem(
+          icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
+              size: 25, color: widget.plusColor),
+          title: Text(allTranslations.text("more"))),
+    ];
   }
+
+  // _getDate() {
+  //   _listItems.clear();
+  //
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("home"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
+  //       )));
+  //
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_article${Settings.currentIndex == 1 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("articles"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
+  //       )));
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_friends${Settings.currentIndex == 2 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(allTranslations.text("friends"),
+  //           style: TextStyle(
+  //               color:
+  //                   Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
+  //   _listItems.add(
+  //     BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("doctors"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 3 ? Colors.blue : Colors.black),
+  //       ),
+  //     ),
+  //   );
+  //   _listItems.add(
+  //     BottomNavigationBarItem(
+  //       icon: Icon(
+  //         Icons.location_on,
+  //         size: 25,
+  //         color: Settings.currentIndex == 4 ? Colors.blue : Colors.grey,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("map"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 4 ? Colors.blue : Colors.black),
+  //       ),
+  //     ),
+  //   );
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
+  //           size: 25, color: widget.plusColor),
+  //       title: Text(allTranslations.text("more"))));
+  // }
 
   reload() {
     if (mounted) setState(() {});
@@ -613,9 +678,12 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    _getDate();
+    //_getDate();
     return Container(
-      height: MediaQuery.of(context).size.height / 9,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height / 9,
       child: Theme(
         data: ThemeData(
             canvasColor: Colors.white,
@@ -623,7 +691,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             textTheme: TextTheme(caption: TextStyle(color: Colors.black))),
         child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            items: _listItems,
+            items: buildBottomNavBarItems(),
             currentIndex: Settings.currentIndex,
             onTap: widget.navigationTapped),
       ),

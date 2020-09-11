@@ -136,14 +136,20 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   int cIndex = 0;
   PageController _Pcontroller = PageController(initialPage: 0, keepPage: false);
 
+  void pageChanged(int index) {
+    setState(() {
+      Settings.currentIndex = index;
+    });
+  }
+
   Widget navPages(int index, MainModel model) {
     if (index == 0) {
       return PageView(
         // reverse: true,
         controller: _Pcontroller,
-        onPageChanged: (position) {
-          Settings.currentIndex = position;
-          print("postion is : $position");
+        onPageChanged: (index) {
+          pageChanged(index);
+          print("postion is : $index");
           setState(() {});
         },
         children: <Widget>[
@@ -217,7 +223,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController.forward();
                         animationController2.forward();
-                        Settings.currentIndex = 0;
+                        // Settings.currentIndex = 0;
                       }
                       // cIndex = i;
                       // if (cIndex == 0) {
