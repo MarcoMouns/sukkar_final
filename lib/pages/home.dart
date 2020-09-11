@@ -1,20 +1,21 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/Settings.dart' as settings;
+import 'package:health/pages/Settings.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/home/articlesCategory.dart';
 import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:health/pages/measurement/addFood.dart';
 import 'package:health/pages/measurement/addSleep.dart';
 import 'package:health/pages/measurement/heartBeats.dart';
 import 'package:health/pages/others/map.dart';
-import 'dart:math' as math;
-import '../doctor_chat_screen.dart';
-import './home/home.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped_models/main.dart';
 
-import 'package:health/pages/Settings.dart';
+import './home/home.dart';
+import '../doctor_chat_screen.dart';
 import '../languages/all_translations.dart';
+import '../scoped_models/main.dart';
 import 'measurement/medicineLIst.dart';
 import 'others/map.dart';
 
@@ -33,8 +34,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController animationController;
   AnimationController animationController2;
 
-  void _handleSubmitted(
-      BuildContext context, MainModel model, var value, String type) {
+  void _handleSubmitted(BuildContext context, MainModel model, var value, String type) {
     model.addMeasurements(type, value).then((result) async {});
   }
 
@@ -112,6 +112,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _rotateCopntroller;
   Animation<double> _rotateAmimation;
+
   @override
   void initState() {
     super.initState();
@@ -149,7 +150,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
         controller: _Pcontroller,
         onPageChanged: (index) {
           pageChanged(index);
-          print("postion is : $index");
+          // print("postion is : $index");
           setState(() {});
         },
         children: <Widget>[
@@ -206,49 +207,49 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
             body: navPages(cIndex, model),
             bottomNavigationBar: Settings.currentIndex >= 0
                 ? CustomBottomNavigationBar(
-                    plusColor: _plusColor,
-                    pageController: _getPageController(),
-                    navigationTapped: (i) async {
-                      print("i is :$i");
+                plusColor: _plusColor,
+                pageController: _getPageController(),
+                navigationTapped: (i) async {
+                  // print("i is :$i");
                       if (i < 5) {
-                        _Pcontroller.animateToPage(i,
-                            duration: Duration(milliseconds: 125),
-                            curve: Curves.bounceInOut);
-                        Settings.currentIndex = i;
-                      } else {
-                        showOverlay(context, model);
-                        animationController = AnimationController(
-                            vsync: this, duration: Duration(milliseconds: 175));
-                        animationController2 = AnimationController(
-                            vsync: this, duration: Duration(milliseconds: 175));
-                        animationController.forward();
-                        animationController2.forward();
-                        // Settings.currentIndex = 0;
-                      }
-                      // cIndex = i;
-                      // if (cIndex == 0) {
-                      //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //       builder: (context) => MainHome()));
-                      // }
-                      // setState(() {});
-                      // if (i == 4) {
-                      //   _plusColor = Colors.white;
-                      //   setState(() {});
-                      //   showOverlay(context, model);
+                    _Pcontroller.animateToPage(i,
+                        duration: Duration(milliseconds: 125),
+                        curve: Curves.bounceInOut);
+                    Settings.currentIndex = i;
+                  } else {
+                    showOverlay(context, model);
+                    animationController = AnimationController(
+                        vsync: this, duration: Duration(milliseconds: 175));
+                    animationController2 = AnimationController(
+                        vsync: this, duration: Duration(milliseconds: 175));
+                    animationController.forward();
+                    animationController2.forward();
+                    // Settings.currentIndex = 0;
+                  }
+                  // cIndex = i;
+                  // if (cIndex == 0) {
+                  //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  //       builder: (context) => MainHome()));
+                  // }
+                  // setState(() {});
+                  // if (i == 4) {
+                  //   _plusColor = Colors.white;
+                  //   setState(() {});
+                  //   showOverlay(context, model);
 
-                      //   animationController = AnimationController(
-                      //       vsync: this, duration: Duration(milliseconds: 175));
-                      //   animationController2 = AnimationController(
-                      //       vsync: this, duration: Duration(milliseconds: 175));
-                      //   animationController.forward();
-                      //   animationController2.forward();
-                      // } else if (i < 4)
-                      //   setState(() {
-                      //     if (i != 4) {
-                      //       Settings.currentIndex = i;
-                      //     }
-                      //   });
-                    })
+                  //   animationController = AnimationController(
+                  //       vsync: this, duration: Duration(milliseconds: 175));
+                  //   animationController2 = AnimationController(
+                  //       vsync: this, duration: Duration(milliseconds: 175));
+                  //   animationController.forward();
+                  //   animationController2.forward();
+                  // } else if (i < 4)
+                  //   setState(() {
+                  //     if (i != 4) {
+                  //       Settings.currentIndex = i;
+                  //     }
+                  //   });
+                })
                 : null,
           );
         },
@@ -264,6 +265,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   OverlayEntry sleepHours;
   OverlayEntry close;
   OverlayEntry backGround;
+
   void showOverlay(BuildContext context, MainModel model) async {
     OverlayState state = Overlay.of(context);
 

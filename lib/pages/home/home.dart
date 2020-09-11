@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -393,11 +393,12 @@ class _HomePageState extends State<HomePage> {
   Future<void> fetchMeals() async {
     await widget.model.fetchAllMealsFoods().then((result) {
       if (result != null) {
-        if (mounted) setState(() {
-          _calories = result.userFoods.map((meal) => meal.calories).toList();
-          addIntToSF();
-          getValuesSF();
-        });
+        if (mounted)
+          setState(() {
+            _calories = result.userFoods.map((meal) => meal.calories).toList();
+            addIntToSF();
+            getValuesSF();
+          });
       } else {}
     }).catchError((err) {
       print(err);
@@ -625,13 +626,14 @@ class _HomePageState extends State<HomePage> {
     Future.delayed(Duration(milliseconds: initOpen ? 300 : 300), () {
       initOpen = false;
       istrue = false;
-      if (mounted) setState(() {
-        dummyDate =
-        '${dummySelectedDate.year}-${dummySelectedDate
-            .month}-${dummySelectedDate.day}';
-        getMeasurements(dummyDate);
-        selectedDate = selectedDate;
-      });
+      if (mounted)
+        setState(() {
+          dummyDate =
+          '${dummySelectedDate.year}-${dummySelectedDate
+              .month}-${dummySelectedDate.day}';
+          getMeasurements(dummyDate);
+          selectedDate = selectedDate;
+        });
     });
     if (mounted) setState(() {});
   }
@@ -645,13 +647,14 @@ class _HomePageState extends State<HomePage> {
     Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
       initOpen = false;
       istrue = false;
-      if (mounted) setState(() {
-        dummyDate =
-        '${dummySelectedDate.year}-${dummySelectedDate
-            .month}-${dummySelectedDate.day}';
-        getMeasurements(dummyDate);
-        selectedDate = selectedDate;
-      });
+      if (mounted)
+        setState(() {
+          dummyDate =
+          '${dummySelectedDate.year}-${dummySelectedDate
+              .month}-${dummySelectedDate.day}';
+          getMeasurements(dummyDate);
+          selectedDate = selectedDate;
+        });
     });
     if (mounted) setState(() {});
   }
@@ -660,14 +663,16 @@ class _HomePageState extends State<HomePage> {
     widget.model.fetchHome(date).then(
       (result) {
         if (result != null) {
-          if (mounted) setState(() {
-            dataHome = result.measurements;
-            Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
-              if (mounted) setState(() {
-                banners = result.banners;
+          if (mounted)
+            setState(() {
+              dataHome = result.measurements;
+              Future.delayed(Duration(milliseconds: initOpen ? 100 : 100), () {
+                if (mounted)
+                  setState(() {
+                    banners = result.banners;
+                  });
               });
             });
-          });
         }
       },
     );
@@ -936,18 +941,19 @@ class _HomePageState extends State<HomePage> {
                               DateTime
                                   .now()
                                   .day),
-                          onConfirm: (e) {
-                            setState(() async {
-                              date = '${e.year}-${e.month}-${e.day}';
+                          onConfirm: (e) async {
+                            loading = true;
 
-                              getHomeFetch();
-                              await getMeasurementsForDay(date);
-                              getMeasurements(date);
-                              getValuesSF();
-                              selectedDate = e;
-                              steps = stepsHistory;
-                              setState(() {});
-                            });
+                            date = '${e.year}-${e.month}-${e.day}';
+
+                            await getHomeFetch();
+                            await getMeasurementsForDay(date);
+                            await getMeasurements(date);
+                            await getValuesSF();
+                            selectedDate = e;
+                            steps = stepsHistory;
+                            loading = false;
+                            setState(() {});
                           },
                           currentTime: DateTime.now(),
                           locale: LocaleType.ar);
@@ -1234,26 +1240,25 @@ class _HomePageState extends State<HomePage> {
                                                                       216, 1),
                                                                   fontSize: 15),
                                                             ),
-                                                                      ),
-                                                                    ),
-                                                                    Padding(
-                                                                      padding: EdgeInsets
-                                                                          .only(
-                                                                          top: 5),
-                                                                      child:
-                                                                      Text(
-                                                                        banners[index]
-                                                                            .created,
-                                                                        style:
-                                                                        TextStyle(
-                                                                          color:
-                                                                          Colors
-                                                                              .grey,
-                                                                          fontSize:
-                                                                          10,
-                                                                        ),
-                                                                      ),
-                                                                    ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding: EdgeInsets
+                                                              .only(
+                                                              top: 5),
+                                                          child:
+                                                          Text(
+                                                            banners[index]
+                                                                .created,
+                                                            style:
+                                                            TextStyle(
+                                                              color:
+                                                              Colors.grey,
+                                                              fontSize:
+                                                              10,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ],
                                                     ),
                                                   )
