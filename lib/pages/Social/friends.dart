@@ -59,9 +59,9 @@ class _FriendsPageState extends State<FriendsPage>
   void initState() {
     _tabController = TabController(vsync: this, initialIndex: 0, length: 2);
     super.initState();
-    setState(() {
-      widget.fullScreen ? Settings.currentIndex = 0 : Settings.currentIndex = 2;
-    });
+    // setState(() {
+    //   widget.fullScreen ? Settings.currentIndex = 0 : null;
+    // });
     getAll();
   }
 
