@@ -1,23 +1,23 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/Settings.dart' as settings;
+import 'package:health/pages/Settings.dart';
+import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/home/articlesCategory.dart';
 import 'package:health/pages/measurement/BloodPreasure.dart';
 import 'package:health/pages/measurement/addFood.dart';
 import 'package:health/pages/measurement/addSleep.dart';
 import 'package:health/pages/measurement/heartBeats.dart';
 import 'package:health/pages/others/map.dart';
-import 'dart:math' as math;
-import '../doctor_chat_screen.dart';
-import './home/home.dart';
 import 'package:scoped_model/scoped_model.dart';
-import '../scoped_models/main.dart';
 
-import 'package:health/pages/Settings.dart';
+import './home/home.dart';
+import '../doctor_chat_screen.dart';
 import '../languages/all_translations.dart';
-import 'Settings.dart';
-import 'home/home.dart';
+import '../scoped_models/main.dart';
 import 'measurement/medicineLIst.dart';
+import 'others/map.dart';
 
 /*
  * Modifications
@@ -34,8 +34,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController animationController;
   AnimationController animationController2;
 
-  void _handleSubmitted(
-      BuildContext context, MainModel model, var value, String type) {
+  void _handleSubmitted(BuildContext context, MainModel model, var value, String type) {
     model.addMeasurements(type, value).then((result) async {});
   }
 
@@ -113,6 +112,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _rotateCopntroller;
   Animation<double> _rotateAmimation;
+
   @override
   void initState() {
     super.initState();
@@ -136,48 +136,48 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   int cIndex = 0;
   PageController _Pcontroller = PageController(initialPage: 0, keepPage: false);
+
+  void pageChanged(int index) {
+    setState(() {
+      Settings.currentIndex = index;
+    });
+  }
+
   Widget navPages(int index, MainModel model) {
     if (index == 0) {
-      return Directionality(
-        textDirection: TextDirection.rtl,
-        child: PageView(
-          // reverse: true,
-          controller: _Pcontroller,
-          onPageChanged: (position) {
-            Settings.currentIndex = position;
-            print("postion is : $position");
-            setState(() {});
-          },
-          children: <Widget>[
-            HomePage(
-              model: model,
-            ),
-            ArticleCategory(model),
-            FriendsPage(model, false),
-            DoctorChatScreen(),
-            MapPage(),
-          ],
-        ),
+      return PageView(
+        // reverse: true,
+        controller: _Pcontroller,
+        onPageChanged: (index) {
+          pageChanged(index);
+          // print("postion is : $index");
+          setState(() {});
+        },
+        children: <Widget>[
+          HomePage(
+            model: model,
+          ),
+          ArticleCategory(model),
+          FriendsPage(model, false),
+          DoctorChatScreen(),
+          MapPage(),
+        ],
       );
     }
+
     if (index == 1) {
-      print("index is : $index");
       return ArticleCategory(model);
     }
     if (index == 2) {
-      print("index is : $index");
       return FriendsPage(model, false);
     }
     if (index == 3) {
-      print("index is : $index");
       return DoctorChatScreen();
     }
     if (index == 4) {
-      print("index is : $index");
-      return (MapPage());
+      return MapPage();
     }
     Settings.currentIndex = 0;
-
     // return Directionality(
     //   textDirection: TextDirection.ltr,
     //   child: PageView(
@@ -210,11 +210,12 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                     plusColor: _plusColor,
                     pageController: _getPageController(),
                     navigationTapped: (i) async {
-                      print("i is :$i");
+                      //  print("i is :$i");
                       if (i < 5) {
                         _Pcontroller.animateToPage(i,
                             duration: Duration(milliseconds: 125),
                             curve: Curves.bounceInOut);
+                        Settings.currentIndex = i;
                       } else {
                         showOverlay(context, model);
                         animationController = AnimationController(
@@ -223,7 +224,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
                             vsync: this, duration: Duration(milliseconds: 175));
                         animationController.forward();
                         animationController2.forward();
-                        Settings.currentIndex = 0;
+                        // Settings.currentIndex = 0;
                       }
                       // cIndex = i;
                       // if (cIndex == 0) {
@@ -264,6 +265,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   OverlayEntry sleepHours;
   OverlayEntry close;
   OverlayEntry backGround;
+
   void showOverlay(BuildContext context, MainModel model) async {
     OverlayState state = Overlay.of(context);
 

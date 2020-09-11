@@ -8,7 +8,6 @@ import 'package:flutter_picker_view/flutter_picker_view.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:health/languages/all_translations.dart';
-import 'package:health/pages/Settings.dart';
 
 import 'DocInfo_screen.dart';
 import 'api_provider.dart';
@@ -80,9 +79,9 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
   void initState() {
     super.initState();
 
-    setState(() {
-      Settings.currentIndex = 3;
-    });
+    // setState(() {
+    //   Settings.currentIndex = 3;
+    // });
     getFirebaseUserData();
     _initData();
     //specialityName = _specoalists.first.titleAr;

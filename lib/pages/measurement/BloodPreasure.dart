@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:health/languages/all_translations.dart';
 import 'package:health/scoped_models/main.dart';
-
 import 'package:intl/intl.dart' as intl;
-
-import '../home.dart';
 
 class BloodPressure extends StatefulWidget {
   MainModel model;
@@ -56,8 +53,7 @@ class _BloodPressureState extends State<BloodPressure> {
                   myFocusNode1.unfocus();
                   myFocusNode2.unfocus();
                   myFocusNode3.unfocus();
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MainHome()));
+                  Navigator.of(context).pop();
                 },
               ),
               actions: <Widget>[
@@ -239,18 +235,18 @@ class _BloodPressureState extends State<BloodPressure> {
                           }
                           _formKey.currentState.save();
                           widget.model
-                              .addMeasurements('SystolicPressure', SystolicPressure)
+                              .addMeasurements(
+                                  'SystolicPressure', SystolicPressure)
                               .then((result) async {
                             print(result);
                           });
                           widget.model
-                              .addMeasurements('DiastolicPressure', DiastolicPressure)
+                              .addMeasurements(
+                                  'DiastolicPressure', DiastolicPressure)
                               .then((result) async {
                             print(result);
                           });
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => MainHome()));
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
