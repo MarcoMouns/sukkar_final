@@ -51,9 +51,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   static int gmin = 100;
   static int gmax = 190;
   static int rmin = 220;
-  static int rmax = 340;
-  static int ymin = 65;
-  static int ymax = 90;
+  static int rmax = 300;
+  static int ymin = 50;
+  static int ymax = 65;
   bool istrue = false;
 
   @override
@@ -167,10 +167,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               percent: 0.2,
               context: context,
               sugar: '120',
+              time: "02 :00 PM",
               raduis: _chartRadius,
-              status: '0',
-              ontap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LandPage())),
+              status: 'طبيعي',
+              ontap: () =>
+                  Navigator.of(context)
+                      .push(
+                      MaterialPageRoute(builder: (context) => LandPage())),
               footer: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,

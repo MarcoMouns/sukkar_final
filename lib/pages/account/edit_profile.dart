@@ -271,7 +271,7 @@ class EditProfileUserState extends State<EditProfileUser> {
                           : profilePicture == null
                               ? NetworkImage(
                                   'http://api.sukar.co${SharedData.customerData['image']}')
-                              : AssetImage(profilePicture.path),
+                              : FileImage(profilePicture),
                     ),
                   ),
                   TextFormField(
