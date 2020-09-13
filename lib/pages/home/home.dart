@@ -292,9 +292,9 @@ class _HomePageState extends State<HomePage> {
       onResume: (Map<String, dynamic> message) async {},
     );
 
-    setState(() {
-      Settings.currentIndex = 0;
-    });
+    // setState(() {
+    //   Settings.currentIndex = 0;
+    // });
     getHomeData();
 
     Timer.periodic(Duration(minutes: 15), (Timer t) => sendWorkingHours());

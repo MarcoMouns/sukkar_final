@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:health/scoped_models/main.dart';
 
+import '../languages/all_translations.dart';
 import '../shared-data.dart';
 import 'home.dart';
 import 'others/notification.dart';
-
-import '../languages/all_translations.dart';
 
 class Settings {
   static String googleApi = 'AIzaSyCBlmohZdkR7SPHIsQDzIMhKNc_wLaimDs';
@@ -77,19 +76,18 @@ class LogInInput extends StatefulWidget {
   final bool autoValidate;
   var initVal;
 
-  LogInInput(
-      {Key key,
-      this.name,
-      this.controller,
-      this.onSaved,
-      this.validator,
-      this.keyboard,
-      this.focusNode,
-      this.enabled,
-      this.autoValidate,
-      this.onFieldSubmitted,
-      this.initVal,
-      this.isPassword = false})
+  LogInInput({Key key,
+    this.name,
+    this.controller,
+    this.onSaved,
+    this.validator,
+    this.keyboard,
+    this.focusNode,
+    this.enabled,
+    this.autoValidate,
+    this.onFieldSubmitted,
+    this.initVal,
+    this.isPassword = false})
       : super(key: key);
 
   _LogInInputState createState() => _LogInInputState();
@@ -107,7 +105,7 @@ class _LogInInputState extends State<LogInInput> {
         enabled: widget.enabled,
         controller: widget.controller,
         decoration:
-            new InputDecoration(labelText: allTranslations.text(widget.name)),
+        new InputDecoration(labelText: allTranslations.text(widget.name)),
         keyboardType: widget.keyboard,
         textInputAction: TextInputAction.done,
         onSaved: widget.onSaved,
@@ -145,15 +143,15 @@ class _LoginTypeState extends State<LoginType> {
                 onPressed: widget.onPress,
                 icon: widget.icon != null
                     ? Icon(
-                        widget.icon,
-                        color: Colors.white,
-                        size: 25.0,
-                      )
+                  widget.icon,
+                  color: Colors.white,
+                  size: 25.0,
+                )
                     : Icon(
-                        widget.icon,
-                        color: Colors.red,
-                        size: 25.0,
-                      )),
+                  widget.icon,
+                  color: Colors.red,
+                  size: 25.0,
+                )),
           ),
         ),
       ),
@@ -179,20 +177,22 @@ class _ConfirmInputWidgetState extends State<ConfirmInputWidget> {
   Widget build(BuildContext context) {
     return Expanded(
         child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        decoration: InputDecoration(hintText: ""),
-        controller: widget.controller,
-        focusNode: widget.focus,
-        onChanged: widget.onSave,
-        maxLength: 1,
-        maxLengthEnforced: false,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Colors.grey, fontSize: 18.0, fontWeight: FontWeight.bold),
-      ),
-    ));
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(hintText: ""),
+            controller: widget.controller,
+            focusNode: widget.focus,
+            onChanged: widget.onSave,
+            maxLength: 1,
+            maxLengthEnforced: false,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
   }
 }
 
@@ -204,13 +204,12 @@ class MenuListRow extends StatelessWidget {
   var animationController;
   var animationController2;
 
-  MenuListRow(
-      {Key key,
-      this.title,
-      this.image,
-      this.onTap,
-      this.animationController,
-      this.animationController2})
+  MenuListRow({Key key,
+    this.title,
+    this.image,
+    this.onTap,
+    this.animationController,
+    this.animationController2})
       : super(key: key);
 
   @override
@@ -237,7 +236,7 @@ class MenuListRow extends StatelessWidget {
                 backgroundColor: Colors.white,
                 child: RotationTransition(
                   turns:
-                      Tween(begin: 0.0, end: 1.0).animate(animationController),
+                  Tween(begin: 0.0, end: 1.0).animate(animationController),
                   child: Image.asset(
                     "assets/icons/$image.png",
                     width: 35,
@@ -281,16 +280,15 @@ class BottomSheet extends StatefulWidget {
   final bool addSlider;
   final onSave;
 
-  BottomSheet(
-      {Key key,
-      this.type,
-      this.title,
-      this.subtitle,
-      this.image,
-      this.min,
-      this.max,
-      this.addSlider,
-      this.onSave})
+  BottomSheet({Key key,
+    this.type,
+    this.title,
+    this.subtitle,
+    this.image,
+    this.min,
+    this.max,
+    this.addSlider,
+    this.onSave})
       : super(key: key);
 
   _BottomSheetState createState() => _BottomSheetState();
@@ -390,24 +388,24 @@ class _BottomSheetState extends State<BottomSheet> {
                             ),
                             widget.addSlider
                                 ? Slider(
-                                    inactiveColor: Colors.grey,
-                                    value: double.parse(_value.toString()),
-                                    min: widget.min,
-                                    max: widget.max,
-                                    divisions:
-                                        (widget.max - widget.min).toInt(),
-                                    label: '${_value.round()}',
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _value = value ~/ 1;
-                                        _controller.text = _value.toString();
-                                      });
-                                    },
-                                  )
+                              inactiveColor: Colors.grey,
+                              value: double.parse(_value.toString()),
+                              min: widget.min,
+                              max: widget.max,
+                              divisions:
+                              (widget.max - widget.min).toInt(),
+                              label: '${_value.round()}',
+                              onChanged: (value) {
+                                setState(() {
+                                  _value = value ~/ 1;
+                                  _controller.text = _value.toString();
+                                });
+                              },
+                            )
                                 : SizedBox(
-                                    width: 0,
-                                    height: 0,
-                                  ),
+                              width: 0,
+                              height: 0,
+                            ),
                             RaisedButton(
                               child: Text(
                                 allTranslations.text("save"),
@@ -493,7 +491,7 @@ class UpperBarProfile extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.blue,
                   image:
-                      DecorationImage(image: image.image, fit: BoxFit.cover))),
+                  DecorationImage(image: image.image, fit: BoxFit.cover))),
           Text(
             title,
             style: TextStyle(color: Colors.white, fontSize: 23),
@@ -503,13 +501,13 @@ class UpperBarProfile extends StatelessWidget {
           ),
           subTitle == ""
               ? SizedBox(
-                  height: 0,
-                  width: 0,
-                )
+            height: 0,
+            width: 0,
+          )
               : Text(
-                  subTitle,
-                  style: TextStyle(color: Colors.white, fontSize: 14),
-                )
+            subTitle,
+            style: TextStyle(color: Colors.white, fontSize: 14),
+          )
         ],
       ),
     );
@@ -530,53 +528,59 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   static List<BottomNavigationBarItem> _listItems =
-      List<BottomNavigationBarItem>();
+  List<BottomNavigationBarItem>();
   static CustomBottomNavigationBarState c;
 
   CustomBottomNavigationBarState() {
     c = this;
   }
 
-  _getDate() {
-    _listItems.clear();
-
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(
-          allTranslations.text("home"),
-          style: TextStyle(
-              color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
-        )));
-
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_article${Settings.currentIndex == 1 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(
-          allTranslations.text("articles"),
-          style: TextStyle(
-              color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
-        )));
-    _listItems.add(BottomNavigationBarItem(
-        icon: Image.asset(
-          "assets/icons/ic_friends${Settings.currentIndex == 2 ? '_active' : ''}.png",
-          height: 25,
-          width: 25,
-        ),
-        title: Text(allTranslations.text("friends"),
+  List<BottomNavigationBarItem> buildBottomNavBarItems() {
+    return [
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_home${Settings.currentIndex == 0
+                ? '_active'
+                : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(
+            allTranslations.text("home"),
             style: TextStyle(
-                color:
-                    Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
-    _listItems.add(
+                color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
+          )),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_article${Settings.currentIndex == 1
+                ? '_active'
+                : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(
+            allTranslations.text("articles"),
+            style: TextStyle(
+                color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
+          )),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/ic_friends${Settings.currentIndex == 2
+                ? '_active'
+                : ''}.png",
+            height: 25,
+            width: 25,
+          ),
+          title: Text(allTranslations.text("friends"),
+              style: TextStyle(
+                  color: Settings.currentIndex == 2
+                      ? Colors.blue
+                      : Colors.black))),
       BottomNavigationBarItem(
         icon: Image.asset(
-          "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
+          "assets/icons/ic_doctor${Settings.currentIndex == 3
+              ? '_active'
+              : ''}.png",
           height: 25,
           width: 25,
         ),
@@ -586,8 +590,6 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               color: Settings.currentIndex == 3 ? Colors.blue : Colors.black),
         ),
       ),
-    );
-    _listItems.add(
       BottomNavigationBarItem(
         icon: Icon(
           Icons.location_on,
@@ -600,12 +602,82 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               color: Settings.currentIndex == 4 ? Colors.blue : Colors.black),
         ),
       ),
-    );
-    _listItems.add(BottomNavigationBarItem(
-        icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
-            size: 25, color: widget.plusColor),
-        title: Text(allTranslations.text("more"))));
+      BottomNavigationBarItem(
+          icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
+              size: 25, color: widget.plusColor),
+          title: Text(allTranslations.text("more"))),
+    ];
   }
+
+  // _getDate() {
+  //   _listItems.clear();
+  //
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_home${Settings.currentIndex == 0 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("home"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 0 ? Colors.blue : Colors.black),
+  //       )));
+  //
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_article${Settings.currentIndex == 1 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("articles"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 1 ? Colors.blue : Colors.black),
+  //       )));
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_friends${Settings.currentIndex == 2 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(allTranslations.text("friends"),
+  //           style: TextStyle(
+  //               color:
+  //                   Settings.currentIndex == 2 ? Colors.blue : Colors.black))));
+  //   _listItems.add(
+  //     BottomNavigationBarItem(
+  //       icon: Image.asset(
+  //         "assets/icons/ic_doctor${Settings.currentIndex == 3 ? '_active' : ''}.png",
+  //         height: 25,
+  //         width: 25,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("doctors"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 3 ? Colors.blue : Colors.black),
+  //       ),
+  //     ),
+  //   );
+  //   _listItems.add(
+  //     BottomNavigationBarItem(
+  //       icon: Icon(
+  //         Icons.location_on,
+  //         size: 25,
+  //         color: Settings.currentIndex == 4 ? Colors.blue : Colors.grey,
+  //       ),
+  //       title: Text(
+  //         allTranslations.text("map"),
+  //         style: TextStyle(
+  //             color: Settings.currentIndex == 4 ? Colors.blue : Colors.black),
+  //       ),
+  //     ),
+  //   );
+  //   _listItems.add(BottomNavigationBarItem(
+  //       icon: ImageIcon(AssetImage("assets/icons/ic_add.png"),
+  //           size: 25, color: widget.plusColor),
+  //       title: Text(allTranslations.text("more"))));
+  // }
 
   reload() {
     if (mounted) setState(() {});
@@ -613,9 +685,12 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    _getDate();
+    //_getDate();
     return Container(
-      height: MediaQuery.of(context).size.height / 9,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height / 9,
       child: Theme(
         data: ThemeData(
             canvasColor: Colors.white,
@@ -623,7 +698,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             textTheme: TextTheme(caption: TextStyle(color: Colors.black))),
         child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            items: _listItems,
+            items: buildBottomNavBarItems(),
             currentIndex: Settings.currentIndex,
             onTap: widget.navigationTapped),
       ),

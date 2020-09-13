@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/medicine_model.dart';
@@ -9,7 +10,7 @@ import 'package:health/languages/all_translations.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../home.dart';
+
 import 'itemList.dart';
 
 class MedList extends StatefulWidget {
@@ -126,9 +127,7 @@ class _MedListState extends State<MedList> {
           title: Text(allTranslations.text("AddMedicine")),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () =>
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MainHome())),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
         body: loading == true

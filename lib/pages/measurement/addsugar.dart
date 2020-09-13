@@ -150,8 +150,7 @@ class _AddSugarState extends State<AddSugar> {
               leading: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => MainHome()));
+                  Navigator.of(context).pop();
                 },
               ),
               centerTitle: true,
