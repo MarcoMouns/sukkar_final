@@ -1,9 +1,11 @@
 import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:health/Models/home_model.dart';
 import 'package:health/pages/home/MainCircle/Circles.dart';
 import 'package:health/scoped_models/main.dart';
+
 import 'languages/all_translations.dart';
 import 'pages/Settings.dart';
 import 'pages/landPage.dart';
@@ -49,9 +51,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   static int gmin = 100;
   static int gmax = 190;
   static int rmin = 220;
-  static int rmax = 340;
-  static int ymin = 65;
-  static int ymax = 90;
+  static int rmax = 300;
+  static int ymin = 50;
+  static int ymax = 65;
   bool istrue = false;
 
   @override
@@ -166,7 +168,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               context: context,
               sugar: '120',
               raduis: _chartRadius,
-              status: '0',
+              time: "02 :00 PM",
+              status: 'طبيعي',
               ontap: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => LandPage())),
               footer: Row(

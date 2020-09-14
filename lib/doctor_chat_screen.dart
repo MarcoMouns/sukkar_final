@@ -187,7 +187,8 @@ class _DoctorChatScreenState extends State<DoctorChatScreen> {
                         MaterialPageRoute(
                           builder: (context) => Chat(
                             peerId: document.documentID,
-                            peerAvatar: document['photoUrl'],
+                            peerAvatar:
+                                'http://api.sukar.co${document['photoUrl']}',
                           ),
                         ),
                       ),

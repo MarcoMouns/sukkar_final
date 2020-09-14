@@ -399,10 +399,9 @@ class _AddSugarState extends State<AddSugar> {
               max: max,
               addSlider: true,
               onSave: (String value) async {
-                initSuger = null;
+                initSuger = value;
                 await _handleSubmitted(context, model, value, type);
                 await getMeasurementsForDay(dateString);
-                initSuger = value;
                 setState(() {});
                 return value;
               });
