@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:health/helpers/loading.dart';
 import 'package:health/scoped_models/main.dart';
@@ -9,10 +11,9 @@ import '../../languages/all_translations.dart';
 
 class ArticleDetails extends StatefulWidget {
   final MainModel model;
-  final title;
   final id;
 
-  ArticleDetails(this.model, this.title, this.id);
+  ArticleDetails(this.model, this.id);
 
   _ArticleDetailsState createState() => _ArticleDetailsState();
 }
@@ -25,7 +26,9 @@ class _ArticleDetailsState extends State<ArticleDetails> {
   var file;
   var video;
   var startDate;
+  String dynamicLink;
   bool loading = false;
+  String _linkMessage;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           file = result.article.file;
           video = result.article.video;
           startDate = result.article.startDate;
+          dynamicLink = result.article.dynamicLink;
           setState(() {
             loading = false;
           });
@@ -64,16 +68,60 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           backgroundColor: Colors.white,
           //elevation: 0.0,
           leading: IconButton(
-            onPressed: () {
-              String sharedUrl =
-              file != null ? file : video != null ? video : null;
-              if (sharedUrl != null) {
-                Share.share('check out Sukar Article $sharedUrl');
-              } else {
-                final snackBar = SnackBar(
-                  content: Text(allTranslations.text("noShare")),
+            onPressed: () async {
+              if (dynamicLink == null || dynamicLink.isEmpty == true || dynamicLink == "android://thisisadynamiclink.com") {
+                print('*******************************');
+                var productId = widget.id;
+                print('$productId');
+                print('*******************************');
+                final DynamicLinkParameters parameters = DynamicLinkParameters(
+                  uriPrefix: 'https://app.sukar.co',
+                  link: Uri.parse('https://app.sukar.co/ad?id=$productId'),
+                  androidParameters: AndroidParameters(
+                    packageName: 'com.alexapps.sukar',
+                    minimumVersion: 0,
+                  ),
+                  dynamicLinkParametersOptions: DynamicLinkParametersOptions(
+                    shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
+                  ),
+                  iosParameters: IosParameters(bundleId: 'com.alexapps.sukar', minimumVersion: '1.0.1', appStoreId: '1480506758'),
+                  socialMetaTagParameters: SocialMetaTagParameters(
+                    title: '$name',
+                    description: '$text',
+                    imageUrl: Uri.parse('http://api.sukar.co/$image'),
+                  ),
                 );
-                Scaffold.of(context).showSnackBar(snackBar);
+                Uri url;
+                final ShortDynamicLink shortLink = await parameters.buildShortLink();
+                url = shortLink.shortUrl;
+
+                if (mounted)
+                  setState(() {
+                    _linkMessage = url.toString();
+                  });
+
+                print('################################################');
+                print(_linkMessage);
+                print('################################################');
+                Response response;
+                try {
+                  response = await Dio().post("http://api.sukar.co/api/articles/$productId/set-dynamic-link", data: {"dynamic-link": "$dynamicLink"});
+                  print('${response.data}');
+                  print('patch done');
+                } on DioError catch (e) {
+                  print('error in patch share api');
+                  print(e.response.data);
+                }
+              } else {
+                String sharedUrl = file != null ? file : video != null ? video : null;
+                if (sharedUrl != null) {
+                  Share.share('check out Sukar Article $dynamicLink');
+                } else {
+                  final snackBar = SnackBar(
+                    content: Text(allTranslations.text("noShare")),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                }
               }
             },
             icon: Icon(
@@ -82,7 +130,7 @@ class _ArticleDetailsState extends State<ArticleDetails> {
             ),
           ),
           title: Text(
-            widget.title,
+            "$name",
             style: TextStyle(color: Colors.red),
           ),
           centerTitle: true,
@@ -120,8 +168,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 text,
-                      style: TextStyle(color: Colors.black, fontSize: 15),
-                    ),
+                style: TextStyle(color: Colors.black, fontSize: 15),
+              ),
             ),
             Container(
               child: video != null
@@ -160,9 +208,9 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     allTranslations.text("source"),
-                                style: TextStyle(color: Colors.blue),
-                                textAlign: TextAlign.center,
-                              ),
+                    style: TextStyle(color: Colors.blue),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 onTap: () async {
                   var url = '$file';

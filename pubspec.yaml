@@ -48,6 +48,7 @@ dependencies:
   pedometer: ^1.2.5
   flutter_local_notifications: ^1.4.4+2
   app_settings: ^4.0.3
+  firebase_dynamic_links: ^0.5.1
 
 # The following section is specific to Flutter.
 flutter:

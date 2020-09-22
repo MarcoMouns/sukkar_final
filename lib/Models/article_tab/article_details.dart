@@ -26,12 +26,24 @@ class ArticleBean {
   String startDate;
   String createdAt;
   String updatedAt;
+  String dynamicLink;
   int id;
   int categoryId;
 
-  ArticleBean({this.name, this.text, this.image, this.file, this.video, this.startDate, this.createdAt, this.updatedAt, this.id, this.categoryId});
+  ArticleBean(
+      {this.dynamicLink,
+      this.name,
+      this.text,
+      this.image,
+      this.file,
+      this.video,
+      this.startDate,
+      this.createdAt,
+      this.updatedAt,
+      this.id,
+      this.categoryId});
 
-  ArticleBean.fromJson(Map<String, dynamic> json) {    
+  ArticleBean.fromJson(Map<String, dynamic> json) {
     this.name = json['name'];
     this.text = json['text'];
     this.image = json['image'];
@@ -42,6 +54,7 @@ class ArticleBean {
     this.updatedAt = json['updated_at'];
     this.id = json['id'];
     this.categoryId = json['category_id'];
+    this.dynamicLink = json['dynamic_link'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +69,7 @@ class ArticleBean {
     data['updated_at'] = this.updatedAt;
     data['id'] = this.id;
     data['category_id'] = this.categoryId;
+    data['dynamic_link'] = this.dynamicLink;
     return data;
   }
 }

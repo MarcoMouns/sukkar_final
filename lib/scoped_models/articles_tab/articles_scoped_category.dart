@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:health/Models/article_tab/article_category.dart';
 import 'package:health/Models/article_tab/article_detail_category.dart';
 import 'package:health/Models/article_tab/article_details.dart';
 import 'package:health/pages/Settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scoped_model/scoped_model.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 mixin ArticlesCategoriesScopedModel on Model {
   Response response;
@@ -82,6 +82,9 @@ mixin ArticlesCategoriesScopedModel on Model {
       response = await dio.get(
         "${Settings.baseApilink}/articles/$id",
       );
+      print('**************************************');
+      print(id);
+      print('**************************************');
       if (response.statusCode != 200 && response.statusCode != 201) {
         notifyListeners();
         return null;
