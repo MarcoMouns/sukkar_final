@@ -276,4 +276,5 @@ Map<String, String> arabicLang = {
   "specialty": "التخصص",
   "confirm": "تأكيد",
   "map": "الخريطة",
+  "Type your message...": "اكتب رسالتك..."
 };

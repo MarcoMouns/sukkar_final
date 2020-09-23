@@ -262,5 +262,6 @@ your massage has been send successfully
   "Battery optimization": "Battery optimization",
   "specialty": "specialty",
   "confirm": "confirm",
-  "map": "Map"
+  "map": "Map",
+  "Type your message...": "Type your message..."
 };
