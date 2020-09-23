@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health/Models/article_tab/article_detail_category.dart';
 import 'package:health/scoped_models/main.dart';
-import './articleDetails.dart';
 
+import './articleDetails.dart';
 import '../../languages/all_translations.dart';
 
 class ArticlesPage extends StatefulWidget {
@@ -62,11 +62,10 @@ class _ArticlesPageState extends State<ArticlesPage>
                       padding: const EdgeInsets.all(10.0),
                       child: ListTile(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) => ArticleDetails(
-                                  widget.model,
-                                  articleCategories[index].name,
-                                  articleCategories[index].id)));
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (
+                              BuildContext context) => ArticleDetails(
+                              widget.model, articleCategories[index].id)));
                         },
                         leading: Container(
                           height: 70,
@@ -75,7 +74,9 @@ class _ArticlesPageState extends State<ArticlesPage>
                               image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                      'http://api.sukar.co/${articleCategories[index].image}'))),
+                                      'http://api.sukar.co/${ articleCategories[index]
+                                          .image}')
+                              )),
                         ),
                         title: Text(
                           articleCategories[index].name,

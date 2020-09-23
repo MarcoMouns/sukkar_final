@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -259,8 +260,60 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  initDynamicLinks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.get('token') ?? "";
+    //await Future.delayed(Duration(seconds: 6));
+    print("im here");
+    var data;
+    if (Platform.isIOS) {
+      await Future.delayed(Duration(seconds: 6), () async {
+        data = await FirebaseDynamicLinks.instance.getInitialLink();
+      });
+    } else {
+      data = await FirebaseDynamicLinks.instance.getInitialLink();
+    }
+    var deepLink = data?.link;
+    if (deepLink != null) {
+      debugPrint('DynamicLinks onLink $deepLink');
+      debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
+      if (deepLink.path.contains('ad')) {
+        int productId = int.parse(deepLink.queryParameters['id']);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
+      } else {
+        print('nani?');
+        print(deepLink.path);
+      }
+    } else {
+      print('erroooooooooooooor');
+    }
+//    final queryParams = deepLink.queryParameters;
+//    if (queryParams.length > 0) {
+//      var userName = queryParams['userId'];
+//    }
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (dynamicLink) async {
+      var deepLink = dynamicLink?.link;
+      debugPrint('DynamicLinks onLink $deepLink');
+      debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
+      if (deepLink.path.contains('ad')) {
+        int productId = int.parse(deepLink.queryParameters['id']);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
+      } else {
+        print('nani?');
+        print(deepLink.path);
+      }
+    }, onError: (e) async {
+      debugPrint('DynamicLinks onError $e');
+    });
+  }
+
   initState() {
     super.initState();
+    initDynamicLinks();
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -1031,8 +1084,6 @@ class _HomePageState extends State<HomePage> {
                                                               builder: (context) =>
                                                                   ArticleDetails(
                                                                       model,
-                                                                      banners[index]
-                                                                          .name,
                                                                       banners[index]
                                                                           .id),
                                                             ),

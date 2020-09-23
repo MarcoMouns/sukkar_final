@@ -47,6 +47,7 @@ dependencies:
   vector_math: ^2.0.8
   fit_kit: ^1.1.2
   pedometer: ^1.2.5
+  firebase_dynamic_links: ^0.5.1
 
 # The following section is specific to Flutter.
 flutter:
