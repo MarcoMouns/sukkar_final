@@ -7,8 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:health/languages/all_translations.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'const.dart';
@@ -109,8 +110,12 @@ class ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
+  final picker = ImagePicker();
+
   Future getImage() async {
-    imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    imageFile = File(pickedFile.path);
 
     if (imageFile != null) {
       setState(() {
@@ -388,9 +393,9 @@ class ChatScreenState extends State<ChatScreen> {
             isLastMessageLeft(index)
                 ? Container(
               child: Text(
-                DateFormat('dd MMM kk:mm').format(
-                    DateTime.fromMillisecondsSinceEpoch(
-                        int.parse(document['timestamp']))),
+                intl.DateFormat('dd MMM kk:mm').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(document['timestamp']))),
                 style: TextStyle(
                     color: greyColor,
                     fontSize: 12.0,
@@ -450,17 +455,26 @@ class ChatScreenState extends State<ChatScreen> {
     return WillPopScope(
       child: Stack(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              // List of messages
-              buildListMessage(),
+          Directionality(
+            textDirection: allTranslations.currentLanguage == "en"
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            child: Column(
+              children: <Widget>[
+                // List of messages
+                Directionality(
+                    textDirection: allTranslations.currentLanguage == "en"
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
+                    child: buildListMessage()),
 
-              // Sticker
-              (isShowSticker ? buildSticker() : Container()),
+                // Sticker
+                (isShowSticker ? buildSticker() : Container()),
 
-              // Input content
-              buildInput(),
-            ],
+                // Input content
+                buildInput(),
+              ],
+            ),
           ),
 
           // Loading
@@ -621,7 +635,7 @@ class ChatScreenState extends State<ChatScreen> {
                 style: TextStyle(color: primaryColor, fontSize: 15.0),
                 controller: textEditingController,
                 decoration: InputDecoration.collapsed(
-                  hintText: 'Type your message...',
+                  hintText: allTranslations.text('Type your message...'),
                   hintStyle: TextStyle(color: greyColor),
                 ),
                 focusNode: focusNode,

@@ -261,5 +261,6 @@ your massage has been send successfully
   "Sugar measurements for today": "Sugar measurements for today :",
   "specialty": "specialty",
   "confirm": "confirm",
-  "map": "Map"
+  "map": "Map",
+  "Type your message...": "Type your message..."
 };
