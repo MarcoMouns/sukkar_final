@@ -70,10 +70,8 @@ class _ArticleDetailsState extends State<ArticleDetails> {
           leading: IconButton(
             onPressed: () async {
               if (dynamicLink == null || dynamicLink.isEmpty == true || dynamicLink == "android://thisisadynamiclink.com") {
-                print('*******************************');
                 var productId = widget.id;
-                print('$productId');
-                print('*******************************');
+               // print('$productId');
                 final DynamicLinkParameters parameters = DynamicLinkParameters(
                   uriPrefix: 'https://app.sukar.co',
                   link: Uri.parse('https://app.sukar.co/ad?id=$productId'),
@@ -87,12 +85,13 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                   iosParameters: IosParameters(bundleId: 'com.alexapps.sukar', minimumVersion: '1.0.1', appStoreId: '1480506758'),
                   socialMetaTagParameters: SocialMetaTagParameters(
                     title: '$name',
-                    description: '$text',
+                    description: '${text.substring(0, 1000)}',
                     imageUrl: Uri.parse('http://api.sukar.co/$image'),
                   ),
                 );
                 Uri url;
-                final ShortDynamicLink shortLink = await parameters.buildShortLink();
+                final ShortDynamicLink shortLink =
+                    await parameters.buildShortLink();
                 url = shortLink.shortUrl;
 
                 if (mounted)
@@ -100,19 +99,20 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                     _linkMessage = url.toString();
                   });
 
-                print('################################################');
-                print(_linkMessage);
-                print('################################################');
+                // print(_linkMessage);
+
                 Response response;
                 try {
-                  response = await Dio().post("http://api.sukar.co/api/articles/$productId/set-dynamic-link", data: {"dynamic-link": "$dynamicLink"});
-                  print('${response.data}');
-                  print('patch done');
+                  response = await Dio().post(
+                      "http://api.sukar.co/api/articles/$productId/set-dynamic-link",
+                      data: {"dynamic-link": "$_linkMessage"});
+                  // print('${response.data}');
+                  // print('patch done');
                 } on DioError catch (e) {
                   print('error in patch share api');
                   print(e.response.data);
                 }
-                Share.share('check out Sukar Article $dynamicLink');
+                Share.share('check out Sukar Article $_linkMessage');
               } else {
                 Share.share('check out Sukar Article $dynamicLink');
               }

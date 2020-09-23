@@ -607,7 +607,6 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget buildInput() {
-    print(allTranslations.currentLanguage);
     return Container(
       child: Row(
         children: <Widget>[
