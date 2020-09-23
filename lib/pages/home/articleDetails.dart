@@ -112,16 +112,9 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                   print('error in patch share api');
                   print(e.response.data);
                 }
+                Share.share('check out Sukar Article $dynamicLink');
               } else {
-                String sharedUrl = file != null ? file : video != null ? video : null;
-                if (sharedUrl != null) {
-                  Share.share('check out Sukar Article $dynamicLink');
-                } else {
-                  final snackBar = SnackBar(
-                    content: Text(allTranslations.text("noShare")),
-                  );
-                  Scaffold.of(context).showSnackBar(snackBar);
-                }
+                Share.share('check out Sukar Article $dynamicLink');
               }
             },
             icon: Icon(
