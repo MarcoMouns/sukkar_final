@@ -35,9 +35,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>myAppLink</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb2494620284108468</string>
+				<string>com.alexapps.sukar</string>
 			</array>
 		</dict>
 	</array>
@@ -114,5 +118,14 @@
 	</array>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <true/>
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+    	<string>https://api.sukar.co</string>
+    	<string>https://app.sukar.co</string>
+    </array>
+    <key>FirebaseScreenReportingEnabled</key>
+    <true/>
 </dict>
 </plist>

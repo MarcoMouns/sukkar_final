@@ -4,6 +4,13 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:app.sukar.co</string>
+		<string>activitycontinuation:app.sukar.co</string>
+		<string>applinks:api.sukar.co</string>
+		<string>activitycontinuation:api.sukar.co/string>
+	</array>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
 	<key>com.apple.developer.healthkit.access</key>

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fit_kit/fit_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -181,7 +182,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -196,13 +197,7 @@ class _HomePageState extends State<HomePage> {
 
     List<int> steps = new List<int>();
     DateTime usedDate =
-    DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day);
+    DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
     healthKitStepsData = await FitKit.read(
       DataType.STEP_COUNT,
@@ -265,8 +260,60 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  initDynamicLinks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.get('token') ?? "";
+    //await Future.delayed(Duration(seconds: 6));
+    print("im here");
+    var data;
+    if (Platform.isIOS) {
+      await Future.delayed(Duration(seconds: 6), () async {
+        data = await FirebaseDynamicLinks.instance.getInitialLink();
+      });
+    } else {
+      data = await FirebaseDynamicLinks.instance.getInitialLink();
+    }
+    var deepLink = data?.link;
+    if (deepLink != null) {
+      debugPrint('DynamicLinks onLink $deepLink');
+      debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
+      if (deepLink.path.contains('ad')) {
+        int productId = int.parse(deepLink.queryParameters['id']);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
+      } else {
+        print('nani?');
+        print(deepLink.path);
+      }
+    } else {
+      print('erroooooooooooooor');
+    }
+//    final queryParams = deepLink.queryParameters;
+//    if (queryParams.length > 0) {
+//      var userName = queryParams['userId'];
+//    }
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (dynamicLink) async {
+      var deepLink = dynamicLink?.link;
+      debugPrint('DynamicLinks onLink $deepLink');
+      debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
+      if (deepLink.path.contains('ad')) {
+        int productId = int.parse(deepLink.queryParameters['id']);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
+      } else {
+        print('nani?');
+        print(deepLink.path);
+      }
+    }, onError: (e) async {
+      debugPrint('DynamicLinks onError $e');
+    });
+  }
+
   initState() {
     super.initState();
+    initDynamicLinks();
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();
@@ -534,8 +581,7 @@ class _HomePageState extends State<HomePage> {
       istrue = false;
       setState(() {
         dummyDate =
-        '${dummySelectedDate.year}-${dummySelectedDate
-            .month}-${dummySelectedDate.day}';
+        '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
@@ -554,8 +600,7 @@ class _HomePageState extends State<HomePage> {
       istrue = false;
       setState(() {
         dummyDate =
-        '${dummySelectedDate.year}-${dummySelectedDate
-            .month}-${dummySelectedDate.day}';
+        '${dummySelectedDate.year}-${dummySelectedDate.month}-${dummySelectedDate.day}';
         getMeasurements(dummyDate);
         selectedDate = selectedDate;
       });
@@ -808,28 +853,16 @@ class _HomePageState extends State<HomePage> {
         40 -
         56;
     double _chartRadius =
-        (_screenHeight * 3 / 5 - MediaQuery
-            .of(context)
-            .padding
-            .top - 40 - 56 <
-            MediaQuery
-                .of(context)
-                .size
-                .width - 30
+        (_screenHeight * 3 / 5 - MediaQuery.of(context).padding.top - 40 - 56 <
+            MediaQuery.of(context).size.width - 30
             ? _screenHeight * 3 / 5
-            : MediaQuery
-            .of(context)
-            .size
-            .width - 30) /
+            : MediaQuery.of(context).size.width - 30) /
             2;
     return loading == true
         ? Loading()
         : Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size(MediaQuery
-              .of(context)
-              .size
-              .width, 40),
+          preferredSize: Size(MediaQuery.of(context).size.width, 40),
           child: Directionality(
             textDirection: TextDirection.ltr,
             child: AppBar(
@@ -840,20 +873,11 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
-                      minTime: DateTime(DateTime
-                          .now()
-                          .year - 1),
+                      minTime: DateTime(DateTime.now().year - 1),
                       maxTime: DateTime(
-                          DateTime
-                              .now()
-                              .year,
-                          DateTime
-                              .now()
-                              .month,
-                          DateTime
-                              .now()
-                              .day),
-                      onConfirm: (e) async {
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day), onConfirm: (e) async {
                         loading = true;
                         date = '${e.year}-${e.month}-${e.day}';
                         await getHomeFetch();
@@ -864,9 +888,7 @@ class _HomePageState extends State<HomePage> {
                         steps = stepsHistory;
                         loading = false;
                         setState(() {});
-                      },
-                      currentTime: DateTime.now(),
-                      locale: LocaleType.ar);
+                      }, currentTime: DateTime.now(), locale: LocaleType.ar);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -926,8 +948,7 @@ class _HomePageState extends State<HomePage> {
                             'Null' ||
                             SharedData.customerData['image'] == null
                             ? 'http://api.sukar.co/storage/default-profile.png'
-                            : 'http://api.sukar.co${SharedData
-                            .customerData['image']}'),
+                            : 'http://api.sukar.co${SharedData.customerData['image']}'),
                       ),
                       ifRegUser
                     ],
@@ -946,19 +967,13 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(
-                          top: MediaQuery
-                              .of(context)
-                              .padding
-                              .top + 15)),
+                          top: MediaQuery.of(context).padding.top + 15)),
                   SizedBox(
                     child: Column(
                       children: <Widget>[
                         Container(
                           height:
-                          MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.455,
+                          MediaQuery.of(context).size.height * 0.455,
                           child: Row(
                             children: <Widget>[
                               Container(),
@@ -968,10 +983,7 @@ class _HomePageState extends State<HomePage> {
                                   "assets/icons/ic_arrow_l.png",
                                   width: 15,
                                   height:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  MediaQuery.of(context).size.height *
                                       3,
                                   matchTextDirection: true,
                                 ),
@@ -990,10 +1002,7 @@ class _HomePageState extends State<HomePage> {
                                   "assets/icons/ic_arrow_r.png",
                                   width: 15,
                                   height:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  MediaQuery.of(context).size.height *
                                       3,
                                   matchTextDirection: true,
                                 ),
@@ -1014,8 +1023,7 @@ class _HomePageState extends State<HomePage> {
                               : Column(
                             children: <Widget>[
                               new SizedBox(
-                                height: MediaQuery
-                                    .of(context)
+                                height: MediaQuery.of(context)
                                     .size
                                     .height /
                                     11,
@@ -1030,28 +1038,25 @@ class _HomePageState extends State<HomePage> {
                                           'advertise'
                                           ? GestureDetector(
                                           onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AdDetailsScreen(
-                                                            banners[index]
-                                                                .image,
-                                                            banners[index]
-                                                                .text ==
-                                                                null
-                                                                ? ""
-                                                                : banners[
-                                                            index]
-                                                                .text,
-                                                            banners[index]
-                                                                .adLInk)));
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) => AdDetailsScreen(
+                                                    banners[index]
+                                                        .image,
+                                                    banners[index]
+                                                        .text ==
+                                                        null
+                                                        ? ""
+                                                        : banners[
+                                                    index]
+                                                        .text,
+                                                    banners[index]
+                                                        .adLInk)));
                                           },
                                           child: new Container(
                                             decoration: ShapeDecoration(
                                                 image: DecorationImage(
                                                     image: NetworkImage(
-                                                        'http://api.sukar.co/${banners[index]
-                                                            .image}'),
+                                                        'http://api.sukar.co/${banners[index].image}'),
                                                     fit: BoxFit
                                                         .cover),
                                                 color: Colors
@@ -1065,8 +1070,7 @@ class _HomePageState extends State<HomePage> {
                                                 .symmetric(
                                                 horizontal:
                                                 10),
-                                            width: MediaQuery
-                                                .of(
+                                            width: MediaQuery.of(
                                                 context)
                                                 .size
                                                 .width -
@@ -1098,8 +1102,7 @@ class _HomePageState extends State<HomePage> {
                                               .symmetric(
                                               horizontal:
                                               10),
-                                          width: MediaQuery
-                                              .of(
+                                          width: MediaQuery.of(
                                               context)
                                               .size
                                               .width *
@@ -1107,14 +1110,12 @@ class _HomePageState extends State<HomePage> {
                                           child: new Row(
                                             children: <Widget>[
                                               SizedBox(
-                                                width: MediaQuery
-                                                    .of(
+                                                width: MediaQuery.of(
                                                     context)
                                                     .size
                                                     .width *
                                                     0.24,
-                                                height: MediaQuery
-                                                    .of(
+                                                height: MediaQuery.of(
                                                     context)
                                                     .size
                                                     .height *
@@ -1123,8 +1124,7 @@ class _HomePageState extends State<HomePage> {
                                                 ClipRRect(
                                                   child: Image
                                                       .network(
-                                                    "http://api.sukar.co/${banners[index]
-                                                        .image}",
+                                                    "http://api.sukar.co/${banners[index].image}",
                                                     fit: BoxFit
                                                         .cover,
                                                   ),
@@ -1146,10 +1146,7 @@ class _HomePageState extends State<HomePage> {
                                                           10),
                                                       child:
                                                       Container(
-                                                        width: MediaQuery
-                                                            .of(context)
-                                                            .size
-                                                            .width *
+                                                        width: MediaQuery.of(context).size.width *
                                                             0.355,
                                                         child:
                                                         Text(
@@ -1160,10 +1157,7 @@ class _HomePageState extends State<HomePage> {
                                                           overflow:
                                                           TextOverflow.ellipsis,
                                                           style: TextStyle(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                  41, 172, 216,
-                                                                  1),
+                                                              color: Color.fromRGBO(41, 172, 216, 1),
                                                               fontSize: 15),
                                                         ),
                                                       ),
@@ -1207,12 +1201,10 @@ class _HomePageState extends State<HomePage> {
                                 child: Loading(),
                               )
                                   : new Container(
-                                width: MediaQuery
-                                    .of(context)
+                                width: MediaQuery.of(context)
                                     .size
                                     .width,
-                                height: MediaQuery
-                                    .of(context)
+                                height: MediaQuery.of(context)
                                     .size
                                     .height *
                                     0.24,
@@ -1232,20 +1224,17 @@ class _HomePageState extends State<HomePage> {
                                     InkWell(
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            bottom: MediaQuery
-                                                .of(
+                                            bottom: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .bottom +
                                                 60,
-                                            top: MediaQuery
-                                                .of(
+                                            top: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .top +
                                                 60,
-                                            right: MediaQuery
-                                                .of(
+                                            right: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .right +
@@ -1262,14 +1251,12 @@ class _HomePageState extends State<HomePage> {
                                       textDirection:
                                       TextDirection.rtl,
                                       child: Container(
-                                        width: MediaQuery
-                                            .of(
+                                        width: MediaQuery.of(
                                             context)
                                             .size
                                             .width *
                                             0.88,
-                                        height: MediaQuery
-                                            .of(
+                                        height: MediaQuery.of(
                                             context)
                                             .size
                                             .height *
@@ -1295,8 +1282,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                             ),
                                             Container(
-                                                width: MediaQuery
-                                                    .of(
+                                                width: MediaQuery.of(
                                                     context)
                                                     .size
                                                     .width *
@@ -1318,10 +1304,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "saturday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1333,15 +1316,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[0]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[0]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[0].split("-")[1]}/${datesOfMeasures[0].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1357,10 +1334,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "sunday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1372,15 +1346,9 @@ class _HomePageState extends State<HomePage> {
                                                         datesOfMeasures[0][0] ==
                                                             " "
                                                             ? " "
-                                                            : '${datesOfMeasures[1]
-                                                            .split(
-                                                            "-")[1]}/${datesOfMeasures[1]
-                                                            .split("-")[2]}',
+                                                            : '${datesOfMeasures[1].split("-")[1]}/${datesOfMeasures[1].split("-")[2]}',
                                                         style: TextStyle(
-                                                            fontSize: MediaQuery
-                                                                .of(context)
-                                                                .size
-                                                                .width *
+                                                            fontSize: MediaQuery.of(context).size.width *
                                                                 16 /
                                                                 720,
                                                             color: Colors
@@ -1397,10 +1365,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "monday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1412,15 +1377,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[2]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[2]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[2].split("-")[1]}/${datesOfMeasures[2].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1436,10 +1395,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "tuesday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1451,15 +1407,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[3]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[3]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[3].split("-")[1]}/${datesOfMeasures[3].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1475,10 +1425,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "wednesday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1490,15 +1437,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[4]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[4]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[4].split("-")[1]}/${datesOfMeasures[4].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1514,10 +1455,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "thursday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1529,15 +1467,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[5]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[5]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[5].split("-")[1]}/${datesOfMeasures[5].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1553,10 +1485,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text(
                                                           "friday"),
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               21 /
                                                               720,
                                                           color:
@@ -1568,15 +1497,9 @@ class _HomePageState extends State<HomePage> {
                                                       datesOfMeasures[0][0] ==
                                                           " "
                                                           ? " "
-                                                          : '${datesOfMeasures[6]
-                                                          .split(
-                                                          "-")[1]}/${datesOfMeasures[6]
-                                                          .split("-")[2]}',
+                                                          : '${datesOfMeasures[6].split("-")[1]}/${datesOfMeasures[6].split("-")[2]}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery
-                                                              .of(context)
-                                                              .size
-                                                              .width *
+                                                          fontSize: MediaQuery.of(context).size.width *
                                                               16 /
                                                               720,
                                                           color:
@@ -1593,20 +1516,17 @@ class _HomePageState extends State<HomePage> {
                                     InkWell(
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            bottom: MediaQuery
-                                                .of(
+                                            bottom: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .bottom +
                                                 50,
-                                            top: MediaQuery
-                                                .of(
+                                            top: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .top +
                                                 60,
-                                            left: MediaQuery
-                                                .of(
+                                            left: MediaQuery.of(
                                                 context)
                                                 .padding
                                                 .left +
@@ -1619,7 +1539,8 @@ class _HomePageState extends State<HomePage> {
                                       onTap: () {
                                         if (selectedDate
                                             .isAfter(DateTime
-                                            .now())) {} else {
+                                            .now())) {
+                                        } else {
                                           incrementWeek();
                                         }
                                       },
@@ -1632,10 +1553,7 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     ),
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.83,
+                    height: MediaQuery.of(context).size.height * 0.83,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -1663,14 +1581,13 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MeasurementDetails(
-                                      selectedDate,
-                                      sugerToday,
-                                      calories,
-                                      steps,
-                                      distance,
-                                      cupOfWater)),
+                              builder: (context) => MeasurementDetails(
+                                  selectedDate,
+                                  sugerToday,
+                                  calories,
+                                  steps,
+                                  distance,
+                                  cupOfWater)),
                         );
                       },
                     ),
