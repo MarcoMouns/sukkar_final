@@ -16,7 +16,6 @@ import 'package:health/helpers/loading.dart';
 import 'package:health/pages/Settings.dart';
 import 'package:health/pages/Social/friends.dart';
 import 'package:health/pages/account/profile.dart';
-import 'package:health/pages/home.dart';
 import 'package:health/pages/home/articleDetails.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/pages/others/adDetails.dart';
@@ -272,7 +271,7 @@ class _HomePageState extends State<HomePage> {
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
-    await _showOngoingNotification();
+    //await _showOngoingNotification();
   }
 
   healthData() async {
@@ -310,33 +309,33 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future onSelectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('Notification payload: $payload');
-    }
-//    await Navigator.push(context,
-//        new MaterialPageRoute(builder: (context) => new SecondRoute()));
-  }
-
-  Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(body),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text('Ok'),
-                  onPressed: () async {
-                    Navigator.of(context, rootNavigator: true).pop();
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
-                  },
-                )
-              ],
-            ));
-  }
+//   Future onSelectNotification(String payload) async {
+//     if (payload != null) {
+//       debugPrint('Notification payload: $payload');
+//     }
+// //    await Navigator.push(context,
+// //        new MaterialPageRoute(builder: (context) => new SecondRoute()));
+//   }
+//
+//   Future onDidReceiveLocalNotification(
+//       int id, String title, String body, String payload) async {
+//     await showDialog(
+//         context: context,
+//         builder: (BuildContext context) => CupertinoAlertDialog(
+//               title: Text(title),
+//               content: Text(body),
+//               actions: <Widget>[
+//                 CupertinoDialogAction(
+//                   isDefaultAction: true,
+//                   child: Text('Ok'),
+//                   onPressed: () async {
+//                     Navigator.of(context, rootNavigator: true).pop();
+//                     await Navigator.push(context, MaterialPageRoute(builder: (context) => MainHome()));
+//                   },
+//                 )
+//               ],
+//             ));
+//   }
 
   initDynamicLinks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -388,10 +387,10 @@ class _HomePageState extends State<HomePage> {
   initState() {
     super.initState();
     initDynamicLinks();
-    initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-    initializationSettingsIOS = new IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-    initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    // initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+    // initializationSettingsIOS = new IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    // initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
     FirebaseMessaging().getToken().then((t) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Dio dio = new Dio();

@@ -5,6 +5,7 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 
 import io.flutter.app.FlutterApplication;
@@ -18,7 +19,8 @@ public class MainActivity extends FlutterActivity {
     super.onCreate(savedInstanceState);
     //make transparent status bar
     getWindow().setStatusBarColor(0x00000000);
-    GeneratedPluginRegistrant.registerWith(this); 
+    GeneratedPluginRegistrant.registerWith(this);
+    //Toast.makeText(this, "Activity Toast", Toast.LENGTH_SHORT).show();
     //Remove full screen flag after load
     ViewTreeObserver vto = getFlutterView().getViewTreeObserver();
     vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
