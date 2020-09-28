@@ -73,16 +73,21 @@ class _ArticleDetailsState extends State<ArticleDetails> {
                 var productId = widget.id;
                // print('$productId');
                 final DynamicLinkParameters parameters = DynamicLinkParameters(
-                  uriPrefix: 'https://app.sukar.co',
-                  link: Uri.parse('https://app.sukar.co/ad?id=$productId'),
+                  uriPrefix: 'https://dynamic-link.sukar.co',
+                  link: Uri.parse(
+                      'https://dynamic-link.sukar.co/ad?id=$productId'),
                   androidParameters: AndroidParameters(
                     packageName: 'com.alexapps.sukar',
                     minimumVersion: 0,
                   ),
                   dynamicLinkParametersOptions: DynamicLinkParametersOptions(
-                    shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
+                    shortDynamicLinkPathLength:
+                        ShortDynamicLinkPathLength.short,
                   ),
-                  iosParameters: IosParameters(bundleId: 'com.alexapps.sukar', minimumVersion: '1.0.1', appStoreId: '1480506758'),
+                  iosParameters: IosParameters(
+                      bundleId: 'com.alexapps.sukar',
+                      minimumVersion: '1.0.1',
+                      appStoreId: '1480506758'),
                   socialMetaTagParameters: SocialMetaTagParameters(
                     title: '$name',
                     description: '${text.substring(0, 1000)}',
