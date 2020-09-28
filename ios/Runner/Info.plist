@@ -51,6 +51,14 @@
 	<string>2494620284108468</string>
 	<key>FacebookDisplayName</key>
 	<string>Sukar app</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://dynamic-link.sukar.co</string>
+	</array>
+	<key>FirebaseScreenReportingEnabled</key>
+	<true/>
 	<key>LSApplicationCategoryType</key>
 	<string>fitness</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -118,13 +126,5 @@
 	</array>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-    <true/>
-    <key>FirebaseDynamicLinksCustomDomains</key>
-    <array>
-    	<string>https://dynamic-link.sukar.co</string>
-    </array>
-    <key>FirebaseScreenReportingEnabled</key>
-    <true/>
 </dict>
 </plist>
