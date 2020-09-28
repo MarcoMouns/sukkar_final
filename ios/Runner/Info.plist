@@ -122,8 +122,7 @@
     <true/>
     <key>FirebaseDynamicLinksCustomDomains</key>
     <array>
-    	<string>https://api.sukar.co</string>
-    	<string>https://app.sukar.co</string>
+    	<string>https://dynamic-link.sukar.co</string>
     </array>
     <key>FirebaseScreenReportingEnabled</key>
     <true/>
