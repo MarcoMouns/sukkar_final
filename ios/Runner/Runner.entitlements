@@ -6,10 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:app.sukar.co</string>
-		<string>activitycontinuation:app.sukar.co</string>
-		<string>applinks:api.sukar.co</string>
-		<string>activitycontinuation:api.sukar.co/string>
+		<string>applinks:dynamic-link.sukar.co</string>
+		<string>activitycontinuation:dynamic-link.sukar.co</string>
 	</array>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
