@@ -51,7 +51,8 @@
               "client_id": "558252190222-mum4fj06qh7jmi21hn8rvmad91atq3ff.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.alexapps.sukar"
+                "bundle_id": "com.alexapps.sukar",
+                "app_store_id": "1480506758"
               }
             }
           ]

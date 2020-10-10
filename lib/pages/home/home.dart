@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fit_kit/fit_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ import 'package:health/pages/others/map.dart';
 import 'package:health/pages/others/notification.dart';
 import 'package:health/scoped_models/main.dart';
 import 'package:http/http.dart' as http;
-import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +159,8 @@ class _HomePageState extends State<HomePage> {
   Color greenColor = Color.fromRGBO(229, 246, 211, 1);
   Color redColor = Color.fromRGBO(253, 238, 238, 1);
   Color yellowColor = Color.fromRGBO(254, 252, 232, 1);
-  Pedometer _pedometer;
+
+  // Pedometer _pedometer;
   StreamSubscription<int> _subscription;
 
   Widget ifRegUser = Positioned(
@@ -188,72 +191,24 @@ class _HomePageState extends State<HomePage> {
         initialScrollOffset: MediaQuery.of(context).size.width - 130);
   }
 
-  ////////////////////////////////////////////////////////////////////
-  /// Step Counter functions
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  int initVal = 0;
-  Future<void> initPlatformState() async {
-    startListening();
-  }
-
-  void startListening() {
-    _pedometer = new Pedometer();
-    _subscription = _pedometer.pedometerStream.listen(_onData,
-        onError: _onError, onDone: _onDone, cancelOnError: true);
-  }
-
-  void stopListening() {
-    _subscription.cancel();
-  }
-
-  void _onData(int stepCountValue) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    String coDate = pref.getString("lastMeasureDate");
-
-    if (coDate != date) {
-      pref.setString("lastMeasureDate", date);
-      steps = 0;
-      initVal = stepCountValue;
-      setState(() {});
-      pref.setInt("daySteps", steps);
-    } else {
-      if (stepCountValue < initVal || stepCountValue == 0) {
-        // when mobile restart the stepconut value will be reset
-        // this block to handle this case
-        steps = pref.getInt("daySteps") ?? 0;
-        steps += stepCountValue;
-        initVal = 0;
-        setState(() {});
-      }
-      steps += stepCountValue - initVal;
-      initVal = stepCountValue;
-      setState(() {});
-    }
-    distance = (steps * 0.770).toInt();
-    calories = (steps * 0.046).toInt();
-    pref = await SharedPreferences.getInstance();
-    pref.setInt("lastSavedSteps", initVal);
-    pref.setInt("daySteps", steps);
-    setState(() {});
-    healthData();
-  }
-
-  void _onDone() => print("Finished pedometer tracking");
-
-  void _onError(error) => print("Flutter Pedometer Error: $error");
-
-  ////////////////////////////////////////////////////////////////////
-
   getHomeData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    steps = sharedPreferences.getInt('daySteps') ?? 0;
-    initVal = sharedPreferences.getInt('lastSavedSteps') ?? 0;
+    if (Platform.isAndroid) {
+      var androidInfo = await DeviceInfoPlugin().androidInfo;
+      int sdkInt = androidInfo.version.sdkInt;
+
+      if (sdkInt > 28) {
+        bool activityRecognitionStatus =
+            await Permission.activityRecognition.status.isGranted;
+        if (!activityRecognitionStatus) {
+          if (await Permission.activityRecognition.request().isGranted) {}
+        }
+      }
+    }
+    await calculateSteps();
     distance = (steps * 0.770).toInt();
     calories = (steps * 0.046).toInt();
     if (mounted) setState(() {});
-    await healthData();
-    await initPlatformState();
     await getMeasurementsForDay(date);
     await getValuesSF();
     dummySelectedDate = DateTime.now();
@@ -267,47 +222,42 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-        jsonDecode(sharedPreferences.getString("authUser"));
+    jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
     //await _showOngoingNotification();
   }
 
-  healthData() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    initVal = sharedPreferences.getInt("lastSavedSteps");
-    if (steps == null || steps == 0) {
-      steps = sharedPreferences.getInt("daySteps") == null
-          ? 0
-          : sharedPreferences.getInt("daySteps");
-    }
-    distance = (steps * 0.770).toInt();
-    calories = (steps * 0.046).toInt();
-    if (mounted) setState(() {});
-    Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
-    await http.post(
-        "${Settings.baseApilink}/measurements?day_Calories=$calories",
-        body: {
-          "distance": "$distance",
-        },
-        headers: {
-          "Authorization": "Bearer ${authUser['authToken']}"
-        });
-
-    await http.post("${Settings.baseApilink}/update-steps", body: {
-      "steps": "$steps",
-    }, headers: {
-      "Authorization": "Bearer ${authUser['authToken']}"
-    });
-
-    await http.post("${Settings.baseApilink}/update-distance", body: {
-      "distance": "$distance",
-    }, headers: {
-      "Authorization": "Bearer ${authUser['authToken']}"
-    });
-  }
+  // healthData() async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //
+  //   distance = (steps * 0.770).toInt();
+  //   calories = (steps * 0.046).toInt();
+  //   if (mounted) setState(() {});
+  //   Map<String, dynamic> authUser =
+  //   jsonDecode(sharedPreferences.getString("authUser"));
+  //   await http.post(
+  //       "${Settings.baseApilink}/measurements?day_Calories=$calories",
+  //       body: {
+  //         "distance": "$distance",
+  //       },
+  //       headers: {
+  //         "Authorization": "Bearer ${authUser['authToken']}"
+  //       });
+  //
+  //   await http.post("${Settings.baseApilink}/update-steps", body: {
+  //     "steps": "$steps",
+  //   }, headers: {
+  //     "Authorization": "Bearer ${authUser['authToken']}"
+  //   });
+  //
+  //   await http.post("${Settings.baseApilink}/update-distance", body: {
+  //     "distance": "$distance",
+  //   }, headers: {
+  //     "Authorization": "Bearer ${authUser['authToken']}"
+  //   });
+  // }
 
 //   Future onSelectNotification(String payload) async {
 //     if (payload != null) {
@@ -356,7 +306,9 @@ class _HomePageState extends State<HomePage> {
       debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
       if (deepLink.path.contains('ad')) {
         int productId = int.parse(deepLink.queryParameters['id']);
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ArticleDetails(widget.model, productId)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
       } else {
         print('nani?');
         print(deepLink.path);
@@ -374,7 +326,9 @@ class _HomePageState extends State<HomePage> {
       debugPrint('DynamicLinks onLink ${deepLink.queryParameters['id']}');
       if (deepLink.path.contains('ad')) {
         int productId = int.parse(deepLink.queryParameters['id']);
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ArticleDetails(widget.model, productId)));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ArticleDetails(widget.model, productId)));
       } else {
         print('nani?');
         print(deepLink.path);
@@ -387,6 +341,7 @@ class _HomePageState extends State<HomePage> {
   initState() {
     super.initState();
     initDynamicLinks();
+    //hasPermissions();
     // initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     // initializationSettingsIOS = new IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     // initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
@@ -502,7 +457,6 @@ class _HomePageState extends State<HomePage> {
 
   initData() async {
     await getHomeData();
-    await healthData();
     loading = false;
     loading1 = false;
     loading2 = false;
@@ -701,9 +655,133 @@ class _HomePageState extends State<HomePage> {
     if (mounted) setState(() {});
   }
 
+  List healthKitStepsData;
+  List fitStepsData = new List();
+
+  bool permissions;
+
+  // Future<void> hasPermissions() async {
+  //   try {
+  //     permissions = await FitKit.hasPermissions([DataType.STEP_COUNT]);
+  //   } catch (e) {
+  //    print( 'hasPermissions: $e');
+  //   }
+  //
+  //   if (!mounted) return;
+  //
+  //   setState(() {});
+  // }
+
+  Future<List<int>> healthKit() async {
+    permissions = await FitKit.requestPermissions([DataType.STEP_COUNT]);
+    var r = await FitKit.hasPermissions([DataType.STEP_COUNT]);
+    List<int> steps = new List<int>();
+    DateTime usedDate =
+    DateTime(DateTime
+        .now()
+        .year, DateTime
+        .now()
+        .month, DateTime
+        .now()
+        .day);
+
+    healthKitStepsData = await FitKit.read(
+      DataType.STEP_COUNT,
+      dateFrom: usedDate,
+      dateTo: DateTime.now(),
+    );
+    if (healthKitStepsData.isEmpty) {
+      return steps;
+    } else {
+      for (int i = 0; i <= healthKitStepsData.length - 1; i++) {
+        fitStepsData.add(healthKitStepsData[i]);
+        steps.add(fitStepsData[i].value.round());
+      }
+      return steps;
+    }
+  }
+
+  calculateSteps() async {
+    List<int> stepsList = new List<int>();
+    stepsList = await healthKit();
+    if (stepsList.isEmpty) {
+      totalSteps = 0;
+      if (flag == true) {
+        totalSteps = steps;
+      }
+      flag = false;
+      step = steps;
+      distance = (steps * 0.770).toInt();
+      calories = (steps * 0.046).toInt();
+      setState(() {});
+
+      SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+      jsonDecode(sharedPreferences.getString("authUser"));
+      await http.post("${Settings.baseApilink}/update-steps", body: {
+        "steps": "$step",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post("${Settings.baseApilink}/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post(
+          "${Settings.baseApilink}/measurements?day_Calories=$calories",
+          body: {
+            "distance": "$distance",
+          },
+          headers: {
+            "Authorization": "Bearer ${authUser['authToken']}"
+          });
+    } else {
+      for (int i = 0; i <= stepsList.length - 1; i++) {
+        steps = stepsList[i] + steps;
+      }
+      if (flag == true) {
+        totalSteps = steps;
+      }
+      flag = false;
+      step = steps;
+      distance = (steps * 0.770).toInt();
+      calories = (steps * 0.046).toInt();
+      setState(() {});
+
+      SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+      jsonDecode(sharedPreferences.getString("authUser"));
+      await http.post("${Settings.baseApilink}/update-steps", body: {
+        "steps": "$step",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post("${Settings.baseApilink}/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post(
+          "${Settings.baseApilink}/measurements?day_Calories=$calories",
+          body: {
+            "distance": "$distance",
+          },
+          headers: {
+            "Authorization": "Bearer ${authUser['authToken']}"
+          });
+    }
+  }
+
   getHomeFetch() {
     widget.model.fetchHome(date).then(
-      (result) {
+          (result) {
         if (result != null) {
           if (mounted)
             setState(() {
@@ -749,7 +827,9 @@ class _HomePageState extends State<HomePage> {
     widgetCircleCalorie = MainCircles.cal(
         percent: calories == 0 || calories == null
             ? 0
-            : ((calories / calGoals) > 1) ? 1 : (calories / calGoals),
+            : ((calories / calGoals) > 1)
+            ? 1
+            : (calories / calGoals),
         context: context,
         day_Calories: calories == null ? 0 : calories,
         ontap: () => null,
@@ -760,8 +840,10 @@ class _HomePageState extends State<HomePage> {
         percent: steps == null
             ? 0
             : steps == 0 || steps == null
-                ? 0
-                : (steps / stepsGoal) > 1 ? 1 : ((steps / stepsGoal)),
+            ? 0
+            : (steps / stepsGoal) > 1
+            ? 1
+            : ((steps / stepsGoal)),
         context: context,
         steps: steps == null ? 0 : steps,
         raduis: _chartRadius,
@@ -787,7 +869,9 @@ class _HomePageState extends State<HomePage> {
     widgetCircleWater = MainCircles.water(
         percent: cupOfWater == null
             ? 0
-            : (cupOfWater / goalOfWater) > 1 ? 1 : ((cupOfWater / goalOfWater)),
+            : (cupOfWater / goalOfWater) > 1
+            ? 1
+            : ((cupOfWater / goalOfWater)),
         context: context,
         raduis: _chartRadius,
         numberOfCups: cupOfWater == null ? '0' : cupOfWater.toString(),
@@ -799,7 +883,9 @@ class _HomePageState extends State<HomePage> {
     widgetCircleHeart = MainCircles.heart(
         percent: heartRate == null
             ? 0
-            : (heartRate / 160) > 1 ? 1 : (heartRate / 160),
+            : (heartRate / 160) > 1
+            ? 1
+            : (heartRate / 160),
         context: context,
         raduis: _chartRadius,
         heart: heartRate == null ? '0' : heartRate.toString(),
@@ -836,17 +922,19 @@ class _HomePageState extends State<HomePage> {
                     time: timeOfLastMeasure,
                     sugar: sugerToday == 0
                         ? '0'
-                        : sugerToday == null ? '0' : sugerToday.toString(),
+                        : sugerToday == null
+                        ? '0'
+                        : sugerToday.toString(),
                     raduis: _chartRadius,
                     status: sugerToday == 0 || sugerToday == null
                         ? allTranslations.text("sugarNull")
                         : (sugerToday < 69)
-                            ? allTranslations.text("low")
-                            : (sugerToday >= 70 && sugerToday <= 89)
-                                ? allTranslations.text("LowNormal")
-                                : (sugerToday >= 90 && sugerToday <= 200)
-                                    ? allTranslations.text("normal")
-                                    : allTranslations.text("high"),
+                        ? allTranslations.text("low")
+                        : (sugerToday >= 70 && sugerToday <= 89)
+                        ? allTranslations.text("LowNormal")
+                        : (sugerToday >= 90 && sugerToday <= 200)
+                        ? allTranslations.text("normal")
+                        : allTranslations.text("high"),
                     ontap: () {
                       Navigator.of(context).push(
                         new MaterialPageRoute(
@@ -1914,8 +2002,13 @@ class _HomePageState extends State<HomePage> {
             duration: Duration(milliseconds: istrue ? 300 : 300),
             height: val <= 0
                 ? 0.1
-                : val.toDouble() > 300 ? 100 : (val.toDouble() / 600) * 200,
-            width: MediaQuery.of(context).size.width * 16 / 720,
+                : val.toDouble() > 300
+                ? 100
+                : (val.toDouble() / 600) * 200,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width * 16 / 720,
             decoration: BoxDecoration(
                 color: barColor,
                 borderRadius: BorderRadius.only(
