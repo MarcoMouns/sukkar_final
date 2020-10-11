@@ -1,13 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:health/pages/Settings.dart';
 import 'package:health/pages/landPage.dart';
 import 'package:health/pages/measurement/addsugar.dart';
 import 'package:health/shared-data.dart';
@@ -100,45 +96,45 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    FirebaseMessaging().configure(
-      onMessage: (Map<String, dynamic> message) async {
-        one = message['notification']['title'];
-        two = message['notification']['body'];
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-      },
-      onBackgroundMessage: myBackgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-    );
-    FirebaseMessaging().getToken().then((t) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Dio dio = new Dio();
-      Map<String, dynamic> authUser = jsonDecode(prefs.getString("authUser"));
-
-      var headers = {
-        "Authorization": "Bearer ${authUser['authToken']}",
-      };
-
-      await dio.post(
-          "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
-          options: Options(headers: headers));
-    });
-
-    getAuthentication();
+    // FirebaseMessaging().configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     one = message['notification']['title'];
+    //     two = message['notification']['body'];
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => AlertDialog(
+    //         content: ListTile(
+    //           title: Text(message['notification']['title']),
+    //           subtitle: Text(message['notification']['body']),
+    //         ),
+    //         actions: <Widget>[
+    //           FlatButton(
+    //             child: Text('Ok'),
+    //             onPressed: () => Navigator.of(context).pop(),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   },
+    //   onBackgroundMessage: myBackgroundMessageHandler,
+    //   onLaunch: (Map<String, dynamic> message) async {},
+    //   onResume: (Map<String, dynamic> message) async {},
+    // );
+    // FirebaseMessaging().getToken().then((t) async {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   Dio dio = new Dio();
+    //   Map<String, dynamic> authUser = jsonDecode(prefs.getString("authUser"));
+    //
+    //   var headers = {
+    //     "Authorization": "Bearer ${authUser['authToken']}",
+    //   };
+    //
+    //   await dio.post(
+    //       "${Settings.baseApilink}/auth/user/update-token?firebase_token=$t",
+    //       options: Options(headers: headers));
+    // });
+    //
+    // getAuthentication();
   }
 
   Future onSelectNotification(String payload) async {
