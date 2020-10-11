@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>558252190222-sgbmussiclugv9rcdrjb3j30vnb50rft.apps.googleusercontent.com</string>
+	<string>558252190222-mum4fj06qh7jmi21hn8rvmad91atq3ff.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.558252190222-sgbmussiclugv9rcdrjb3j30vnb50rft</string>
+	<string>com.googleusercontent.apps.558252190222-mum4fj06qh7jmi21hn8rvmad91atq3ff</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>558252190222-kd6ttfr8gs2hpgq59lr11h03oailj6n8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCBzRshDuqV9hoAU8kPT4tzrYzDgTcfvr8</string>
 	<key>GCM_SENDER_ID</key>
@@ -29,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:558252190222:ios:42f4f40c0ff1a1e8</string>
+	<string>1:558252190222:ios:36824748647e259249aa5f</string>
 	<key>DATABASE_URL</key>
 	<string>https://sokarchat.firebaseio.com</string>
 </dict>
