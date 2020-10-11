@@ -276,5 +276,7 @@ Map<String, String> arabicLang = {
   "specialty": "التخصص",
   "confirm": "تأكيد",
   "map": "الخريطة",
-  "Type your message...": "اكتب رسالتك..."
+  "Type your message...": "اكتب رسالتك...",
+  "fit message": "من فضلك قم بتنزيل تطبيق جوجل فيت لحساب الخطوات بشكل صحيح",
+  "download": "تحميل"
 };

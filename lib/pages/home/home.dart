@@ -34,6 +34,8 @@ import '../../languages/all_translations.dart';
 import '../../shared-data.dart';
 import 'MainCircle/Circles.dart';
 import 'measurementsDetailsPage.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:device_apps/device_apps.dart';
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {}
@@ -222,7 +224,7 @@ class _HomePageState extends State<HomePage> {
     setFirebaseImage();
 
     Map<String, dynamic> authUser =
-    jsonDecode(sharedPreferences.getString("authUser"));
+        jsonDecode(sharedPreferences.getString("authUser"));
     if (authUser['email'] != null || authUser['image'] != 'Null') {
       ifRegUser = Container();
     }
@@ -338,9 +340,51 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  bool isInstalled;
+
+  checkFitApp() async {
+    isInstalled =
+    await DeviceApps.isAppInstalled('com.google.android.apps.fitness');
+  }
+
+  Future<void> installFit(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            allTranslations.text("warning"),
+          ),
+          content: Text(allTranslations.text("fit message")),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                allTranslations.text("download"),
+              ),
+              onPressed: () {
+                _launchURLFit();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _launchURLFit() async {
+    const url =
+        'https://play.google.com/store/apps/details?id=com.google.android.apps.fitness';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   initState() {
     super.initState();
     initDynamicLinks();
+
     //hasPermissions();
     // initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     // initializationSettingsIOS = new IOSInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
@@ -456,10 +500,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   initData() async {
+    await checkFitApp();
     await getHomeData();
     loading = false;
     loading1 = false;
     loading2 = false;
+    if (!isInstalled) {
+      installFit(context);
+    }
     if (mounted) setState(() {});
   }
 

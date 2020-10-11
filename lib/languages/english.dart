@@ -263,5 +263,7 @@ your massage has been send successfully
   "specialty": "specialty",
   "confirm": "confirm",
   "map": "Map",
-  "Type your message...": "Type your message..."
+  "Type your message...": "Type your message...",
+  "fit message": "please install google fit app to calculate steps correctly",
+  "download": "download"
 };
