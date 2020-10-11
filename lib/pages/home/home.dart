@@ -220,6 +220,39 @@ class _HomePageState extends State<HomePage> {
     stepsList = await healthKit();
     if (stepsList.isEmpty) {
       totalSteps = 0;
+      if (flag == true) {
+        totalSteps = steps;
+      }
+      flag = false;
+      step = steps;
+      distance = (steps * 0.770).toInt();
+      calories = (steps * 0.046).toInt();
+      setState(() {});
+
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      Map<String, dynamic> authUser =
+          jsonDecode(sharedPreferences.getString("authUser"));
+      await http.post("${Settings.baseApilink}/update-steps", body: {
+        "steps": "$step",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post("${Settings.baseApilink}/update-distance", body: {
+        "distance": "$distance",
+      }, headers: {
+        "Authorization": "Bearer ${authUser['authToken']}"
+      });
+
+      await http.post(
+          "${Settings.baseApilink}/measurements?day_Calories=$calories",
+          body: {
+            "distance": "$distance",
+          },
+          headers: {
+            "Authorization": "Bearer ${authUser['authToken']}"
+          });
     } else {
       for (int i = 0; i <= stepsList.length - 1; i++) {
         steps = stepsList[i] + steps;
