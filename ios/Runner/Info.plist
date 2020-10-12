@@ -83,13 +83,13 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>get healthy info</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Used in map to get your current location for map usage</string>
+	<string>Location Used for Map Usage in run tracking screen</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Used in map to get your current location for map usage</string>
+	<string>Location Used for Map Usage in run tracking screen</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Used in map to get your current location for map usage</string>
+	<string>Location Used for Map Usage in run tracking screen</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used in map to get your current location for map usage</string>
+	<string>Location Used for Map Usage in run tracking screen</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>upload profile photo</string>
 	<key>NSMotionUsageDescription</key>
